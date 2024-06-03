@@ -47,8 +47,12 @@
                                 echo '<td>' . $row1['date_release'] . '</td>';
                                 echo '<td>' . $row1['service_organization'] . '</td>';
                                 echo '<td>' . $row1['date_last_TO'] . '</td>';
-                                $status =  $row1['status'] === "1" ? "исправно" : "неисправно";
-                                echo '<td onclick="getFaultsTable('.$idOborudovanie.')" style="cursor: pointer">' .$status. '</td>';
+                                $status = $row1['status'] === "1" ? "исправно" : "неисправно";
+                                if($row1['status'] === "1") {
+                                    echo '<td onclick="getFaultsTable(' . $idOborudovanie . ')" style="cursor: pointer"><div style = "border-radius: 5px;background-color: green;color: white;">' . $status . '</div></td>';
+                                }else{
+                                        echo '<td onclick="getFaultsTable(' . $idOborudovanie . ')" style="cursor: pointer"><div style = "border-radius: 5px;background-color: red;color: white;">' . $status . '</div></td>';
+                                    }
                                 echo '<td><a href="#" onclick="confirmDeleteOborudovanie('.$idOborudovanie.')">&#10060;</a><a href="#" onclick="editOborudovanie('.$idOborudovanie.')">✏️</a></td>';
                                 echo '</tr>';
                             }
