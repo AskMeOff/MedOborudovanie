@@ -17,7 +17,7 @@ $status = $_POST['status'];
     try {
         $result = $connectionDB->executeQuery($sql);
         echo "1";
-    }catch(Exception ){
-        echo "0";
+    }catch(Exception $e){
+        echo $e;
     }
 

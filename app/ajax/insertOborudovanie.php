@@ -19,7 +19,7 @@ $id_org = $_POST['id_org'];
     try {
         $result = $connectionDB->executeQuery($sql);
         echo "1";
-    }catch(Exception ){
-        echo "0";
+    }catch(Exception $e){
+        echo $e;
     }
 
