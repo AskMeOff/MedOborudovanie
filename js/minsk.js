@@ -73,7 +73,8 @@ function myFunctionOrg(input) {
     }
 }
 
-function getFaultsTable() {
+function getFaultsTable(selectedEquipmentId) {
+    event.stopPropagation();
     $.ajax({
         url: '/app/ajax/getFaultsTable.php',
         type: 'GET',
@@ -122,7 +123,7 @@ function getFaultsTable() {
     });
 }
 
-function getEffectTable() {
+function getEffectTable(selectedEquipmentId) {
     $.ajax({
         url: '/app/ajax/getEffectTable.php',
         type: 'GET',

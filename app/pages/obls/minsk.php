@@ -39,7 +39,7 @@
                             while ($row1 = mysqli_fetch_assoc($result1)) {
                                 $nameOborudov = $row1['name'];
                                 $idOborudovanie = $row1['id_oborudovanie'];
-                                echo '<tr oncontextmenu="showMenu(this,'.$idOborudovanie.')">';
+                                echo '<tr onclick="getEffectTable('.$idOborudovanie.')" style="cursor: pointer" >';
 
                                 echo '<td>' . $nameOborudov . '</td>';
                                 echo '<td>' . $row1['cost'] . '</td>';
@@ -48,7 +48,7 @@
                                 echo '<td>' . $row1['service_organization'] . '</td>';
                                 echo '<td>' . $row1['date_last_TO'] . '</td>';
                                 $status =  $row1['status'] === "1" ? "исправно" : "неисправно";
-                                echo '<td>' .$status. '</td>';
+                                echo '<td onclick="getFaultsTable('.$idOborudovanie.')" style="cursor: pointer">' .$status. '</td>';
                                 echo '<td><a href="#" onclick="confirmDeleteOborudovanie('.$idOborudovanie.')">&#10060;</a><a href="#" onclick="editOborudovanie('.$idOborudovanie.')">✏️</a></td>';
                                 echo '</tr>';
                             }
@@ -87,14 +87,6 @@
               ?>
 
 
-        </div>
-    </div>
-    <div id="contMenu" style="display: none;">
-        <div>
-            <a onclick="getFaultsTable()" style="cursor: pointer">Таблица неисправностей</a>
-        </div>
-        <div>
-            <a onclick="getEffectTable()" style="cursor: pointer">Таблица эффективности</a>
         </div>
     </div>
 </section>
@@ -411,15 +403,8 @@
     function showMenu(thisTr,idOborudovanie) {
         event.preventDefault();
         selectedEquipmentId = idOborudovanie;
-        contMenu.style.display = 'block';
-        contMenu.style.position = 'absolute';
-        contMenu.style.left = event.clientX - 200 + 'px';
-        contMenu.style.top = event.clientY - 110 + 'px';
     }
 
-    body.addEventListener('click', function (event) {
-        contMenu.style.display = 'none';
-    })
 
 
 </script>
