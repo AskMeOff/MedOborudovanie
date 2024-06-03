@@ -71,8 +71,32 @@ if (isset($TOKEN)) {
                 case "mogilevobl":
                     require_once "app/pages/obls/mogilevobl.php";
                     break;
+                case "minsk-efficiency":
+                    require_once "app/pages/oblsEfficiency/minsk.php";
+                    break;
+                case "minskobl-efficiency":
+                    require_once "app/pages/oblsEfficiency/minskobl.php";
+                    break;
+                case "brestobl-efficiency":
+                    require_once "app/pages/oblsEfficiency/brestobl.php";
+                    break;
+                case "vitebskobl-efficiency":
+                    require_once "app/pages/oblsEfficiency/vitebskobl.php";
+                    break;
+                case "gomelobl-efficiency":
+                    require_once "app/pages/oblsEfficiency/gomelobl.php";
+                    break;
+                case "grodnoobl-efficiency":
+                    require_once "app/pages/oblsEfficiency/grodnoobl.php";
+                    break;
+                case "mogilevobl-efficiency":
+                    require_once "app/pages/oblsEfficiency/mogilevobl.php";
+                    break;
                 case "oborud":
                     require_once "app/pages/oborudovanie.php";
+                    break;
+                case "effect-oborud":
+                    require_once "app/pages/effectOborudovanie.php";
                     break;
                 case "main":
                     require_once "app/pages/main.php";
