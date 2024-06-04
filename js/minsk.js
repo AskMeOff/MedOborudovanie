@@ -484,7 +484,6 @@ function saveEditedOborudovanie(){
         success: function (data) {
             if(data == "1") {
                 alert("Запись изменена");
-                location.reload();
             }else{
                 alert("Ошибка в заполнении");
             }
@@ -522,7 +521,6 @@ function saveAddedOborudovanie(){
         success: function (data) {
             if(data == "1") {
                 alert("Запись изменена");
-                location.reload();
             }else{
                 alert("Ошибка в заполнении");
             }

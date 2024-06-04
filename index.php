@@ -29,7 +29,7 @@ if (isset($TOKEN)) {
     <title>Админ панель</title>
 
     <?php include "app/elements/links.php"; ?>
-
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 
 <body>
@@ -94,7 +94,7 @@ if (isset($TOKEN)) {
     // });
 
 </script>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
 <script src="js/minsk.js"></script>
 
 </html>

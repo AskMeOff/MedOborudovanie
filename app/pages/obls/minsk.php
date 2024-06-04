@@ -19,7 +19,9 @@ if ($connectionDB->getNumRows($result) == 0) {
                 </section>';
 }
 while ($row = mysqli_fetch_assoc($result)) {
+
     $id_uz = $row['id_uz'];
+
     echo ' <section class="col-lg-9 connectedSortable ui-sortable" id="org' . $id_uz . '" style="display: block;">
                 <div class="row">
 
@@ -84,7 +86,7 @@ echo '<section class="col-lg-3" id="right_section">
 
 
 
-    $sql = "select * from uz where id_oblast = 7";
+    $sql = "select * from uz where id_oblast = $id_obl";
     $result = $connectionDB->executeQuery($sql);
     //                $activeClass = "activecard1";
     while ($row = mysqli_fetch_assoc($result)) {
@@ -401,6 +403,7 @@ echo '<div class="modal" id="editOborudovanieModal">
     </div>
 </div>';
 echo'
+
 <script>
 
     const contMenu = document.getElementById("contMenu");
