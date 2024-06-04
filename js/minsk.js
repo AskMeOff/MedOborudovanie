@@ -211,6 +211,7 @@ function confirmDeleteEffect(id_use_efficiency) {
 }
 
 function confirmDeleteOborudovanie(idOborudovanie) {
+    event.stopPropagation();
     if (confirm('Вы точно хотите удалить эту запись?')) {
         $.ajax({
             url: '/app/ajax/deleteOborudovanie.php',
@@ -430,6 +431,7 @@ function saveEffectData() {
 
 let editedOborudovanie;
 function editOborudovanie(idOborudovanie) {
+    event.stopPropagation();
     editedOborudovanie = idOborudovanie;
     $.ajax({
         url: '/app/ajax/getSingleOborudovanie.php',
