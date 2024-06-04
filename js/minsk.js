@@ -123,6 +123,42 @@ function getFaultsTable(selectedEquipmentId) {
     });
 }
 
+function refreshMainTable(selectedEquipmentId){
+    let trel = document.getElementById("idob"+selectedEquipmentId)
+    $.ajax({
+        url: '/app/ajax/refreshTable.php',
+        method: 'GET',
+        data: {id_oborudovanie: selectedEquipmentId},
+        dataType: 'json',
+        success: function(response) {
+            trel.children[0].innerHTML=response.name
+            trel.children[1].innerHTML=response.cost
+            trel.children[2].innerHTML=response.date_create
+            trel.children[3].innerHTML=response.date_release
+            trel.children[4].innerHTML=response.service_organization
+            trel.children[5].innerHTML=response.date_last_TO
+            let divstatus = document.createElement("div");
+
+            if (response.status === "1"){
+                divstatus.style  = "border-radius: 5px;background-color: green;color: white;"
+                    divstatus.innerHTML="исправно";
+
+            }
+            else{
+                divstatus.innerHTML="неисправно";
+                divstatus.style  = "border-radius: 5px;background-color: red;color: white;"
+            }
+            trel.children[6].innerHTML = "";
+            trel.children[6].appendChild(divstatus);
+        },
+        error: function(xhr, status, error) {
+            console.log(error);
+        }
+    });
+}
+
+
+
 function getEffectTable(selectedEquipmentId) {
     $.ajax({
         url: '/app/ajax/getEffectTable.php',
@@ -469,6 +505,13 @@ function editOborudovanie(idOborudovanie) {
 function saveEditedOborudovanie(){
     let select_type_oborudovanie = document.getElementById("select_type_oborudovanie");
     let select_status = document.getElementById("select_status");
+    let sto = select_type_oborudovanie.options[select_type_oborudovanie.selectedIndex].value;
+    let cst = document.getElementById('edit_cost').value;
+    let dcr = document.getElementById('edit_date_create').value;
+    let dr = document.getElementById('edit_date_release').value;
+    let so = document.getElementById('edit_service_organization').value;
+    let dto = document.getElementById('edit_date_last_TO').value;
+    let stat = select_status.options[select_status.selectedIndex].value
     $.ajax({
         url: '/app/ajax/updateOborudovanie.php',
         type: 'POST',
@@ -483,6 +526,8 @@ function saveEditedOborudovanie(){
         },
         success: function (data) {
             if(data == "1") {
+
+                refreshMainTable(editedOborudovanie);
                 alert("Запись изменена");
             }else{
                 alert("Ошибка в заполнении");

@@ -48,19 +48,19 @@ while ($row = mysqli_fetch_assoc($result)) {
     while ($row1 = mysqli_fetch_assoc($result1)) {
         $nameOborudov = $row1['name'];
         $idOborudovanie = $row1['id_oborudovanie'];
-        echo '<tr onclick="getEffectTable(' . $idOborudovanie . ')" style="cursor: pointer" >';
+        echo '<tr id=idob'.$idOborudovanie.' onclick="getEffectTable(' . $idOborudovanie . ')" style="cursor: pointer" >';
 
-        echo '<td>' . $nameOborudov . '</td>';
-        echo '<td>' . $row1['cost'] . '</td>';
-        echo '<td>' . $row1['date_create'] . '</td>';
-        echo '<td>' . $row1['date_release'] . '</td>';
-        echo '<td>' . $row1['service_organization'] . '</td>';
-        echo '<td>' . $row1['date_last_TO'] . '</td>';
+        echo '<td >' . $nameOborudov . '</td>';
+        echo '<td >' . $row1['cost'] . '</td>';
+        echo '<td >' . $row1['date_create'] . '</td>';
+        echo '<td >' . $row1['date_release'] . '</td>';
+        echo '<td >' . $row1['service_organization'] . '</td>';
+        echo '<td >' . $row1['date_last_TO'] . '</td>';
         $status = $row1['status'] === "1" ? "исправно" : "неисправно";
         if ($row1['status'] === "1") {
-            echo '<td onclick="getFaultsTable(' . $idOborudovanie . ')" style="cursor: pointer"><div style = "border-radius: 5px;background-color: green;color: white;">' . $status . '</div></td>';
+            echo '<td  onclick="getFaultsTable(' . $idOborudovanie . ')" style="cursor: pointer"><div style = "border-radius: 5px;background-color: green;color: white;">' . $status . '</div></td>';
         } else {
-            echo '<td onclick="getFaultsTable(' . $idOborudovanie . ')" style="cursor: pointer"><div style = "border-radius: 5px;background-color: red;color: white;">' . $status . '</div></td>';
+            echo '<td  onclick="getFaultsTable(' . $idOborudovanie . ')" style="cursor: pointer"><div style = "border-radius: 5px;background-color: red;color: white;">' . $status . '</div></td>';
         }
         echo '<td><a href="#" onclick="confirmDeleteOborudovanie(' . $idOborudovanie . ')">&#10060;</a><a href="#" onclick="editOborudovanie(' . $idOborudovanie . ')">✏️</a></td>';
         echo '</tr>';
