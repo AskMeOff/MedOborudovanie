@@ -15,3 +15,15 @@ else if(currentUrl == "/index.php?servicemans"){
     serviceMenu.classList.add('active');
 }
 
+function getUzs(id_obl){
+    $.ajax({
+        url: "app/pages/obls/minsk.php",
+        method: "GET",
+        data: {id_obl: id_obl}
+    }).then(response => {
+        let bodywrap = document.getElementById("bodywrap");
+        bodywrap.innerHTML = response;
+    })
+}
+
+

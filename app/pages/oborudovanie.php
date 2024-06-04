@@ -57,8 +57,9 @@
     $query = "SELECT * FROM oblast;";
     $result = $connectionDB->executeQuery($query);
     while ($row = mysqli_fetch_assoc($result)) {
+        $id_oblast = $row['id_oblast'];
         echo "<div class='row'>";
-        echo "<div class='card card1' onclick='location.href=\"index.php?". $row["hrefadded"]. "\"'>";
+        echo "<div class='card card1' onclick='getUzs($id_oblast)'>";
         echo "<h2>". $row['name']. "</h2>";
         echo "</div>";
         echo "</div>";

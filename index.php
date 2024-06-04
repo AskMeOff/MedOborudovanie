@@ -40,7 +40,7 @@ if (isset($TOKEN)) {
 
     <?php include "app/elements/navmenu.php"; ?>
 
-    <div class="body-wrapper">
+    <div class="body-wrapper" id="bodywrap">
 
         <?php
         foreach ($_GET as $key => $value) {
@@ -50,27 +50,7 @@ if (isset($TOKEN)) {
         if (isset($value)) {
 
             switch ($value) {
-                case "minsk":
-                    require_once "app/pages/obls/minsk.php";
-                    break;
-                case "minskobl":
-                    require_once "app/pages/obls/minskobl.php";
-                    break;
-                case "brestobl":
-                    require_once "app/pages/obls/brestobl.php";
-                    break;
-                case "vitebskobl":
-                    require_once "app/pages/obls/vitebskobl.php";
-                    break;
-                case "gomelobl":
-                    require_once "app/pages/obls/gomelobl.php";
-                    break;
-                case "grodnoobl":
-                    require_once "app/pages/obls/grodnoobl.php";
-                    break;
-                case "mogilevobl":
-                    require_once "app/pages/obls/mogilevobl.php";
-                    break;
+
                 case "oborud":
                     require_once "app/pages/oborudovanie.php";
                     break;
@@ -114,5 +94,7 @@ if (isset($TOKEN)) {
     // });
 
 </script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="js/minsk.js"></script>
 
 </html>
