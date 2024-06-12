@@ -1,4 +1,12 @@
 let selectedOrg;
+const contMenu = document.getElementById("contMenu");
+const body = document.getElementsByTagName("body")[0];
+let selectedEquipmentId;
+
+function showMenu(thisTr, idOborudovanie) {
+    event.preventDefault();
+    selectedEquipmentId = idOborudovanie;
+}
 
 function showTable(idTable) {
     let tables = document.getElementsByTagName('table');
@@ -73,12 +81,13 @@ function myFunctionOrg(input) {
     }
 }
 
-function getFaultsTable(selectedEquipmentId) {
+function getFaultsTable(idOborudovanie) {
+    selectedEquipmentId = idOborudovanie;
     event.stopPropagation();
     $.ajax({
         url: '/app/ajax/getFaultsTable.php',
         type: 'GET',
-        data: { id_oborudovanie: selectedEquipmentId },
+        data: { id_oborudovanie: idOborudovanie },
         dataType: 'json',
         success: function (data) {
             let tableContent = '<table class="table" style="font-size: 13px;">';
@@ -102,7 +111,7 @@ function getFaultsTable(selectedEquipmentId) {
                 tableContent += '<tr>';
                 tableContent += '<td>' + row.date_fault + '</td>';
                 tableContent += '<td>' + row.date_call_service + '</td>';
-                tableContent += '<td>' + row.reason_fault + '</td>';
+                tableContent += '<td style="text-align: justify;">' + row.reason_fault + '</td>';
                 tableContent += '<td>' + row.date_procedure_purchase + '</td>';
                 tableContent += '<td>' + row.cost_repair + '</td>';
                 tableContent += '<td>' + row.time_repair + '</td>';
@@ -214,10 +223,10 @@ function confirmDeleteFault(id_fault) {
                     $('#deleteModal').modal('show');
                     $('#deleteModal').on('hidden.bs.modal', function (e) {
                         $('#deleteModal').modal('hide');
-                        getFaultsTable();
+                        getFaultsTable(selectedEquipmentId);
                     });
                 } else {
-                    getFaultsTable();
+                    getFaultsTable(selectedEquipmentId);
                 }
             }
         });
@@ -271,8 +280,8 @@ function confirmDeleteOborudovanie(idOborudovanie) {
 
 
 
-    $('#addFaultForm').on('submit', function(e) {
-        e.preventDefault();
+    function addFualt(){
+        // e.preventDefault();
 
         let date_fault = $('#date_fault').val();
         let date_call_service = $('#date_call_service').val();
@@ -304,14 +313,14 @@ function confirmDeleteOborudovanie(idOborudovanie) {
                     $('#addModal').modal('show');
                     $('#addModal').on('hidden.bs.modal', function (e) {
                         $('#addModal').modal('hide');
-                        getFaultsTable();
+                        getFaultsTable(selectedEquipmentId);
                     });
                 } else {
-                    getFaultsTable();
+                    getFaultsTable(selectedEquipmentId);
                 }
             }
         });
-    });
+    }
 
 
 
@@ -336,10 +345,10 @@ $('#addEffectForm').on('submit', function(e) {
                 $('#addModal').modal('show');
                 $('#addModal').on('hidden.bs.modal', function (e) {
                     $('#addModal').modal('hide');
-                    getEffectTable();
+                    getEffectTable(selectedEquipmentId);
                 });
             } else {
-                getEffectTable();
+                getEffectTable(selectedEquipmentId);
             }
         }
     });
@@ -400,19 +409,19 @@ function saveFaultData() {
                 $('#saveModal').modal('show');
                 $('#saveModal').on('hidden.bs.modal', function (e) {
                     $('#saveModal').modal('hide');
-                    getFaultsTable();
+                    getFaultsTable(selectedEquipmentId);
                 });
             } else {
-                getFaultsTable();
+                getFaultsTable(selectedEquipmentId);
             }
         }
 });
 }
 
-$('#editFaultForm').on('submit', function(event) {
+function btnSaveFault(){
     event.preventDefault();
     saveFaultData();
-});
+}
 
 
 

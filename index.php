@@ -6,6 +6,7 @@ include 'app/auth/auth.php';
 include 'app/auth/out.php';
 
 
+
 if (isset($TOKEN)) {
     if ($usersList->getUser($TOKEN))
         $login = $usersList->getUser($TOKEN)->getLogin();
@@ -92,6 +93,7 @@ if (isset($TOKEN)) {
     //         $('.app-header').nextAll().remove().end().after(response);
     //     });
     // });
+
 
 </script>
 

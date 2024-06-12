@@ -48,14 +48,14 @@ while ($row = mysqli_fetch_assoc($result)) {
     while ($row1 = mysqli_fetch_assoc($result1)) {
         $nameOborudov = $row1['name'];
         $idOborudovanie = $row1['id_oborudovanie'];
-        echo '<tr id=idob'.$idOborudovanie.' onclick="getEffectTable(' . $idOborudovanie . ')" style="cursor: pointer" >';
+        echo '<tr id=idob'.$idOborudovanie.'  >';
 
-        echo '<td >' . $nameOborudov . '</td>';
-        echo '<td >' . $row1['cost'] . '</td>';
-        echo '<td >' . $row1['date_create'] . '</td>';
-        echo '<td >' . $row1['date_release'] . '</td>';
-        echo '<td >' . $row1['service_organization'] . '</td>';
-        echo '<td >' . $row1['date_last_TO'] . '</td>';
+        echo '<td onclick="getEffectTable(' . $idOborudovanie . ')" style="cursor: pointer">' . $nameOborudov . '</td>';
+        echo '<td>' . $row1['cost'] . '</td>';
+        echo '<td>' . $row1['date_create'] . '</td>';
+        echo '<td>' . $row1['date_release'] . '</td>';
+        echo '<td>' . $row1['service_organization'] . '</td>';
+        echo '<td>' . $row1['date_last_TO'] . '</td>';
         $status = $row1['status'] === "1" ? "исправно" : "неисправно";
         if ($row1['status'] === "1") {
             echo '<td  onclick="getFaultsTable(' . $idOborudovanie . ')" style="cursor: pointer"><div style = "border-radius: 5px;background-color: green;color: white;">' . $status . '</div></td>';
@@ -213,7 +213,7 @@ echo '<section class="col-lg-3" id="right_section">
             </div>
             <div class="modal-body">
 
-                <form id="addFaultForm">
+                <div >
                     <label for="date_fault">Дата обнаружения неисправности:</label>
                     <input type="date" id="date_fault" name="date_fault">
 
@@ -235,10 +235,10 @@ echo '<section class="col-lg-3" id="right_section">
                     <label for="downtime">Простой (в часах):</label>
                     <input type="number" id="downtime" name="downtime">
                     <div id="btnsGroup" style="margin-top: 10px;">
-                        <button type="submit" class="btn btn-primary">Добавить запись</button>
+                        <button type="button" class="btn btn-primary" onclick="addFualt()">Добавить запись</button>
                         <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Закрыть</button>
                     </div>
-                </form>
+                </div>
             </div>
         </div>
     </div>
@@ -281,7 +281,7 @@ echo '<section class="col-lg-3" id="right_section">
             </div>
             <div class="modal-body">
 
-                <form id="editFaultForm">
+                <div >
                     <label for="date_fault">Дата обнаружения неисправности:</label>
                     <input type="date" id="edit_date_fault" name="date_fault">
 
@@ -306,10 +306,10 @@ echo '<section class="col-lg-3" id="right_section">
                     <input type="hidden" id="edit_id_fault" name="id_fault">
 
                     <div id="edit_btnsGroup" style="margin-top: 10px;">
-                        <button type="submit" class="btn btn-primary">Сохранить</button>
+                        <button type="button" class="btn btn-primary" onclick="btnSaveFault()">Сохранить</button>
                         <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Закрыть</button>
                     </div>
-                </form>
+                </div>
             </div>
         </div>
     </div>
@@ -406,14 +406,7 @@ echo'
 
 <script>
 
-    const contMenu = document.getElementById("contMenu");
-    const body = document.getElementsByTagName("body")[0];
-    let selectedEquipmentId;
-
-    function showMenu(thisTr, idOborudovanie) {
-        event.preventDefault();
-        selectedEquipmentId = idOborudovanie;
-    }
+  
 
 
 </script>
