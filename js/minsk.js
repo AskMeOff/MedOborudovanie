@@ -163,7 +163,7 @@ function refreshMainTable(){
                 response.forEach(function(row) {
                     let today = new Date();
                     tableContent += '<tr>';
-                    tableContent += '<td id=idob'+row.id_oborudovanie+' style="cursor: pointer">' + row.name + '</td>';
+                    tableContent += '<td onclick="getEffectTable('+row.id_oborudovanie+')" id=idob'+row.id_oborudovanie+' style="cursor: pointer">' + row.name + '</td>';
                     tableContent += '<td>' + row.cost + '</td>';
                     tableContent += '<td style="text-align: justify;">' + row.date_create + '</td>';
                     tableContent += '<td>' + row.date_release + '</td>';
