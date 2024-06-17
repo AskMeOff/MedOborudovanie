@@ -232,8 +232,8 @@ echo '<section class="col-lg-3" id="right_section">
                     <label for="time_repair">Время ремонта:</label>
                     <input type="date" id="time_repair" name="time_repair">
 
-                    <label for="downtime">Простой (в часах):</label>
-                    <input type="number" id="downtime" name="downtime">
+               <!--     <label for="downtime">Продолжительность простоя:</label>
+                    <input type="text" id="downtime" name="downtime">-->
                     <div id="btnsGroup" style="margin-top: 10px;">
                         <button type="button" class="btn btn-primary" onclick="addFualt()">Добавить запись</button>
                         <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Закрыть</button>
@@ -300,8 +300,8 @@ echo '<section class="col-lg-3" id="right_section">
                     <label for="time_repair">Время ремонта:</label>
                     <input type="date" id="edit_time_repair" name="time_repair">
 
-                    <label for="downtime">Простой (в часах):</label>
-                    <input type="number" id="edit_downtime" name="downtime">
+            <!--        <label for="downtime">Продолжительность простоя:</label>
+                    <input type="text" id="edit_downtime" name="downtime">-->
 
                     <input type="hidden" id="edit_id_fault" name="id_fault">
 

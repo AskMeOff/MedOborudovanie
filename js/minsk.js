@@ -108,6 +108,7 @@ function getFaultsTable(idOborudovanie) {
             });
             tableContent += '</tr></thead><tbody>';
             data.forEach(function(row) {
+                let today = new Date();
                 tableContent += '<tr>';
                 tableContent += '<td>' + row.date_fault + '</td>';
                 tableContent += '<td>' + row.date_call_service + '</td>';
@@ -115,7 +116,9 @@ function getFaultsTable(idOborudovanie) {
                 tableContent += '<td>' + row.date_procedure_purchase + '</td>';
                 tableContent += '<td>' + row.cost_repair + '</td>';
                 tableContent += '<td>' + row.time_repair + '</td>';
-                tableContent += '<td>' + row.downtime + '</td>';
+                let countDays = Math.floor((today.getTime() - new Date(row.date_fault).getTime())/(1000*60*60*24));
+                let stringDays = countDays.toString() === "NaN" ? 'Не выставлена дата поломки' : (countDays+" дней");
+                tableContent += '<td>' + stringDays + '</td>';
                 tableContent += '<td><a href="#" onclick="confirmDeleteFault(' + row.id_fault + '); return false;">&#10060;</a><a href="#" onclick="editFault(' + row.id_fault + ');">✏️</a></td>';
                 tableContent += '</tr>';
             });
@@ -132,38 +135,66 @@ function getFaultsTable(idOborudovanie) {
     });
 }
 
-function refreshMainTable(selectedEquipmentId){
+function refreshMainTable(){
     let trel = document.getElementById("idob"+selectedEquipmentId)
     $.ajax({
         url: '/app/ajax/refreshTable.php',
         method: 'GET',
-        data: {id_oborudovanie: selectedEquipmentId},
+        data: {id_org: selectedOrg},
         dataType: 'json',
         success: function(response) {
-            trel.children[0].innerHTML=response.name
-            trel.children[1].innerHTML=response.cost
-            trel.children[2].innerHTML=response.date_create
-            trel.children[3].innerHTML=response.date_release
-            trel.children[4].innerHTML=response.service_organization
-            trel.children[5].innerHTML=response.date_last_TO
-            let divstatus = document.createElement("div");
+            let tableContent = '<table class="table" id="infoOb'+selectedOrg+'" style="font-size: 13px;">';
+            if (!response.hasOwnProperty('empty')) {
+                tableContent += '<thead><tr>';
+                let headers = {
+                    'name': 'Тип оборудования',
+                    'cost': 'Стоимость',
+                    'date_create': 'Дата производства',
+                    'date_release': 'Дата ввода в эксплуатацию',
+                    'service_organization': 'Сервисная организация',
+                    'date_last_TO': 'Дата последнего ТО',
+                    'status': 'Статус',
+                    'id_oborudovanie': 'Действие'
+                };
+                Object.keys(headers).forEach(function(key) {
+                    tableContent += '<th>' + headers[key] + '</th>';
+                });
+                tableContent += '</tr></thead><tbody>';
+                response.forEach(function(row) {
+                    let today = new Date();
+                    tableContent += '<tr>';
+                    tableContent += '<td id=idob'+row.id_oborudovanie+' style="cursor: pointer">' + row.name + '</td>';
+                    tableContent += '<td>' + row.cost + '</td>';
+                    tableContent += '<td style="text-align: justify;">' + row.date_create + '</td>';
+                    tableContent += '<td>' + row.date_release + '</td>';
+                    tableContent += '<td>' + row.service_organization + '</td>';
+                    tableContent += '<td>' + row.date_last_TO + '</td>';
+                    if(row.status === "1"){
+                        tableContent += '<td  onclick="getFaultsTable('+row.id_oborudovanie+')" style="cursor: pointer"><div style = "border-radius: 5px;background-color: green;color: white;">исправно</div></td>';
+                    }
+                    else{
+                        tableContent += '<td  onclick="getFaultsTable('+row.id_oborudovanie+')" style="cursor: pointer"><div style = "border-radius: 5px;background-color: red;color: white;">неисправно</div></td>';
 
-            if (response.status === "1"){
-                divstatus.style  = "border-radius: 5px;background-color: green;color: white;"
-                    divstatus.innerHTML="исправно";
-
+                    }
+                    tableContent += '<td><a href="#" onclick="confirmDeleteOborudovanie('+row.id_oborudovanie+')">&#10060;</a><a href="#" onclick="editOborudovanie('+row.id_oborudovanie+')">✏️</a></td>';
+                    tableContent += '</tr>';
+                });
+            } else {
+                tableContent += '<thead><tr>';
+                tableContent += '<th></th>';
+                tableContent += '</tr></thead><tbody>';
+                tableContent += '<tr><td colspan="8" style="text-align:center;">Нет данных</td></tr>';
             }
-            else{
-                divstatus.innerHTML="неисправно";
-                divstatus.style  = "border-radius: 5px;background-color: red;color: white;"
-            }
-            trel.children[6].innerHTML = "";
-            trel.children[6].appendChild(divstatus);
+            tableContent += '</tbody></table>';
+            $('#org'+selectedOrg+' .table-responsive').html(tableContent);
+            $('#editOborudovanieModal').modal('hide');
+            $('#infoOb' + selectedOrg).DataTable();
         },
         error: function(xhr, status, error) {
             console.log(error);
         }
     });
+
 }
 
 
@@ -267,10 +298,10 @@ function confirmDeleteOborudovanie(idOborudovanie) {
                     $('#deleteModal').modal('show');
                     $('#deleteModal').on('hidden.bs.modal', function (e) {
                         $('#deleteModal').modal('hide');
-                        location.reload();
+                        refreshMainTable();
                     });
                 } else {
-                    location.reload();
+                    refreshMainTable();
                 }
 
             }
@@ -289,7 +320,7 @@ function confirmDeleteOborudovanie(idOborudovanie) {
         let date_procedure_purchase = $('#date_procedure_purchase').val();
         let cost_repair = $('#cost_repair').val();
         let time_repair = $('#time_repair').val();
-        let downtime = $('#downtime').val();
+        // let downtime = $('#downtime').val();
 
 
         let data = {
@@ -299,7 +330,7 @@ function confirmDeleteOborudovanie(idOborudovanie) {
             date_procedure_purchase: date_procedure_purchase,
             cost_repair: cost_repair,
             time_repair: time_repair,
-            downtime: downtime,
+            // downtime: downtime,
             id_oborudovanie: selectedEquipmentId
         };
         $.ajax({
@@ -371,7 +402,6 @@ function editFault(id_fault) {
             document.getElementById('edit_date_procedure_purchase').value = data.date_procedure_purchase;
             document.getElementById('edit_cost_repair').value = data.cost_repair;
             document.getElementById('edit_time_repair').value = data.time_repair;
-            document.getElementById('edit_downtime').value = data.downtime;
             document.getElementById('edit_id_fault').value = data.id_fault;
 
         }
@@ -387,7 +417,7 @@ function saveFaultData() {
     let dateProcedurePurchase = $('#edit_date_procedure_purchase').val();
     let costRepair = $('#edit_cost_repair').val();
     let timeRepair = $('#edit_time_repair').val();
-    let downtime = $('#edit_downtime').val();
+    // let downtime = $('#edit_downtime').val();
     let idFault = $('#edit_id_fault').val();
 
     $.ajax({
@@ -401,7 +431,7 @@ function saveFaultData() {
             date_procedure_purchase: dateProcedurePurchase,
             cost_repair: costRepair,
             time_repair: timeRepair,
-            downtime: downtime
+            // downtime: downtime
         },
         success: function(response) {
             if (response === "Запись обновлена.") {
@@ -536,7 +566,7 @@ function saveEditedOborudovanie(){
         success: function (data) {
             if(data == "1") {
 
-                refreshMainTable(editedOborudovanie);
+                refreshMainTable();
                 alert("Запись изменена");
             }else{
                 alert("Ошибка в заполнении");
@@ -574,7 +604,8 @@ function saveAddedOborudovanie(){
         },
         success: function (data) {
             if(data == "1") {
-                alert("Запись изменена");
+                alert("Запись добавлена");
+                refreshMainTable();
             }else{
                 alert("Ошибка в заполнении");
             }
