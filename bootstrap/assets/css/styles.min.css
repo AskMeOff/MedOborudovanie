@@ -19447,11 +19447,14 @@ textarea.form-control-lg {
 }
 
 .page-wrapper {
-    position: relative
+    position: relative;
+    height: 100%;
+    overflow-x: hidden;
 }
 
 .body-wrapper {
-    position: relative
+    position: relative;
+    height: 100%;
 }
 
 .body-wrapper > .container-fluid, .body-wrapper > .container-lg, .body-wrapper > .container-md, .body-wrapper > .container-sm, .body-wrapper > .container-xl, .body-wrapper > .container-xxl {
