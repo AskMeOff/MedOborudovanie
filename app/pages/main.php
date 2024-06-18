@@ -15,15 +15,46 @@ $result = $connectionDB->executeQuery($sql);
 <html>
 <head>
     <style>
-        .region {
+        .region1, .region2,.region3,.region4,.region5,.region6,.region7{
             width: 300px;
             display: inline-block;
             margin: 10px;
+            position: absolute;
         }
+        .region1{
+            top: -24%;
+            left: 13%;
+        }
+        .region2{
+            top: -28%;
+            left: 40%;
+        }
+        .region3{
+            top: -24%;
+            left: 67%;
+        }
+        .region4{
+            top: 20%;
+            left: 13%;
+        }
+        .region5{
+            top: 20%;
+            left: 67%;
+        }
+        .region6{
+            top: 43%;
+            left: 30%;
+        }
+        .region7{
+            top: 43%;
+            left: 50%;
+        }
+
+
         #mainChart {
             width: 500px;
             margin: 0 auto;
-            margin-top: 120px;
+            margin-left: 35%;
         }
         .container {
             text-align: center;
@@ -33,6 +64,18 @@ $result = $connectionDB->executeQuery($sql);
             color: #333;
             font-weight: bold;
             margin-top: 5px;
+        }
+
+        @media (max-width: 1100px) {
+            .region1, .region2,.region3,.region4,.region5,.region6,.region7{
+                position: static;
+
+            }
+            #mainChart {
+                margin-left: -9%;
+                margin-top: -70%;
+            }
+
         }
     </style>
 </head>
@@ -60,16 +103,18 @@ foreach ($equipmentData as $regionData) {
     $sumNeispravno += $regionData['Неисправно'];
 }
 
-echo "<div id='mainChart'><canvas id='chartBelarus'></canvas></div>";
-echo "<div style='display:flex;justify-content: center;' class='total'>Всего: " . ($sumIspravno + $sumNeispravno) . "</div>";
+echo "<div id='mainChart' ><canvas id='chartBelarus' style='margin-top: 75%;'></canvas><div style='display:flex;justify-content: center;' class='total'>Всего: " . ($sumIspravno + $sumNeispravno) . "</div></div>";
+
 echo "<div class='container'>";
+$i=1;
 foreach ($regions as $region) {
     $total = $equipmentData[$region]['Исправно'] + $equipmentData[$region]['Неисправно'];
-    echo "<div class='region'>";
+    echo "<div class='region$i'>";
     echo "<h3>$region</h3>";
     echo "<canvas id='chart$region'></canvas>";
     echo "<div class='total'>Всего: $total</div>";
     echo "</div>";
+    $i++;
 }
 echo "</div>";
 
@@ -82,18 +127,18 @@ echo "</div>";
     let mainChartData = [<?php echo $sumIspravno?>,<?php echo $sumNeispravno?>];
 
     new Chart('chartBelarus', {
-        type: 'pie',
+        type: 'doughnut',
         data: {
             labels: ['Исправно', 'Неисправно'],
             datasets: [{
-                backgroundColor: ['green', 'red'],
+                backgroundColor: ['#10a1007d', '#fb000091'],
                 data: mainChartData
             }]
         },
         options: {
             title: {
                 display: true,
-                fontSize: 24,
+                fontSize: 22,
                 text: 'Статистика оборудования: Беларусь'
             }
         }
@@ -101,20 +146,18 @@ echo "</div>";
 
     <?php foreach ($equipmentData as $regionName => $data): ?>
     new Chart('chart<?= $regionName ?>', {
-        type: 'pie',
+        type: 'doughnut',
         data: {
             labels: ['Исправно', 'Неисправно'],
             datasets: [{
-                backgroundColor: ['green', 'red'],
+                backgroundColor: ['#10a1007d', '#fb000091'],
                 data: [<?= $data['Исправно'] ?>, <?= $data['Неисправно'] ?>]
             }]
         },
         options: {
-            title: {
-                display: true,
-                text: 'Статистика оборудования: <?= $regionName ?>'
-            }
-        }
+
+        },
+        aspectRatio: 0.5
     });
     <?php endforeach; ?>
 </script>

@@ -65,6 +65,13 @@ if (isset($TOKEN)) {
             require_once "app/pages/main.php";
         }
         ?>
+        <footer class="main-footer">
+            <strong> © 2024 <a href="https://rnpcmt.by/">РНПЦ МТ</a></strong>
+
+            <div class="float-right d-none d-sm-inline-block" style="right:0; position:absolute;">
+                <b >Версия</b> 1.1.1
+            </div>
+        </footer>
     </div>
 
     <?php include "app/elements/scripts.php"; ?>
