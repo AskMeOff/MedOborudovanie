@@ -110,7 +110,12 @@ $i=1;
 foreach ($regions as $region) {
     $total = $equipmentData[$region]['Исправно'] + $equipmentData[$region]['Неисправно'];
     echo "<div class='region$i'>";
-    echo "<h3>$region</h3>";
+    if($i < 7){
+        echo "<h3>$region область</h3>";
+    }else{
+        echo "<h3>$region</h3>";
+    }
+
     echo "<canvas id='chart$region'></canvas>";
     echo "<div class='total'>Всего: $total</div>";
     echo "</div>";
