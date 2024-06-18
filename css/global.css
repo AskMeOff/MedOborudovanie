@@ -1,0 +1,52 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+html{
+    height: 100%;
+}
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    height: 100vh; /* Занимает 100% высоты экрана */
+    width: 100vw;
+}
+
+/* Стили для мобильных устройств (ширина меньше 600px) */
+@media (max-width: 600px) {
+    body {
+
+    }
+}
+
+/* Стили для планшетов (ширина от 601px до 1024px) */
+@media (min-width: 601px) and (max-width: 1024px) {
+    body {
+
+    }
+}
+
+.main-footer {
+    background-color: #fff;
+    border-top: 1px solid #dee2e6;
+    color: #869099;
+    padding: 1rem;
+    position: absolute;
+    bottom: 0;
+    width:100%;
+
+}
+
+/* Стили для десктопов (ширина больше 1024px) */
+@media (min-width: 1025px) {
+    body {
+    }
+}
+
+@media (max-width: 1100px) {
+    .main-footer {
+
+        bottom: auto!important;
+    }
+}
