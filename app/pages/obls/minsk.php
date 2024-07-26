@@ -258,7 +258,7 @@ echo '<section class="col-lg-3" id="right_section">
                     <label for="count_research">Количество проведенных исследований:</label>
                     <input type="number" id="count_research" name="count_research">
 
-                    <label for="count_patient">Количество диагностированных пациентов:</label>
+                    <label for="count_patient">Количество обследованных пациентов:</label>
                     <input type="number" id="count_patient" name="count_patient">
 
                     <div id="btnsGroupEffect" style="margin-top: 10px;">
@@ -281,7 +281,7 @@ echo '<section class="col-lg-3" id="right_section">
             </div>
             <div class="modal-body">
 
-                <div >
+                <div>
                     <label for="date_fault">Дата обнаружения неисправности:</label>
                     <input type="date" id="edit_date_fault" name="date_fault">
 
@@ -329,7 +329,7 @@ echo '<section class="col-lg-3" id="right_section">
                     <label for="count_research">Количество проведенных исследований:</label>
                     <input type="number" id="edit_count_research" name="count_research">
 
-                    <label for="count_patient">Количество диагностированных пациентов:</label>
+                    <label for="count_patient">Количество обследованных пациентов:</label>
                     <input type="number" id="edit_count_patient" name="count_patient">
 
                     <input type="hidden" id="edit_id_use_efficiency" name="id_use_efficiency">
@@ -403,12 +403,7 @@ echo '<div class="modal" id="editOborudovanieModal">
     </div>
 </div>';
 echo'
-
 <script>
-
-  
-
-
 </script>
 ';
 
