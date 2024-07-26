@@ -14,6 +14,7 @@ if ($result->num_rows > 0) {
         , 'date_call_service' => $row['date_call_service']
         , 'reason_fault' => $row['reason_fault']
         , 'date_procedure_purchase' => $row['date_procedure_purchase']
+        , 'date_dogovora' => $row['date_dogovora']
         , 'cost_repair' => $row['cost_repair']
         , 'time_repair' => $row['time_repair']
         , 'downtime' => $row['downtime']

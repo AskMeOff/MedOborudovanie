@@ -34,7 +34,6 @@ while ($row = mysqli_fetch_assoc($result)) {
                                 <th>Год производства</th>
                                 <th>Дата поставки</th>
                                 <th>Дата ввода в эксплуатацию</th>
-                                <th>Дата заключения договора</th>
                                 <th>Сервисная организация</th>
                                 <th>Дата последнего ТО</th>
                                 <th>Статус </th>
@@ -56,7 +55,6 @@ while ($row = mysqli_fetch_assoc($result)) {
         echo '<td>' . $row1['date_create'] . '</td>';
         echo '<td>' . $row1['date_postavki'] . '</td>';
         echo '<td>' . $row1['date_release'] . '</td>';
-        echo '<td>' . $row1['date_dogovora'] . '</td>';
         echo '<td>' . $row1['service_organization'] . '</td>';
         echo '<td>' . $row1['date_last_TO'] . '</td>';
         $status = $row1['status'] === "1" ? "исправно" : "неисправно";
@@ -229,6 +227,11 @@ echo '<section class="col-lg-3" id="right_section" style="overflow: auto;
 
                     <label for="date_procedure_purchase">Дата процедуры закупки:</label>
                     <input type="date" id="date_procedure_purchase" name="date_procedure_purchase">
+                    
+                    <!---->
+                    <label for="date_dogovora">Дата заключения договора:</label>
+                    <input type="date" id="date_dogovora" name="date_dogovora">
+                    <!---->
 
                     <label for="cost_repair">Стоимость ремонта:</label>
                     <input type="number" id="cost_repair" name="cost_repair">
@@ -297,6 +300,11 @@ echo '<section class="col-lg-3" id="right_section" style="overflow: auto;
 
                     <label for="date_procedure_purchase">Дата процедуры закупки:</label>
                     <input type="date" id="edit_date_procedure_purchase" name="date_procedure_purchase">
+                    
+                    <!---->
+                    <label for="date_dogovora">Дата заключения договора:</label>
+                    <input type="date" id="edit_date_dogovora" name="date_dogovora">
+                    <!---->
 
                     <label for="cost_repair">Стоимость ремонта:</label>
                     <input type="number" id="edit_cost_repair" name="cost_repair">
@@ -317,9 +325,8 @@ echo '<section class="col-lg-3" id="right_section" style="overflow: auto;
             </div>
         </div>
     </div>
-</div>
-
-
+</div>';
+echo '
 <div class="modal" id="editEffectModal">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -373,15 +380,13 @@ echo '<div class="modal" id="editOborudovanieModal">
                     <label for="date_create">Год производства:</label>
                     <input type="text" id="edit_date_create" name="date_create">
                     <!---->
-                    <label for="date_create">Дата поставки:</label>
+                    <label for="date_postavki">Дата поставки:</label>
                     <input type="date" id="edit_date_postavki" name="date_postavki">
                     <!---->
                     <label for="date_release">Дата ввода в эксплуатацию:</label>
                     <input type="date" id="edit_date_release" name="date_release">
                     <!---->
-                    <label for="date_create">Дата заключения договора:</label>
-                    <input type="date" id="edit_date_dogovora" name="date_dogovora">
-                    <!---->
+                   
                     <label for="service_organization">Сервисная организация:</label>
                     <input type="text" id="edit_service_organization" name="service_organization">
 
