@@ -27,16 +27,16 @@ while ($row = mysqli_fetch_assoc($result)) {
                                style="display: none">
                             <thead>
                             <tr>
-                                <th>Учреждение здравоохранения</th>
-                                <th>Количество</th>
+                                <th style="text-align: center;">Учреждение здравоохранения</th>
+                                <th style="text-align: center;">Количество</th>
                         
                             </tr>
                             </thead>
                             <tbody>';
-    $sql1 = "SELECT count(o.id_oborudovanie) countUz, uz.name, uz.id_uz  FROM oborudovanie o
+    $sql1 = "SELECT count(o.id_oborudovanie) countUz,uz.id_uz, uz.name   FROM oborudovanie o
                                         left join uz uz on o.id_uz = uz.id_uz
                                         left join servicemans s on s.id_serviceman = o.id_serviceman
-                                        where s.id_serviceman = '$id_serviceman' group by o.id_oborudovanie";
+                                        where s.id_serviceman = '$id_serviceman' group by uz.id_uz";
     $result1 = $connectionDB->executeQuery($sql1);
     while ($row1 = mysqli_fetch_assoc($result1)) {
         $nameUz = $row1['name'];
@@ -45,7 +45,7 @@ while ($row = mysqli_fetch_assoc($result)) {
         echo '<tr id=iduz'.$id_uz.'  >';
 
         echo '<td>' . $nameUz . '</td>';
-        echo '<td>' . $id_uz . '</td>';
+        echo '<td>' . $countUz . '</td>';
 
         echo '</tr>';
     }
@@ -62,7 +62,8 @@ while ($row = mysqli_fetch_assoc($result)) {
 
 
 
-echo '<section class="col-lg-3" id="right_section">
+echo '<section class="col-lg-3" id="right_section" style="overflow: auto;
+    height: 85vh;">
     <div><input style="width:100%;" type="text" id="myInputOrg" onkeyup="searchServiceman(this)"
                 placeholder="Поиск обслуживающей организации"
                 title="Type in a name">

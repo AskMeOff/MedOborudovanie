@@ -31,9 +31,10 @@ while ($row = mysqli_fetch_assoc($result)) {
                             <thead>
                             <tr>
                                 <th>Тип оборудования</th>
-                                <th>Стоимость</th>
-                                <th>Дата производства</th>
+                                <th>Год производства</th>
+                                <th>Дата поставки</th>
                                 <th>Дата ввода в эксплуатацию</th>
+                                <th>Дата заключения договора</th>
                                 <th>Сервисная организация</th>
                                 <th>Дата последнего ТО</th>
                                 <th>Статус </th>
@@ -51,9 +52,11 @@ while ($row = mysqli_fetch_assoc($result)) {
         echo '<tr id=idob'.$idOborudovanie.'  >';
 
         echo '<td onclick="getEffectTable(' . $idOborudovanie . ')" style="cursor: pointer">' . $nameOborudov . '</td>';
-        echo '<td>' . $row1['cost'] . '</td>';
+//        echo '<td>' . $row1['cost'] . '</td>';
         echo '<td>' . $row1['date_create'] . '</td>';
+        echo '<td>' . $row1['date_postavki'] . '</td>';
         echo '<td>' . $row1['date_release'] . '</td>';
+        echo '<td>' . $row1['date_dogovora'] . '</td>';
         echo '<td>' . $row1['service_organization'] . '</td>';
         echo '<td>' . $row1['date_last_TO'] . '</td>';
         $status = $row1['status'] === "1" ? "исправно" : "неисправно";
@@ -78,7 +81,8 @@ while ($row = mysqli_fetch_assoc($result)) {
 
 
 
-echo '<section class="col-lg-3" id="right_section">
+echo '<section class="col-lg-3" id="right_section" style="overflow: auto;
+    height: 85vh;">
     <div><input style="width:100%;" type="text" id="myInputOrg" onkeyup="myFunctionOrg(this)"
                 placeholder="Поиск организации"
                 title="Type in a name">
@@ -364,14 +368,19 @@ echo '<div class="modal" id="editOborudovanieModal">
 
                    echo ' </select>
 
-                    <label for="cost">Стоимость:</label>
-                    <input type="number" id="edit_cost" name="cost">
+
                     <!---->
-                    <label for="date_create">Дата производства:</label>
-                    <input type="date" id="edit_date_create" name="date_create">
+                    <label for="date_create">Год производства:</label>
+                    <input type="text" id="edit_date_create" name="date_create">
+                    <!---->
+                    <label for="date_create">Дата поставки:</label>
+                    <input type="date" id="edit_date_postavki" name="date_postavki">
                     <!---->
                     <label for="date_release">Дата ввода в эксплуатацию:</label>
                     <input type="date" id="edit_date_release" name="date_release">
+                    <!---->
+                    <label for="date_create">Дата заключения договора:</label>
+                    <input type="date" id="edit_date_dogovora" name="date_dogovora">
                     <!---->
                     <label for="service_organization">Сервисная организация:</label>
                     <input type="text" id="edit_service_organization" name="service_organization">

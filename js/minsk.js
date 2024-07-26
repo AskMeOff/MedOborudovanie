@@ -50,7 +50,7 @@ function showSection(idOrg, element) {
         $('#editOborudovanieModal .modal-title').text("Добавление оборудования");
         let select_type_oborudovanie = document.getElementById("select_type_oborudovanie");
         select_type_oborudovanie.options[0].selected = true;
-        document.getElementById('edit_cost').value = "";
+        // document.getElementById('edit_cost').value = "";
         document.getElementById('edit_date_create').value = "";
         document.getElementById('edit_date_release').value = "";
         document.getElementById('edit_service_organization').value = "";
@@ -148,9 +148,11 @@ function refreshMainTable(){
                 tableContent += '<thead><tr>';
                 let headers = {
                     'name': 'Тип оборудования',
-                    'cost': 'Стоимость',
-                    'date_create': 'Дата производства',
+                    // 'cost': 'Стоимость',
+                    'date_create': 'Год производства',
+                    'date_postavki': 'Дата поставки',
                     'date_release': 'Дата ввода в эксплуатацию',
+                    'date_dogovora': 'Дата заключения договора',
                     'service_organization': 'Сервисная организация',
                     'date_last_TO': 'Дата последнего ТО',
                     'status': 'Статус',
@@ -164,9 +166,11 @@ function refreshMainTable(){
                     let today = new Date();
                     tableContent += '<tr>';
                     tableContent += '<td onclick="getEffectTable('+row.id_oborudovanie+')" id=idob'+row.id_oborudovanie+' style="cursor: pointer">' + row.name + '</td>';
-                    tableContent += '<td>' + row.cost + '</td>';
+                    // tableContent += '<td>' + row.cost + '</td>';
                     tableContent += '<td style="text-align: justify;">' + row.date_create + '</td>';
+                    tableContent += '<td style="text-align: justify;">' + row.date_postavki + '</td>';
                     tableContent += '<td>' + row.date_release + '</td>';
+                    tableContent += '<td>' + row.date_dogovora + '</td>';
                     tableContent += '<td>' + row.service_organization + '</td>';
                     tableContent += '<td>' + row.date_last_TO + '</td>';
                     if(row.status === "1"){
@@ -185,6 +189,7 @@ function refreshMainTable(){
                 tableContent += '</tr></thead><tbody>';
                 tableContent += '<tr><td colspan="8" style="text-align:center;">Нет данных</td></tr>';
             }
+
             tableContent += '</tbody></table>';
             $('#org'+selectedOrg+' .table-responsive').html(tableContent);
             $('#editOborudovanieModal').modal('hide');
@@ -524,9 +529,11 @@ function editOborudovanie(idOborudovanie) {
                     option.selected = true;
                 }
             });
-            document.getElementById('edit_cost').value = data.cost;
+            // document.getElementById('edit_cost').value = data.cost;
             document.getElementById('edit_date_create').value = data.date_create;
+            document.getElementById('edit_date_postavki').value = data.date_postavki;
             document.getElementById('edit_date_release').value = data.date_release;
+            document.getElementById('edit_date_dogovora').value = data.date_dogovora;
             document.getElementById('edit_service_organization').value = data.service_organization;
             document.getElementById('edit_date_last_TO').value = data.date_last_TO;
 
@@ -545,9 +552,11 @@ function saveEditedOborudovanie(){
     let select_type_oborudovanie = document.getElementById("select_type_oborudovanie");
     let select_status = document.getElementById("select_status");
     let sto = select_type_oborudovanie.options[select_type_oborudovanie.selectedIndex].value;
-    let cst = document.getElementById('edit_cost').value;
+    // let cst = document.getElementById('edit_cost').value;
     let dcr = document.getElementById('edit_date_create').value;
+    let dp = document.getElementById('edit_date_postavki').value;
     let dr = document.getElementById('edit_date_release').value;
+    let dg = document.getElementById('edit_date_dogovora').value;
     let so = document.getElementById('edit_service_organization').value;
     let dto = document.getElementById('edit_date_last_TO').value;
     let stat = select_status.options[select_status.selectedIndex].value
@@ -556,9 +565,11 @@ function saveEditedOborudovanie(){
         type: 'POST',
         data: {id_oborudovanie: editedOborudovanie,
             id_type_oborudovanie: select_type_oborudovanie.options[select_type_oborudovanie.selectedIndex].value,
-            cost: document.getElementById('edit_cost').value,
-            date_create: document.getElementById('edit_date_create').value,
-            date_release: document.getElementById('edit_date_release').value,
+            // cost: document.getElementById('edit_cost').value,
+            date_create: dcr,
+            date_postavki: dp,
+            date_release: dr,
+            date_dogovora: dg,
             service_organization: document.getElementById('edit_service_organization').value,
             date_last_TO: document.getElementById('edit_date_last_TO').value,
             status: select_status.options[select_status.selectedIndex].value
@@ -594,9 +605,11 @@ function saveAddedOborudovanie(){
         type: 'POST',
         data: {
             id_type_oborudovanie: select_type_oborudovanie.options[select_type_oborudovanie.selectedIndex].value,
-            cost: document.getElementById('edit_cost').value,
+            // cost: document.getElementById('edit_cost').value,
             date_create: document.getElementById('edit_date_create').value,
+            date_postavki: document.getElementById('edit_date_postavki').value,
             date_release: document.getElementById('edit_date_release').value,
+            date_dogovora: document.getElementById('edit_date_dogovora').value,
             service_organization: document.getElementById('edit_service_organization').value,
             date_last_TO: document.getElementById('edit_date_last_TO').value,
             status: select_status.options[select_status.selectedIndex].value,

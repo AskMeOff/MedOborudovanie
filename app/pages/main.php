@@ -19,36 +19,36 @@ $result = $connectionDB->executeQuery($sql);
             width: 300px;
             display: inline-block;
             margin: 10px;
-            position: absolute;
+            margin-top: 20px;
         }
-        .region1{
-            top: -24%;
-            left: 13%;
-        }
-        .region2{
-            top: -28%;
-            left: 40%;
-        }
-        .region3{
-            top: -24%;
-            left: 67%;
-        }
-        .region4{
-            top: 20%;
-            left: 13%;
-        }
-        .region5{
-            top: 20%;
-            left: 67%;
-        }
-        .region6{
-            top: 43%;
-            left: 30%;
-        }
-        .region7{
-            top: 43%;
-            left: 50%;
-        }
+        /*.region1{*/
+        /*    top: -24%;*/
+        /*    left: 13%;*/
+        /*}*/
+        /*.region2{*/
+        /*    top: -28%;*/
+        /*    left: 40%;*/
+        /*}*/
+        /*.region3{*/
+        /*    top: -24%;*/
+        /*    left: 67%;*/
+        /*}*/
+        /*.region4{*/
+        /*    top: 20%;*/
+        /*    left: 13%;*/
+        /*}*/
+        /*.region5{*/
+        /*    top: 20%;*/
+        /*    left: 67%;*/
+        /*}*/
+        /*.region6{*/
+        /*    top: 43%;*/
+        /*    left: 30%;*/
+        /*}*/
+        /*.region7{*/
+        /*    top: 43%;*/
+        /*    left: 50%;*/
+        /*}*/
 
 
         #mainChart {
@@ -73,7 +73,7 @@ $result = $connectionDB->executeQuery($sql);
             }
             #mainChart {
                 margin-left: -9%;
-                margin-top: -70%;
+                margin-top: 0%;
             }
 
         }
@@ -103,7 +103,7 @@ foreach ($equipmentData as $regionData) {
     $sumNeispravno += $regionData['Неисправно'];
 }
 
-echo "<div id='mainChart' ><canvas id='chartBelarus' style='margin-top: 75%;'></canvas><div style='display:flex;justify-content: center;' class='total'>Всего: " . ($sumIspravno + $sumNeispravno) . "</div></div>";
+echo "<div id='mainChart' ><canvas id='chartBelarus' style='margin-top: 18%;'></canvas><div style='display:flex;justify-content: center;' class='total'>Всего: " . ($sumIspravno + $sumNeispravno) . "</div></div>";
 
 echo "<div class='container'>";
 $i=1;
