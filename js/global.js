@@ -26,4 +26,12 @@ function getUzs(id_obl){
     })
 }
 
+$(".region").on("click", function() {
+    var regionNumber = $(this).data("region");
+    getUzs(regionNumber);
+    $("#sidebarnav").children().removeClass("selected active");
+    $("#sidebarnav").children().children().removeClass("active");
+    $("#sidebarnav").children().eq(1).addClass("selected active");
+});
+
 

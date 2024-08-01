@@ -30,6 +30,15 @@
                     </a>
                 </li>
 
+                <li class="sidebar-item" id="oborud-page">
+                    <a class="sidebar-link" href="index.php?effect_oborud" data-page="effect_oborud" aria-expanded="false">
+                <span>
+                  <i class="ti ti-article"></i>
+                </span>
+                        <span class="hide-menu">Эффективность<br> оборудования</span>
+                    </a>
+                </li>
+
                 <li class="sidebar-item" id="servicemans-page">
                     <a class="sidebar-link" href="index.php?servicemans" data-page="servicemans" aria-expanded="false">
                 <span>

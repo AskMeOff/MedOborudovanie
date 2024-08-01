@@ -55,6 +55,9 @@ if (isset($TOKEN)) {
                 case "oborud":
                     require_once "app/pages/oborudovanie.php";
                     break;
+                case "effect_oborud":
+                    require_once "app/pages/effectOborudovanie.php";
+                    break;
                 case "main":
                     require_once "app/pages/main.php";
                     break;
