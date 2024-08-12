@@ -23,19 +23,33 @@ if (isset($_COOKIE['token']) && $_COOKIE['token']!== '')
     if ($userData) {
         $id_uz = $userData['id_uz'];
         $id_role = $userData['id_role'];
+        $idoblguzo = $userData['id_obl'];
     }
 
     if ($id_role == 4) {
         $query = "select * from uz where id_oblast = '$id_obl' and id_uz = '$id_uz';";
     }
-    else if ($id_role == 3 || $id_role == 2 || $id_role == 1) {
+    else if ( $id_role == 2 || $id_role == 1) {
         $query = "select * from uz where id_oblast = '$id_obl';";
+    }
+    else if ($id_role == 3) {
+        if ($id_obl == $idoblguzo) {
+            $query = "select * from uz where id_oblast = '$id_obl'";
+        }
+        else{
+            echo "Данные недоступны для вашей области.";
+            exit;
+        }
     }
     else {
         echo "Данные недоступны. Требуется Авторизация";
+        exit;
         }
-        $result = $connectionDB->executeQuery($query);
-
+    if (isset($query)) {
+            $result = $connectionDB->executeQuery($query);
+    } else {
+        echo "Ошибка: запрос не определен.";
+    }
 
 
         if ($connectionDB->getNumRows($result) == 0) {
@@ -73,14 +87,27 @@ if (isset($_COOKIE['token']) && $_COOKIE['token']!== '')
                                         left outer join type_oborudovanie on oborudovanie.id_type_oborudovanie = type_oborudovanie.id_type_oborudovanie
                                         WHERE uz.id_oblast=$id_obl and uz.id_uz = $id_uz and oborudovanie.status = 0";
             }
-            else if ($id_role == 3 ||  $id_role == 2 || $id_role == 1) {
+            else if ($id_role == 2 || $id_role == 1) {
                 $sql1 = "SELECT oborudovanie.*, type_oborudovanie.name, uz.name as poliklinika FROM oborudovanie 
                                         INNER JOIN uz on oborudovanie.id_uz=uz.id_uz
                                         left outer join type_oborudovanie on oborudovanie.id_type_oborudovanie = type_oborudovanie.id_type_oborudovanie
                                         WHERE uz.id_oblast=$id_obl  and oborudovanie.status = 0";
             }
+            else if ($id_role == 3) {
+                if ($id_obl == $idoblguzo) {
+                    $sql1 = "SELECT oborudovanie.*, type_oborudovanie.name, uz.name as poliklinika FROM oborudovanie 
+                                        INNER JOIN uz on oborudovanie.id_uz=uz.id_uz
+                                        left outer join type_oborudovanie on oborudovanie.id_type_oborudovanie = type_oborudovanie.id_type_oborudovanie
+                                        WHERE uz.id_oblast=$id_obl  and oborudovanie.status = 0";
+                }
+                else{
+                    echo "Данные недоступны для вашей области.";
+                    exit;
+                }
+            }
             else {
                 echo "Данные недоступны. Требуется Авторизация";
+                exit;
             }
             $result1 = $connectionDB->executeQuery($sql1);
             while ($row1 = mysqli_fetch_assoc($result1)) {
@@ -186,11 +213,22 @@ if (isset($_COOKIE['token']) && $_COOKIE['token']!== '')
     if ($id_role == 4) {
         $sql = "select * from uz where id_oblast = $id_obl and id_uz = $id_uz";
     }
-    else if ($id_role == 3 || $id_role == 2 || $id_role == 1) {
+    else if ($id_role == 2 || $id_role == 1) {
        $sql = "select * from uz where id_oblast = $id_obl";
         }
+    else if ($id_role == 3) {
+        if ($id_obl == $idoblguzo) {
+            $sql = "select * from uz where id_oblast = $id_obl";
+        }
+        else{
+            echo "Данные недоступны для вашей области.";
+            exit;
+        }
+    }
+
     else {
         echo 'Данные недоступны. Требуется авторизация';
+        exit;
     }
         $result = $connectionDB->executeQuery($sql);
 //                $activeClass = "activecard1";
