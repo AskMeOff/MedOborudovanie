@@ -28,14 +28,19 @@ if (isset($_COOKIE['token']) && $_COOKIE['token']!== '')
     if ($id_role == 4) {
         $query = "select * from uz where id_oblast = '$id_obl' and id_uz = '$id_uz';";
     }
-    else {
+    else if ($id_role == 3 || $id_role == 2 || $id_role == 1) {
         $query = "select * from uz where id_oblast = '$id_obl';";
     }
+    else {
+        echo "Данные недоступны. Требуется Авторизация";
+        }
         $result = $connectionDB->executeQuery($query);
 
 
 
         if ($connectionDB->getNumRows($result) == 0) {
+
+            echo '<div class="alert alert-warning">Данные недоступны для вашей организации.</div>';
             echo '<section class="col-lg-9 connectedSortable ui-sortable"  style="display: block;">
                 <div class="row">
                 </div>
@@ -68,11 +73,14 @@ if (isset($_COOKIE['token']) && $_COOKIE['token']!== '')
                                         left outer join type_oborudovanie on oborudovanie.id_type_oborudovanie = type_oborudovanie.id_type_oborudovanie
                                         WHERE uz.id_oblast=$id_obl and uz.id_uz = $id_uz and oborudovanie.status = 0";
             }
-            else {
+            else if ($id_role == 3 ||  $id_role == 2 || $id_role == 1) {
                 $sql1 = "SELECT oborudovanie.*, type_oborudovanie.name, uz.name as poliklinika FROM oborudovanie 
                                         INNER JOIN uz on oborudovanie.id_uz=uz.id_uz
                                         left outer join type_oborudovanie on oborudovanie.id_type_oborudovanie = type_oborudovanie.id_type_oborudovanie
                                         WHERE uz.id_oblast=$id_obl  and oborudovanie.status = 0";
+            }
+            else {
+                echo "Данные недоступны. Требуется Авторизация";
             }
             $result1 = $connectionDB->executeQuery($sql1);
             while ($row1 = mysqli_fetch_assoc($result1)) {
@@ -178,9 +186,12 @@ if (isset($_COOKIE['token']) && $_COOKIE['token']!== '')
     if ($id_role == 4) {
         $sql = "select * from uz where id_oblast = $id_obl and id_uz = $id_uz";
     }
-   else {
+    else if ($id_role == 3 || $id_role == 2 || $id_role == 1) {
        $sql = "select * from uz where id_oblast = $id_obl";
         }
+    else {
+        echo 'Данные недоступны. Требуется авторизация';
+    }
         $result = $connectionDB->executeQuery($sql);
 //                $activeClass = "activecard1";
         while ($row = mysqli_fetch_assoc($result)) {
@@ -202,7 +213,7 @@ if (isset($_COOKIE['token']) && $_COOKIE['token']!== '')
 //-----------ДЛЯ АДМИНОВ И ОСТАЛЬНЫХ -------------------------------------
 
 else  {
-
+echo 'Данные недоступны. Требуется авторизация.';
 
 }
 
