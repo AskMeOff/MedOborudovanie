@@ -11,6 +11,73 @@ if (isset($_GET['id_obl'])) {
     $id_obl = $_GET['id_obl'];
 }
 
+echo '<script> let container_fluid = document.getElementById("container_fluid");
+ let btnAddOborudovanie = document.getElementById("btnAddOborudovanie");
+    if (btnAddOborudovanie)
+        btnAddOborudovanie.remove();
+    btnAddOborudovanie = document.createElement("button");
+        btnAddOborudovanie.id = "btnAddOborudovanie";
+    btnAddOborudovanie.className = "btn btn-primary";
+    container_fluid.insertAdjacentElement("afterbegin", btnAddOborudovanie);
+    </script>';
+
+
+echo ' <section class="col-lg-9 connectedSortable ui-sortable" id="org" style="display: block;">
+                <div class="row">
+
+                    <div class="table-responsive">
+                        <table class="table table-striped table-responsive-sm dataTable no-footer" id="infoOb"
+                               style="display: block">
+                            <thead>
+                            <tr>
+                                <th>Тип оборудования</th>
+                                <th>Год производства</th>
+                                <th>Дата поставки</th>
+                                <th>Дата ввода в эксплуатацию</th>
+                                <th>Сервисная организация</th>
+                                <th>Дата последнего ТО</th>
+                                <th>Статус </th>
+                                <th>Действия </th>
+                            </tr>
+                            </thead>
+                            <tbody>';
+$sql9 = "SELECT oborudovanie.*, uz.id_oblast , type_oborudovanie.name FROM 
+         oborudovanie  left outer join type_oborudovanie on oborudovanie.id_type_oborudovanie = type_oborudovanie.id_type_oborudovanie 
+         inner join uz uz on uz.id_uz = oborudovanie.id_uz where uz.id_oblast = 1;";
+$result9 = $connectionDB->executeQuery($sql9);
+while ($row9 = mysqli_fetch_assoc($result9)) {
+    $nameOborudov = $row9['name'];
+    $idOborudovanie = $row9['id_oborudovanie'];
+    echo '<tr id=idob'.$idOborudovanie.'  >';
+
+    echo '<td onclick="getEffectTable(' . $idOborudovanie . ')" style="cursor: pointer">' . $nameOborudov . '</td>';
+//        echo '<td>' . $row1['cost'] . '</td>';
+    echo '<td>' . $row9['date_create'] . '</td>';
+    echo '<td>' . $row9['date_postavki'] . '</td>';
+    echo '<td>' . $row9['date_release'] . '</td>';
+    echo '<td>' . $row9['service_organization'] . '</td>';
+    echo '<td>' . $row9['date_last_TO'] . '</td>';
+    $status = $row9['status'] === "1" ? "исправно" : "неисправно";
+    if ($row9['status'] === "1") {
+        echo '<td  onclick="getFaultsTable(' . $idOborudovanie . ')" style="cursor: pointer"><div style = "border-radius: 5px;background-color: green;color: white;">' . $status . '</div></td>';
+    } else {
+        echo '<td  onclick="getFaultsTable(' . $idOborudovanie . ')" style="cursor: pointer"><div style = "border-radius: 5px;background-color: red;color: white;">' . $status . '</div></td>';
+    }
+    echo '<td><a href="#" onclick="confirmDeleteOborudovanie(' . $idOborudovanie . ')">&#10060;</a><a href="#" onclick="editOborudovanie(' . $idOborudovanie . ')">✏️</a></td>';
+    echo '</tr>';
+}
+
+echo ' 
+                            </tbody>
+                        </table>
+     
+                    </div>
+                </div>
+
+            </section>';
+
+
+//-----------------------------------------------------------------------------
 $query = "select * from uz where id_oblast = '$id_obl';";
 $result = $connectionDB->executeQuery($query);
 if ($connectionDB->getNumRows($result) == 0) {

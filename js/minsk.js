@@ -62,7 +62,6 @@ function showSection(idOrg, element) {
         select_status.options[0].selected = true;
 
     }
-
 }
 
 function myFunctionOrg(input) {
