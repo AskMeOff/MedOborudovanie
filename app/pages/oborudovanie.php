@@ -33,11 +33,15 @@
         border: 0 solid rgba(0, 0, 0, 0.125);
         border-radius: 0.25rem;
     }
-
+    @media (min-width: 1000px) {
+        .card {
+            left: 27%;
+        }
+    }
     .card {
         box-shadow: 0 0 1px rgba(0, 0, 0, 0.125), 0 1px 3px rgba(0, 0, 0, 0.2);
         margin-bottom: 1rem;
-        left: 27%;
+
     }
 
     .card:hover{
