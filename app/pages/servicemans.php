@@ -54,9 +54,8 @@ while ($row = mysqli_fetch_assoc($result)) {
 //
 //        echo '</tr>';
 //    }
-$sql1 = "SELECT uz.id_uz, uz.name, typ.name as typename, f.date_dogovora, f.time_repair, f.cost_repair, f.type_work_dogovor FROM `servicemans` s
+$sql1 = "SELECT uz.id_uz, uz.name, typ.name as typename, ob.date_dogovor_service, ob.srok_dogovor_service, ob.summa_dogovor_service, ob.type_work_dogovor_service FROM `servicemans` s
 LEFT JOIN oborudovanie ob on s.id_serviceman = ob.id_serviceman
-LEFT JOIN faults f on ob.id_oborudovanie = f.id_oborudovanie
 LEFT JOIN uz uz on uz.id_uz = ob.id_uz
 LEFT JOIN type_oborudovanie typ on typ.id_type_oborudovanie = ob.id_type_oborudovanie
 where s.id_serviceman = '$id_serviceman'";
@@ -65,17 +64,17 @@ where s.id_serviceman = '$id_serviceman'";
         $nameUz = $row1['name'];
         $idUz = $row1['id_uz'];
         $typeName = $row1['typename'];
-        $dateDogovora = $row1['date_dogovora'];
-        $timeRepair = $row1['time_repair'];
-        $costRepair = $row1['cost_repair'];
-        $typeWorkDogovor = $row1['type_work_dogovor'];
+        $dateDogovora = $row1['date_dogovor_service'];
+        $srokDogovor = $row1['srok_dogovor_service'];
+        $costRepair = $row1['summa_dogovor_service'];
+        $typeWorkDogovor = $row1['type_work_dogovor_service'];
 
         echo '<tr id=iduz'.$idUz.'  >';
 
         echo '<td>' . $nameUz . '</td>';
         echo '<td>' . $typeName . '</td>';
         echo '<td>' . $dateDogovora . '</td>';
-        echo '<td>' . $timeRepair . '</td>';
+        echo '<td>' . $srokDogovor . '</td>';
         echo '<td>' . $costRepair . '</td>';
         echo '<td>' . $typeWorkDogovor . '</td>';
         echo '<td><a href="#" onclick="editService(' . $idUz . ')">✏️</a></td>';
@@ -124,54 +123,33 @@ echo '<div class="modal" id="editServiceModal">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Редактирование сервисантов</h5>
+                <h5 class="modal-title">Редактирование записи</h5>
                 <button type="button" class="btn btn-danger btn-close" data-bs-dismiss="modal"></button>
             </div>
             <div class="modal-body">
-            <form id="editOborudovanieForm">
+            <form id="editServiceForm">
+                    <label>Наименование организации:</label>
+                    <input type="text" id="edit_name_org" disabled>
+                    <!---->
                     <label>Вид оборудования:</label>
-                    <select class="form-select" id="select_type_oborudovanie">';
-
-$query = "select * from type_oborudovanie";
-$result = $connectionDB->executeQuery($query);
-while ($row = $result->fetch_assoc()) {
-    echo "<option value='" . $row['id_type_oborudovanie'] . "'>" . $row['name'] . "</option>";
-}
-
-echo ' </select>
-
-
+                    <input type="text" id="edit_type_obor" disabled>
                     <!---->
-                    <label for="date_create">Год производства:</label>
-                    <input type="text" id="edit_date_create" name="date_create">
+                    <label for="edit_date_dogovor_service">Дата заключения договора:</label>
+                    <input type="date" id="edit_date_dogovor_service">
                     <!---->
-                    <label for="date_postavki">Дата поставки:</label>
-                    <input type="date" id="edit_date_postavki" name="date_postavki">
+                    <label for="edit_srok_dogovor_service">Срок действия договора:</label>
+                    <input type="date" id="edit_srok_dogovor_service">
                     <!---->
-                    <label for="date_release">Дата ввода в эксплуатацию:</label>
-                    <input type="date" id="edit_date_release" name="date_release">
+                    <label for="edit_summa_dogovor_service">Общая сумма по договору:</label>
+                    <input type="text" id="edit_summa_dogovor_service">
                     <!---->
                    
-                    <label for="service_organization">Сервисная организация:</label>
-                    <input type="text" id="edit_service_organization" name="service_organization">
+                    <label for="edit_type_work_dogovor_service">Вид выполняемых работ по договору:</label>
+                    <input type="text" id="edit_type_work_dogovor_service">
 
-                    <!---->
-                    <label for="date_last_TO">Дата последнего ТО:</label>
-                    <input type="date" id="edit_date_last_TO" name="date_last_TO">
-                    <!---->
-                    <label>Статус:</label>
-                    <select class="form-select" id="select_status">
-                        <option value="0">Неисправно</option>
-                        <option value="1">Исправно</option>
-                    </select>
-                    <!---->
-                    <!--                    <input type="hidden" id="edit_id_fault" name="id_fault">-->
 
                     <div style="margin-top: 10px">
-                        <button type="button" class="btn btn-primary" id="addBtnOb" onclick="saveAddedOborudovanie()">
-                            Добавить
-                        </button>
-                        <button type="button" class="btn btn-primary" id="editBtnOb" onclick="saveEditedOborudovanie()">
+                        <button type="button" class="btn btn-primary" id="editBtnOb" onclick="saveEditedService()">
                             Сохранить
                         </button>
                         <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Закрыть</button>
