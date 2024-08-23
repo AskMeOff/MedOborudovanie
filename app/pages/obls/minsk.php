@@ -70,7 +70,7 @@ if (isset($_COOKIE['token']) && $_COOKIE['token']!== '')
                             <thead>
                             <tr>
                                 <th>Организация</th>
-                                <th>Тип оборудования</th>
+                                <th>Вид оборудования</th>
                                 <th>Год производства</th>
                                 <th>Дата поставки</th>
                                 <th>Дата ввода в эксплуатацию</th>
@@ -155,7 +155,7 @@ if (isset($_COOKIE['token']) && $_COOKIE['token']!== '')
                                style="display: none">
                             <thead>
                             <tr>
-                                <th>Тип оборудования</th>
+                                <th>Вид оборудования</th>
                                 <th>Год производства</th>
                                 <th>Дата поставки</th>
                                 <th>Дата ввода в эксплуатацию</th>
@@ -514,7 +514,7 @@ echo '<div class="modal" id="editOborudovanieModal">
             </div>
             <div class="modal-body">
             <form id="editOborudovanieForm">
-                    <label>Тип оборудования:</label>
+                    <label>Вид оборудования:</label>
                     <select class="form-select" id="select_type_oborudovanie">';
 
 $query = "select * from type_oborudovanie";

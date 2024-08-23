@@ -7,9 +7,9 @@ ini_set('display_errors', 'on');
 class ConnectionDB
 {
     private $host = 'localhost';
-    private $user = 'formed';
-    private $password = 'jUnfTyD6D7Jb2akh5';
-    private $database = 'formed_medOborudovanie';
+    private $user = 'root';
+    private $password = '';
+    private $database = 'medOborudovanie';
     public $con;
 
     public function __construct()

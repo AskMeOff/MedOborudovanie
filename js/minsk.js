@@ -153,7 +153,7 @@ function refreshMainTable() {
             if (!response.hasOwnProperty('empty')) {
                 tableContent += '<thead><tr>';
                 let headers = {
-                    'name': 'Тип оборудования',
+                    'name': 'Вид оборудования',
                     // 'cost': 'Стоимость',
                     'date_create': 'Год производства',
                     'date_postavki': 'Дата поставки',

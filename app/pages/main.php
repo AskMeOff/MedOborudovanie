@@ -15,7 +15,7 @@ $result = $connectionDB->executeQuery($sql);
 <html>
 <head>
     <style>
-        .region1, .region2,.region3,.region4,.region5,.region6,.region7{
+        .region1, .region2,.region3,.region4,.region5,.region6,.region7,.region8{
             width: 300px;
             display: inline-block;
             margin: 10px;
@@ -84,7 +84,7 @@ $result = $connectionDB->executeQuery($sql);
 <?php
 
 
-$regions = ["Брестская", "Витебская", "Гомельская", "Гродненская", "Минская", "Могилевская","Минск"];
+$regions = ["Брестская", "Витебская", "Гомельская", "Гродненская", "Минская", "Могилевская","Минск", "РНПЦ"];
 $equipmentData = array_fill_keys($regions, ['Исправно' => 0, 'Неисправно' => 0]);
 $i = 0;
 while ($row = $result->fetch_assoc()) {
