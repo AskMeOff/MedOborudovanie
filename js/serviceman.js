@@ -42,22 +42,63 @@ function showServiceman(idServiceman, element) {
     showTable('infoservice' + idServiceman);
 
     let container_fluid = document.getElementById("container_fluid");
-    let btnAddServiceman = document.getElementById("btnAddServiceman");
-    if(btnAddServiceman)
-        btnAddServiceman.remove();
-    btnAddServiceman = document.createElement("button");
-    btnAddServiceman.innerHTML = "Добавить сервисанта";
-    btnAddServiceman.id = "btnAddServiceman";
-    btnAddServiceman.className = "btn btn-primary";
     container_fluid.insertAdjacentElement("afterbegin", btnAddServiceman);
 
-    btnAddServiceman.onclick = () => {
-        $('#editBtnOb').hide();
-        $('#addBtnOb').show();
-        $('#editOborudovanieModal').modal('show');
-        $('#editOborudovanieModal .modal-title').text("Добавление сервисанта");
+
+}
+function editService(idOborudovanie) {
+    event.stopPropagation();
+    editedOborudovanie = idOborudovanie;
+    $.ajax({
+        url: '/app/ajax/getSingleOborudovanie.php',
+        type: 'GET',
+        data: {id_oborudovanie: idOborudovanie},
+        dataType: 'json',
+        success: function (data) {
+            $('#editBtnOb').show();
+            $('#addBtnOb').hide();
+            $('#editOborudovanieModal').modal('show');
+            $('#editOborudovanieModal .modal-title').text("Изменение оборудования");
+            let select_type_oborudovanie = document.getElementById("select_type_oborudovanie");
+            select_type_oborudovanie.options.forEach(option => {
+                if (option.value === data.id_type_oborudovanie) {
+                    option.selected = true;
+                }
+            });
+            // document.getElementById('edit_cost').value = data.cost;
+            document.getElementById('edit_date_create').value = data.date_create;
+            document.getElementById('edit_date_postavki').value = data.date_postavki;
+            document.getElementById('edit_date_release').value = data.date_release;
+            document.getElementById('edit_service_organization').value = data.service_organization;
+            document.getElementById('edit_date_last_TO').value = data.date_last_TO;
 
 
+            let select_status = document.getElementById("select_status");
+            select_status.options.forEach(option => {
+                if (option.value === data['status']) {
+                    option.selected = true;
+                }
+            });
+        }
+    });
+}
+function confirmDeleteService(id_fault) {
+    if (confirm('Вы точно хотите удалить эту запись?')) {
+        $.ajax({
+            url: '/app/ajax/deleteFault.php',
+            type: 'POST',
+            data: {id_fault: id_fault},
+            success: function (response) {
+                if (response === "Запись успешно удалена.") {
+                    $('#deleteModal').modal('show');
+                    $('#deleteModal').on('hidden.bs.modal', function (e) {
+                        $('#deleteModal').modal('hide');
+                        getFaultsTable(selectedEquipmentId);
+                    });
+                } else {
+                    getFaultsTable(selectedEquipmentId);
+                }
+            }
+        });
     }
-
 }

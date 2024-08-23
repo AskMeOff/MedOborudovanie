@@ -29,9 +29,10 @@ else
     $date_last_TO = "NULL";
 $status = $_POST['status'];
 
+
     $sql = "update oborudovanie set id_type_oborudovanie = '$id_type_oborudovanie', date_create = '$date_create', date_postavki = '$date_postavki',
                         date_release = '$date_release', 
-                        service_organization = '$service_organization', date_last_TO = '$date_last_TO', status = '$status' where id_oborudovanie = '$id_oborudovanie'";
+                        id_serviceman = '$service_organization', date_last_TO = '$date_last_TO', status = '$status' where id_oborudovanie = '$id_oborudovanie'";
     try {
         $result = $connectionDB->executeQuery($sql);
         echo "1";

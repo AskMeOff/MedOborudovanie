@@ -163,6 +163,7 @@ function refreshMainTable() {
                     'status': 'Статус',
                     'id_oborudovanie': 'Действие'
                 };
+                console.log(response);
                 Object.keys(headers).forEach(function (key) {
                     tableContent += '<th>' + headers[key] + '</th>';
                 });
@@ -533,7 +534,12 @@ function editOborudovanie(idOborudovanie) {
             document.getElementById('edit_date_create').value = data.date_create;
             document.getElementById('edit_date_postavki').value = data.date_postavki;
             document.getElementById('edit_date_release').value = data.date_release;
-            document.getElementById('edit_service_organization').value = data.service_organization;
+            let select_serviceman = document.getElementById("select_serviceman");
+            select_serviceman.options.forEach(option => {
+                if (option.value === data.service_organization) {
+                    option.selected = true;
+                }
+            });
             document.getElementById('edit_date_last_TO').value = data.date_last_TO;
 
 
@@ -549,15 +555,18 @@ function editOborudovanie(idOborudovanie) {
 
 function saveEditedOborudovanie() {
     let select_type_oborudovanie = document.getElementById("select_type_oborudovanie");
+    let select_servicemans = document.getElementById("select_serviceman");
     let select_status = document.getElementById("select_status");
     let sto = select_type_oborudovanie.options[select_type_oborudovanie.selectedIndex].value;
     // let cst = document.getElementById('edit_cost').value;
     let dcr = document.getElementById('edit_date_create').value;
     let dp = document.getElementById('edit_date_postavki').value;
     let dr = document.getElementById('edit_date_release').value;
-    let so = document.getElementById('edit_service_organization').value;
+    let so = select_servicemans.options[select_servicemans.selectedIndex].value;
+   // let so = document.getElementById('edit_serviceman').value;
     let dto = document.getElementById('edit_date_last_TO').value;
     let stat = select_status.options[select_status.selectedIndex].value
+    console.log(so+"trhrfhhg");
     $.ajax({
         url: '/app/ajax/updateOborudovanie.php',
         type: 'POST',
@@ -568,7 +577,7 @@ function saveEditedOborudovanie() {
             date_create: dcr,
             date_postavki: dp,
             date_release: dr,
-            service_organization: document.getElementById('edit_service_organization').value,
+            service_organization: so,
             date_last_TO: document.getElementById('edit_date_last_TO').value,
             status: select_status.options[select_status.selectedIndex].value
         },
@@ -597,6 +606,7 @@ $('#editEffectForm').on('submit', function (event) {
 
 function saveAddedOborudovanie() {
     let select_type_oborudovanie = document.getElementById("select_type_oborudovanie");
+    let select_servicemans = document.getElementById("select_serviceman");
     let select_status = document.getElementById("select_status");
     $.ajax({
         url: '/app/ajax/insertOborudovanie.php',
@@ -607,7 +617,7 @@ function saveAddedOborudovanie() {
             date_create: document.getElementById('edit_date_create').value,
             date_postavki: document.getElementById('edit_date_postavki').value,
             date_release: document.getElementById('edit_date_release').value,
-            service_organization: document.getElementById('edit_service_organization').value,
+            service_organization: select_servicemans.options[select_servicemans.selectedIndex].value,
             date_last_TO: document.getElementById('edit_date_last_TO').value,
             status: select_status.options[select_status.selectedIndex].value,
             id_org: selectedOrg

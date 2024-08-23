@@ -2,6 +2,8 @@
 require_once '../../../connection/connection.php';
 echo '
 <link rel="stylesheet" href="css/minsk.css">
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet"/>
+
 <section class="content" style="margin-top: 100px; margin-left: 15px">
     <div class="container-fluid" id="container_fluid" style="overflow: auto; height: 85vh;">
 
@@ -82,22 +84,25 @@ if (isset($_COOKIE['token']) && $_COOKIE['token']!== '')
                             </thead>
                             <tbody>';
             if ($id_role == 4) {
-                $sql1 = "SELECT oborudovanie.*, type_oborudovanie.name, uz.name as poliklinika FROM oborudovanie 
+                $sql1 = "SELECT oborudovanie.*, type_oborudovanie.name, uz.name as poliklinika, s.name as servname FROM oborudovanie 
                                         INNER JOIN uz on oborudovanie.id_uz=uz.id_uz
                                         left outer join type_oborudovanie on oborudovanie.id_type_oborudovanie = type_oborudovanie.id_type_oborudovanie
+                                        left outer join servicemans s on s.id_serviceman = oborudovanie.id_serviceman
                                         WHERE uz.id_oblast=$id_obl and uz.id_uz = $id_uz and oborudovanie.status = 0";
             }
             else if ($id_role == 2 || $id_role == 1) {
-                $sql1 = "SELECT oborudovanie.*, type_oborudovanie.name, uz.name as poliklinika FROM oborudovanie 
+                $sql1 = "SELECT oborudovanie.*, type_oborudovanie.name, uz.name as poliklinika, s.name as servname FROM oborudovanie 
                                         INNER JOIN uz on oborudovanie.id_uz=uz.id_uz
                                         left outer join type_oborudovanie on oborudovanie.id_type_oborudovanie = type_oborudovanie.id_type_oborudovanie
+                                        left outer join servicemans s on s.id_serviceman = oborudovanie.id_serviceman
                                         WHERE uz.id_oblast=$id_obl  and oborudovanie.status = 0";
             }
             else if ($id_role == 3) {
                 if ($id_obl == $idoblguzo) {
-                    $sql1 = "SELECT oborudovanie.*, type_oborudovanie.name, uz.name as poliklinika FROM oborudovanie 
+                    $sql1 = "SELECT oborudovanie.*, type_oborudovanie.name, uz.name as poliklinika, s.name as servname FROM oborudovanie 
                                         INNER JOIN uz on oborudovanie.id_uz=uz.id_uz
                                         left outer join type_oborudovanie on oborudovanie.id_type_oborudovanie = type_oborudovanie.id_type_oborudovanie
+                                        left outer join servicemans s on s.id_serviceman = oborudovanie.id_serviceman
                                         WHERE uz.id_oblast=$id_obl  and oborudovanie.status = 0";
                 }
                 else{
@@ -120,7 +125,7 @@ if (isset($_COOKIE['token']) && $_COOKIE['token']!== '')
                 echo '<td>' . $row1['date_create'] . '</td>';
                 echo '<td>' . $row1['date_postavki'] . '</td>';
                 echo '<td>' . $row1['date_release'] . '</td>';
-                echo '<td>' . $row1['service_organization'] . '</td>';
+                echo '<td>' . $row1['servname'] . '</td>';
                 echo '<td>' . $row1['date_last_TO'] . '</td>';
                 $status = $row1['status'] === "1" ? "исправно" : "неисправно";
                 if ($row1['status'] === "1") {
@@ -166,8 +171,9 @@ if (isset($_COOKIE['token']) && $_COOKIE['token']!== '')
                             </tr>
                             </thead>
                             <tbody>';
-            $sql1 = "SELECT oborudovanie.*, type_oborudovanie.name FROM oborudovanie
+            $sql1 = "SELECT oborudovanie.*, type_oborudovanie.name, s.name as servname FROM oborudovanie
                                         left outer join type_oborudovanie on oborudovanie.id_type_oborudovanie = type_oborudovanie.id_type_oborudovanie
+                                        left outer join servicemans s on s.id_serviceman = oborudovanie.id_serviceman
                                         where id_uz = $id_uz";
             $result1 = $connectionDB->executeQuery($sql1);
             while ($row1 = mysqli_fetch_assoc($result1)) {
@@ -180,7 +186,7 @@ if (isset($_COOKIE['token']) && $_COOKIE['token']!== '')
                 echo '<td>' . $row1['date_create'] . '</td>';
                 echo '<td>' . $row1['date_postavki'] . '</td>';
                 echo '<td>' . $row1['date_release'] . '</td>';
-                echo '<td>' . $row1['service_organization'] . '</td>';
+                echo '<td>' . $row1['servname'] . '</td>';
                 echo '<td>' . $row1['date_last_TO'] . '</td>';
                 $status = $row1['status'] === "1" ? "исправно" : "неисправно";
                 if ($row1['status'] === "1") {
@@ -538,7 +544,16 @@ echo ' </select>
                     <!---->
                    
                     <label for="service_organization">Сервисная организация:</label>
-                    <input type="text" id="edit_service_organization" name="service_organization">
+                    <select class="form-select" id="select_serviceman">';
+
+                    $query = "select * from servicemans";
+                    $result = $connectionDB->executeQuery($query);
+while ($row = $result->fetch_assoc()) {
+    echo "<option value='" . $row['id_serviceman'] . "'>" . $row['name'] . "</option>";
+}
+
+echo ' </select>
+
 
                     <!---->
                     <label for="date_last_TO">Дата последнего ТО:</label>
@@ -567,6 +582,8 @@ echo ' </select>
     </div>
 </div>';
 echo'
+
+
 <script>
 </script>
 ';
