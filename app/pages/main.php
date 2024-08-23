@@ -109,18 +109,7 @@ echo "<div class='container'>";
 $i=1;
 foreach ($regions as $region) {
     $total = $equipmentData[$region]['Исправно'] + $equipmentData[$region]['Неисправно'];
-    if(substr($login,-1) == $i)
-    {
-        echo "<div class='region region$i' data-region='$i' style='cursor: pointer'>";
-    }
-    else if($login == "admin") {
-        echo "<div class='region region$i' data-region='$i' style='cursor: pointer'>";
-    }
-    else{
-        echo "<div class='region$i' data-region='$i' >";
-    }
-
-
+    echo "<div class='region region$i' data-region='$i' style='cursor: pointer'>";
     if($i < 7){
         echo "<h3>$region область</h3>";
     }else{

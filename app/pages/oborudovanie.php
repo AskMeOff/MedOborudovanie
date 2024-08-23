@@ -58,36 +58,16 @@
 <section class="col-lg-12 connectedSortable ui-sortable" style="margin-top: 90px">
 
     <?php
-    $query = "SELECT * FROM oblast ;";
+    $query = "SELECT * FROM oblast;";
     $result = $connectionDB->executeQuery($query);
-    //$users = "SELECT * FROM users;";
-
-
-        while ($row = mysqli_fetch_assoc($result)) {
-            $id_oblast = $row['id_oblast'];
-            if($login == "admin")
-            {
-                echo "<div class='row'>";
-                echo "<div class='card card1' onclick='getUzs($id_oblast)'>";
-                echo "<h2>" . $row['name'] . "</h2>";
-                echo "</div>";
-                echo "</div>";
-            }
-            if($login == "guzo".$id_oblast) {
-                echo "<div class='row'>";
-                echo "<div class='card card1' onclick='getUzs($id_oblast)'>";
-                echo "<h2>" . $row['name'] . "</h2>";
-                echo "</div>";
-                echo "</div>";
-            }
-            if($login == NULL)
-            {
-                echo "Вышел отсюда";
-                break;
-            }
-        }
-
-
+    while ($row = mysqli_fetch_assoc($result)) {
+        $id_oblast = $row['id_oblast'];
+        echo "<div class='row'>";
+        echo "<div class='card card1' onclick='getUzs($id_oblast)'>";
+        echo "<h2>". $row['name']. "</h2>";
+        echo "</div>";
+        echo "</div>";
+    }
     ?>
 
 

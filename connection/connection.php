@@ -6,10 +6,10 @@ ini_set('display_errors', 'on');
 
 class ConnectionDB
 {
-    private $host = '172.19.6.64';
-    private $user = 'user';
-    private $password = 'user';
-    private $database = 'medOborudovanie';
+    private $host = 'localhost';
+    private $user = 'formed';
+    private $password = 'jUnfTyD6D7Jb2akh5';
+    private $database = 'formed_medOborudovanie';
     public $con;
 
     public function __construct()
