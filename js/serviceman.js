@@ -1,3 +1,5 @@
+let editedOborudovanieService;
+let selectedServiceman;
 function searchServiceman(input) {
     let filter, cards, card, i, txtValue;
     filter = input.value.toUpperCase();
@@ -28,7 +30,7 @@ function showTable(idTable) {
 }
 
 function showServiceman(idServiceman, element) {
-    selectedOrg = idServiceman;
+    selectedServiceman = idServiceman;
     let oldActive = document.getElementsByClassName("activecard1")[0];
     if(oldActive)
         oldActive.classList.remove("activecard1");
@@ -39,16 +41,13 @@ function showServiceman(idServiceman, element) {
     })
     let section = document.getElementById("service" + idServiceman);
     section.style.display = "block";
-    showTable('infoservice' + idServiceman);
+    showTable('infoService' + idServiceman);
 
-    let container_fluid = document.getElementById("container_fluid");
-    container_fluid.insertAdjacentElement("afterbegin", btnAddServiceman);
 
 
 }
 function editService(idOborudovanie) {
-    event.stopPropagation();
-    editedOborudovanie = idOborudovanie;
+    editedOborudovanieService = idOborudovanie;
     $.ajax({
         url: '/app/ajax/getSingleOborudovanieService.php',
         type: 'GET',
@@ -59,20 +58,13 @@ function editService(idOborudovanie) {
             $('#editServiceModal').modal('show');
             $('#editServiceModal .modal-title').text("Изменение записи");
             // document.getElementById('edit_cost').value = data.cost;
-            document.getElementById('edit_name_org').value = data.uz;
-            document.getElementById('edit_type_obor').value = data.date_create;
-            document.getElementById('edit_date_dogovor_service').value = data.date_postavki;
-            document.getElementById('edit_srok_dogovor_service').value = data.date_release;
-            document.getElementById('edit_summa_dogovor_service').value = data.service_organization;
-            document.getElementById('edit_type_work_dogovor_service').value = data.date_last_TO;
+            document.getElementById('edit_name_org').value =data.uz;
+            document.getElementById('edit_type_obor').value = data.typename;
+            document.getElementById('edit_date_dogovor_service').value = data.date_dogovor_service;
+            document.getElementById('edit_srok_dogovor_service').value = data.srok_dogovor_service;
+            document.getElementById('edit_summa_dogovor_service').value = data.summa_dogovor_service;
+            document.getElementById('edit_type_work_dogovor_service').value = data.type_work_dogovor_service;
 
-
-            let select_status = document.getElementById("select_status");
-            select_status.options.forEach(option => {
-                if (option.value === data['status']) {
-                    option.selected = true;
-                }
-            });
         }
     });
 }
@@ -98,37 +90,26 @@ function confirmDeleteService(id_fault) {
 }
 
 function saveEditedService() {
-    let select_type_oborudovanie = document.getElementById("select_type_oborudovanie");
-    let select_servicemans = document.getElementById("select_serviceman");
-    let select_status = document.getElementById("select_status");
-    let sto = select_type_oborudovanie.options[select_type_oborudovanie.selectedIndex].value;
-    // let cst = document.getElementById('edit_cost').value;
-    let dcr = document.getElementById('edit_date_create').value;
-    let dp = document.getElementById('edit_date_postavki').value;
-    let dr = document.getElementById('edit_date_release').value;
-    let so = select_servicemans.options[select_servicemans.selectedIndex].value;
-    // let so = document.getElementById('edit_serviceman').value;
-    let dto = document.getElementById('edit_date_last_TO').value;
-    let stat = select_status.options[select_status.selectedIndex].value
-    console.log(so+"trhrfhhg");
+    let edit_date_dogovor_service = document.getElementById("edit_date_dogovor_service");
+    let edit_srok_dogovor_service = document.getElementById("edit_srok_dogovor_service");
+    let edit_summa_dogovor_service = document.getElementById("edit_summa_dogovor_service");
+    let edit_type_work_dogovor_service = document.getElementById("edit_type_work_dogovor_service");
+
     $.ajax({
-        url: '/app/ajax/updateOborudovanie.php',
+        url: '/app/ajax/updateOborudovanieService.php',
         type: 'POST',
         data: {
-            id_oborudovanie: editedOborudovanie,
-            id_type_oborudovanie: select_type_oborudovanie.options[select_type_oborudovanie.selectedIndex].value,
-            // cost: document.getElementById('edit_cost').value,
-            date_create: dcr,
-            date_postavki: dp,
-            date_release: dr,
-            service_organization: so,
-            date_last_TO: document.getElementById('edit_date_last_TO').value,
-            status: select_status.options[select_status.selectedIndex].value
+            id_oborudovanie: editedOborudovanieService,
+
+            date_dogovor_service: edit_date_dogovor_service.value,
+            srok_dogovor_service: edit_srok_dogovor_service.value,
+            summa_dogovor_service: edit_summa_dogovor_service.value,
+            type_work_dogovor_service: edit_type_work_dogovor_service.value
         },
         success: function (data) {
             if (data == "1") {
 
-                refreshMainTable();
+                refreshTableOborudovanieService();
                 alert("Запись изменена");
             } else {
                 alert("Ошибка в заполнении");
@@ -136,4 +117,57 @@ function saveEditedService() {
 
         }
     });
+}
+function refreshTableOborudovanieService() {
+    $.ajax({
+        url: '/app/ajax/refreshTableOborudovanieService.php',
+        method: 'GET',
+        data: {id_serviceman: selectedServiceman},
+        dataType: 'json',
+        success: function (response) {
+            let tableContent = '<table class="table" id="infoService' + selectedServiceman + '" style="font-size: 13px;">';
+            if (!response.hasOwnProperty('empty')) {
+                tableContent += '<thead><tr>';
+                let headers = {
+                    'name': 'Наименование организации',
+                    'typename': 'Вид оборудования',
+                    'date_dogovor_service': 'Дата заключения договора',
+                    'srok_dogovor_service': 'Срок действия договора',
+                    'summa_dogovor_service': 'Общая сумма по договору',
+                    'type_work_dogovor_service': 'Вид выполняемых работ по договору',
+                    'id_oborudovanie': 'Действие'
+                };
+                Object.keys(headers).forEach(function (key) {
+                    tableContent += '<th>' + headers[key] + '</th>';
+                });
+                tableContent += '</tr></thead><tbody>';
+                response.forEach(function (row) {
+                    let today = new Date();
+                    tableContent += '<tr>';
+                    tableContent += '<td>' + row.name + '</td>';
+                    tableContent += '<td style="text-align: justify;">' + row.typename + '</td>';
+                    tableContent += '<td style="text-align: justify;">' + row.date_dogovor_service + '</td>';
+                    tableContent += '<td>' + row.srok_dogovor_service + '</td>';
+                    tableContent += '<td>' + row.summa_dogovor_service + '</td>';
+                    tableContent += '<td>' + row.type_work_dogovor_service + '</td>';
+                    tableContent += '<td><a href="#" onclick="editService(' + row.id_oborudovanie + ')">✏️</a></td>';
+                    tableContent += '</tr>';
+                });
+            } else {
+                tableContent += '<thead><tr>';
+                tableContent += '<th></th>';
+                tableContent += '</tr></thead><tbody>';
+                tableContent += '<tr><td colspan="8" style="text-align:center;">Нет данных</td></tr>';
+            }
+
+            tableContent += '</tbody></table>';
+            $('#service' + selectedServiceman + ' .table-responsive').html(tableContent);
+            $('#editServiceModal').modal('hide');
+            $('#infoService' + selectedServiceman).DataTable();
+        },
+        error: function (xhr, status, error) {
+            console.log(error);
+        }
+    });
+
 }

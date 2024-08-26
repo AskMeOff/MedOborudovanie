@@ -23,7 +23,7 @@ while ($row = mysqli_fetch_assoc($result)) {
                 <div class="row">
 
                     <div class="table-responsive">
-                        <table class="table table-striped table-responsive-sm dataTable no-footer" id="infoservice' . $id_serviceman . '"
+                        <table class="table table-striped table-responsive-sm dataTable no-footer" id="infoService' . $id_serviceman . '"
                                style="display: none">
                             <thead>
                             <tr>
@@ -54,14 +54,16 @@ while ($row = mysqli_fetch_assoc($result)) {
 //
 //        echo '</tr>';
 //    }
-$sql1 = "SELECT uz.id_uz, uz.name, typ.name as typename, ob.date_dogovor_service, ob.srok_dogovor_service, ob.summa_dogovor_service, ob.type_work_dogovor_service FROM `servicemans` s
+$sql1 = "SELECT ob.id_oborudovanie, uz.id_uz, uz.name, typ.name as typename, ob.date_dogovor_service, ob.srok_dogovor_service, ob.summa_dogovor_service, ob.type_work_dogovor_service FROM `servicemans` s
 LEFT JOIN oborudovanie ob on s.id_serviceman = ob.id_serviceman
 LEFT JOIN uz uz on uz.id_uz = ob.id_uz
 LEFT JOIN type_oborudovanie typ on typ.id_type_oborudovanie = ob.id_type_oborudovanie
 where s.id_serviceman = '$id_serviceman'";
     $result1 = $connectionDB->executeQuery($sql1);
     while ($row1 = mysqli_fetch_assoc($result1)) {
+
         $nameUz = $row1['name'];
+        $id_oborudovanie = $row1['id_oborudovanie'];
         $idUz = $row1['id_uz'];
         $typeName = $row1['typename'];
         $dateDogovora = $row1['date_dogovor_service'];
@@ -77,7 +79,7 @@ where s.id_serviceman = '$id_serviceman'";
         echo '<td>' . $srokDogovor . '</td>';
         echo '<td>' . $costRepair . '</td>';
         echo '<td>' . $typeWorkDogovor . '</td>';
-        echo '<td><a href="#" onclick="editService(' . $idUz . ')">✏️</a></td>';
+        echo '<td><a href="#" onclick="editService(' . $id_oborudovanie . ')">✏️</a></td>';
         echo '</tr>';
     }
     echo ' 
@@ -163,6 +165,6 @@ echo '<div class="modal" id="editServiceModal">
 
 
 echo '
-<script src="js/serviceman.js"></script>
+
 ';
 ?>

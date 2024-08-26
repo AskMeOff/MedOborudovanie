@@ -111,5 +111,6 @@ if (isset($TOKEN)) {
 </script>
 
 <script src="js/minsk.js"></script>
+<script src="js/serviceman.js"></script>
 
 </html>
