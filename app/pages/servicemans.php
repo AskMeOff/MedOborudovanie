@@ -1,6 +1,7 @@
 <?php
 
 echo '<link rel="stylesheet" href="css/minsk.css">
+
 <section class="content" style="margin-top: 100px; margin-left: 15px">
     <div class="container-fluid" id="container_fluid">
 
@@ -12,6 +13,7 @@ echo '<link rel="stylesheet" href="css/minsk.css">
             if ($connectionDB->getNumRows($result) == 0) {
             echo '<section class="col-lg-9 connectedSortable ui-sortable"  style="display: block;">
                 <div class="row">
+                   
                 </div>
             </section>';
             }
@@ -21,7 +23,6 @@ while ($row = mysqli_fetch_assoc($result)) {
 
     echo ' <section class="col-lg-9 connectedSortable ui-sortable" id="service' . $id_serviceman . '" style="display: block;">
                 <div class="row">
-
                     <div class="table-responsive">
                         <table class="table table-striped table-responsive-sm dataTable no-footer" id="infoService' . $id_serviceman . '"
                                style="display: none">
@@ -55,7 +56,7 @@ while ($row = mysqli_fetch_assoc($result)) {
 //        echo '</tr>';
 //    }
 $sql1 = "SELECT ob.id_oborudovanie, uz.id_uz, uz.name, typ.name as typename, ob.date_dogovor_service, ob.srok_dogovor_service, ob.summa_dogovor_service, ob.type_work_dogovor_service FROM `servicemans` s
-LEFT JOIN oborudovanie ob on s.id_serviceman = ob.id_serviceman
+RIGHT JOIN oborudovanie ob on s.id_serviceman = ob.id_serviceman
 LEFT JOIN uz uz on uz.id_uz = ob.id_uz
 LEFT JOIN type_oborudovanie typ on typ.id_type_oborudovanie = ob.id_type_oborudovanie
 where s.id_serviceman = '$id_serviceman'";
@@ -160,7 +161,12 @@ echo '<div class="modal" id="editServiceModal">
             </div>
         </div>
     </div>
-</div>';
+</div>
+<div class="overlay">
+    Выберите сервисанта
+</div>
+';
+
 
 
 

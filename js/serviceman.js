@@ -27,6 +27,7 @@ function showTable(idTable) {
     $('table').DataTable().destroy();
     $('#' + idTable).DataTable();
     $('th').css('width', '20%');
+    $('.overlay').hide();
 }
 
 function showServiceman(idServiceman, element) {

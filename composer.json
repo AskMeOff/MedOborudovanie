@@ -11,6 +11,8 @@
   ],
   "require": {
     "cboden/ratchet": "^0.4.3",
-    "ext-curl": "*"
+    "ext-curl": "*",
+    "phpoffice/phpexcel": "^1.8",
+    "phpoffice/phpspreadsheet": "^2.2"
   }
 }
