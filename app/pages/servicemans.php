@@ -3,7 +3,6 @@
 echo '<link rel="stylesheet" href="css/minsk.css">
 <section class="content" style="margin-top: 100px; margin-left: 15px">
     <div class="container-fluid" id="container_fluid">
-
         <div class="row" id="main_row">';
 
 
@@ -55,7 +54,7 @@ while ($row = mysqli_fetch_assoc($result)) {
 //        echo '</tr>';
 //    }
 $sql1 = "SELECT ob.id_oborudovanie, uz.id_uz, uz.name, typ.name as typename, ob.date_dogovor_service, ob.srok_dogovor_service, ob.summa_dogovor_service, ob.type_work_dogovor_service FROM `servicemans` s
-LEFT JOIN oborudovanie ob on s.id_serviceman = ob.id_serviceman
+inner JOIN oborudovanie ob on s.id_serviceman = ob.id_serviceman
 LEFT JOIN uz uz on uz.id_uz = ob.id_uz
 LEFT JOIN type_oborudovanie typ on typ.id_type_oborudovanie = ob.id_type_oborudovanie
 where s.id_serviceman = '$id_serviceman'";
@@ -160,6 +159,14 @@ echo '<div class="modal" id="editServiceModal">
             </div>
         </div>
     </div>
+    
+</div>'
+;
+echo '<div class="overlay" id="overlay">
+    <div class="overlay-content">
+       Выберите сервисанта
+    </div>
+    <img src="app/assets/images/fast-forward.gif" alt="GIF" class="overlay-gif">
 </div>';
 
 
