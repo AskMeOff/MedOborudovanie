@@ -660,7 +660,6 @@ function filterTable() {
         }
     else {
         table = document.getElementById("infoObAll");
-        console.log(table);
         j = 1;
     }
 

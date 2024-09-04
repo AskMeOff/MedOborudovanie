@@ -181,4 +181,45 @@ button[type="submit"]:hover {
     max-width: 50%; /* Масштабирование GIF по ширине блока */
     border-radius: 10px; /* Закругление углов у GIF */
 }
+#filterContainer {
+    margin-top: 10px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+    display: flex;
+    flex-wrap: wrap; /* Позволяет полям переноситься на следующую строку */
+    align-items: center; /* Выравнивание по центру по вертикали */
+}
 
+#filterContainer label {
+    margin: 5px 10px 25px 25px;
+    font-weight: bold;
+    white-space: nowrap;
+}
+
+#filterContainer select,
+#filterContainer input[type="date"] {
+    width: calc(25% - 10px); /* Четыре поля в строке с отступами */
+    padding: 5px;
+    margin-right: 10px; /* Отступ между полями */
+    margin-bottom: 5px; /* Уменьшенный отступ снизу */
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    box-sizing: border-box; /* Учитывать padding и border в общей ширине */
+    height: 30px; /* Уменьшенная высота */
+}
+
+#filterContainer select:nth-child(4n),
+#filterContainer input[type="date"]:nth-child(4n) {
+    margin-right: 0; /* Убираем отступ справа для каждого четвертого элемента */
+}
+
+#filterContainer select:focus,
+#filterContainer input[type="date"]:focus {
+    border-color: #007bff; /* Цвет рамки при фокусе */
+    outline: none; /* Убираем стандартное обрамление */
+}
+.filtCol{
+    display:flex;
+}

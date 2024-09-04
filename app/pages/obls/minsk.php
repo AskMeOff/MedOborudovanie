@@ -78,7 +78,9 @@ if (isset($_COOKIE['token']) && $_COOKIE['token']!== '')
                 $serviceNames[] = $row['name'];
             }
 
-            echo '             <button class="btn btn-primary" onclick="startFilter()" style=" margin-top: 10px;">Фильтры</button> <div id="filterContainer" style="display: none;">
+            echo '           <div>  <button class="btn btn-primary" onclick="startFilter()" style=" margin-top: 10px; ">Фильтры</button> </div> 
+            <div id="filterContainer" style="display: none;">
+            <div class = "filtCol">
                  <label for="filterEquipment">Вид оборудования:</label>
                  <select id="filterEquipment" onchange="filterTable()">
                  <option value="">Все</option>';
@@ -87,16 +89,18 @@ if (isset($_COOKIE['token']) && $_COOKIE['token']!== '')
             }
 
             echo '  </select>
-
+            
             <label for="filterYear">Год производства:</label>
             <input type="date" id="filterYear" onchange="filterTable()">
-
+            </div>
+            <div class = "filtCol">
             <label for="filterDatePostavki">Дата поставки:</label>
             <input type="date" id="filterDatePostavki" onchange="filterTable()">
 
             <label for="filterDateRelease">Дата ввода в эксплуатацию:</label>
             <input type="date" id="filterDateRelease" onchange="filterTable()">
-
+            </div>
+            <div class = "filtCol">
             <label for="filterService">Сервисная организация:</label>
             <select id="filterService" onchange="filterTable()">
                 <option value="">Все</option>';
@@ -111,6 +115,7 @@ if (isset($_COOKIE['token']) && $_COOKIE['token']!== '')
             foreach ($statuses as $status) {
                 echo '<option value="' . $status . '">' . $status . '</option>';
             }echo '  </select>
+              </div>
                    </div>  
 <section class="col-lg-9 connectedSortable ui-sortable" id="orgAll" style="display: block;">
                 
