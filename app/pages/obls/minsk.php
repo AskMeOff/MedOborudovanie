@@ -80,7 +80,9 @@ if (isset($_COOKIE['token']) && $_COOKIE['token']!== '')
 
             echo '           <div>  <button class="btn btn-primary" onclick="startFilter()" style=" margin-top: 10px; ">Фильтры</button> </div> 
             <div id="filterContainer" style="display: none;">
-            <div class = "filtCol">
+            <div class = "filtCol row">
+                        <div class="col-lg-4">
+
                  <label for="filterEquipment">Вид оборудования:</label>
                  <select id="filterEquipment" onchange="filterTable()">
                  <option value="">Все</option>';
@@ -89,18 +91,27 @@ if (isset($_COOKIE['token']) && $_COOKIE['token']!== '')
             }
 
             echo '  </select>
-            
+            </div>
+                        <div class="col-lg-4">
+
             <label for="filterYear">Год производства:</label>
             <input type="date" id="filterYear" onchange="filterTable()">
             </div>
-            <div class = "filtCol">
+            <div class="col-lg-4">
+
             <label for="filterDatePostavki">Дата поставки:</label>
             <input type="date" id="filterDatePostavki" onchange="filterTable()">
+</div>
+            </div>
+            <div class = "filtCol row">
+                        
+            <div class="col-lg-4">
 
             <label for="filterDateRelease">Дата ввода в эксплуатацию:</label>
             <input type="date" id="filterDateRelease" onchange="filterTable()">
             </div>
-            <div class = "filtCol">
+            <div class="col-lg-4">
+
             <label for="filterService">Сервисная организация:</label>
             <select id="filterService" onchange="filterTable()">
                 <option value="">Все</option>';
@@ -108,6 +119,8 @@ if (isset($_COOKIE['token']) && $_COOKIE['token']!== '')
                 echo '<option value="' . $service . '">' . $service . '</option>';
             }
             echo '  </select>
+</div>
+            <div class="col-lg-4">
 
             <label for="filterStatus">Статус:</label>
             <select id="filterStatus" onchange="filterTable()">
@@ -115,7 +128,9 @@ if (isset($_COOKIE['token']) && $_COOKIE['token']!== '')
             foreach ($statuses as $status) {
                 echo '<option value="' . $status . '">' . $status . '</option>';
             }echo '  </select>
-              </div>
+  </div>
+            </div>
+           
                    </div>  
 <section class="col-lg-9 connectedSortable ui-sortable" id="orgAll" style="display: block;">
                 

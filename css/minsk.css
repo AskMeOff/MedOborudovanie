@@ -181,9 +181,12 @@ button[type="submit"]:hover {
     max-width: 50%; /* Масштабирование GIF по ширине блока */
     border-radius: 10px; /* Закругление углов у GIF */
 }
+
 #filterContainer {
+    margin-bottom: 20px;
+    width: 99%;
     margin-top: 10px;
-    padding: 10px;
+    /*padding: 10px;*/
     border: 1px solid #ccc;
     border-radius: 5px;
     background-color: #f9f9f9;
@@ -193,14 +196,14 @@ button[type="submit"]:hover {
 }
 
 #filterContainer label {
-    margin: 5px 10px 25px 25px;
+    /*margin: 5px 10px 25px 25px;*/
     font-weight: bold;
     white-space: nowrap;
 }
 
 #filterContainer select,
 #filterContainer input[type="date"] {
-    width: calc(25% - 10px); /* Четыре поля в строке с отступами */
+    width: 80%; /* Четыре поля в строке с отступами */
     padding: 5px;
     margin-right: 10px; /* Отступ между полями */
     margin-bottom: 5px; /* Уменьшенный отступ снизу */
