@@ -17,7 +17,7 @@ else if(currentUrl == "/index.php?servicemans"){
 
 function getUzs(id_obl){
     $.ajax({
-        url: "app/pages/obls/minsk.php",
+        url: "app/pages/obls/getNeispravnoeBrest.php",
         method: "GET",
         data: {id_obl: id_obl}
     }).then(response => {
