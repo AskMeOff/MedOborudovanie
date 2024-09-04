@@ -41,10 +41,11 @@ function showServiceman(idServiceman, element) {
     })
     let section = document.getElementById("service" + idServiceman);
     section.style.display = "block";
+    let overlay = document.getElementById("overlay");
+    if (overlay) {
+        overlay.style.display = "none";
+    }
     showTable('infoService' + idServiceman);
-
-
-
 }
 function editService(idOborudovanie) {
     editedOborudovanieService = idOborudovanie;

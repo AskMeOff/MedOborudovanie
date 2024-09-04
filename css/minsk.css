@@ -156,4 +156,29 @@ button[type="submit"]:hover {
 #btnsGroup{
     margin-top: 15px;
 }
+.overlay {
+    position: fixed; /* Центрирование относительно экрана */
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(255, 255, 255, 0.95); /* Легкий прозрачный фон */
+    padding-top: 30px; /* Увеличенные отступы внутри блока */
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3); /* Более глубокая тень для объема */
+    z-index: 1000;
+    width: 80%; /* Задать ширину в процентах экрана */
+    max-width: 600px; /* Ограничить максимальную ширину */
+    border-radius: 15px; /* Закругленные углы */
+    text-align: center; /* Центрирование текста */
+    font-size: 1.2rem; /* Увеличение размера текста */
+    color: #333; /* Цвет текста */
+}
+
+.overlay-content {
+    margin-bottom: 20px; /* Отступ снизу от текста для GIF */
+}
+
+.overlay-gif {
+    max-width: 50%; /* Масштабирование GIF по ширине блока */
+    border-radius: 10px; /* Закругление углов у GIF */
+}
 
