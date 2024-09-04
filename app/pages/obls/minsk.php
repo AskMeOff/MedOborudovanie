@@ -536,6 +536,18 @@ echo'
 
                     <label for="time_repair">Время ремонта:</label>
                     <input type="date" id="edit_time_repair" name="time_repair">
+                    
+                    <label for="remont">Отремонтировано</label>
+                    <select id="edit_remont" name="remont">
+    <option value="">Выберите</option>
+    <option value="1">Да</option>
+    <option value="0">Нет</option>
+</select>
+
+                    <label for="date_remont">Дата ремонта:</label>
+                    <input type="date" id="edit_date_remont" name="date_remont">
+                    
+
 
             <!--        <label for="downtime">Продолжительность простоя:</label>
                     <input type="text" id="edit_downtime" name="downtime">-->
