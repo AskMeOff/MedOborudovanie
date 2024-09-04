@@ -78,9 +78,7 @@ if (isset($_COOKIE['token']) && $_COOKIE['token']!== '')
                 $serviceNames[] = $row['name'];
             }
 
-            echo ' <section class="col-lg-9 connectedSortable ui-sortable" id="orgAll" style="display: block;">
-            <button class="btn btn-primary" onclick="startFilter()" style=" margin-top: 10px;">Фильтры</button>
-                 <div id="filterContainer" style="display: none;">
+            echo '             <button class="btn btn-primary" onclick="startFilter()" style=" margin-top: 10px;">Фильтры</button> <div id="filterContainer" style="display: none;">
                  <label for="filterEquipment">Вид оборудования:</label>
                  <select id="filterEquipment" onchange="filterTable()">
                  <option value="">Все</option>';
@@ -114,6 +112,8 @@ if (isset($_COOKIE['token']) && $_COOKIE['token']!== '')
                 echo '<option value="' . $status . '">' . $status . '</option>';
             }echo '  </select>
                    </div>  
+<section class="col-lg-9 connectedSortable ui-sortable" id="orgAll" style="display: block;">
+                
                 <div class="row">
 
                     <div class="table-responsive">
@@ -196,19 +196,7 @@ if (isset($_COOKIE['token']) && $_COOKIE['token']!== '')
             </section>
             ';
         }
-    $equipmentTypes = [];
-    $serviceNames = [];
-    $statuses = ['исправно', 'неисправно'];
-    $sqlTypes = "SELECT DISTINCT name FROM type_oborudovanie";
-    $resultTypes = $connectionDB->executeQuery($sqlTypes);
-    while ($row = mysqli_fetch_assoc($resultTypes)) {
-        $equipmentTypes[] = $row['name'];
-    }
-    $sqlServices = "SELECT DISTINCT s.name FROM servicemans s";
-    $resultServices = $connectionDB->executeQuery($sqlServices);
-    while ($row = mysqli_fetch_assoc($resultServices)) {
-        $serviceNames[] = $row['name'];
-    }
+
 
     while ($row = mysqli_fetch_assoc($result)) {
 
@@ -216,41 +204,7 @@ if (isset($_COOKIE['token']) && $_COOKIE['token']!== '')
 
 
             echo ' <section class="col-lg-9 connectedSortable ui-sortable" id="org' . $id_uz . '" style="display: none;">
-                 <button class="btn btn-primary" onclick="startFilter1()" style=" margin-top: 10px;">Фильтры</button>
-                 <div id="filterContainer" style="display: none;">
-                 <label for="filterEquipment">Вид оборудования:</label>
-                 <select id="filterEquipment" onchange="filterTable()">
-                 <option value="">Все</option>';
-            foreach ($equipmentTypes as $type) {
-            echo '<option value="' . $type . '">' . $type . '</option>';
-}
-
-            echo '  </select>
-
-            <label for="filterYear">Год производства:</label>
-            <input type="date" id="filterYear" onchange="filterTable()">
-
-            <label for="filterDatePostavki">Дата поставки:</label>
-            <input type="date" id="filterDatePostavki" onchange="filterTable()">
-
-            <label for="filterDateRelease">Дата ввода в эксплуатацию:</label>
-            <input type="date" id="filterDateRelease" onchange="filterTable()">
-
-            <label for="filterService">Сервисная организация:</label>
-            <select id="filterService" onchange="filterTable()">
-                <option value="">Все</option>';
-foreach ($serviceNames as $service) {
-    echo '<option value="' . $service . '">' . $service . '</option>';
-}
-echo '  </select>
-
-            <label for="filterStatus">Статус:</label>
-            <select id="filterStatus" onchange="filterTable()">
-                <option value="">Все</option>';
-foreach ($statuses as $status) {
-    echo '<option value="' . $status . '">' . $status . '</option>';
-}echo '  </select>
-                   </div>  
+                
                 <div class="row">
 
                     <div class="table-responsive">

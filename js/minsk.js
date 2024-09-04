@@ -652,24 +652,27 @@ function filterTable() {
     let serviceFilter = document.getElementById("filterService").value.toLowerCase();
     let statusFilter = document.getElementById("filterStatus").value.toLowerCase();
     let table;
-    console.log(selectedOrg)
+    console.log(selectedOrg);
+    let j;
     if (selectedOrg !== 0){
         table = document.getElementById("infoOb" + selectedOrg);
+        j = 0;
         }
     else {
         table = document.getElementById("infoObAll");
         console.log(table);
+        j = 1;
     }
 
     let rows = table.getElementsByTagName("tr");
     for (let i = 1; i < rows.length; i++) {
         let cells = rows[i].getElementsByTagName("td");
-        let equipmentMatch = equipmentFilter === "" || cells[0].innerText.toLowerCase().indexOf(equipmentFilter) > -1;
-        let yearMatch = yearFilter === "" || cells[1].innerText === yearFilter;
-        let datePostavkiMatch = datePostavkiFilter === "" || cells[2].innerText === datePostavkiFilter;
-        let dateReleaseMatch = dateReleaseFilter === "" || cells[3].innerText === dateReleaseFilter;
-        let serviceMatch = serviceFilter === "" || cells[4].innerText.toLowerCase().indexOf(serviceFilter) > -1;
-        let statusMatch = statusFilter === "" || cells[6].innerText.toLowerCase().indexOf(statusFilter) > -1;
+        let equipmentMatch = equipmentFilter === "" || cells[j].innerText.toLowerCase().indexOf(equipmentFilter) > -1;
+        let yearMatch = yearFilter === "" || cells[j+1].innerText === yearFilter;
+        let datePostavkiMatch = datePostavkiFilter === "" || cells[j+2].innerText === datePostavkiFilter;
+        let dateReleaseMatch = dateReleaseFilter === "" || cells[j+3].innerText === dateReleaseFilter;
+        let serviceMatch = serviceFilter === "" || cells[j+4].innerText.toLowerCase().indexOf(serviceFilter) > -1;
+        let statusMatch = statusFilter === "" || cells[j+5].innerText.toLowerCase().indexOf(statusFilter) > -1;
         if (equipmentMatch && yearMatch && datePostavkiMatch && dateReleaseMatch && serviceMatch && statusMatch) {
             rows[i].style.display = "";
         } else {
