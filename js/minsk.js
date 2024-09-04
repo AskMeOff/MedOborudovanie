@@ -1,4 +1,4 @@
-let selectedOrg;
+let selectedOrg  = 0;
 const contMenu = document.getElementById("contMenu");
 const body = document.getElementsByTagName("body")[0];
 let selectedEquipmentId;
@@ -632,4 +632,44 @@ function saveAddedOborudovanie() {
 
         }
     });
+}
+
+
+
+function startFilter() {
+    let filterContainer = document.getElementById("filterContainer");
+    filterContainer.style.display = filterContainer.style.display === "none" ? "block" : "none";
+}
+function filterTable() {
+    let equipmentFilter = document.getElementById("filterEquipment").value.toLowerCase();
+    let yearFilter = document.getElementById("filterYear").value;
+    let datePostavkiFilter = document.getElementById("filterDatePostavki").value;
+    let dateReleaseFilter = document.getElementById("filterDateRelease").value;
+    let serviceFilter = document.getElementById("filterService").value.toLowerCase();
+    let statusFilter = document.getElementById("filterStatus").value.toLowerCase();
+    let table;
+    console.log(selectedOrg)
+    if (selectedOrg !== 0){
+        table = document.getElementById("infoOb" + selectedOrg);
+        }
+    else {
+        table = document.getElementById("infoObAll");
+        console.log(table);
+    }
+
+    let rows = table.getElementsByTagName("tr");
+    for (let i = 1; i < rows.length; i++) {
+        let cells = rows[i].getElementsByTagName("td");
+        let equipmentMatch = equipmentFilter === "" || cells[0].innerText.toLowerCase().indexOf(equipmentFilter) > -1;
+        let yearMatch = yearFilter === "" || cells[1].innerText === yearFilter;
+        let datePostavkiMatch = datePostavkiFilter === "" || cells[2].innerText === datePostavkiFilter;
+        let dateReleaseMatch = dateReleaseFilter === "" || cells[3].innerText === dateReleaseFilter;
+        let serviceMatch = serviceFilter === "" || cells[4].innerText.toLowerCase().indexOf(serviceFilter) > -1;
+        let statusMatch = statusFilter === "" || cells[6].innerText.toLowerCase().indexOf(statusFilter) > -1;
+        if (equipmentMatch && yearMatch && datePostavkiMatch && dateReleaseMatch && serviceMatch && statusMatch) {
+            rows[i].style.display = "";
+        } else {
+            rows[i].style.display = "none";
+        }
+    }
 }

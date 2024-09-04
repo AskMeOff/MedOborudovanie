@@ -38,26 +38,11 @@ while ($row = mysqli_fetch_assoc($result)) {
                             </tr>
                             </thead>
                             <tbody>';
-//    $sql1 = "SELECT count(o.id_oborudovanie) countUz,uz.id_uz, uz.name   FROM oborudovanie o
-//                                        left join uz uz on o.id_uz = uz.id_uz
-//                                        left join servicemans s on s.id_serviceman = o.id_serviceman
-//                                        where s.id_serviceman = '$id_serviceman' group by uz.id_uz";
-//    $result1 = $connectionDB->executeQuery($sql1);
-//    while ($row1 = mysqli_fetch_assoc($result1)) {
-//        $nameUz = $row1['name'];
-//        $id_uz = $row1['id_uz'];
-//        $countUz = $row1['countUz'];
-//        echo '<tr id=iduz'.$id_uz.'  >';
-//
-//        echo '<td>' . $nameUz . '</td>';
-//        echo '<td>' . $countUz . '</td>';
-//
-//        echo '</tr>';
-//    }
+
 $sql1 = "SELECT ob.id_oborudovanie, uz.id_uz, uz.name, typ.name as typename, ob.date_dogovor_service, ob.srok_dogovor_service, ob.summa_dogovor_service, ob.type_work_dogovor_service FROM `servicemans` s
-LEFT JOIN oborudovanie ob on s.id_serviceman = ob.id_serviceman
-LEFT JOIN uz uz on uz.id_uz = ob.id_uz
-LEFT JOIN type_oborudovanie typ on typ.id_type_oborudovanie = ob.id_type_oborudovanie
+JOIN oborudovanie ob on s.id_serviceman = ob.id_serviceman
+JOIN uz uz on uz.id_uz = ob.id_uz
+JOIN type_oborudovanie typ on typ.id_type_oborudovanie = ob.id_type_oborudovanie
 where s.id_serviceman = '$id_serviceman'";
     $result1 = $connectionDB->executeQuery($sql1);
     while ($row1 = mysqli_fetch_assoc($result1)) {

@@ -3,7 +3,6 @@ require_once '../../../connection/connection.php';
 echo '
 <link rel="stylesheet" href="css/minsk.css">
 <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet"/>
-
 <section class="content" style="margin-top: 100px; margin-left: 15px">
     <div class="container-fluid" id="container_fluid" style="overflow: auto; height: 85vh;">
 
@@ -56,14 +55,65 @@ if (isset($_COOKIE['token']) && $_COOKIE['token']!== '')
 
         if ($connectionDB->getNumRows($result) == 0) {
 
+
             echo '<div class="alert alert-warning">Данные недоступны для вашей организации.</div>';
             echo '<section class="col-lg-9 connectedSortable ui-sortable"  style="display: block;">
+
                 <div class="row">
                 </div>
                 </section>';
         }
         else{
+            $equipmentTypes = [];
+            $serviceNames = [];
+            $statuses = ['исправно', 'неисправно'];
+            $sqlTypes = "SELECT DISTINCT name FROM type_oborudovanie";
+            $resultTypes = $connectionDB->executeQuery($sqlTypes);
+            while ($row = mysqli_fetch_assoc($resultTypes)) {
+                $equipmentTypes[] = $row['name'];
+            }
+            $sqlServices = "SELECT DISTINCT s.name FROM servicemans s";
+            $resultServices = $connectionDB->executeQuery($sqlServices);
+            while ($row = mysqli_fetch_assoc($resultServices)) {
+                $serviceNames[] = $row['name'];
+            }
+
             echo ' <section class="col-lg-9 connectedSortable ui-sortable" id="orgAll" style="display: block;">
+            <button class="btn btn-primary" onclick="startFilter()" style=" margin-top: 10px;">Фильтры</button>
+                 <div id="filterContainer" style="display: none;">
+                 <label for="filterEquipment">Вид оборудования:</label>
+                 <select id="filterEquipment" onchange="filterTable()">
+                 <option value="">Все</option>';
+            foreach ($equipmentTypes as $type) {
+                echo '<option value="' . $type . '">' . $type . '</option>';
+            }
+
+            echo '  </select>
+
+            <label for="filterYear">Год производства:</label>
+            <input type="date" id="filterYear" onchange="filterTable()">
+
+            <label for="filterDatePostavki">Дата поставки:</label>
+            <input type="date" id="filterDatePostavki" onchange="filterTable()">
+
+            <label for="filterDateRelease">Дата ввода в эксплуатацию:</label>
+            <input type="date" id="filterDateRelease" onchange="filterTable()">
+
+            <label for="filterService">Сервисная организация:</label>
+            <select id="filterService" onchange="filterTable()">
+                <option value="">Все</option>';
+            foreach ($serviceNames as $service) {
+                echo '<option value="' . $service . '">' . $service . '</option>';
+            }
+            echo '  </select>
+
+            <label for="filterStatus">Статус:</label>
+            <select id="filterStatus" onchange="filterTable()">
+                <option value="">Все</option>';
+            foreach ($statuses as $status) {
+                echo '<option value="' . $status . '">' . $status . '</option>';
+            }echo '  </select>
+                   </div>  
                 <div class="row">
 
                     <div class="table-responsive">
@@ -140,19 +190,67 @@ if (isset($_COOKIE['token']) && $_COOKIE['token']!== '')
             echo ' 
                             </tbody>
                         </table>
-     
                     </div>
                 </div>
 
-            </section>';
+            </section>
+            ';
         }
+    $equipmentTypes = [];
+    $serviceNames = [];
+    $statuses = ['исправно', 'неисправно'];
+    $sqlTypes = "SELECT DISTINCT name FROM type_oborudovanie";
+    $resultTypes = $connectionDB->executeQuery($sqlTypes);
+    while ($row = mysqli_fetch_assoc($resultTypes)) {
+        $equipmentTypes[] = $row['name'];
+    }
+    $sqlServices = "SELECT DISTINCT s.name FROM servicemans s";
+    $resultServices = $connectionDB->executeQuery($sqlServices);
+    while ($row = mysqli_fetch_assoc($resultServices)) {
+        $serviceNames[] = $row['name'];
+    }
 
-        while ($row = mysqli_fetch_assoc($result)) {
+    while ($row = mysqli_fetch_assoc($result)) {
 
             $id_uz = $row['id_uz'];
 
 
             echo ' <section class="col-lg-9 connectedSortable ui-sortable" id="org' . $id_uz . '" style="display: none;">
+                 <button class="btn btn-primary" onclick="startFilter1()" style=" margin-top: 10px;">Фильтры</button>
+                 <div id="filterContainer" style="display: none;">
+                 <label for="filterEquipment">Вид оборудования:</label>
+                 <select id="filterEquipment" onchange="filterTable()">
+                 <option value="">Все</option>';
+            foreach ($equipmentTypes as $type) {
+            echo '<option value="' . $type . '">' . $type . '</option>';
+}
+
+            echo '  </select>
+
+            <label for="filterYear">Год производства:</label>
+            <input type="date" id="filterYear" onchange="filterTable()">
+
+            <label for="filterDatePostavki">Дата поставки:</label>
+            <input type="date" id="filterDatePostavki" onchange="filterTable()">
+
+            <label for="filterDateRelease">Дата ввода в эксплуатацию:</label>
+            <input type="date" id="filterDateRelease" onchange="filterTable()">
+
+            <label for="filterService">Сервисная организация:</label>
+            <select id="filterService" onchange="filterTable()">
+                <option value="">Все</option>';
+foreach ($serviceNames as $service) {
+    echo '<option value="' . $service . '">' . $service . '</option>';
+}
+echo '  </select>
+
+            <label for="filterStatus">Статус:</label>
+            <select id="filterStatus" onchange="filterTable()">
+                <option value="">Все</option>';
+foreach ($statuses as $status) {
+    echo '<option value="' . $status . '">' . $status . '</option>';
+}echo '  </select>
+                   </div>  
                 <div class="row">
 
                     <div class="table-responsive">
@@ -252,10 +350,7 @@ if (isset($_COOKIE['token']) && $_COOKIE['token']!== '')
 </section>';
 
 }
-
-
 //-----------ДЛЯ АДМИНОВ И ОСТАЛЬНЫХ -------------------------------------
-
 else  {
 echo 'Данные недоступны. Требуется авторизация.';
 
@@ -582,9 +677,14 @@ echo ' </select>
     </div>
 </div>';
 echo'
-
-
 <script>
+    $(document).ready(function() {
+        $("#infoObAll").DataTable();
+    });
+    
+    
+    
+    
 </script>
 ';
-
+?>
