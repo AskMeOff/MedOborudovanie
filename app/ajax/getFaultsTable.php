@@ -18,6 +18,8 @@ if ($result->num_rows > 0) {
         , 'cost_repair' => $row['cost_repair']
         , 'time_repair' => $row['time_repair']
         , 'downtime' => $row['downtime']
+        , 'remont' => $row['remont']
+        , 'date_remont' => $row['date_remont']
         , 'id_fault' => $row['id_fault']
 
         );

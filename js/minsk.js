@@ -104,6 +104,8 @@ function getFaultsTable(idOborudovanie) {
                     'cost_repair': 'Стоимость ремонта',
                     'time_repair': 'Срок ремонта/поставки запасных частей',
                     'downtime': 'Время простоя',
+                    'remont': 'Отремонтировано',
+                    'date_remont': 'Дата ремонта',
                     'id_fault': 'Действия'
                 };
                 Object.keys(headers).forEach(function (key) {
@@ -126,6 +128,8 @@ function getFaultsTable(idOborudovanie) {
                     let countDays = Math.floor((today.getTime() - new Date(row.date_fault).getTime()) / (1000 * 60 * 60 * 24));
                     let stringDays = countDays.toString() === "NaN" ? 'Не выставлена дата поломки' : (countDays + " дней");
                     tableContent += '<td>' + stringDays + '</td>';
+                    tableContent += '<td>' + (row.remont > 0 ? 'Да' : 'Нет') +  '</td>';
+                    tableContent += '<td>' + row.date_remont + '</td>';
                     tableContent += '<td><a href="#" onclick="confirmDeleteFault(' + row.id_fault + '); return false;">&#10060;</a><a href="#" onclick="editFault(' + row.id_fault + ');">✏️</a></td>';
                     tableContent += '</tr>';
                 });
@@ -401,6 +405,7 @@ function editFault(id_fault) {
         dataType: 'json',
         success: function (data) {
             $('#editFaultModal').modal('show');
+            const remontSelect = document.getElementById('edit_remont');
             document.getElementById('edit_date_fault').value = data.date_fault;
             document.getElementById('edit_date_call_service').value = data.date_call_service;
             document.getElementById('edit_reason_fault').value = data.reason_fault;
@@ -408,6 +413,16 @@ function editFault(id_fault) {
             document.getElementById('edit_date_dogovora').value = data.date_dogovora;
             document.getElementById('edit_cost_repair').value = data.cost_repair;
             document.getElementById('edit_time_repair').value = data.time_repair;
+            console.log (data.remont + '[eq[e[[qe[q[we[qew[eqe')
+            const remontValue = parseInt(data.remont, 10);
+            if (remontValue  === 1) {
+                remontSelect.value = '1';
+            } else if (remontValue  === 0) {
+                remontSelect.value = '0';
+            } else {
+                remontSelect.value = '';
+            }
+            document.getElementById('edit_date_remont').value = data.date_remont;
             document.getElementById('edit_id_fault').value = data.id_fault;
 
         }
@@ -417,13 +432,15 @@ function editFault(id_fault) {
 
 function saveFaultData() {
 
-    let dateFault = $('#edit_date_fault').val();
-    let dateCallService = $('#edit_date_call_service').val();
-    let reasonFault = $('#edit_reason_fault').val();
-    let dateProcedurePurchase = $('#edit_date_procedure_purchase').val();
-    let dateDogovora = $('#edit_date_dogovora').val();
-    let costRepair = $('#edit_cost_repair').val();
-    let timeRepair = $('#edit_time_repair').val();
+    let dateFault = $('#edit_date_fault').val() || null;
+    let dateCallService = $('#edit_date_call_service').val() || null;
+    let reasonFault = $('#edit_reason_fault').val() || null;
+    let dateProcedurePurchase = $('#edit_date_procedure_purchase').val() || null;
+    let dateDogovora = $('#edit_date_dogovora').val() || null;
+    let costRepair = $('#edit_cost_repair').val() || null;
+    let timeRepair = $('#edit_time_repair').val() || null;
+    let remont = $('#edit_remont').val() || null;
+    let date_remont = $('#edit_date_remont').val() || null;
     // let downtime = $('#edit_downtime').val();
     let idFault = $('#edit_id_fault').val();
 
@@ -439,6 +456,8 @@ function saveFaultData() {
             date_dogovora: dateDogovora,
             cost_repair: costRepair,
             time_repair: timeRepair,
+            remont: remont,
+            date_remont: date_remont,
             // downtime: downtime
         },
         success: function (response) {
