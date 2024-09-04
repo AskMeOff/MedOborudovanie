@@ -64,6 +64,9 @@ if (isset($TOKEN)) {
                 case "servicemans":
                     require_once "app/pages/servicemans.php";
                     break;
+                case "report1":
+                    require_once "app/pages/report1.php";
+                    break;
                 default:
                     require_once "app/pages/main.php";
             }
