@@ -18,6 +18,7 @@ function showTable(idTable) {
     $('table').DataTable().destroy();
     $('#' + idTable).DataTable();
     $('th').css('width', '20%');
+
 }
 
 function showSection(idOrg, element) {
@@ -603,6 +604,9 @@ $('#editEffectForm').on('submit', function (event) {
     event.preventDefault();
     saveEffectData();
 });
+
+
+
 
 function saveAddedOborudovanie() {
     let select_type_oborudovanie = document.getElementById("select_type_oborudovanie");

@@ -79,7 +79,7 @@ if (isset($_COOKIE['token']) && $_COOKIE['token']!== '')
                                 <th>Сервисная организация</th>
                                 <th>Дата последнего ТО</th>
                                 <th>Статус </th>
-                                <th>Действия </th>
+                                
                             </tr>
                             </thead>
                             <tbody>';
@@ -133,7 +133,7 @@ if (isset($_COOKIE['token']) && $_COOKIE['token']!== '')
                 } else {
                     echo '<td  onclick="getFaultsTable(' . $idOborudovanie . ')" style="cursor: pointer"><div style = "border-radius: 5px;background-color: red;color: white;">' . $status . '</div></td>';
                 }
-                echo '<td><a href="#" onclick="confirmDeleteOborudovanie(' . $idOborudovanie . ')">&#10060;</a><a href="#" onclick="editOborudovanie(' . $idOborudovanie . ')">✏️</a></td>';
+                //echo '<td><a href="#" onclick="confirmDeleteOborudovanie(' . $idOborudovanie . ')">&#10060;</a><a href="#" onclick="editOborudovanie(' . $idOborudovanie . ')">✏️</a></td>';
                 echo '</tr>';
             }
 

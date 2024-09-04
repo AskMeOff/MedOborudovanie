@@ -23,7 +23,9 @@ function getUzs(id_obl){
     }).then(response => {
         let bodywrap = document.getElementById("bodywrap");
         bodywrap.innerHTML = response;
+        $('#infoObAll').DataTable();
     })
+
 }
 
 $(".region").on("click", function() {
