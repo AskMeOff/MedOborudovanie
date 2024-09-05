@@ -39,7 +39,7 @@
                     </a>
                 </li>
                 <li class="sidebar-item" id="reports-page">
-                    <a class="sidebar-link" href="#" data-page="effect_oborud" aria-expanded="false">
+                    <a class="sidebar-link" href="#"  aria-expanded="false">
                 <span>
                     <i class="ti ti-article"></i>
                 </span>

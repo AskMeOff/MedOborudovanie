@@ -18,7 +18,7 @@
                 <button class="btn btn-primary m-3" onclick="getReport()">Построить отчет</button>
             </section>
         </div>
-        <div class="row" id="main_row">
+        <div class="row hidden" id="table_row">
             <section class="col-lg-11 connectedSortable ui-sortable" style="display: block;">
                 <div class="table-responsive">
                     <table class="table table-striped table-responsive-sm dataTable no-footer" id="table_report1"
@@ -33,9 +33,7 @@
                         </thead>
                         <tbody>
                         <tr>
-                            <td>1</td>
-                            <td>2</td>
-                            <td>3</td>
+
                         </tr>
                         </tbody>
                     </table>
@@ -56,6 +54,10 @@
 
 
     function getReport() {
+        if($('#startDate').val() == "" || $('#endDate').val() == "") {
+            alert('Заполните поля даты!');
+            return;
+        }
         $.ajax({
             url: 'app/ajax/getReport1.php',
             type: 'POST',
@@ -64,6 +66,7 @@
                 endDate: $('#endDate').val()
             },
             success: function (response) {
+                $('#table_row').removeClass('hidden');
                 $('.table-responsive table').DataTable().destroy();
                 $('.table-responsive').html(response);
                 $('.table-responsive table').DataTable();
