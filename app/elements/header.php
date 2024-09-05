@@ -1,4 +1,4 @@
-<header class="app-header" style="position: absolute; top: 0; background-color: aliceblue;">
+<header class="app-header" style="position: absolute; top: 0; background-color: aliceblue; height: 70px;">
     <nav class="navbar navbar-expand-lg navbar-light">
         <ul class="navbar-nav">
             <li class="nav-item d-block d-xl-none">

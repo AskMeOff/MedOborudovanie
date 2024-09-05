@@ -184,9 +184,9 @@ function refreshMainTable() {
                     tableContent += '<td>' + row.service_organization + '</td>';
                     tableContent += '<td>' + row.date_last_TO + '</td>';
                     if (row.status === "1") {
-                        tableContent += '<td  onclick="getFaultsTable(' + row.id_oborudovanie + ')" style="cursor: pointer"><div style = "border-radius: 5px;background-color: green;color: white;">исправно</div></td>';
+                        tableContent += '<td  onclick="getFaultsTable(' + row.id_oborudovanie + ')" style="cursor: pointer"><div style = "border-radius: 5px;background-color: green;color: white;padding: 5px;">исправно</div></td>';
                     } else {
-                        tableContent += '<td  onclick="getFaultsTable(' + row.id_oborudovanie + ')" style="cursor: pointer"><div style = "border-radius: 5px;background-color: red;color: white;">неисправно</div></td>';
+                        tableContent += '<td  onclick="getFaultsTable(' + row.id_oborudovanie + ')" style="cursor: pointer"><div style = "border-radius: 5px;background-color: red;color: white;padding: 5px;">неисправно</div></td>';
 
                     }
                     tableContent += '<td><a href="#" onclick="confirmDeleteOborudovanie(' + row.id_oborudovanie + ')">&#10060;</a><a href="#" onclick="editOborudovanie(' + row.id_oborudovanie + ')">✏️</a></td>';
@@ -698,3 +698,4 @@ function filterTable() {
         }
     }
 }
+

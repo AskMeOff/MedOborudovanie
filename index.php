@@ -30,7 +30,6 @@ if (isset($TOKEN)) {
     <title>Админ панель</title>
 
     <?php include "app/elements/links.php"; ?>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 
 <body>
@@ -54,6 +53,9 @@ if (isset($TOKEN)) {
 
                 case "oborud":
                     require_once "app/pages/oborudovanie.php";
+                    break;
+                case "oborud_unspecified":
+                    require_once "app/pages/oborudovanie_unspecified.php";
                     break;
                 case "effect_oborud":
                     require_once "app/pages/effectOborudovanie.php";
@@ -112,6 +114,8 @@ if (isset($TOKEN)) {
 
 
 </script>
+
+
 
 <script src="js/minsk.js"></script>
 <script src="js/serviceman.js"></script>

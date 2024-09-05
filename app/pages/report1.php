@@ -32,9 +32,7 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <tr>
 
-                        </tr>
                         </tbody>
                     </table>
                 </div>
@@ -50,6 +48,7 @@
 
     $(document).ready(function () {
         $("#table_report1").DataTable();
+
     });
 
 

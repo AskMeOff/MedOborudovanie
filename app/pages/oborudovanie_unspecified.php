@@ -1,6 +1,7 @@
 <?php
-require_once '../../../connection/connection.php';
+require_once 'connection/connection.php';
 echo '
+<script type="text/javascript" src="bootstrap/assets/js/jquery.dataTables.min.js"></script>
 
 <link rel="stylesheet" href="css/minsk.css">
 <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet"/>
@@ -8,132 +9,8 @@ echo '
     <div class="container-fluid" id="container_fluid" style="overflow: auto; height: 85vh;">
 
         <div class="row" id="main_row">';
-
-if (isset($_GET['id_obl'])) {
-    $id_obl = $_GET['id_obl'];
-}
-
-//-----------ДЛЯ ОРГАНИЗАЦИЙ -------------------------------------
-
-if (isset($_COOKIE['token']) && $_COOKIE['token']!== '')
-{
-    $login = $_COOKIE['login'];
-    $token = $_COOKIE['token'];
-    $getiduz = "SELECT * FROM users WHERE token = '$token';";
-    $resultiduz = $connectionDB->executeQuery($getiduz);
-    $userData = $resultiduz->fetch_assoc();
-    if ($userData) {
-        $id_uz = $userData['id_uz'];
-        $id_role = $userData['id_role'];
-        $idoblguzo = $userData['id_obl'];
-    }
-
-    if ($id_role == 4) {
-        $query = "select * from uz where id_oblast = '$id_obl' and id_uz = '$id_uz';";
-    }
-    else if ( $id_role == 2 || $id_role == 1) {
-        $query = "select * from uz where id_oblast = '$id_obl';";
-    }
-    else if ($id_role == 3) {
-        if ($id_obl == $idoblguzo) {
-            $query = "select * from uz where id_oblast = '$id_obl'";
-        }
-        else{
-            echo "Данные недоступны для вашей области.";
-            exit;
-        }
-    }
-    else {
-        echo "Данные недоступны. Требуется Авторизация";
-        exit;
-        }
-    if (isset($query)) {
-            $result = $connectionDB->executeQuery($query);
-    } else {
-        echo "Ошибка: запрос не определен.";
-    }
-
-
-        if ($connectionDB->getNumRows($result) == 0) {
-
-
-            echo '<div class="alert alert-warning">Данные недоступны для вашей организации.</div>';
-            echo '<section class="col-lg-9 connectedSortable ui-sortable"  style="display: block;">
-
-                <div class="row">
-                </div>
-                </section>';
-        }
-        else{
-            $equipmentTypes = [];
-            $serviceNames = [];
-            $statuses = ['исправно', 'неисправно'];
-            $sqlTypes = "SELECT DISTINCT name FROM type_oborudovanie";
-            $resultTypes = $connectionDB->executeQuery($sqlTypes);
-            while ($row = mysqli_fetch_assoc($resultTypes)) {
-                $equipmentTypes[] = $row['name'];
-            }
-            $sqlServices = "SELECT DISTINCT s.name FROM servicemans s";
-            $resultServices = $connectionDB->executeQuery($sqlServices);
-            while ($row = mysqli_fetch_assoc($resultServices)) {
-                $serviceNames[] = $row['name'];
-            }
-
-            echo '           <div>  <button class="btn btn-primary" onclick="startFilter()" style=" margin-top: 10px; ">Фильтры</button> </div> 
-            <div id="filterContainer" style="display: none;">
-            <div class = "filtCol row">
-                        <div class="col-lg-4">
-
-                 <label for="filterEquipment">Вид оборудования:</label>
-                 <select id="filterEquipment" onchange="filterTable()">
-                 <option value="">Все</option>';
-            foreach ($equipmentTypes as $type) {
-                echo '<option value="' . $type . '">' . $type . '</option>';
-            }
-
-            echo '  </select>
-            </div>
-                        <div class="col-lg-4">
-
-            <label for="filterYear">Год производства:</label>
-            <input type="date" id="filterYear" onchange="filterTable()">
-            </div>
-            <div class="col-lg-4">
-
-            <label for="filterDatePostavki">Дата поставки:</label>
-            <input type="date" id="filterDatePostavki" onchange="filterTable()">
-</div>
-            </div>
-            <div class = "filtCol row">
-                        
-            <div class="col-lg-4">
-
-            <label for="filterDateRelease">Дата ввода в эксплуатацию:</label>
-            <input type="date" id="filterDateRelease" onchange="filterTable()">
-            </div>
-            <div class="col-lg-4">
-
-            <label for="filterService">Сервисная организация:</label>
-            <select id="filterService" onchange="filterTable()">
-                <option value="">Все</option>';
-            foreach ($serviceNames as $service) {
-                echo '<option value="' . $service . '">' . $service . '</option>';
-            }
-            echo '  </select>
-</div>
-            <div class="col-lg-4">
-
-            <label for="filterStatus">Статус:</label>
-            <select id="filterStatus" onchange="filterTable()">
-                <option value="">Все</option>';
-            foreach ($statuses as $status) {
-                echo '<option value="' . $status . '">' . $status . '</option>';
-            }echo '  </select>
-  </div>
-            </div>
-           
-                   </div>  
-<section class="col-lg-9 connectedSortable ui-sortable" id="orgAll" style="display: block;">
+echo '
+<section class="col-lg-11 ms-5 connectedSortable ui-sortable" id="orgAll" style="display: block;">
                 
                 <div class="row">
 
@@ -154,62 +31,39 @@ if (isset($_COOKIE['token']) && $_COOKIE['token']!== '')
                             </tr>
                             </thead>
                             <tbody>';
-            if ($id_role == 4) {
-                $sql1 = "SELECT oborudovanie.*, type_oborudovanie.name, uz.name as poliklinika, s.name as servname FROM oborudovanie 
-                                        INNER JOIN uz on oborudovanie.id_uz=uz.id_uz
-                                        left outer join type_oborudovanie on oborudovanie.id_type_oborudovanie = type_oborudovanie.id_type_oborudovanie
-                                        left outer join servicemans s on s.id_serviceman = oborudovanie.id_serviceman
-                                        WHERE uz.id_oblast=$id_obl and uz.id_uz = $id_uz and oborudovanie.status = 0";
-            }
-            else if ($id_role == 2 || $id_role == 1) {
-                $sql1 = "SELECT oborudovanie.*, type_oborudovanie.name, uz.name as poliklinika, s.name as servname FROM oborudovanie 
-                                        INNER JOIN uz on oborudovanie.id_uz=uz.id_uz
-                                        left outer join type_oborudovanie on oborudovanie.id_type_oborudovanie = type_oborudovanie.id_type_oborudovanie
-                                        left outer join servicemans s on s.id_serviceman = oborudovanie.id_serviceman
-                                        WHERE uz.id_oblast=$id_obl  and oborudovanie.status = 0";
-            }
-            else if ($id_role == 3) {
-                if ($id_obl == $idoblguzo) {
-                    $sql1 = "SELECT oborudovanie.*, type_oborudovanie.name, uz.name as poliklinika, s.name as servname FROM oborudovanie 
-                                        INNER JOIN uz on oborudovanie.id_uz=uz.id_uz
-                                        left outer join type_oborudovanie on oborudovanie.id_type_oborudovanie = type_oborudovanie.id_type_oborudovanie
-                                        left outer join servicemans s on s.id_serviceman = oborudovanie.id_serviceman
-                                        WHERE uz.id_oblast=$id_obl  and oborudovanie.status = 0";
-                }
-                else{
-                    echo "Данные недоступны для вашей области.";
-                    exit;
-                }
-            }
-            else {
-                echo "Данные недоступны. Требуется Авторизация";
-                exit;
-            }
-            $result1 = $connectionDB->executeQuery($sql1);
-            while ($row1 = mysqli_fetch_assoc($result1)) {
-                $poliklinika = $row1['poliklinika'];
-                $nameOborudov = $row1['name'];
-                $idOborudovanie = $row1['id_oborudovanie'];
-                echo '<tr id=idob'.$idOborudovanie.'  >';
-                echo '<td>' . $poliklinika . '</td>';
-                echo '<td onclick="getEffectTable(' . $idOborudovanie . ')" style="cursor: pointer; color: #167877;
-    font-weight: 550;">' . $nameOborudov . '</td>';
-                echo '<td>' . $row1['date_create'] . '</td>';
-                echo '<td>' . $row1['date_postavki'] . '</td>';
-                echo '<td>' . $row1['date_release'] . '</td>';
-                echo '<td>' . $row1['servname'] . '</td>';
-                echo '<td>' . $row1['date_last_TO'] . '</td>';
-                $status = $row1['status'] === "1" ? "исправно" : "неисправно";
-                if ($row1['status'] === "1") {
-                    echo '<td  onclick="getFaultsTable(' . $idOborudovanie . ')" style="cursor: pointer"><div style = "border-radius: 5px;background-color: green;color: white; padding: 5px;">' . $status . '</div></td>';
-                } else {
-                    echo '<td  onclick="getFaultsTable(' . $idOborudovanie . ')" style="cursor: pointer"><div style = "border-radius: 5px;background-color: red;color: white; padding: 5px;">' . $status . '</div></td>';
-                }
-                //echo '<td><a href="#" onclick="confirmDeleteOborudovanie(' . $idOborudovanie . ')">&#10060;</a><a href="#" onclick="editOborudovanie(' . $idOborudovanie . ')">✏️</a></td>';
-                echo '</tr>';
-            }
 
-            echo ' 
+                $sql1 = "SELECT oborudovanie.*, type_oborudovanie.name, uz.name as poliklinika, s.name as servname FROM oborudovanie 
+                                        INNER JOIN uz on oborudovanie.id_uz=uz.id_uz
+                                        left outer join type_oborudovanie on oborudovanie.id_type_oborudovanie = type_oborudovanie.id_type_oborudovanie
+                                        left outer join servicemans s on s.id_serviceman = oborudovanie.id_serviceman
+                                        WHERE  oborudovanie.status = 0";
+
+
+        $result1 = $connectionDB->executeQuery($sql1);
+        while ($row1 = mysqli_fetch_assoc($result1)) {
+            $poliklinika = $row1['poliklinika'];
+            $nameOborudov = $row1['name'];
+            $idOborudovanie = $row1['id_oborudovanie'];
+            echo '<tr id=idob'.$idOborudovanie.'  >';
+            echo '<td>' . $poliklinika . '</td>';
+            echo '<td onclick="getEffectTable(' . $idOborudovanie . ')" style="cursor: pointer; color: #167877;
+    font-weight: 550;">' . $nameOborudov . '</td>';
+            echo '<td>' . $row1['date_create'] . '</td>';
+            echo '<td>' . $row1['date_postavki'] . '</td>';
+            echo '<td>' . $row1['date_release'] . '</td>';
+            echo '<td>' . $row1['servname'] . '</td>';
+            echo '<td>' . $row1['date_last_TO'] . '</td>';
+            $status = $row1['status'] === "1" ? "исправно" : "неисправно";
+            if ($row1['status'] === "1") {
+                echo '<td  onclick="getFaultsTable(' . $idOborudovanie . ')" style="cursor: pointer"><div style = "border-radius: 5px;background-color: green;color: white; padding: 5px;">' . $status . '</div></td>';
+            } else {
+                echo '<td  onclick="getFaultsTable(' . $idOborudovanie . ')" style="cursor: pointer"><div style = "border-radius: 5px;background-color: red;color: white; padding: 5px;">' . $status . '</div></td>';
+            }
+            //echo '<td><a href="#" onclick="confirmDeleteOborudovanie(' . $idOborudovanie . ')">&#10060;</a><a href="#" onclick="editOborudovanie(' . $idOborudovanie . ')">✏️</a></td>';
+            echo '</tr>';
+        }
+
+        echo ' 
                             </tbody>
                         </table>
                     </div>
@@ -217,121 +71,17 @@ if (isset($_COOKIE['token']) && $_COOKIE['token']!== '')
 
             </section>
             ';
-        }
 
 
-    while ($row = mysqli_fetch_assoc($result)) {
-
-            $id_uz = $row['id_uz'];
 
 
-            echo ' <section class="col-lg-9 connectedSortable ui-sortable" id="org' . $id_uz . '" style="display: none;">
-                
-                <div class="row">
-
-                    <div class="table-responsive">
-                        <table class="table table-striped table-responsive-sm dataTable no-footer" id="infoOb' . $id_uz . '"
-                               style="display: none">
-                            <thead>
-                            <tr>
-                                <th>Вид оборудования</th>
-                                <th>Год производства</th>
-                                <th>Дата поставки</th>
-                                <th>Дата ввода в эксплуатацию</th>
-                                <th>Сервисная организация</th>
-                                <th>Дата последнего ТО</th>
-                                <th>Статус </th>
-                                <th>Действия </th>
-                            </tr>
-                            </thead>
-                            <tbody>';
-            $sql1 = "SELECT oborudovanie.*, type_oborudovanie.name, s.name as servname FROM oborudovanie
-                                        left outer join type_oborudovanie on oborudovanie.id_type_oborudovanie = type_oborudovanie.id_type_oborudovanie
-                                        left outer join servicemans s on s.id_serviceman = oborudovanie.id_serviceman
-                                        where id_uz = $id_uz";
-            $result1 = $connectionDB->executeQuery($sql1);
-            while ($row1 = mysqli_fetch_assoc($result1)) {
-                $nameOborudov = $row1['name'];
-                $idOborudovanie = $row1['id_oborudovanie'];
-                echo '<tr id=idob' . $idOborudovanie . '  >';
-
-                echo '<td onclick="getEffectTable(' . $idOborudovanie . ')" style="cursor: pointer; color: #167877;
-    font-weight: 550;">' . $nameOborudov . '</td>';
-//        echo '<td>' . $row1['cost'] . '</td>';
-                echo '<td>' . $row1['date_create'] . '</td>';
-                echo '<td>' . $row1['date_postavki'] . '</td>';
-                echo '<td>' . $row1['date_release'] . '</td>';
-                echo '<td>' . $row1['servname'] . '</td>';
-                echo '<td>' . $row1['date_last_TO'] . '</td>';
-                $status = $row1['status'] === "1" ? "исправно" : "неисправно";
-                if ($row1['status'] === "1") {
-                    echo '<td  onclick="getFaultsTable(' . $idOborudovanie . ')" style="cursor: pointer"><div style = "border-radius: 5px;background-color: green;color: white; padding: 5px;">' . $status . '</div></td>';
-                } else {
-                    echo '<td  onclick="getFaultsTable(' . $idOborudovanie . ')" style="cursor: pointer"><div style = "border-radius: 5px;background-color: red;color: white; padding: 5px;">' . $status . '</div></td>';
-                }
-                echo '<td><a href="#" onclick="confirmDeleteOborudovanie(' . $idOborudovanie . ')">&#10060;</a><a href="#" onclick="editOborudovanie(' . $idOborudovanie . ')">✏️</a></td>';
-                echo '</tr>';
-            }
-
-            echo ' 
-                            </tbody>
-                        </table>
-     
-                    </div>
-                </div>
-
-            </section>';
-        }
 
 
-        echo '<section class="col-lg-3" id="right_section">
-    <div><input style="width:100%;" type="text" id="myInputOrg" onkeyup="myFunctionOrg(this)"
-                placeholder="Поиск организации"
-                title="Type in a name">
-    </div>';
 
-
-    if ($id_role == 4) {
-        $sql = "select * from uz where id_oblast = $id_obl and id_uz = $id_uz";
-    }
-    else if ($id_role == 2 || $id_role == 1) {
-       $sql = "select * from uz where id_oblast = $id_obl";
-        }
-    else if ($id_role == 3) {
-        if ($id_obl == $idoblguzo) {
-            $sql = "select * from uz where id_oblast = $id_obl";
-        }
-        else{
-            echo "Данные недоступны для вашей области.";
-            exit;
-        }
-    }
-
-    else {
-        echo 'Данные недоступны. Требуется авторизация';
-        exit;
-    }
-        $result = $connectionDB->executeQuery($sql);
-//                $activeClass = "activecard1";
-        while ($row = mysqli_fetch_assoc($result)) {
-
-            echo '<div class="card card0 " onclick="showSection(' . $row['id_uz'] . ',this)">';
-            echo '<h4>' . $row['name'] . '</h4>';
-            echo '</div>';
-//                    $activeClass = "";
-        }
-
-
-        echo '</div>
+    echo '</div>
     </div>
 </section>';
 
-}
-//-----------ДЛЯ АДМИНОВ И ОСТАЛЬНЫХ -------------------------------------
-else  {
-echo 'Данные недоступны. Требуется авторизация.';
-
-}
 
 echo'
 <div class="modal" id="faultsModal">
@@ -630,8 +380,8 @@ echo ' </select>
                     <label for="service_organization">Сервисная организация:</label>
                     <select class="form-select" id="select_serviceman">';
 
-                    $query = "select * from servicemans";
-                    $result = $connectionDB->executeQuery($query);
+$query = "select * from servicemans";
+$result = $connectionDB->executeQuery($query);
 while ($row = $result->fetch_assoc()) {
     echo "<option value='" . $row['id_serviceman'] . "'>" . $row['name'] . "</option>";
 }
@@ -667,16 +417,11 @@ echo ' </select>
 </div>';
 echo'
 <script>
-    $(document).ready(function() {
-         if ($("#infoObAll").length) {
-            $("#infoObAll").DataTable().destroy();
-        }
+    if($("#infoObAll").length){
         $("#infoObAll").DataTable();
-    });
+        }
     
-    
-    
-    
+         
 </script>
 ';
 ?>

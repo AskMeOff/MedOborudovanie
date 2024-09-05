@@ -1,3 +1,5 @@
+
+
 <aside class="left-sidebar" style="background-color: aliceblue; z-index: 999">
     <!-- Sidebar scroll-->
     <div>
@@ -11,48 +13,38 @@
             </div>
         </div>
         <!-- Sidebar navigation-->
-        <nav class="sidebar-nav scroll-sidebar" data-simplebar="">
-            <ul id="sidebarnav">
-                <li class="sidebar-item" id="main-page">
-                    <a class="sidebar-link" href="index.php?main" data-page="main" aria-expanded="false">
-                <span>
-                    <i class="ti ti-layout-dashboard"></i>
-                </span>
-                        <span class="hide-menu">Главная</span>
-                    </a>
-                </li>
-                <li class="sidebar-item" id="oborud-page">
-                    <a class="sidebar-link" href="index.php?oborud" data-page="oborud" aria-expanded="false">
-                <span>
-                    <i class="ti ti-article"></i>
-                </span>
-                        <span class="hide-menu">Оборудование</span>
-                    </a>
-                </li>
 
-                <li class="sidebar-item" id="servicemans-page">
-                    <a class="sidebar-link" href="index.php?servicemans" data-page="servicemans" aria-expanded="false">
-                <span>
-                    <i class="ti ti-friends"></i>
-                </span>
-                        <span class="hide-menu">Сервисанты</span>
-                    </a>
-                </li>
-                <li class="sidebar-item" id="reports-page">
-                    <a class="sidebar-link" href="#"  aria-expanded="false">
-                <span>
-                    <i class="ti ti-article"></i>
-                </span>
-                        <span class="hide-menu">Отчеты</span>
-                    </a>
-                    <ul class="submenu">
-                        <li><a class="sidebar-link" href="index.php?report1">Отчет 1</a></li>
-<!--                        <li><a class="sidebar-link" href="index.php?report2">Отчет2</a></li>-->
-                    </ul>
-                </li>
-            </ul>
-        </nav>
+            <div id="jquery-accordion-menu" class="jquery-accordion-menu white">
+
+                <ul id="demo-list">
+
+                    <li class="active"><a  href="index.php?main" ><i class="fa fa-home"></i>Главная </a></li>
+
+                    <li><a href="#"><i class="fa fa-suitcase"></i>Оборудование </a>
+                        <ul class="submenu">
+                            <li><a href="index.php?oborud">Установленное </a></li>
+                            <li><a href="index.php?oborud_unspecified">Неустановленное </a></li>
+<!--                            <li><a href="#">Design </a>-->
+<!--                                <ul class="submenu">-->
+<!--                                    <li><a href="#">Graphics </a></li>-->
+<!--                                    <li><a href="#">Vectors </a></li>-->
+<!--                                    <li><a href="#">Photoshop </a></li>-->
+<!--                                    <li><a href="#">Fonts </a></li>-->
+<!--                                </ul>-->
+<!--                            </li>-->
+                        </ul>
+                    </li>
+                    <li><a href="index.php?servicemans"><i class="fa fa-cog"></i>Сервисанты </a></li>
+                    <li><a href="#"><i class="fa fa-file-image-o"></i>Отчеты </a>
+                        <ul class="submenu">
+                            <li><a href="index.php?report1">Отчет 1</a></li>
+                            <li><a href="#">Отчет 2 </a></li>
+                        </ul>
+                    </li>
+                </ul>
+
+            </div>
         <!-- End Sidebar navigation -->
-    </div>
     <!-- End Sidebar scroll-->
 </aside>
+

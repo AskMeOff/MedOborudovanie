@@ -24,6 +24,7 @@ function showTable(idTable) {
     })
     let table = document.getElementById(idTable);
     table.style.display = "block";
+    if($('table').length)
     $('table').DataTable().destroy();
     $('#' + idTable).DataTable();
     $('th').css('width', '20%');
