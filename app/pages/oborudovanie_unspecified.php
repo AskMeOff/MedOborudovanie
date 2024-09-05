@@ -20,45 +20,46 @@ echo '
                             <thead>
                             <tr>
                                 <th>Организация</th>
-                                <th>Вид оборудования</th>
-                                <th>Год производства</th>
-                                <th>Дата поставки</th>
-                                <th>Дата ввода в эксплуатацию</th>
-                                <th>Сервисная организация</th>
-                                <th>Дата последнего ТО</th>
+                                <th>Наименование оборудования</th>
+                                <th>Стоимость</th>
+                                <th>№ контракта, дата подписания</th>
+                                <th>Поставщик</th>
+                                <th>Сервисант</th>
+                                <th>Дата получения оборудования со склада покупателя</th>
+                                <th>Нормативный срок ввода (дата) </th>
+                                <th>Причины, препятствующие вводу </th>
                                 <th>Статус </th>
                                 
                             </tr>
                             </thead>
                             <tbody>';
 
-                $sql1 = "SELECT oborudovanie.*, type_oborudovanie.name, uz.name as poliklinika, s.name as servname FROM oborudovanie 
-                                        INNER JOIN uz on oborudovanie.id_uz=uz.id_uz
+                $sql1 = "SELECT oborudovanie.*, type_oborudovanie.name as type_name, cost,num_and_date ,postavschik,date_get_sklad,date_norm_srok_vvoda,reasons,
+       uz.name as uzname, s.name as servname FROM oborudovanie 
+                                        left JOIN uz on oborudovanie.id_uz=uz.id_uz
                                         left outer join type_oborudovanie on oborudovanie.id_type_oborudovanie = type_oborudovanie.id_type_oborudovanie
                                         left outer join servicemans s on s.id_serviceman = oborudovanie.id_serviceman
-                                        WHERE  oborudovanie.status = 0";
+                                        WHERE  oborudovanie.status = 2";
 
 
         $result1 = $connectionDB->executeQuery($sql1);
         while ($row1 = mysqli_fetch_assoc($result1)) {
-            $poliklinika = $row1['poliklinika'];
-            $nameOborudov = $row1['name'];
+            $poliklinika = $row1['uzname'];
+            $nameOborudov = $row1['type_name'];
             $idOborudovanie = $row1['id_oborudovanie'];
             echo '<tr id=idob'.$idOborudovanie.'  >';
             echo '<td>' . $poliklinika . '</td>';
-            echo '<td onclick="getEffectTable(' . $idOborudovanie . ')" style="cursor: pointer; color: #167877;
-    font-weight: 550;">' . $nameOborudov . '</td>';
-            echo '<td>' . $row1['date_create'] . '</td>';
-            echo '<td>' . $row1['date_postavki'] . '</td>';
-            echo '<td>' . $row1['date_release'] . '</td>';
+            echo '<td >' . $nameOborudov . '</td>';
+            echo '<td>' . $row1['cost'] . '</td>';
+            echo '<td>' . $row1['num_and_date'] . '</td>';
+            echo '<td>' . $row1['postavschik'] . '</td>';
             echo '<td>' . $row1['servname'] . '</td>';
-            echo '<td>' . $row1['date_last_TO'] . '</td>';
-            $status = $row1['status'] === "1" ? "исправно" : "неисправно";
-            if ($row1['status'] === "1") {
-                echo '<td  onclick="getFaultsTable(' . $idOborudovanie . ')" style="cursor: pointer"><div style = "border-radius: 5px;background-color: green;color: white; padding: 5px;">' . $status . '</div></td>';
-            } else {
-                echo '<td  onclick="getFaultsTable(' . $idOborudovanie . ')" style="cursor: pointer"><div style = "border-radius: 5px;background-color: red;color: white; padding: 5px;">' . $status . '</div></td>';
-            }
+            echo '<td>' . $row1['date_get_sklad'] . '</td>';
+            echo '<td>' . $row1['date_norm_srok_vvoda'] . '</td>';
+            echo '<td>' . $row1['reasons'] . '</td>';
+
+                echo '<td  onclick="getFaultsTable(' . $idOborudovanie . ')" style="cursor: pointer"><div style = "border-radius: 5px;background-color: yellow;color: black; padding: 5px;">не установлено</div></td>';
+
             //echo '<td><a href="#" onclick="confirmDeleteOborudovanie(' . $idOborudovanie . ')">&#10060;</a><a href="#" onclick="editOborudovanie(' . $idOborudovanie . ')">✏️</a></td>';
             echo '</tr>';
         }
