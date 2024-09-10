@@ -92,6 +92,10 @@ Distributor: http://bootstraptema.ru/
         line-height: 16px
 }
 
+.jquery-accordion-menu ul ul.submenu1 .submenu-indicator {
+        line-height: 16px
+}
+
 .jquery-accordion-menu .submenu-indicator-minus>.submenu-indicator {
         -ms-transform: rotate(45deg);
         -moz-transform: rotate(45deg);
@@ -110,11 +114,47 @@ Distributor: http://bootstraptema.ru/
         width: 100%
 }
 
+.jquery-accordion-menu ul ul.submenu1,.jquery-accordion-menu ul ul.submenu1 li ul.submenu1 {
+        width: 100%;
+        display: none;
+        position: static
+}
+
+.jquery-accordion-menu ul ul.submenu1 li {
+        clear: both;
+        width: 100%
+}
+
+.jquery-accordion-menu ul ul.submenu1,.jquery-accordion-menu ul ul.submenu li ul.submenu {
+        width: 100%;
+        display: none;
+        position: static
+}
+
+.jquery-accordion-menu ul ul.submenu1 li {
+        clear: both;
+        width: 100%
+}
+
 .jquery-accordion-menu ul ul.submenu li a {
         width: 100%;
         float: left;
         font-size: 13px;
         background: rgba(189, 220, 227, 0.73);
+        border-top: none;
+        position: relative;
+        border-left: solid 6px transparent;
+        -o-transition: border .2s linear;
+        -moz-transition: border .2s linear;
+        -webkit-transition: border .2s linear;
+        transition: border .2s linear
+}
+
+.jquery-accordion-menu ul ul.submenu1 li a {
+        width: 100%;
+        float: left;
+        font-size: 13px;
+        background: rgba(221, 244, 250, 0.73);
         border-top: none;
         position: relative;
         border-left: solid 6px transparent;
@@ -155,7 +195,42 @@ Distributor: http://bootstraptema.ru/
         border-radius: 100%
 }
 
-.jquery-accordion-menu ul ul.submenu li .jquery-accordion-menu-label {
+.jquery-accordion-menu ul ul.submenu1 li .jquery-accordion-menu-label {
+        top: 12px
+}
+
+.jquery-accordion-menu ul ul.submenu1 li:hover>a {
+        border-left-color: rgba(191, 206, 215, 0.73)
+}
+
+.jquery-accordion-menu ul ul.submenu1>li>a {
+        padding-left: 30px
+}
+
+.jquery-accordion-menu ul ul.submenu1>li>ul.submenu1>li>a {
+        padding-left: 45px
+}
+
+.jquery-accordion-menu ul ul.submenu1>li>ul.submenu1>li>ul.submenu1>li>a {
+        padding-left: 60px
+}
+
+.jquery-accordion-menu ul li .jquery-accordion-menu-label,.jquery-accordion-menu ul ul.submenu1 li .jquery-accordion-menu-label {
+        min-width: 20px;
+        padding: 1px 2px 1px 1px;
+        position: absolute;
+        right: 18px;
+        top: 14px;
+        font-size: 14px;
+        font-weight: 800;
+        color: #555;
+        text-align: center;
+        line-height: 18px;
+        background: #f0f0f0;
+        border-radius: 100%
+}
+
+.jquery-accordion-menu ul ul.submenu1 li .jquery-accordion-menu-label {
         top: 12px
 }
 
@@ -285,6 +360,15 @@ Distributor: http://bootstraptema.ru/
 }
 
 .white.jquery-accordion-menu ul ul.submenu li a {
+        color: #262020
+}
+
+.white.jquery-accordion-menu ul ul.submenu1 li:hover>a {
+        border-left-color: #f0f0f0;
+        background: rgba(164, 203, 215, 0.71);
+}
+
+.white.jquery-accordion-menu ul ul.submenu1 li a {
         color: #262020
 }
 

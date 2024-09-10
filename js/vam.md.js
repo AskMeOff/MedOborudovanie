@@ -47,12 +47,31 @@ Distributor: http://bootstraptema.ru/
                         $(this).children(".submenu").siblings("a").removeClass("submenu-indicator-minus")
                     }
                 }
+                if ($(this).children(".submenu1").length > 0) {
+                    if ($(this).children(".submenu1").css("display") == "none") {
+                        $(this).children(".submenu1").delay(defaults.showDelay).slideDown(defaults.speed);
+                        $(this).children(".submenu1").siblings("a").addClass("submenu-indicator-minus");
+                        if (defaults.singleOpen) {
+                            $(this).siblings().children(".submenu1").slideUp(defaults.speed);
+                            $(this).siblings().children(".submenu1").siblings("a").removeClass("submenu-indicator-minus")
+                        }
+                        return false
+                    } else {
+                        $(this).children(".submenu1").delay(defaults.hideDelay).slideUp(defaults.speed)
+                    }
+                    if ($(this).children(".submenu1").siblings("a").hasClass("submenu-indicator-minus")) {
+                        $(this).children(".submenu1").siblings("a").removeClass("submenu-indicator-minus")
+                    }
+                }
                 window.location.href = $(this).children("a").attr("href")
             })
         },
         submenuIndicators: function() {
             if ($(this.element).find(".submenu").length > 0) {
                 $(this.element).find(".submenu").siblings("a").append("<span class='submenu-indicator'>+</span>")
+            }
+            if ($(this.element).find(".submenu1").length > 0) {
+                $(this.element).find(".submenu1").siblings("a").append("<span class='submenu-indicator'>+</span>")
             }
         },
         addClickEffect: function() {

@@ -1,4 +1,12 @@
-
+<?php
+require_once 'connection/connection.php';
+$equipmentTypes = [];
+$sqlTypes = "SELECT DISTINCT name FROM type_oborudovanie";
+$resultTypes = $connectionDB->executeQuery($sqlTypes);
+while ($row = mysqli_fetch_assoc($resultTypes)) {
+    $equipmentTypes[] = $row['name'];
+}
+?>
 
 <aside class="left-sidebar" style="background-color: aliceblue; z-index: 999">
     <!-- Sidebar scroll-->
@@ -18,12 +26,20 @@
 
                 <ul id="demo-list">
 
-                    <li class="active"><a  href="index.php?main" ><i class="fa fa-home"></i>Главная </a></li>
+                    <li class="active"><a  href="index.php?main" ><i class="fa fa-home"></i>Главная</a></li>
 
-                    <li><a href="#"><i class="fa fa-suitcase"></i>Оборудование </a>
+                    <li><a href="#"><i class="fa fa-suitcase"></i>Оборудование</a>
                         <ul class="submenu">
-                            <li><a href="index.php?oborud">Установленное </a></li>
-                            <li><a href="index.php?oborud_unspecified">Неустановленное </a></li>
+                            <li><a href="index.php?oborud">Установленное</a>
+                                <ul class="submenu1">
+                                    <?php
+                                    foreach ($equipmentTypes as $type) {
+                                    echo '<li><a href="">'.$type.'</a></li>';
+                                    }
+                                    ?>
+                                </ul></li>
+
+                                <li><a href="index.php?oborud_unspecified">Неустановленное </a></li>
 <!--                            <li><a href="#">Design </a>-->
 <!--                                <ul class="submenu">-->
 <!--                                    <li><a href="#">Graphics </a></li>-->
