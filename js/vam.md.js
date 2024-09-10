@@ -10,6 +10,7 @@ Distributor: http://bootstraptema.ru/
         singleOpen: true,
         clickEffect: true
     };
+
     function Plugin(element, options) {
         this.element = element;
         this.settings = $.extend({},

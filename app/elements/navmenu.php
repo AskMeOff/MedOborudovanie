@@ -1,10 +1,13 @@
 <?php
 require_once 'connection/connection.php';
 $equipmentTypes = [];
-$sqlTypes = "SELECT DISTINCT name FROM type_oborudovanie";
+$sqlTypes = "SELECT id_type_oborudovanie, name FROM type_oborudovanie order by name";
 $resultTypes = $connectionDB->executeQuery($sqlTypes);
 while ($row = mysqli_fetch_assoc($resultTypes)) {
-    $equipmentTypes[] = $row['name'];
+    $equipmentTypes[] = [
+            'id_type_oborudovanie' => $row['id_type_oborudovanie'],
+            'name' => $row['name']
+    ];
 }
 ?>
 
@@ -34,7 +37,7 @@ while ($row = mysqli_fetch_assoc($resultTypes)) {
                                 <ul class="submenu1">
                                     <?php
                                     foreach ($equipmentTypes as $type) {
-                                    echo '<li><a href="">'.$type.'</a></li>';
+                                    echo '<li><a onclick="checkHash('.$type["id_type_oborudovanie"].',event)" href="#">'.$type["name"].'</a></li>';
                                     }
                                     ?>
                                 </ul></li>
@@ -64,3 +67,20 @@ while ($row = mysqli_fetch_assoc($resultTypes)) {
     <!-- End Sidebar scroll-->
 </aside>
 
+<script>
+    function checkHash(id_type, event) {
+        $.ajax({
+            url: "app/ajax/getOblsByType.php",
+            method: "GET",
+            data: {id_type: id_type},
+            success: function (data) {
+                $("#bodywrap").html(data);
+                let lis = document.querySelectorAll('a[onclick*="checkHash"]');
+                lis.forEach(li => li.parentElement.style.backgroundColor = "");
+                let li = event.target.parentElement;
+                li.style.backgroundColor = "darkcyan";
+            }
+        })
+        console.log(id_type);
+    }
+</script>

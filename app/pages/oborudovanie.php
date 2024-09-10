@@ -2,8 +2,6 @@
 
 ?>
 <style>
-
-
     .card1 {
         cursor: pointer;
         height: 100px;
@@ -75,6 +73,11 @@
 <!--        Тест смс-->
 <!--    </button>-->
 </section>
+
+<script>
+
+
+</script>
 
 <!--<script>-->
 <!--    function sendSms() {-->

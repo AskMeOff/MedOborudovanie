@@ -11,7 +11,8 @@ Distributor: http://bootstraptema.ru/
 }
 
 .jquery-accordion-menu {
-        height: 100vh;
+        overflow: auto;
+        height: 90vh;
         min-width: 260px;
         float: left;
         position: relative;
@@ -374,6 +375,11 @@ Distributor: http://bootstraptema.ru/
 
 .white.jquery-accordion-menu>ul>li>a>.ink {
         background: rgba(177, 238, 250, 0.62)
+}
+
+.jquery-accordion-menu::-webkit-scrollbar {
+        visibility: hidden;
+        width: 0px;
 }
 /*конец*/
 

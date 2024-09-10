@@ -39,6 +39,32 @@ function getUzs(id_obl) {
 
 }
 
+function getUzs(id_obl, id_type) {
+    $.ajax({
+        url: "app/pages/obls/minsk.php",
+        method: "GET",
+        data: {id_obl: id_obl, id_type: id_type}
+    }).then(response => {
+        let bodywrap = document.getElementById("bodywrap");
+        bodywrap.innerHTML = response;
+        if ($("#infoObAll").length) {
+            try {
+                $("#infoObAll").DataTable().destroy();
+            }catch (e) {
+                console.log(e);
+            }
+        }
+        try {
+            $("#infoObAll").DataTable();
+        }catch (e) {
+            console.log(e);
+        }
+
+
+    })
+
+}
+
 $(".region").on("click", function () {
     var regionNumber = $(this).data("region");
     getUzs(regionNumber);

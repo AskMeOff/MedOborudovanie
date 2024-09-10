@@ -13,6 +13,8 @@ if (isset($_GET['id_obl'])) {
     $id_obl = $_GET['id_obl'];
 }
 
+
+
 //-----------ДЛЯ ОРГАНИЗАЦИЙ -------------------------------------
 
 if (isset($_COOKIE['token']) && $_COOKIE['token']!== '')
@@ -78,7 +80,7 @@ if (isset($_COOKIE['token']) && $_COOKIE['token']!== '')
             while ($row = mysqli_fetch_assoc($resultServices)) {
                 $serviceNames[] = $row['name'];
             }
-
+            if (!isset($_GET['id_type'])) {
             echo '           <div>  <button class="btn btn-primary" onclick="startFilter()" style=" margin-top: 10px; ">Фильтры</button> </div> 
             <div id="filterContainer" style="display: none;">
             <div class = "filtCol row">
@@ -132,7 +134,8 @@ if (isset($_COOKIE['token']) && $_COOKIE['token']!== '')
   </div>
             </div>
            
-                   </div>  
+                   </div>  '; }
+            echo '
 <section class="col-lg-9 connectedSortable ui-sortable" id="orgAll" style="display: block;">
                 
                 <div class="row">
@@ -154,36 +157,41 @@ if (isset($_COOKIE['token']) && $_COOKIE['token']!== '')
                             </tr>
                             </thead>
                             <tbody>';
-            if ($id_role == 4) {
-                $sql1 = "SELECT oborudovanie.*, type_oborudovanie.name, uz.name as poliklinika, s.name as servname FROM oborudovanie 
+            if(!isset($_GET['id_type'])) {
+                if ($id_role == 4) {
+                    $sql1 = "SELECT oborudovanie.*, type_oborudovanie.name, uz.name as poliklinika, s.name as servname FROM oborudovanie 
                                         INNER JOIN uz on oborudovanie.id_uz=uz.id_uz
                                         left outer join type_oborudovanie on oborudovanie.id_type_oborudovanie = type_oborudovanie.id_type_oborudovanie
                                         left outer join servicemans s on s.id_serviceman = oborudovanie.id_serviceman
                                         WHERE uz.id_oblast=$id_obl and uz.id_uz = $id_uz and oborudovanie.status = 0";
-            }
-            else if ($id_role == 2 || $id_role == 1) {
-                $sql1 = "SELECT oborudovanie.*, type_oborudovanie.name, uz.name as poliklinika, s.name as servname FROM oborudovanie 
-                                        INNER JOIN uz on oborudovanie.id_uz=uz.id_uz
-                                        left outer join type_oborudovanie on oborudovanie.id_type_oborudovanie = type_oborudovanie.id_type_oborudovanie
-                                        left outer join servicemans s on s.id_serviceman = oborudovanie.id_serviceman
-                                        WHERE uz.id_oblast=$id_obl  and oborudovanie.status = 0";
-            }
-            else if ($id_role == 3) {
-                if ($id_obl == $idoblguzo) {
+                } else if ($id_role == 2 || $id_role == 1) {
                     $sql1 = "SELECT oborudovanie.*, type_oborudovanie.name, uz.name as poliklinika, s.name as servname FROM oborudovanie 
                                         INNER JOIN uz on oborudovanie.id_uz=uz.id_uz
                                         left outer join type_oborudovanie on oborudovanie.id_type_oborudovanie = type_oborudovanie.id_type_oborudovanie
                                         left outer join servicemans s on s.id_serviceman = oborudovanie.id_serviceman
                                         WHERE uz.id_oblast=$id_obl  and oborudovanie.status = 0";
-                }
-                else{
-                    echo "Данные недоступны для вашей области.";
+                } else if ($id_role == 3) {
+                    if ($id_obl == $idoblguzo) {
+                        $sql1 = "SELECT oborudovanie.*, type_oborudovanie.name, uz.name as poliklinika, s.name as servname FROM oborudovanie 
+                                        INNER JOIN uz on oborudovanie.id_uz=uz.id_uz
+                                        left outer join type_oborudovanie on oborudovanie.id_type_oborudovanie = type_oborudovanie.id_type_oborudovanie
+                                        left outer join servicemans s on s.id_serviceman = oborudovanie.id_serviceman
+                                        WHERE uz.id_oblast=$id_obl  and oborudovanie.status = 0";
+                    } else {
+                        echo "Данные недоступны для вашей области.";
+                        exit;
+                    }
+                } else {
+                    echo "Данные недоступны. Требуется Авторизация";
                     exit;
                 }
-            }
-            else {
-                echo "Данные недоступны. Требуется Авторизация";
-                exit;
+            }else{
+                $id_type = $_GET['id_type'];
+                $sql1 = "SELECT oborudovanie.*, tob.name, uz.name as poliklinika, s.name as servname FROM oborudovanie 
+                                        INNER JOIN uz on oborudovanie.id_uz=uz.id_uz
+                                        left outer join type_oborudovanie tob on oborudovanie.id_type_oborudovanie = tob.id_type_oborudovanie
+                                        left outer join servicemans s on s.id_serviceman = oborudovanie.id_serviceman
+                                        WHERE uz.id_oblast=$id_obl and tob.id_type_oborudovanie = $id_type";
             }
             $result1 = $connectionDB->executeQuery($sql1);
             while ($row1 = mysqli_fetch_assoc($result1)) {
