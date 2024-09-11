@@ -18,6 +18,10 @@ if (isset($_POST['date_release']))
     $date_release = $_POST['date_release'];
 else
     $date_release = "NULL";
+if (isset($_POST['model_prozvoditel']))
+    $model_prozvoditel = $_POST['model_prozvoditel'];
+else
+    $model_prozvoditel = "NULL";
 
 if (isset($_POST['service_organization']))
     $service_organization = $_POST['service_organization'];
@@ -31,7 +35,7 @@ $status = $_POST['status'];
 
 
     $sql = "update oborudovanie set id_type_oborudovanie = '$id_type_oborudovanie', date_create = '$date_create', date_postavki = '$date_postavki',
-                        date_release = '$date_release', 
+                        date_release = '$date_release', model= '$model_prozvoditel',
                         id_serviceman = '$service_organization', date_last_TO = '$date_last_TO', status = '$status' where id_oborudovanie = '$id_oborudovanie'";
     try {
         $result = $connectionDB->executeQuery($sql);
