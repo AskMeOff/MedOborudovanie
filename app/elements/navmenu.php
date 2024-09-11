@@ -11,6 +11,9 @@ while ($row = mysqli_fetch_assoc($resultTypes)) {
 }
 ?>
 
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet"/>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+
 <aside class="left-sidebar" style="background-color: aliceblue; z-index: 999">
     <!-- Sidebar scroll-->
     <div>
@@ -33,7 +36,7 @@ while ($row = mysqli_fetch_assoc($resultTypes)) {
 
                     <li><a href="#"><i class="fa fa-suitcase"></i>Оборудование</a>
                         <ul class="submenu">
-                            <li><a href="index.php?oborud">Установленное</a>
+                            <li><a href="index.php?oborud" onclick="showTooltip(event)">Установленное</a>
                                 <ul class="submenu1">
                                     <?php
                                     foreach ($equipmentTypes as $type) {
@@ -68,6 +71,25 @@ while ($row = mysqli_fetch_assoc($resultTypes)) {
 </aside>
 
 <script>
+
+    toastr.options = {
+        "closeButton": true, // Показывать кнопку закрытия
+        "debug": false, // Включить отладку
+        "newestOnTop": false, // Добавлять новые сообщения поверх старых
+        "progressBar": true, // Показывать прогресс-бар
+        "positionClass": "toast-bottom-right", // Позиция: top-right, top-left, bottom-right, bottom-left
+        "preventDuplicates": true, // Не показывать дублирующие сообщения
+        "onclick": null, // Действие при клике на сообщение
+        "showDuration": "500", // Длительность показа
+        "hideDuration": "1000", // Длительность скрытия
+        "timeOut": "6000", // Время отображения
+        "extendedTimeOut": "1000", // Дополнительное время отображения при наведении
+        "showEasing": "swing", // Эффект появления
+        "hideEasing": "linear", // Эффект скрытия
+        "showMethod": "fadeIn", // Метод появления
+        "hideMethod": "fadeOut" // Метод скрытия
+    }
+
     function checkHash(id_type, event) {
         $.ajax({
             url: "app/ajax/getOblsByType.php",
@@ -79,8 +101,14 @@ while ($row = mysqli_fetch_assoc($resultTypes)) {
                 lis.forEach(li => li.parentElement.style.backgroundColor = "");
                 let li = event.target.parentElement;
                 li.style.backgroundColor = "darkcyan";
+                toastr.info("Теперь можно выбрать область для отображения");
             }
         })
         console.log(id_type);
+    }
+
+
+    function showTooltip(event) {
+        toastr.info("Если нажать еще раз, отобразится полный список установленного оборудования");
     }
 </script>
