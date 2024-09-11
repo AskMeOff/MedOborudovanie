@@ -155,11 +155,12 @@ function refreshMainTable() {
         data: {id_org: selectedOrg},
         dataType: 'json',
         success: function (response) {
-            let tableContent = '<table class="table" id="infoOb' + selectedOrg + '" style="font-size: 13px;">';
+            let tableContent = '<table class="table table-striped table-responsive-sm no-footer dataTable" id="infoOb' + selectedOrg + '" style="font-size: 13px;">';
             if (!response.hasOwnProperty('empty')) {
                 tableContent += '<thead><tr>';
                 let headers = {
                     'name': 'Вид оборудования',
+                    'model': 'Модель, производитель',
                     // 'cost': 'Стоимость',
                     'date_create': 'Год производства',
                     'date_postavki': 'Дата поставки',
@@ -177,15 +178,16 @@ function refreshMainTable() {
                 response.forEach(function (row) {
                     let today = new Date();
                     tableContent += '<tr>';
-                    tableContent += '<td onclick="getEffectTable(' + row.id_oborudovanie + ')" id=idob' + row.id_oborudovanie + ' style="cursor: pointer">' + row.name + '</td>';
-                    // tableContent += '<td>' + row.cost + '</td>';
+                    tableContent += '<td onclick="getEffectTable(' + row.id_oborudovanie + ')" id=idob' + row.id_oborudovanie + ' style="cursor: pointer; color: #167877;\n' +
+                        '    font-weight: 550;">' + row.name + '</td>';
+                    tableContent += '<td>' + row.model + '</td>';
                     tableContent += '<td style="text-align: justify;">' + row.date_create + '</td>';
                     tableContent += '<td style="text-align: justify;">' + row.date_postavki + '</td>';
                     tableContent += '<td>' + row.date_release + '</td>';
                     tableContent += '<td>' + row.service_organization + '</td>';
                     tableContent += '<td>' + row.date_last_TO + '</td>';
                     if (row.status === "1") {
-                        tableContent += '<td  onclick="getFaultsTable(' + row.id_oborudovanie + ')" style="cursor: pointer"><div style = "border-radius: 5px;background-color: green;color: white;padding: 5px;">исправно</div></td>';
+                        tableContent += '<td  onclick="getFaultsTable(' + row.id_oborudovanie + ')" style="cursor: pointer; "><div style = "border-radius: 5px;background-color: green;color: white;padding: 5px;">исправно</div></td>';
                     } else {
                         tableContent += '<td  onclick="getFaultsTable(' + row.id_oborudovanie + ')" style="cursor: pointer"><div style = "border-radius: 5px;background-color: red;color: white;padding: 5px;">неисправно</div></td>';
 

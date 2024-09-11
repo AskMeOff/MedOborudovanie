@@ -10,7 +10,7 @@ echo '
 
         <div class="row" id="main_row">';
 echo '
-<section class="col-lg-12 ms-5 connectedSortable ui-sortable" id="orgAll" style="display: block;">
+<section class="ms-1 connectedSortable ui-sortable" id="orgAll" style="display: block; width:98%">
                 
                 <div class="row">
 

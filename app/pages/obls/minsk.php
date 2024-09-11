@@ -246,6 +246,7 @@ if (isset($_COOKIE['token']) && $_COOKIE['token']!== '')
                             <thead>
                             <tr>
                                 <th>Вид оборудования</th>
+                                <th>Модель, производитель</th>
                                 <th>Год производства</th>
                                 <th>Дата поставки</th>
                                 <th>Дата ввода в эксплуатацию</th>
@@ -264,11 +265,12 @@ if (isset($_COOKIE['token']) && $_COOKIE['token']!== '')
             while ($row1 = mysqli_fetch_assoc($result1)) {
                 $nameOborudov = $row1['name'];
                 $idOborudovanie = $row1['id_oborudovanie'];
+                $model = $row1['model'];
                 echo '<tr id=idob' . $idOborudovanie . '  >';
 
                 echo '<td onclick="getEffectTable(' . $idOborudovanie . ')" style="cursor: pointer; color: #167877;
     font-weight: 550;">' . $nameOborudov . '</td>';
-//        echo '<td>' . $row1['cost'] . '</td>';
+                echo '<td>' . $model . '</td>';
                 echo '<td>' . $row1['date_create'] . '</td>';
                 echo '<td>' . $row1['date_postavki'] . '</td>';
                 echo '<td>' . $row1['date_release'] . '</td>';

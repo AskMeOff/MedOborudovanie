@@ -16,6 +16,7 @@ if ($result->num_rows > 0) {
         $data[] = array(
             'name' => $row['name']
         , 'cost' => $row['cost']
+        , 'model' => $row['model']
         , 'date_create' => $row['date_create']
         , 'date_postavki' => $row['date_postavki']
         , 'date_release' => $row['date_release']
