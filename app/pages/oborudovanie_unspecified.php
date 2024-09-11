@@ -378,7 +378,10 @@ echo ' </select>
                     <input type="date" id="edit_date_postavki" name="date_postavki">
                     <!---->
                     <label for="date_release">Дата ввода в эксплуатацию:</label>
-                    <input type="date" id="edit_date_release" name="date_release">
+                    <input type="date" id="edit_date_release" name="date_release">                   
+                     
+                     <label for="model_prozvoditel">Модель, производитель</label>
+                    <input type="text" id="edit_model_prozvoditel" name="model_prozvoditel">
                     <!---->
                    
                     <label for="service_organization">Сервисная организация:</label>

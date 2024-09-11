@@ -55,6 +55,7 @@ function showSection(idOrg, element) {
         // document.getElementById('edit_cost').value = "";
         document.getElementById('edit_date_create').value = "";
         document.getElementById('edit_date_release').value = "";
+        document.getElementById('edit_model_prozvoditel').value = "";
         document.getElementById('edit_service_organization').value = "";
         document.getElementById('edit_date_last_TO').value = "";
 
@@ -554,6 +555,7 @@ function editOborudovanie(idOborudovanie) {
             document.getElementById('edit_date_create').value = data.date_create;
             document.getElementById('edit_date_postavki').value = data.date_postavki;
             document.getElementById('edit_date_release').value = data.date_release;
+            document.getElementById('edit_model_prozvoditel').value = data.model_prozvoditel;
             let select_serviceman = document.getElementById("select_serviceman");
             select_serviceman.options.forEach(option => {
                 if (option.value === data.service_organization) {
@@ -582,6 +584,7 @@ function saveEditedOborudovanie() {
     let dcr = document.getElementById('edit_date_create').value;
     let dp = document.getElementById('edit_date_postavki').value;
     let dr = document.getElementById('edit_date_release').value;
+    let mod = document.getElementById('edit_model_prozvoditel').value;
     let so = select_servicemans.options[select_servicemans.selectedIndex].value;
    // let so = document.getElementById('edit_serviceman').value;
     let dto = document.getElementById('edit_date_last_TO').value;
@@ -597,6 +600,7 @@ function saveEditedOborudovanie() {
             date_create: dcr,
             date_postavki: dp,
             date_release: dr,
+            model_prozvoditel: mod,
             service_organization: so,
             date_last_TO: document.getElementById('edit_date_last_TO').value,
             status: select_status.options[select_status.selectedIndex].value
@@ -640,6 +644,7 @@ function saveAddedOborudovanie() {
             date_create: document.getElementById('edit_date_create').value,
             date_postavki: document.getElementById('edit_date_postavki').value,
             date_release: document.getElementById('edit_date_release').value,
+            model_prozvoditel: document.getElementById('edit_model_prozvoditel').value,
             service_organization: select_servicemans.options[select_servicemans.selectedIndex].value,
             date_last_TO: document.getElementById('edit_date_last_TO').value,
             status: select_status.options[select_status.selectedIndex].value,

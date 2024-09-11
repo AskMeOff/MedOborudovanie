@@ -18,6 +18,10 @@ if (isset($_POST['date_release']))
     $date_release = $_POST['date_release'];
 else
     $date_release = "NULL";
+if (isset($_POST['model_prozvoditel']))
+    $model_prozvoditel = $_POST['model_prozvoditel'];
+else
+    $model_prozvoditel = "NULL";
 
 if (isset($_POST['service_organization']))
     $service_organization = $_POST['service_organization'];
@@ -30,9 +34,9 @@ else
 $status = $_POST['status'];
 $id_org = $_POST['id_org'];
 
-$sql = "insert into oborudovanie (id_type_oborudovanie, date_create, date_postavki, date_release, service_organization, date_last_TO, status, id_uz)
-                values('$id_type_oborudovanie'  , '$date_create', '$date_postavki' , '$date_release', 
-                        '$service_organization' , '$date_last_TO' , '$status', '$id_org')";
+$sql = "insert into oborudovanie (id_type_oborudovanie, date_create, date_postavki, date_release, model, id_serviceman, date_last_TO, status, id_uz)
+                values('$id_type_oborudovanie'  , '$date_create', '$date_postavki' , '$date_release', '$model_prozvoditel','$service_organization' ,
+                       '$date_last_TO' , '$status', '$id_org')";
 try {
     $result = $connectionDB->executeQuery($sql);
     echo "1";
