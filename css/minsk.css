@@ -226,3 +226,17 @@ button[type="submit"]:hover {
 .filtCol{
     display:flex;
 }
+
+#right_section{
+    overflow: auto;
+    height: 75vh;
+    min-width: 260px;
+    float: left;
+    position: relative;
+    box-shadow: 0 4px 40px #96d1e1;
+}
+
+#right_section::-webkit-scrollbar {
+    visibility: hidden;
+    width: 0px;
+}
