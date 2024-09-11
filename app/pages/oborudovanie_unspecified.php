@@ -10,7 +10,7 @@ echo '
 
         <div class="row" id="main_row">';
 echo '
-<section class="col-lg-11 ms-5 connectedSortable ui-sortable" id="orgAll" style="display: block;">
+<section class="col-lg-12 ms-5 connectedSortable ui-sortable" id="orgAll" style="display: block;">
                 
                 <div class="row">
 
@@ -20,6 +20,7 @@ echo '
                             <thead>
                             <tr>
                                 <th>Организация</th>
+                                <th>Модель, производитель</th>
                                 <th>Наименование оборудования</th>
                                 <th>Стоимость</th>
                                 <th>№ контракта, дата подписания</th>
@@ -47,8 +48,10 @@ echo '
             $poliklinika = $row1['uzname'];
             $nameOborudov = $row1['type_name'];
             $idOborudovanie = $row1['id_oborudovanie'];
+            $model = $row1['model'];
             echo '<tr id=idob'.$idOborudovanie.'  >';
             echo '<td>' . $poliklinika . '</td>';
+            echo '<td >' . $model . '</td>';
             echo '<td >' . $nameOborudov . '</td>';
             echo '<td>' . $row1['cost'] . '</td>';
             echo '<td>' . $row1['num_and_date'] . '</td>';

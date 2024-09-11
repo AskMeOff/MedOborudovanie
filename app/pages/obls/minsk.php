@@ -4,7 +4,7 @@ echo '
 
 <link rel="stylesheet" href="css/minsk.css">
 <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet"/>
-<section class="content" style="margin-top: 100px; margin-left: 15px">
+<section class="content" style="margin-top: 80px; margin-left: 15px">
     <div class="container-fluid" id="container_fluid" style="overflow: auto; height: 85vh;">
 
         <div class="row" id="main_row">';
@@ -141,12 +141,13 @@ if (isset($_COOKIE['token']) && $_COOKIE['token']!== '')
                 <div class="row">
 
                     <div class="table-responsive">
-                        <table class="table table-striped table-responsive-sm dataTable no-footer" id="infoObAll"
-                               style="display: block">
+                        <table class="table table-striped table-responsive-sm dataTable no-footer" id="infoObAll">
+                               <!--style="display: block"-->
                             <thead>
                             <tr>
                                 <th>Организация</th>
-                                <th>Вид оборудования</th>
+                                <th>Модель, производитель</th>
+                                <th class="vid_oborudovaniya">Вид оборудования</th>
                                 <th>Год производства</th>
                                 <th>Дата поставки</th>
                                 <th>Дата ввода в эксплуатацию</th>
@@ -198,9 +199,11 @@ if (isset($_COOKIE['token']) && $_COOKIE['token']!== '')
                 $poliklinika = $row1['poliklinika'];
                 $nameOborudov = $row1['name'];
                 $idOborudovanie = $row1['id_oborudovanie'];
+                $model = $row1['model'];
                 echo '<tr id=idob'.$idOborudovanie.'  >';
                 echo '<td>' . $poliklinika . '</td>';
-                echo '<td onclick="getEffectTable(' . $idOborudovanie . ')" style="cursor: pointer; color: #167877;
+                echo '<td>' . $model . '</td>';
+                echo '<td class="vid_oborudovaniya" onclick="getEffectTable(' . $idOborudovanie . ')" style="cursor: pointer; color: #167877;
     font-weight: 550;">' . $nameOborudov . '</td>';
                 echo '<td>' . $row1['date_create'] . '</td>';
                 echo '<td>' . $row1['date_postavki'] . '</td>';

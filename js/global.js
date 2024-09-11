@@ -14,6 +14,8 @@ if (currentUrl == "?main" || currentUrl == "") {
 }
 
 function getUzs(id_obl) {
+    console.log('xyu')
+
     $.ajax({
         url: "app/pages/obls/minsk.php",
         method: "GET",
@@ -24,15 +26,11 @@ function getUzs(id_obl) {
         if ($("#infoObAll").length) {
             try {
                 $("#infoObAll").DataTable().destroy();
-            }catch (e) {
+            } catch (e) {
                 console.log(e);
             }
         }
-        try {
-            $("#infoObAll").DataTable();
-        }catch (e) {
-            console.log(e);
-        }
+        $("#infoObAll").DataTable();
 
 
     })
@@ -50,13 +48,23 @@ function getUzs(id_obl, id_type) {
         if ($("#infoObAll").length) {
             try {
                 $("#infoObAll").DataTable().destroy();
-            }catch (e) {
+            } catch (e) {
                 console.log(e);
             }
         }
         try {
+            if (id_type)
+                $('.vid_oborudovaniya').each(function () {
+                    $(this).addClass('hidden')
+                })
+            else {
+                $('.vid_oborudovaniya').each(function () {
+                    $(this).removeClass('hidden')
+                })
+
+            }
             $("#infoObAll").DataTable();
-        }catch (e) {
+        } catch (e) {
             console.log(e);
         }
 

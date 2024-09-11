@@ -55,7 +55,7 @@ td {
 #myInputOrg {
     width: 100%;
     padding: 3px;
-    margin: 0px 0;
+    margin: 15px 0;
     box-sizing: border-box;
     border: 2px solid #ccc;
     border-radius: 4px;
@@ -229,7 +229,7 @@ button[type="submit"]:hover {
 
 #right_section{
     overflow: auto;
-    height: 75vh;
+    height: 85vh;
     min-width: 260px;
     float: left;
     position: relative;
@@ -239,4 +239,9 @@ button[type="submit"]:hover {
 #right_section::-webkit-scrollbar {
     visibility: hidden;
     width: 0px;
+}
+
+th{
+    text-align: center;
+    vertical-align: middle;
 }
