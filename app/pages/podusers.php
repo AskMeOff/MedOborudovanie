@@ -58,7 +58,6 @@ if (isset($_COOKIE['token']) && $_COOKIE['token'] !== '') {
                                 <th>Наименование организации</th>
                                 <th>Логин</th>
                                 <th>Зашифрованный пароль</th>
-                                
                             </tr>
                             </thead>
                             <tbody>';
@@ -172,6 +171,24 @@ echo '
             }
             
         })
+    }
+    
+    
+     function deleteUser(id_user) {
+        if (confirm("Вы уверены, что хотите удалить пользователя?")) {
+            $.ajax({
+                url: "app/ajax/deletePodUser.php",
+                method: "POST",
+                data: { id_user: id_user }
+            }).then((response) => {
+                if (response == "1") {
+                    alert("Пользователь удален.");
+                    location.reload(); 
+                } else {
+                    alert("Ошибка при удалении.");
+                }
+            });
+        }
     }
     
     

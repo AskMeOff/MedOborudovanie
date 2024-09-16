@@ -70,7 +70,7 @@ echo ' </select>
                         </tbody>
                     </table>
                 </div>
-                <button class="btn btn-primary m-3" onclick="printTable()">Печать таблицы</button>
+                <button class="btn btn-info m-3" onclick="printTable()">Печать таблицы</button>
 
             </section>
 
@@ -107,6 +107,19 @@ echo ' </select>
                 $(".table-responsive table").DataTable();
             }
         })
+    }
+    
+    
+ function printTable() {
+        var table = document.getElementById("table_report1").outerHTML;
+        var newWindow = window.open("", "", "height=500,width=800");
+        newWindow.document.write("<html><head><title>Печать таблицы</title>");
+        newWindow.document.write("<link rel=\"stylesheet\" type=\"text/css\" href=\"bootstrap/assets/css/jquery.dataTables.min.css\">");
+        newWindow.document.write("</head><body>");
+        newWindow.document.write(table);
+        newWindow.document.write("</body></html>");
+        newWindow.document.close();
+        newWindow.print();
     }
 
   
