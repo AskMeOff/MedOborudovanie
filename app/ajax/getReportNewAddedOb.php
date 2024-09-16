@@ -9,6 +9,10 @@ $endDate = $_POST['endDate'];
 $id_oblast = isset($_POST['id_oblast']) ? $_POST['id_oblast'] : null;
 $id_type_oborudovanie = isset($_POST['id_type_oborudovanie']) ? $_POST['id_type_oborudovanie'] : null;
 
+$startDateTime = new DateTime($startDate);
+$endDateTime = new DateTime($endDate);
+$endDateTime->modify('+1 day');
+$endDate = $endDateTime->format('Y-m-d');
 
 $sql = "SELECT 
     ob.* , 
@@ -16,7 +20,8 @@ $sql = "SELECT
     type_oborudovanie.*, 
     servicemans.*,
        uz.name as uzname,
-       type_oborudovanie.name as typename
+       type_oborudovanie.name as typename,
+       ob.date_insert_ob as dto
 
 FROM 
     oborudovanie ob
@@ -27,7 +32,7 @@ LEFT JOIN
 LEFT JOIN 
     servicemans ON ob.id_serviceman = servicemans.id_serviceman
 WHERE 
-    ob.date_create BETWEEN '$startDate' AND '$endDate'";
+    ob.date_insert_ob >= '$startDate' AND ob.date_insert_ob <= '$endDate'";
 
 $conditions = [];
 
@@ -61,7 +66,7 @@ if ($result->num_rows > 0) {
         $output .= "<tr>";
         $output .= "<td>" . $row['uzname'] . "</td>";
         $output .= "<td>" . $row['typename'] . "</td>";
-        $output .= "<td>" . $row['date_create'] . "</td>";
+        $output .= "<td>" . $row['dto'] . "</td>";
         $output .= "</tr>";
     }
 }

@@ -49,7 +49,7 @@ echo ' </select>
 echo ' </select>
                     </div>
                 </div>
-                <button class="btn btn-primary m-3" onclick="getReportNewAddedOb()">Построить отчет</button>
+                <button class="btn btn-info m-3" onclick="getReportNewAddedOb()">Построить отчет</button>
             </section>
         </div>
         <div class="row hidden" id="table_row">
