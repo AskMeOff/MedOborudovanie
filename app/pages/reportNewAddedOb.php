@@ -3,7 +3,6 @@
 
 echo '
 <link rel="stylesheet" href="css/minsk.css">
-<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet"/>
 <section class="content" style="margin-top: 100px; margin-left: 15px">
     <div class="container-fluid" id="container_fluid" style="overflow: auto; height: 85vh;">
         <div class="row" id="main_row">

@@ -30,6 +30,7 @@ if (isset($TOKEN)) {
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Админ панель</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
 
     <?php include "app/elements/links.php"; ?>
 </head>

@@ -2,6 +2,7 @@ let selectedOrg  = 0;
 const contMenu = document.getElementById("contMenu");
 const body = document.getElementsByTagName("body")[0];
 let selectedEquipmentId;
+let selectedServiceId;
 
 function showMenu(thisTr, idOborudovanie) {
     event.preventDefault();
@@ -56,7 +57,7 @@ function showSection(idOrg, element) {
         document.getElementById('edit_date_create').value = "";
         document.getElementById('edit_date_release').value = "";
         document.getElementById('edit_model_prozvoditel').value = "";
-        document.getElementById('select_serviceman').value = "";
+        // document.getElementById('select_serviceman').value = "";
         document.getElementById('edit_date_last_TO').value = "";
 
 
@@ -647,7 +648,7 @@ function saveAddedOborudovanie() {
             date_postavki: document.getElementById('edit_date_postavki').value || null,
             date_release: document.getElementById('edit_date_release').value || null,
             model_prozvoditel: document.getElementById('edit_model_prozvoditel').value || null,
-            service_organization: select_servicemans.options[select_servicemans.selectedIndex].value || null,
+            service_organization: selectedServiceId || null,
             date_last_TO: document.getElementById('edit_date_last_TO').value || null,
             status: select_status.options[select_status.selectedIndex].value,
             id_org: selectedOrg
@@ -706,3 +707,41 @@ function filterTable() {
     }
 }
 
+function filterS(event){
+    let filetS = event.target;
+    let filteredDiv = filetS.nextElementSibling;
+    if(filteredDiv.classList.contains("hidden")) {
+        filteredDiv.classList.remove("hidden");
+    }else{
+        filteredDiv.classList.add("hidden");
+    }
+    let arrServices = Array.from(filteredDiv.children).map(function(event) {
+        return {data_id: event.getAttribute('data-id'), text: event.innerText};
+    });
+    filetS.addEventListener("input", function(event) {
+        let sortedArr = arrServices.filter( (item) => {
+                return item.text.toLowerCase().includes(event.target.value.toLowerCase()) ;
+        });
+
+        let items = filteredDiv.children;
+        let visibleIds = sortedArr.map(item => item.data_id);
+
+
+        for (let i = 0; i < items.length; i++) {
+            const dataId = items[i].getAttribute('data-id');
+            if (visibleIds.includes(dataId)) {
+                items[i].style.display = '';
+            } else {
+                items[i].style.display = 'none';
+            }
+        }
+
+    });
+}
+
+
+
+function setServiceman(event){
+    $("#filterServicemans").val(event.target.innerText);
+    selectedServiceId = event.target.getAttribute('data-id');
+}
