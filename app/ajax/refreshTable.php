@@ -14,17 +14,16 @@ if ($result->num_rows > 0) {
     $data = array();
     while ($row = $result->fetch_assoc()) {
         $data[] = array(
-            'name' => $row['name']
-        , 'cost' => $row['cost']
-        , 'model' => $row['model']
-        , 'date_create' => $row['date_create']
-        , 'date_postavki' => $row['date_postavki']
-        , 'date_release' => $row['date_release']
-        , 'date_dogovora' => $row['date_dogovora']
-        , 'service_organization' => $row['servname']
-        , 'date_last_TO' => $row['date_last_TO']
-        , 'status' => $row['status']
-        , 'id_oborudovanie' => $row['id_oborudovanie']
+            'name' => $row['name'] ?? "Нет данных"
+        , 'cost' => $row['cost'] ?? "Нет данных"
+        , 'date_create' => $row['date_create'] ?? "Нет данных"
+        , 'date_postavki' => $row['date_postavki'] ?? "Нет данных"
+        , 'date_release' => $row['date_release'] ?? "Нет данных"
+        , 'date_dogovora' => $row['date_dogovora'] ?? "Нет данных"
+        , 'service_organization' => $row['servname'] ?? "Нет данных"
+        , 'date_last_TO' => $row['date_last_TO'] ?? "Нет данных"
+        , 'status' => $row['status'] ?? "Нет данных"
+        , 'id_oborudovanie' => $row['id_oborudovanie'] ?? "Нет данных"
 
         );
     }

@@ -56,7 +56,7 @@ function showSection(idOrg, element) {
         document.getElementById('edit_date_create').value = "";
         document.getElementById('edit_date_release').value = "";
         document.getElementById('edit_model_prozvoditel').value = "";
-        document.getElementById('edit_service_organization').value = "";
+        document.getElementById('select_serviceman').value = "";
         document.getElementById('edit_date_last_TO').value = "";
 
 

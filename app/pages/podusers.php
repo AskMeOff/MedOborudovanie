@@ -58,6 +58,7 @@ if (isset($_COOKIE['token']) && $_COOKIE['token'] !== '') {
                                 <th>Наименование организации</th>
                                 <th>Логин</th>
                                 <th>Зашифрованный пароль</th>
+                                <th>Удалить</th>
                                 
                             </tr>
                             </thead>
@@ -150,7 +151,7 @@ echo '
         }
         $("#infoObAll").DataTable({
         "order": [[0, "asc"]],
-        "pageLength": 15 
+        "pageLength": 10 
         });
     });
     
