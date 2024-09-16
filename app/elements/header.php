@@ -23,8 +23,8 @@
                          aria-labelledby="drop2">
                         <div class="message-body">
 
-                            <?= $login != "" ? '<a onclick="location.href=`index.php?logout`" class="btn btn-outline-primary mx-3 mt-2 d-block">Выход</a>'
-                                : '<a onclick="location.href=`app/pages/login.php`"  class="btn btn-outline-primary mx-3 mt-2 d-block">Вход</a>' ?>
+                            <?= $login != "" ? '<a onclick="location.href=`index.php?logout`" class="btn btn-outline-info mx-3 mt-2 d-block">Выход</a>'
+                                : '<a onclick="location.href=`app/pages/login.php`"  class="btn btn-outline-info mx-3 mt-2 d-block">Вход</a>' ?>
                         </div>
                     </div>
                 </li>

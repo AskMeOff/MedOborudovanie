@@ -37,7 +37,7 @@
 
 
                   </div>
-                  <button onclick="login()" class="btn btn-primary w-100 py-8 fs-4 mb-4 rounded-2">Вход</button>
+                  <button onclick="login()" class="btn btn-info w-100 py-8 fs-4 mb-4 rounded-2">Вход</button>
                   <div class="d-flex align-items-center justify-content-center">
                   </div>
 

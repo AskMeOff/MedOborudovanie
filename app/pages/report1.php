@@ -16,7 +16,7 @@
                         <input type="date" id="endDate">
                     </div>
                 </div>
-                <button class="btn btn-primary m-3" onclick="getReport()">Построить отчет</button>
+                <button class="btn btn-info m-3" onclick="getReport()">Построить отчет</button>
             </section>
         </div>
         <div class="row hidden" id="table_row">
@@ -37,7 +37,7 @@
                         </tbody>
                     </table>
                 </div>
-                <button class="btn btn-primary m-3" onclick="printTable()">Печать таблицы</button>
+                <button class="btn btn-info m-3" onclick="printTable()">Печать таблицы</button>
 
             </section>
 

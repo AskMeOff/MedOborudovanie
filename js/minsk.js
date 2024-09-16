@@ -42,7 +42,7 @@ function showSection(idOrg, element) {
     btnAddOborudovanie = document.createElement("button");
     btnAddOborudovanie.innerHTML = "Добавить оборудование";
     btnAddOborudovanie.id = "btnAddOborudovanie";
-    btnAddOborudovanie.className = "btn btn-primary";
+    btnAddOborudovanie.className = "btn btn-info";
     container_fluid.insertAdjacentElement("afterbegin", btnAddOborudovanie);
 
     btnAddOborudovanie.onclick = () => {

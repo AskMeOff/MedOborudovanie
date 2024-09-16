@@ -154,7 +154,7 @@ echo '<div class="modal" id="editServiceModal">
 
 
                     <div style="margin-top: 10px">
-                        <button type="button" class="btn btn-primary" id="editBtnOb" onclick="saveEditedService()">
+                        <button type="button" class="btn btn-info" id="editBtnOb" onclick="saveEditedService()">
                             Сохранить
                         </button>
                         <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Закрыть</button>

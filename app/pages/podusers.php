@@ -125,7 +125,7 @@ if (isset($_COOKIE['token']) && $_COOKIE['token'] !== '') {
 
 
     echo '<div id="btnsGroup" style="margin-top: 10px;">
-                        <button type="button" class="btn btn-primary" onclick="addUser(' . $idoblguzo . ')">Добавить пользователя</button>
+                        <button type="button" class="btn btn-info" onclick="addUser(' . $idoblguzo . ')">Добавить пользователя</button>
                         <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Закрыть</button>
                     </div>
                 </div>

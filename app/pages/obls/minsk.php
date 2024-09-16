@@ -81,7 +81,7 @@ if (isset($_COOKIE['token']) && $_COOKIE['token']!== '')
                 $serviceNames[] = $row['name'];
             }
             if (!isset($_GET['id_type'])) {
-            echo '           <div>  <button class="btn btn-primary" onclick="startFilter()" style=" margin-top: 10px; ">Фильтры</button> </div> 
+            echo '           <div>  <button class="btn btn-info" onclick="startFilter()" style=" margin-top: 10px; ">Фильтры</button> </div> 
             <div id="filterContainer" style="display: none;">
             <div class = "filtCol row">
                         <div class="col-lg-4">
@@ -359,7 +359,7 @@ echo'
             </div>
 
             <div class="modal-footer justify-content-between">
-                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addFaultModal">
+                <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#addFaultModal">
                     Добавить
                 </button>
                 <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Закрыть</button>
@@ -381,7 +381,7 @@ echo'
             </div>
 
             <div class="modal-footer justify-content-between">
-                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addEffectModal">
+                <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#addEffectModal">
                     Добавить
                 </button>
                 <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Закрыть</button>
@@ -483,7 +483,7 @@ echo'
                <!--     <label for="downtime">Продолжительность простоя:</label>
                     <input type="text" id="downtime" name="downtime">-->
                     <div id="btnsGroup" style="margin-top: 10px;">
-                        <button type="button" class="btn btn-primary" onclick="addFualt()">Добавить запись</button>
+                        <button type="button" class="btn btn-info" onclick="addFualt()">Добавить запись</button>
                         <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Закрыть</button>
                     </div>
                 </div>
@@ -510,7 +510,7 @@ echo'
                     <input type="number" id="count_patient" name="count_patient">
 
                     <div id="btnsGroupEffect" style="margin-top: 10px;">
-                        <button type="submit" class="btn btn-primary">Добавить запись</button>
+                        <button type="submit" class="btn btn-info">Добавить запись</button>
                         <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Закрыть</button>
                     </div>
                 </form>
@@ -571,7 +571,7 @@ echo'
                     <input type="hidden" id="edit_id_fault" name="id_fault">
 
                     <div id="edit_btnsGroup" style="margin-top: 10px;">
-                        <button type="button" class="btn btn-primary" onclick="btnSaveFault()">Сохранить</button>
+                        <button type="button" class="btn btn-info" onclick="btnSaveFault()">Сохранить</button>
                         <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Закрыть</button>
                     </div>
                 </div>
@@ -599,7 +599,7 @@ echo '
                     <input type="hidden" id="edit_id_use_efficiency" name="id_use_efficiency">
 
                     <div id="edit_btnsGroup" style="margin-top: 10px;">
-                        <button type="submit" class="btn btn-primary">Сохранить</button>
+                        <button type="submit" class="btn btn-info">Сохранить</button>
                         <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Закрыть</button>
                     </div>
                 </form>
@@ -667,10 +667,10 @@ echo ' </select>
                     <!--                    <input type="hidden" id="edit_id_fault" name="id_fault">-->
 
                     <div style="margin-top: 10px">
-                        <button type="button" class="btn btn-primary" id="addBtnOb" onclick="saveAddedOborudovanie()">
+                        <button type="button" class="btn btn-info" id="addBtnOb" onclick="saveAddedOborudovanie()">
                             Добавить
                         </button>
-                        <button type="button" class="btn btn-primary" id="editBtnOb" onclick="saveEditedOborudovanie()">
+                        <button type="button" class="btn btn-info" id="editBtnOb" onclick="saveEditedOborudovanie()">
                             Сохранить
                         </button>
                         <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Закрыть</button>
