@@ -641,12 +641,12 @@ function saveAddedOborudovanie() {
         data: {
             id_type_oborudovanie: select_type_oborudovanie.options[select_type_oborudovanie.selectedIndex].value,
             // cost: document.getElementById('edit_cost').value,
-            date_create: document.getElementById('edit_date_create').value,
-            date_postavki: document.getElementById('edit_date_postavki').value,
-            date_release: document.getElementById('edit_date_release').value,
-            model_prozvoditel: document.getElementById('edit_model_prozvoditel').value,
-            service_organization: select_servicemans.options[select_servicemans.selectedIndex].value,
-            date_last_TO: document.getElementById('edit_date_last_TO').value,
+            date_create: document.getElementById('edit_date_create').value || null,
+            date_postavki: document.getElementById('edit_date_postavki').value || null,
+            date_release: document.getElementById('edit_date_release').value || null,
+            model_prozvoditel: document.getElementById('edit_model_prozvoditel').value || null,
+            service_organization: select_servicemans.options[select_servicemans.selectedIndex].value || null,
+            date_last_TO: document.getElementById('edit_date_last_TO').value || null,
             status: select_status.options[select_status.selectedIndex].value,
             id_org: selectedOrg
         },

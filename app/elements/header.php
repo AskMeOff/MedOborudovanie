@@ -19,13 +19,14 @@
                         <?= $login === "admin" ? '<img src="bootstrap/assets/images/profile/romaIcon.jpg" alt="" width="35" height="35" class="rounded-circle">' :
                             '<img src="../bootstrap/assets/images/profile/user-1.jpg" alt="" width="35" height="35" class="rounded-circle">' ?>
                     </a>
-                    <div class="dropdown-menu dropdown-menu-end dropdown-menu-animate-up"
-                         aria-labelledby="drop2">
+                    <div class="dropdown-menu dropdown-menu-end dropdown-menu-animate-up" aria-labelledby="drop2">
+                        <?php if ($login != ""): ?>
+                            <a onclick="location.href=`index.php?usersAdm`" class="btn btn-outline-primary mx-3 mt-2 d-block">Пользователи</a>
+                        <?php endif; ?>
                         <div class="message-body">
-
-                            <?= $login != "" ? '<a onclick="location.href=`index.php?logout`" class="btn btn-outline-primary mx-3 mt-2 d-block">Выход</a>'
-                                : '<a onclick="location.href=`app/pages/login.php`"  class="btn btn-outline-primary mx-3 mt-2 d-block">Вход</a>' ?>
+                            <?= $login != "" ? '<a onclick="location.href=`index.php?logout`" class="btn btn-outline-primary mx-3 mt-2 d-block">Выход</a>' : '<a onclick="location.href=`app/pages/login.php`" class="btn btn-outline-primary mx-3 mt-2 d-block">Вход</a>' ?>
                         </div>
+
                     </div>
                 </li>
             </ul>

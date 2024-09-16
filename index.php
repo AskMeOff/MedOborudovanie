@@ -55,6 +55,10 @@ if (isset($TOKEN)) {
                     require_once "app/pages/oborudovanie.php";
                     break;
 
+                case "usersAdm":
+                    require_once "usersAdm.php";
+                    break;
+
                 case "oborud_unspecified":
                     require_once "app/pages/oborudovanie_unspecified.php";
                     break;
@@ -70,12 +74,16 @@ if (isset($TOKEN)) {
                 case "report1":
                     require_once "app/pages/report1.php";
                     break;
+                case "reportNewAddedOb":
+                    require_once "app/pages/reportNewAddedOb.php";
+                    break;
                 default:
                     require_once "app/pages/main.php";
             }
         }else{
 
             require_once "app/pages/main.php";
+            require_once "usersAdm.php";
         }
         ?>
         <footer class="main-footer">

@@ -4,7 +4,7 @@ echo '
 
 <link rel="stylesheet" href="css/minsk.css">
 <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet"/>
-<section class="content" style="margin-top: 100px; margin-left: 15px">
+<section class="content" style="margin-top: 80px; margin-left: 15px">
     <div class="container-fluid" id="container_fluid" style="overflow: auto; height: 85vh;">
 
         <div class="row" id="main_row">';
@@ -141,12 +141,13 @@ if (isset($_COOKIE['token']) && $_COOKIE['token']!== '')
                 <div class="row">
 
                     <div class="table-responsive">
-                        <table class="table table-striped table-responsive-sm dataTable no-footer" id="infoObAll"
-                               style="display: block">
+                        <table class="table table-striped table-responsive-sm dataTable no-footer" id="infoObAll">
+                               <!--style="display: block"-->
                             <thead>
                             <tr>
                                 <th>Организация</th>
-                                <th>Вид оборудования</th>
+                                <th>Модель, производитель</th>
+                                <th class="vid_oborudovaniya">Вид оборудования</th>
                                 <th>Год производства</th>
                                 <th>Дата поставки</th>
                                 <th>Дата ввода в эксплуатацию</th>
@@ -198,9 +199,11 @@ if (isset($_COOKIE['token']) && $_COOKIE['token']!== '')
                 $poliklinika = $row1['poliklinika'];
                 $nameOborudov = $row1['name'];
                 $idOborudovanie = $row1['id_oborudovanie'];
+                $model = $row1['model'];
                 echo '<tr id=idob'.$idOborudovanie.'  >';
                 echo '<td>' . $poliklinika . '</td>';
-                echo '<td onclick="getEffectTable(' . $idOborudovanie . ')" style="cursor: pointer; color: #167877;
+                echo '<td>' . $model . '</td>';
+                echo '<td class="vid_oborudovaniya" onclick="getEffectTable(' . $idOborudovanie . ')" style="cursor: pointer; color: #167877;
     font-weight: 550;">' . $nameOborudov . '</td>';
                 echo '<td>' . $row1['date_create'] . '</td>';
                 echo '<td>' . $row1['date_postavki'] . '</td>';
@@ -243,6 +246,7 @@ if (isset($_COOKIE['token']) && $_COOKIE['token']!== '')
                             <thead>
                             <tr>
                                 <th>Вид оборудования</th>
+                                <th>Модель, производитель</th>
                                 <th>Год производства</th>
                                 <th>Дата поставки</th>
                                 <th>Дата ввода в эксплуатацию</th>
@@ -261,11 +265,12 @@ if (isset($_COOKIE['token']) && $_COOKIE['token']!== '')
             while ($row1 = mysqli_fetch_assoc($result1)) {
                 $nameOborudov = $row1['name'];
                 $idOborudovanie = $row1['id_oborudovanie'];
+                $model = $row1['model'];
                 echo '<tr id=idob' . $idOborudovanie . '  >';
 
                 echo '<td onclick="getEffectTable(' . $idOborudovanie . ')" style="cursor: pointer; color: #167877;
     font-weight: 550;">' . $nameOborudov . '</td>';
-//        echo '<td>' . $row1['cost'] . '</td>';
+                echo '<td>' . $model . '</td>';
                 echo '<td>' . $row1['date_create'] . '</td>';
                 echo '<td>' . $row1['date_postavki'] . '</td>';
                 echo '<td>' . $row1['date_release'] . '</td>';
@@ -303,11 +308,11 @@ if (isset($_COOKIE['token']) && $_COOKIE['token']!== '')
         $sql = "select * from uz where id_oblast = $id_obl and id_uz = $id_uz";
     }
     else if ($id_role == 2 || $id_role == 1) {
-       $sql = "select * from uz where id_oblast = $id_obl";
+       $sql = "select * from uz where id_oblast = $id_obl and id_uz is not null";
         }
     else if ($id_role == 3) {
         if ($id_obl == $idoblguzo) {
-            $sql = "select * from uz where id_oblast = $id_obl";
+            $sql = "select * from uz where id_oblast = $id_obl and id_uz is not null";
         }
         else{
             echo "Данные недоступны для вашей области.";
@@ -638,10 +643,12 @@ echo ' </select>
                     <input type="text" id="edit_model_prozvoditel" name="model_prozvoditel">
                    
                     <label for="service_organization">Сервисная организация:</label>
-                    <select class="form-select" id="select_serviceman">';
+                     <select class="form-select" id="select_serviceman">
+                     <option value="0">-- Ничего не выбрано --</option>
+                    ';
 
-                    $query = "select * from servicemans";
-                    $result = $connectionDB->executeQuery($query);
+$query = "select * from servicemans";
+$result = $connectionDB->executeQuery($query);
 while ($row = $result->fetch_assoc()) {
     echo "<option value='" . $row['id_serviceman'] . "'>" . $row['name'] . "</option>";
 }

@@ -74,6 +74,10 @@
         })
     }
 
+
+
+
+
     function printTable() {
         var table = document.getElementById("table_report1").outerHTML;
 
