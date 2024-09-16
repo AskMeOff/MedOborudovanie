@@ -5,10 +5,10 @@ ini_set("session.use_trans_sid", true);
 session_start();
 
 if (isset($_POST["login"]) && isset($_POST["password"])) {
-    $login = $_POST["login"];
-    $password = $_POST["password"];
+    $login = trim(str_replace(array("\r", "\n", ' '), '', $_POST["login"]));
+    $password = trim(str_replace(array("\r", "\n", ' '), '', $_POST["password"]));
     $hashPassword = md5($password);
-    $query = "select * from users where login = '$login' and password = '$hashPassword'";
+    $query = "select * from users where trim(login) = trim('$login') and trim(password) = trim('$hashPassword')";
     $result = $connectionDB->executeQuery($query);
     if ($connectionDB->getNumRows($result) == 1) {
         $row = $connectionDB->getRowResult($result);

@@ -643,10 +643,12 @@ echo ' </select>
                     <input type="text" id="edit_model_prozvoditel" name="model_prozvoditel">
                    
                     <label for="service_organization">Сервисная организация:</label>
-                    <select class="form-select" id="select_serviceman">';
+                     <select class="form-select" id="select_serviceman">
+                     <option value="0">-- Ничего не выбрано --</option>
+                    ';
 
-                    $query = "select * from servicemans";
-                    $result = $connectionDB->executeQuery($query);
+$query = "select * from servicemans";
+$result = $connectionDB->executeQuery($query);
 while ($row = $result->fetch_assoc()) {
     echo "<option value='" . $row['id_serviceman'] . "'>" . $row['name'] . "</option>";
 }

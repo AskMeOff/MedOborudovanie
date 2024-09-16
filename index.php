@@ -75,6 +75,9 @@ if (isset($TOKEN)) {
                 case "podusers":
                     require_once "app/pages/podusers.php";
                     break;
+                case "reportNewAddedOb":
+                    require_once "app/pages/reportNewAddedOb.php";
+                    break;
                 default:
                     require_once "app/pages/main.php";
             }
