@@ -3,7 +3,7 @@ require_once '../../../connection/connection.php';
 echo '
 
 <link rel="stylesheet" href="css/minsk.css">
-<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet"/>
+
 <section class="content" style="margin-top: 80px; margin-left: 15px">
     <div class="container-fluid" id="container_fluid" style="overflow: auto; height: 85vh;">
 
@@ -643,11 +643,13 @@ echo ' </select>
                     <input type="text" id="edit_model_prozvoditel" name="model_prozvoditel">
                    
                     <label for="service_organization">Сервисная организация:</label>
+                      <input type="text" id="search" onkeyup="filterFunction()" placeholder="Поиск по названиям...">
                      <select class="form-select" id="select_serviceman">
+                     
                      <option value="0">-- Ничего не выбрано --</option>
                     ';
 
-$query = "select * from servicemans";
+$query = "select * from servicemans order by name";
 $result = $connectionDB->executeQuery($query);
 while ($row = $result->fetch_assoc()) {
     echo "<option value='" . $row['id_serviceman'] . "'>" . $row['name'] . "</option>";
@@ -690,9 +692,7 @@ echo'
         }
         $("#infoObAll").DataTable();
     });
-    
-    
-    
+
     
 </script>
 ';

@@ -32,7 +32,11 @@ if (isset($TOKEN)) {
     <title>Админ панель</title>
 
     <?php include "app/elements/links.php"; ?>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
 </head>
+
+
 
 <body>
 <!--  Body Wrapper -->

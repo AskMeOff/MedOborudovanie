@@ -706,3 +706,19 @@ function filterTable() {
     }
 }
 
+// function filterFunction() {
+//     const input = document.getElementById("search");
+//     const filter = input.value.toLowerCase();
+//     const select = document.getElementById("select_serviceman");
+//     const options = select.getElementsByTagName("option");
+//
+//     for (let i = 0; i < options.length; i++) {
+//         const option = options[i];
+//         if (option.value === "0") {
+//             continue; // Пропускаем первую опцию
+//         }
+//         const txtValue = option.textContent || option.innerText;
+//         option.style.display = txtValue.toLowerCase().indexOf(filter) > -1 ? "" : "none";
+//     }
+// }
+
