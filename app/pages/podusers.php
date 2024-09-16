@@ -69,10 +69,10 @@ if (isset($_COOKIE['token']) && $_COOKIE['token'] !== '') {
             $id_user = $row['id_user'];
             $loginOrg = $row['login'];
             $password = $row['password'];
-            echo '<tr id=idus' . $id_user . '  >';
+            echo '<tr data-id=' . $id_user . '  >';
             echo '<td>' . $name . '</td>';
             echo '<td>' . $loginOrg . '</td>';
-            echo '<td>' . $password . '</td>';
+            echo '<td style="cursor: pointer" contenteditable="true" onblur="changePass(event)" data-pass="' . $password . '">' . $password . '</td>';
             echo '</tr>';
         }
 
@@ -111,17 +111,16 @@ if (isset($_COOKIE['token']) && $_COOKIE['token'] !== '') {
                     <input type="text" id="password_org" name="password_org">
                     ';
     if ($id_role == 1) {
-        echo '
-    
-                    <label for="sel_obls">Область</label>
-                    <select id="sel_obls">';
+        echo '<label for="sel_obls">Область</label>
+                    <select id="sel_obls" class="form-select">';
         $query_obls = 'select * from oblast';
         $rez = $connectionDB->executeQuery($query_obls);
         for ($data = []; $row = mysqli_fetch_assoc($rez); $data[] = $row) ;
         foreach ($data as $obls) {
             echo '<option value="' . $obls['id_oblast'] . '">' . $obls['name'] . '</option>';
         }
-        echo '  </select>';};
+        echo '  </select>';
+    };
 
 
     echo '<div id="btnsGroup" style="margin-top: 10px;">
@@ -159,21 +158,49 @@ echo '
     }
     
     function addUser(id_obl){
-        $.ajax({
-            url: "app/ajax/addUser.php",
-            method: "POST",
-            data: {uz_name: $("#uz_name").val(), login_org: $("#login_org").val(), password_org: $("#password_org").val(), id_obl: id_obl, sel_obl: $("#sel_obls").val()}
-        }).then((response) => {
-            if(response == "0"){
-               alert("Пользователь с таким логином или наименованием уже существует.");
-            }else{
-                alert("Организация добавлена.");
-                location.reload();
-            }
-            
-        })
+        if($("#uz_name").val() == "" || $("#login_org").val() == "" || $("#password_org").val() == ""){
+            alert("Не все поля заполнены!");
+        }else{
+            $.ajax({
+                url: "app/ajax/addUser.php",
+                method: "POST",
+                data: {uz_name: $("#uz_name").val(), login_org: $("#login_org").val(), password_org: $("#password_org").val(), id_obl: id_obl, sel_obl: $("#sel_obls").val()}
+            }).then((response) => {
+                if(response == "0"){
+                   alert("Пользователь с таким логином или наименованием уже существует.");
+                }else{
+                    alert("Организация добавлена.");
+                    location.reload();
+                }
+                
+            })
+        }
     }
     
+    function changePass(event){
+        
+        let thisEl = event.target;
+        let id = thisEl.parentElement.getAttribute("data-id");
+        let nameOrg = thisEl.parentElement.children[0].innerHTML;
+        let oldPass = thisEl.getAttribute("data-pass");
+        let newPass = thisEl.innerHTML;
+        if(oldPass == newPass){
+            return;
+        }
+        else{
+            $.ajax({
+                url: "app/ajax/changePass.php",
+                method: "POST",
+                data: {id: id, newPass: newPass}
+            }).then((response) => {
+                if(response == "0"){
+                   alert("Ошибка изменения пароля.");
+                }
+                alert("Пароль организации " + nameOrg + " изменен.");
+                location.reload();
+            })
+        }
+    }
     
 </script>
 ';
