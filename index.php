@@ -8,8 +8,10 @@ include 'app/auth/out.php';
 
 
 if (isset($TOKEN)) {
-    if ($usersList->getUser($TOKEN))
+    if ($usersList->getUser($TOKEN)){
         $login = $usersList->getUser($TOKEN)->getLogin();
+        $id_role = $usersList->getUser($TOKEN)->getRole();
+        }
     else {
         $login = "";
     }

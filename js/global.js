@@ -68,7 +68,6 @@ function getUzs(id_obl, id_type) {
             console.log(e);
         }
 
-
     })
 
 }
@@ -83,3 +82,11 @@ $(".region").on("click", function () {
 
 
 
+if(currentUrl == '?oborud'){
+    $('#menu_oborud').addClass('submenu-indicator-minus');
+    $('#menu_oborud').addClass('active');
+    $('#menu_oborud').children().eq(0).addClass('submenu-indicator-minus');
+    $('#menu_oborud').children().eq(1).css('display','block');
+    $('#menu_ustanovl').addClass('active');
+    $('#menu_ustanovl').children().css('background-color','#98d4d4');
+}

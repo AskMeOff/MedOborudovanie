@@ -12,6 +12,38 @@ class ConnectionDB
     private $database = 'medOborudovanie';
     public $con;
 
+    /**
+     * @return string
+     */
+    public function getHost(): string
+    {
+        return $this->host;
+    }
+
+    /**
+     * @return string
+     */
+    public function getUser(): string
+    {
+        return $this->user;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPassword(): string
+    {
+        return $this->password;
+    }
+
+    /**
+     * @return string
+     */
+    public function getDatabase(): string
+    {
+        return $this->database;
+    }
+
     public function __construct()
     {
         $this->con = mysqli_connect($this->host, $this->user, $this->password, $this->database) or die("Ошибка подключения " . mysqli_error($this->con));

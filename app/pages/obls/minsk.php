@@ -308,11 +308,11 @@ if (isset($_COOKIE['token']) && $_COOKIE['token']!== '')
         $sql = "select * from uz where id_oblast = $id_obl and id_uz = $id_uz";
     }
     else if ($id_role == 2 || $id_role == 1) {
-       $sql = "select * from uz where id_oblast = $id_obl";
+       $sql = "select * from uz where id_oblast = $id_obl and id_uz is not null";
         }
     else if ($id_role == 3) {
         if ($id_obl == $idoblguzo) {
-            $sql = "select * from uz where id_oblast = $id_obl";
+            $sql = "select * from uz where id_oblast = $id_obl and id_uz is not null";
         }
         else{
             echo "Данные недоступны для вашей области.";

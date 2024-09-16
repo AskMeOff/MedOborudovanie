@@ -32,9 +32,12 @@ while ($row = mysqli_fetch_assoc($result)) {
                                 <th style="text-align: center;">Срок действия договора</th>
                                 <th style="text-align: center;">Общая сумма по договору</th>
                                 <th style="text-align: center;">Вид выполняемых работ по договору</th>
-                                <th style="text-align: center;">Действия</th>
-                        
-                            </tr>
+                                ';
+    if($id_role == "1")
+    echo '
+                                <th style="text-align: center;">Действия</th>';
+    echo '
+                                                    </tr>
                             </thead>
                             <tbody>';
 //    $sql1 = "SELECT count(o.id_oborudovanie) countUz,uz.id_uz, uz.name   FROM oborudovanie o
@@ -78,7 +81,8 @@ where s.id_serviceman = '$id_serviceman'";
         echo '<td>' . $srokDogovor . '</td>';
         echo '<td>' . $costRepair . '</td>';
         echo '<td>' . $typeWorkDogovor . '</td>';
-        echo '<td><a href="#" onclick="editService(' . $id_oborudovanie . ')">✏️</a></td>';
+        if($id_role == "1")
+            echo '<td><a href="#" onclick="editService(' . $id_oborudovanie . ')">✏️</a></td>';
         echo '</tr>';
     }
     echo ' 

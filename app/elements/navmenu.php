@@ -34,9 +34,9 @@ while ($row = mysqli_fetch_assoc($resultTypes)) {
 
                     <li class="active"><a  href="index.php?main" ><i class="fa fa-home"></i>Главная</a></li>
 
-                    <li><a href="#"><i class="fa fa-suitcase"></i>Оборудование</a>
+                    <li id="menu_oborud"><a href="#"><i class="fa fa-suitcase"></i>Оборудование</a>
                         <ul class="submenu">
-                            <li><a href="index.php?oborud" onclick="showTooltip(event)">Установленное</a>
+                            <li id="menu_ustanovl"><a href="index.php?oborud" onclick="showTooltip(event)">Установленное</a>
                                 <ul class="submenu1">
                                     <?php
                                     foreach ($equipmentTypes as $type) {
@@ -71,6 +71,8 @@ while ($row = mysqli_fetch_assoc($resultTypes)) {
 </aside>
 
 <script>
+
+
 
     toastr.options = {
         "closeButton": true, // Показывать кнопку закрытия
@@ -109,6 +111,7 @@ while ($row = mysqli_fetch_assoc($resultTypes)) {
 
 
     function showTooltip(event) {
-        toastr.info("Если нажать еще раз, отобразится полный список установленного оборудования");
+        toastr.info('При повторном нажатии на пункт "Установленные", фильтрация по видам оборудования учитываться не будет');
+
     }
 </script>
