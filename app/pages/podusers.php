@@ -73,6 +73,7 @@ if (isset($_COOKIE['token']) && $_COOKIE['token'] !== '') {
             echo '<td>' . $name . '</td>';
             echo '<td>' . $loginOrg . '</td>';
             echo '<td style="cursor: pointer" contenteditable="true" onblur="changePass(event)" data-pass="' . $password . '">' . $password . '</td>';
+            echo '<td><button class="btn btn-danger" onclick="deletePodUser(' . $id_user . ')">&#10060;</button></td>';
             echo '</tr>';
         }
 
@@ -201,6 +202,25 @@ echo '
             })
         }
     }
+    
+    
+     function deletePodUser(id_user) {
+        if (confirm("Вы уверены, что хотите удалить пользователя?")) {
+            $.ajax({
+                url: "app/ajax/deletePodUser.php",
+                method: "POST",
+                data: { id_user: id_user }
+            }).then((response) => {
+                if (response == "1") {
+                    alert("Пользователь удален.");
+                    location.reload(); 
+                } else {
+                    alert("Ошибка при удалении.");
+                }
+            });
+        }
+    }
+    
     
 </script>
 ';

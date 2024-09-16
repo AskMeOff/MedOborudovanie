@@ -385,7 +385,9 @@ echo ' </select>
                     <!---->
                    
                     <label for="service_organization">Сервисная организация:</label>
-                    <select class="form-select" id="select_serviceman">';
+                     <select class="form-select" id="select_serviceman">
+                     <option value="0">-- Ничего не выбрано --</option>
+                    ';
 
 $query = "select * from servicemans";
 $result = $connectionDB->executeQuery($query);
