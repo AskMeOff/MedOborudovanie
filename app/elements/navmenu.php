@@ -63,6 +63,13 @@ while ($row = mysqli_fetch_assoc($resultTypes)) {
                             <li><a href="#">Отчет 2 </a></li>
                         </ul>
                     </li>
+                    <?php
+                        if (isset($id_role )){
+                            if($id_role == 1 || $id_role == 3){
+                                echo "<li><a href='index.php?podusers'><i class='fa fa-user'></i>Мои пользователи</a></li>";
+                            }
+                        }
+                    ?>
                 </ul>
 
             </div>

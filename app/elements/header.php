@@ -16,8 +16,8 @@
                        data-bs-toggle="dropdown"
                        aria-expanded="false">
                         <span style="margin-right: 1rem"><?= $login !== "" ? $login : 'Гость' ?></span>
-                        <?= $login === "admin" ? '<img src="bootstrap/assets/images/profile/romaIcon.jpg" alt="" width="35" height="35" class="rounded-circle">' :
-                            '<img src="../bootstrap/assets/images/profile/user-1.jpg" alt="" width="35" height="35" class="rounded-circle">' ?>
+                        <?= $login === "admin" ? '<img src="bootstrap/assets/images/profile/doctor-icon.png" alt="" width="35" height="35" class="rounded-circle">' :
+                            '<img src="../bootstrap/assets/images/profile/doctor-icon.png" alt="" width="35" height="35" class="rounded-circle">' ?>
                     </a>
                     <div class="dropdown-menu dropdown-menu-end dropdown-menu-animate-up"
                          aria-labelledby="drop2">
