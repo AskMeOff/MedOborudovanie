@@ -72,6 +72,7 @@ if (isset($_COOKIE['token']) && $_COOKIE['token'] !== '') {
             echo '<td>' . $name . '</td>';
             echo '<td>' . $loginOrg . '</td>';
             echo '<td>' . $password . '</td>';
+            echo '<td><button class="btn btn-danger" onclick="deletePodUser(' . $id_user . ')">&#10060;</button></td>';
             echo '</tr>';
         }
 
@@ -174,7 +175,7 @@ echo '
     }
     
     
-     function deleteUser(id_user) {
+     function deletePodUser(id_user) {
         if (confirm("Вы уверены, что хотите удалить пользователя?")) {
             $.ajax({
                 url: "app/ajax/deletePodUser.php",

@@ -1,5 +1,5 @@
 <?php
-require_once '../connection/connection.php';
+include "../../connection/connection.php";
 
 if (isset($_POST['id_user'])) {
     $id_user = intval($_POST['id_user']);
