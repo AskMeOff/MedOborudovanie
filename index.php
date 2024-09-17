@@ -33,7 +33,11 @@ if (isset($TOKEN)) {
     <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
 
     <?php include "app/elements/links.php"; ?>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
 </head>
+
+
 
 <body>
 <!--  Body Wrapper -->
@@ -72,6 +76,12 @@ if (isset($TOKEN)) {
                     break;
                 case "report1":
                     require_once "app/pages/report1.php";
+                    break;
+                case "contacts":
+                    require_once "app/pages/contacts.php";
+                    break;
+                case "news":
+                    require_once "app/pages/news.php";
                     break;
                 case "podusers":
                     require_once "app/pages/podusers.php";
