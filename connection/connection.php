@@ -50,6 +50,10 @@ class ConnectionDB
         mysqli_query($this->con, "SET NAMES 'utf8'");
     }
 
+    public function escapeString($string) {
+        return $this->con->real_escape_string($string);
+    }
+
     function executeQuery($query)
     {
         $result = mysqli_query($this->con, $query) or die("ошибка" . mysqli_error($this->con));

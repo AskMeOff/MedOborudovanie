@@ -15,7 +15,7 @@ if ($result->num_rows > 0) {
     while ($row = $result->fetch_assoc()) {
         $data[] = array(
             'name' => $row['name'] ?? "Нет данных"
-        , 'cost' => $row['cost'] ?? "Нет данных"
+        , 'model' => $row['model'] ?? "Нет данных"
         , 'date_create' => $row['date_create'] ?? "Нет данных"
         , 'date_postavki' => $row['date_postavki'] ?? "Нет данных"
         , 'date_release' => $row['date_release'] ?? "Нет данных"

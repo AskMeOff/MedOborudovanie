@@ -595,7 +595,7 @@ function saveEditedOborudovanie() {
    // let so = document.getElementById('edit_serviceman').value;
     let dto = document.getElementById('edit_date_last_TO').value;
     let stat = select_status.options[select_status.selectedIndex].value
-    console.log(so+"trhrfhhg");
+
     if(selectedServiceId)
         so = selectedServiceId;
     $.ajax({
@@ -739,6 +739,10 @@ function filterS(event){
             } else {
                 items[i].style.display = 'none';
             }
+        }
+        if(filetS.value == "") {
+            selectedServiceId = 0;
+            filetS.setAttribute('data-id', selectedServiceId);
         }
 
     });
