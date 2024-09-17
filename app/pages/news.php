@@ -30,9 +30,12 @@
         margin-top: 10px;
     }
 </style>
+<section class="content" style="margin-top: 100px; margin-left: 15px">
+    <div class="container-fluid" id="container_fluid" style="overflow: auto; height: 85vh;">
+        <div class="row" id="main_row">
 <div class="news-container">
     <?php
-    $query = "SELECT title, content, date FROM news ORDER BY date DESC";
+    $query = "SELECT title, content FROM news";
     $result = $connectionDB->executeQuery($query);
 
     if ($connectionDB->getNumRows($result) > 0) {
@@ -40,7 +43,6 @@
             echo '<div class="news-block">';
             echo '<h2>' . htmlspecialchars($row['title']) . '</h2>';
             echo '<p>' . htmlspecialchars($row['content']) . '</p>';
-            echo '<span class="date">' . htmlspecialchars($row['date']) . '</span>';
             echo '</div>';
         }
     } else {
@@ -50,3 +52,6 @@
     $connectionDB->con->close();
     ?>
 </div>
+            </div>
+    </div>
+</section>
