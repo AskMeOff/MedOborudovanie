@@ -33,7 +33,13 @@ while ($row = mysqli_fetch_assoc($resultTypes)) {
                 <ul id="demo-list">
 
                     <li class="active"><a  href="index.php?main" ><i class="fa fa-home"></i>Главная</a></li>
-
+                    <?php
+                    if (isset($id_role )){
+                        if($id_role == 1 || $id_role == 3){
+                            echo "<li><a href='index.php?podusers'><i class='fa fa-user'></i>Мои пользователи</a></li>";
+                        }
+                    }
+                    ?>
                     <li id="menu_oborud"><a href="#"><i class="fa fa-suitcase"></i>Оборудование</a>
                         <ul class="submenu">
                             <li id="menu_ustanovl"><a href="index.php?oborud" onclick="showTooltip(event)">Установленное</a>
@@ -56,26 +62,22 @@ while ($row = mysqli_fetch_assoc($resultTypes)) {
 <!--                            </li>-->
                         </ul>
                     </li>
-                    <li><a href="index.php?servicemans"><i class="fa fa-cog"></i>Сервисанты </a></li>
                     <li><a href="#"><i class="fa fa-file-image-o"></i>Отчеты </a>
                         <ul class="submenu">
                             <li><a href="index.php?report1">Отчет 1</a></li>
                             <li><a href="index.php?reportNewAddedOb">Отчет о добавленном<br>оборудовании</a></li>
                         </ul>
                     </li>
-                    <?php
-                        if (isset($id_role )){
-                            if($id_role == 1 || $id_role == 3){
-                                echo "<li><a href='index.php?podusers'><i class='fa fa-user'></i>Мои пользователи</a></li>";
-                            }
-                        }
-                    ?>
-                    <li><a href="#"><i class="fa fa-file-image-o"></i>Помощь </a>
+                    <li><a href="#"><i class="fa fa-asterisk"></i>Помощь </a>
                         <ul class="submenu">
-<!--                            <li><a href="index.php?news">Новости</a></li>-->
+                            <!--                            <li><a href="index.php?news">Новости</a></li>-->
                             <li><a href="index.php?contacts">Контакты</a></li>
                         </ul>
                     </li>
+                    <li><a href="index.php?servicemans"><i class="fa fa-cog"></i>Сервисанты </a></li>
+
+
+
                 </ul>
 
 
