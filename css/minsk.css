@@ -45,6 +45,7 @@
 
 td {
     text-align: center;
+    word-break: break-all;
 }
 
 #myUL li a:hover {
