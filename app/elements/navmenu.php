@@ -70,7 +70,7 @@ while ($row = mysqli_fetch_assoc($resultTypes)) {
                             }
                         }
                     ?>
-                    <li><a href="#"><i class="fa fa-file-image-o"></i>Помощь </a>
+                    <li><a href="#"><i class="fa fa-asterisk"></i>Помощь </a>
                         <ul class="submenu">
 <!--                            <li><a href="index.php?news">Новости</a></li>-->
                             <li><a href="index.php?contacts">Контакты</a></li>
