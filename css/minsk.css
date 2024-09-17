@@ -43,9 +43,14 @@
     background-color: #c6d1dd !important;
 }
 
+th{
+    width: auto !important;
+}
+
 td {
     text-align: center;
-    word-break: break-all;
+    word-break: break-word;
+    width: auto !important;
 }
 
 #myUL li a:hover {

@@ -38,7 +38,7 @@ echo ' <section class="col-lg-9 connectedSortable ui-sortable" id="org" style="m
                     if ($row9['status'] === "1") {
                     echo '<td   style="cursor: pointer"><div style = "border-radius: 5px;background-color: green;color: white;padding: 5px;">' . $status . '</div></td>';
                     } else {
-                    echo '<td  style="cursor: pointer"><div style = "border-radius: 5px;background-color: red;color: white;padding: 5px;">' . $status . '</div></td>';
+                    echo '<td  style="cursor: pointer"><div style = "border-radius: 5px;background-color: red;color: white;padding: 5px; font-size: 11px;">' . $status . '</div></td>';
                     }
                     echo '</tr>';
                 }
