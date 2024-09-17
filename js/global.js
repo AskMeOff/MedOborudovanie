@@ -90,3 +90,19 @@ if(currentUrl == '?oborud'){
     $('#menu_ustanovl').addClass('active');
     $('#menu_ustanovl').children().css('background-color','#98d4d4');
 }
+
+function filterFunction() {
+    const input = document.getElementById("search");
+    const filter = input.value.toLowerCase();
+    const select = document.getElementById("select_serviceman");
+    const options = select.getElementsByTagName("option");
+
+    for (let i = 0; i < options.length; i++) {
+        const option = options[i];
+        if (option.value === "0") {
+            continue;
+        }
+        const txtValue = option.textContent || option.innerText;
+        option.style.display = txtValue.toLowerCase().indexOf(filter) > -1 ? "" : "none";
+    }
+}
