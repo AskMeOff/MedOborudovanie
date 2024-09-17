@@ -5,13 +5,13 @@ if (!$connectionDB) {
 }
 
 $id_type_oborudovanie = $_POST['id_type_oborudovanie'];
-$date_create = isset($_POST['date_create']) && $_POST['date_create'] !== "" ? "'" . $_POST['date_create'] . "'" : "NULL";
-$date_postavki = isset($_POST['date_postavki']) && $_POST['date_postavki'] !== "" ? "'" . $_POST['date_postavki'] . "'" : "NULL";
-$date_release = isset($_POST['date_release']) && $_POST['date_release'] !== "" ? "'" . $_POST['date_release'] . "'" : "NULL";
-$model_prozvoditel = isset($_POST['model_prozvoditel']) && $_POST['model_prozvoditel'] !== "" ? "'" . $_POST['model_prozvoditel'] . "'" : "NULL";
-$service_organization = isset($_POST['service_organization']) && $_POST['service_organization'] !== "" ? "'" . $_POST['service_organization'] . "'" : "NULL";
-$date_last_TO = isset($_POST['date_last_TO']) && $_POST['date_last_TO'] !== "" ? "'" . $_POST['date_last_TO'] . "'" : "NULL";
-$status = $_POST['status'];
+$date_create = isset($_POST['date_create']) && $_POST['date_create'] !== "" ? "'" . $connectionDB->escapeString($_POST['date_create']) . "'" : "NULL";
+$date_postavki = isset($_POST['date_postavki']) && $_POST['date_postavki'] !== "" ? "'" . $connectionDB->escapeString($_POST['date_postavki']) . "'" : "NULL";
+$date_release = isset($_POST['date_release']) && $_POST['date_release'] !== "" ? "'" . $connectionDB->escapeString($_POST['date_release']) . "'" : "NULL";
+$model_prozvoditel = isset($_POST['model_prozvoditel']) && $_POST['model_prozvoditel'] !== "" ? "'" . $connectionDB->escapeString($_POST['model_prozvoditel']) . "'" : "NULL";
+$service_organization = isset($_POST['service_organization']) && $_POST['service_organization'] !== "" ? "'" . $connectionDB->escapeString($_POST['service_organization']) . "'" : "NULL";
+$date_last_TO = isset($_POST['date_last_TO']) && $_POST['date_last_TO'] !== "" ? "'" . $connectionDB->escapeString($_POST['date_last_TO']) . "'" : "NULL";
+$status = (int)$_POST['status'];
 $id_org = $_POST['id_org'];
 
 $sql = "INSERT INTO oborudovanie (id_type_oborudovanie, date_create, date_postavki, date_release, model, id_serviceman, date_last_TO, status, id_uz)

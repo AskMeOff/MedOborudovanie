@@ -112,7 +112,7 @@ $result = $connectionDB->executeQuery($sql);
 while ($row = mysqli_fetch_assoc($result)) {
 
     echo '<div class="card card0 " onclick="showServiceman(' . $row['id_serviceman'] . ',this)">';
-    echo '<h4>' . $row['name'] . '</h4>';
+    echo '<h5>' . $row['name'] . '</h5>';
     echo '</div>';
 //                    $activeClass = "";
 }

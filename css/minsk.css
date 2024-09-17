@@ -47,6 +47,10 @@ th{
     width: auto !important;
 }
 
+td div{
+    font-size: 12px !important;
+}
+
 td {
     text-align: center;
     word-break: break-word;

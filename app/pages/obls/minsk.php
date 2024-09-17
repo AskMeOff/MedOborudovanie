@@ -319,7 +319,7 @@ if (isset($_COOKIE['token']) && $_COOKIE['token'] !== '') {
     while ($row = mysqli_fetch_assoc($result)) {
 
         echo '<div class="card card0 " onclick="showSection(' . $row['id_uz'] . ',this)">';
-        echo '<h4>' . $row['name'] . '</h4>';
+        echo '<h5>' . $row['name'] . '</h5>';
         echo '</div>';
 //                    $activeClass = "";
     }
