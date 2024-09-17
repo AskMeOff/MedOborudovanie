@@ -70,7 +70,16 @@ while ($row = mysqli_fetch_assoc($resultTypes)) {
                             }
                         }
                     ?>
+                    <li><a href="#"><i class="fa fa-file-image-o"></i>Помощь </a>
+                        <ul class="submenu">
+<!--                            <li><a href="index.php?news">Новости</a></li>-->
+                            <li><a href="index.php?contacts">Контакты</a></li>
+                        </ul>
+                    </li>
                 </ul>
+
+
+
 
             </div>
         <!-- End Sidebar navigation -->

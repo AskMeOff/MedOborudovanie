@@ -73,6 +73,12 @@ if (isset($TOKEN)) {
                 case "report1":
                     require_once "app/pages/report1.php";
                     break;
+                case "contacts":
+                    require_once "app/pages/contacts.php";
+                    break;
+                case "news":
+                    require_once "app/pages/news.php";
+                    break;
                 case "podusers":
                     require_once "app/pages/podusers.php";
                     break;
