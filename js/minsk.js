@@ -743,7 +743,16 @@ function filterS(event){
         if(filetS.value == "") {
             selectedServiceId = 0;
             filetS.setAttribute('data-id', selectedServiceId);
+            if(!filteredDiv.classList.contains("hidden")) {
+                filteredDiv.classList.add("hidden");
+            }
+        }else{
+            if(filteredDiv.classList.contains("hidden")) {
+                filteredDiv.classList.remove("hidden");
+            }
         }
+
+
 
     });
 }
