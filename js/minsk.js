@@ -559,10 +559,13 @@ function editOborudovanie(idOborudovanie) {
             document.getElementById('edit_date_postavki').value = data.date_postavki;
             document.getElementById('edit_date_release').value = data.date_release;
             document.getElementById('edit_model_prozvoditel').value = data.model_prozvoditel;
-            let select_serviceman = document.getElementById("select_serviceman");
-            select_serviceman.options.forEach(option => {
-                if (option.value === data.service_organization) {
-                    option.selected = true;
+            let select_serviceman = document.getElementById("filterServicemans");
+            let filteredDiv = select_serviceman.nextElementSibling.children;////
+            filteredDiv.forEach(item => {
+                if (item.getAttribute('data-id') == data.service_organization) {
+
+                    select_serviceman.setAttribute('data-id', item.getAttribute('data-id'))
+                    select_serviceman.value = item.innerText;
                 }
             });
             document.getElementById('edit_date_last_TO').value = data.date_last_TO;
@@ -580,7 +583,7 @@ function editOborudovanie(idOborudovanie) {
 
 function saveEditedOborudovanie() {
     let select_type_oborudovanie = document.getElementById("select_type_oborudovanie");
-    let select_servicemans = document.getElementById("select_serviceman");
+    let select_servicemans = document.getElementById("filterServicemans");
     let select_status = document.getElementById("select_status");
     let sto = select_type_oborudovanie.options[select_type_oborudovanie.selectedIndex].value;
     // let cst = document.getElementById('edit_cost').value;
@@ -588,11 +591,13 @@ function saveEditedOborudovanie() {
     let dp = document.getElementById('edit_date_postavki').value;
     let dr = document.getElementById('edit_date_release').value;
     let mod = document.getElementById('edit_model_prozvoditel').value;
-    let so = select_servicemans.options[select_servicemans.selectedIndex].value;
+    let so = select_servicemans.getAttribute('data-id');
    // let so = document.getElementById('edit_serviceman').value;
     let dto = document.getElementById('edit_date_last_TO').value;
     let stat = select_status.options[select_status.selectedIndex].value
     console.log(so+"trhrfhhg");
+    if(selectedServiceId)
+        so = selectedServiceId;
     $.ajax({
         url: '/app/ajax/updateOborudovanie.php',
         type: 'POST',
