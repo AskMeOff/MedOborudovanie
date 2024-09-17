@@ -3,9 +3,10 @@
 echo '<link rel="stylesheet" href="css/minsk.css">
 <section class="content" style="margin-top: 100px; margin-left: 15px">
     <div class="container-fluid" id="container_fluid">
-<a href="#" class="btn btn-info" data-toggle="modal" data-target="#addServiceModal">Добавить сервисанта</a>
-
-        <div class="row" id="main_row">';
+    '; if($login=='admin'){
+echo ' <a href="#" class="btn btn-info" data-toggle="modal" data-target="#addServiceModal">Добавить сервисанта</a>
+';}
+     echo'   <div class="row" id="main_row">';
 
 
             $query = "select * from servicemans;";
