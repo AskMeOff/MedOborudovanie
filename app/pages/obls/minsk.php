@@ -197,7 +197,7 @@ if (isset($_COOKIE['token']) && $_COOKIE['token'] !== '') {
                                         INNER JOIN uz on oborudovanie.id_uz=uz.id_uz
                                         left outer join type_oborudovanie tob on oborudovanie.id_type_oborudovanie = tob.id_type_oborudovanie
                                         left outer join servicemans s on s.id_serviceman = oborudovanie.id_serviceman
-                                        WHERE uz.id_oblast=$id_obl and tob.id_type_oborudovanie = $id_type";
+                                        WHERE uz.id_oblast=$id_obl and tob.id_type_oborudovanie = $id_type and oborudovanie.status = 0";
         }
         $result1 = $connectionDB->executeQuery($sql1);
         while ($row1 = mysqli_fetch_assoc($result1)) {
