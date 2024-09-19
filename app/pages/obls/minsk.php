@@ -79,9 +79,9 @@ if (isset($_COOKIE['token']) && $_COOKIE['token'] !== '') {
            position: absolute;
     right: 50px;
     cursor: pointer;
-    top: 11%;
+    top: 12%;
     color: rgb(152, 212, 212);
-    display: none;" >
+    display: none; z-index: 9999;" >
                     <i class="ti ti-arrow-left" style="font-size: 30px; "></i>
                 </a>
            </div> 
