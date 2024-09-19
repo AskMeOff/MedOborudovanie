@@ -681,39 +681,35 @@ function startFilter() {
     filterContainer.style.display = filterContainer.style.display === "none" ? "block" : "none";
 }
 function filterTable() {
-    let equipmentFilter = document.getElementById("filterEquipment").value.toLowerCase();
-    let yearFilter = document.getElementById("filterYear").value;
-    let datePostavkiFilter = document.getElementById("filterDatePostavki").value;
-    let dateReleaseFilter = document.getElementById("filterDateRelease").value;
-    let serviceFilter = document.getElementById("filterService").value.toLowerCase();
-    let statusFilter = document.getElementById("filterStatus").value.toLowerCase();
-    let table;
-    console.log(selectedOrg);
-    let j;
-    if (selectedOrg !== 0){
-        table = document.getElementById("infoOb" + selectedOrg);
-        j = 0;
-        }
-    else {
-        table = document.getElementById("infoObAll");
-        j = 1;
-    }
+    let equipmentFilter = $("#filterEquipment").val();
+    let yearFilter = $("#filterYear").val();
+    let datePostavkiFilter = $("#filterDatePostavki").val();
+    let dateReleaseFilter = $("#filterDateRelease").val();
+    let serviceFilter = $("#filterService").val();
+    let statusFilter = $("#filterStatus").val();
 
-    let rows = table.getElementsByTagName("tr");
-    for (let i = 1; i < rows.length; i++) {
-        let cells = rows[i].getElementsByTagName("td");
-        let equipmentMatch = equipmentFilter === "" || cells[j].innerText.toLowerCase().indexOf(equipmentFilter) > -1;
-        let yearMatch = yearFilter === "" || cells[j+1].innerText === yearFilter;
-        let datePostavkiMatch = datePostavkiFilter === "" || cells[j+2].innerText === datePostavkiFilter;
-        let dateReleaseMatch = dateReleaseFilter === "" || cells[j+3].innerText === dateReleaseFilter;
-        let serviceMatch = serviceFilter === "" || cells[j+4].innerText.toLowerCase().indexOf(serviceFilter) > -1;
-        let statusMatch = statusFilter === "" || cells[j+5].innerText.toLowerCase().indexOf(statusFilter) > -1;
-        if (equipmentMatch && yearMatch && datePostavkiMatch && dateReleaseMatch && serviceMatch && statusMatch) {
-            rows[i].style.display = "";
-        } else {
-            rows[i].style.display = "none";
+    $.ajax({
+        type: "POST",
+        url: "/app/ajax/filterGetData.php",
+        data: {
+            equipment: equipmentFilter,
+            id_uz: selectedOrg,
+            year: yearFilter,
+            datePostavki: datePostavkiFilter,
+            dateRelease: dateReleaseFilter,
+            service: serviceFilter,
+            status: statusFilter
+        },
+        success: function(response) {
+            $('#infoOb' + selectedOrg).DataTable().destroy();
+            $("#infoOb" + selectedOrg).html(response);
+            $('#infoOb' + selectedOrg).DataTable();
+
+        },
+        error: function(xhr, status, error) {
+            console.error("Ошибка при выполнении запроса: " + error);
         }
-    }
+    });
 }
 
 let selectedPostavschikId = 0;
