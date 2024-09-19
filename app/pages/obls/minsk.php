@@ -633,7 +633,7 @@ echo ' </select>
                    
                     <label >Сервисная организация:</label>
                     
-                    <input type="text" id="filterServicemans" onclick="filterS(event)"/>
+                    <input type="text" id="filterServicemans" autocomplete="off" onclick="filterS(event)"/>
                     <div class="hidden" style="margin-top: 10px; margin-left: 10px; height: 150px; width: 95%; inline-block; overflow: auto">
                     ';
 $query = "select * from servicemans";

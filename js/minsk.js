@@ -2,7 +2,7 @@ let selectedOrg  = 0;
 const contMenu = document.getElementById("contMenu");
 const body = document.getElementsByTagName("body")[0];
 let selectedEquipmentId;
-let selectedServiceId;
+let selectedServiceId = 0;
 
 function showMenu(thisTr, idOborudovanie) {
     event.preventDefault();
@@ -643,6 +643,10 @@ function saveAddedOborudovanie() {
     let select_type_oborudovanie = document.getElementById("select_type_oborudovanie");
     let select_servicemans = document.getElementById("select_serviceman");
     let select_status = document.getElementById("select_status");
+    if(selectedServiceId === 0){
+        alert("Выберите сервисную организацию из списка!");
+        return;
+    }
     $.ajax({
         url: '/app/ajax/insertOborudovanie.php',
         type: 'POST',
@@ -786,6 +790,14 @@ function showModalAddOborudovanieUnspecified(){
 }
 
 function addOborudovanieUnspecified(){
+    if(selectedServiceId === 0){
+        alert("Выберите сервисную организацию из списка!");
+        return;
+    }
+    if(selectedPostavschikId === 0){
+        alert("Выберите поставщика из списка!");
+        return;
+    }
     $.ajax({
         url: '/app/ajax/insertOborudovanieUnspecified.php',
         type: 'POST',
