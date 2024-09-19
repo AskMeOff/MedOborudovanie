@@ -106,3 +106,18 @@ function filterFunction() {
         option.style.display = txtValue.toLowerCase().indexOf(filter) > -1 ? "" : "none";
     }
 }
+$(document).ready(function() {
+    $('#saveService').click(function() {
+        let serviceName = $('#serviceName').val();
+        $.ajax({
+            url: '/app/ajax/saveService.php',
+            type: 'POST',
+            data: { name: serviceName },
+            success: function(response) {
+                console.log (response)
+                    alert('Сервисант успешно добавлен!');
+                    $('#addServiceModal').modal('hide');
+                }
+        });
+    });
+});
