@@ -1,4 +1,4 @@
-let selectedOrg = 0;
+let selectedOrg  = 0;
 const contMenu = document.getElementById("contMenu");
 const body = document.getElementsByTagName("body")[0];
 let selectedEquipmentId;
@@ -130,7 +130,7 @@ function getFaultsTable(idOborudovanie) {
                     let countDays = Math.floor((today.getTime() - new Date(row.date_fault).getTime()) / (1000 * 60 * 60 * 24));
                     let stringDays = countDays.toString() === "NaN" ? 'Не выставлена дата поломки' : (countDays + " дней");
                     tableContent += '<td>' + stringDays + '</td>';
-                    tableContent += '<td>' + (row.remont > 0 ? 'Да' : 'Нет') + '</td>';
+                    tableContent += '<td>' + (row.remont > 0 ? 'Да' : 'Нет') +  '</td>';
                     tableContent += '<td>' + row.date_remont + '</td>';
                     tableContent += '<td><a href="#" onclick="confirmDeleteFault(' + row.id_fault + '); return false;">&#10060;</a><a href="#" onclick="editFault(' + row.id_fault + ');">✏️</a></td>';
                     tableContent += '</tr>';
@@ -417,11 +417,11 @@ function editFault(id_fault) {
             document.getElementById('edit_date_dogovora').value = data.date_dogovora;
             document.getElementById('edit_cost_repair').value = data.cost_repair;
             document.getElementById('edit_time_repair').value = data.time_repair;
-            console.log(data.remont + '[eq[e[[qe[q[we[qew[eqe')
+            console.log (data.remont + '[eq[e[[qe[q[we[qew[eqe')
             const remontValue = parseInt(data.remont, 10);
-            if (remontValue === 1) {
+            if (remontValue  === 1) {
                 remontSelect.value = '1';
-            } else if (remontValue === 0) {
+            } else if (remontValue  === 0) {
                 remontSelect.value = '0';
             } else {
                 remontSelect.value = '';
@@ -592,11 +592,11 @@ function saveEditedOborudovanie() {
     let dr = document.getElementById('edit_date_release').value;
     let mod = document.getElementById('edit_model_prozvoditel').value;
     let so = select_servicemans.getAttribute('data-id');
-    // let so = document.getElementById('edit_serviceman').value;
+   // let so = document.getElementById('edit_serviceman').value;
     let dto = document.getElementById('edit_date_last_TO').value;
     let stat = select_status.options[select_status.selectedIndex].value
 
-    if (selectedServiceId)
+    if(selectedServiceId)
         so = selectedServiceId;
     $.ajax({
         url: '/app/ajax/updateOborudovanie.php',
@@ -637,11 +637,16 @@ $('#editEffectForm').on('submit', function (event) {
 });
 
 
+
+
 function saveAddedOborudovanie() {
     let select_type_oborudovanie = document.getElementById("select_type_oborudovanie");
     let select_servicemans = document.getElementById("select_serviceman");
     let select_status = document.getElementById("select_status");
-
+    if(selectedServiceId === 0){
+        alert("Выберите сервисную организацию из списка!");
+        return;
+    }
     $.ajax({
         url: '/app/ajax/insertOborudovanie.php',
         type: 'POST',
@@ -670,62 +675,59 @@ function saveAddedOborudovanie() {
 }
 
 
+
 function startFilter() {
     let filterContainer = document.getElementById("filterContainer");
     filterContainer.style.display = filterContainer.style.display === "none" ? "block" : "none";
 }
-
 function filterTable() {
-    let equipmentFilter = document.getElementById("filterEquipment").value.toLowerCase();
-    let yearFilter = document.getElementById("filterYear").value;
-    let datePostavkiFilter = document.getElementById("filterDatePostavki").value;
-    let dateReleaseFilter = document.getElementById("filterDateRelease").value;
-    let serviceFilter = document.getElementById("filterService").value.toLowerCase();
-    let statusFilter = document.getElementById("filterStatus").value.toLowerCase();
-    let table;
-    console.log(selectedOrg);
-    let j;
-    if (selectedOrg !== 0) {
-        table = document.getElementById("infoOb" + selectedOrg);
-        j = 0;
-    } else {
-        table = document.getElementById("infoObAll");
-        j = 1;
-    }
+    let equipmentFilter = $("#filterEquipment").val();
+    let yearFilter = $("#filterYear").val();
+    let datePostavkiFilter = $("#filterDatePostavki").val();
+    let dateReleaseFilter = $("#filterDateRelease").val();
+    let serviceFilter = $("#filterService").val();
+    let statusFilter = $("#filterStatus").val();
 
-    let rows = table.getElementsByTagName("tr");
-    for (let i = 1; i < rows.length; i++) {
-        let cells = rows[i].getElementsByTagName("td");
-        let equipmentMatch = equipmentFilter === "" || cells[j].innerText.toLowerCase().indexOf(equipmentFilter) > -1;
-        let yearMatch = yearFilter === "" || cells[j + 1].innerText === yearFilter;
-        let datePostavkiMatch = datePostavkiFilter === "" || cells[j + 2].innerText === datePostavkiFilter;
-        let dateReleaseMatch = dateReleaseFilter === "" || cells[j + 3].innerText === dateReleaseFilter;
-        let serviceMatch = serviceFilter === "" || cells[j + 4].innerText.toLowerCase().indexOf(serviceFilter) > -1;
-        let statusMatch = statusFilter === "" || cells[j + 5].innerText.toLowerCase().indexOf(statusFilter) > -1;
-        if (equipmentMatch && yearMatch && datePostavkiMatch && dateReleaseMatch && serviceMatch && statusMatch) {
-            rows[i].style.display = "";
-        } else {
-            rows[i].style.display = "none";
+    $.ajax({
+        type: "POST",
+        url: "/app/ajax/filterGetData.php",
+        data: {
+            equipment: equipmentFilter,
+            id_uz: selectedOrg,
+            year: yearFilter,
+            datePostavki: datePostavkiFilter,
+            dateRelease: dateReleaseFilter,
+            service: serviceFilter,
+            status: statusFilter
+        },
+        success: function(response) {
+            $('#infoOb' + selectedOrg).DataTable().destroy();
+            $("#infoOb" + selectedOrg).html(response);
+            $('#infoOb' + selectedOrg).DataTable();
+
+        },
+        error: function(xhr, status, error) {
+            console.error("Ошибка при выполнении запроса: " + error);
         }
-    }
+    });
 }
 
 let selectedPostavschikId = 0;
 
-function filterS(event, id) {
+function filterS(event, id){
     let filetS = event.target;
     let filteredDiv = filetS.nextElementSibling;
-    if (filteredDiv.classList.contains("hidden")) {
+    if(filteredDiv.classList.contains("hidden")) {
         filteredDiv.classList.remove("hidden");
-    } else {
+    }else{
         filteredDiv.classList.add("hidden");
     }
-    let arrServices = Array.from(filteredDiv.children).map(function (event) {
+    let arrServices = Array.from(filteredDiv.children).map(function(event) {
         return {data_id: event.getAttribute('data-id'), text: event.innerText};
     });
-    filetS.addEventListener("input", function (event) {
-        let sortedArr = arrServices.filter((item) => {
-            return item.text.toLowerCase().includes(event.target.value.toLowerCase());
+    filetS.addEventListener("input", function(event) {
+        let sortedArr = arrServices.filter( (item) => {
+                return item.text.toLowerCase().includes(event.target.value.toLowerCase()) ;
         });
 
         let items = filteredDiv.children;
@@ -740,53 +742,55 @@ function filterS(event, id) {
                 items[i].style.display = 'none';
             }
         }
-        if (filetS.value == "") {
-            if (id == 2) {
+        if(filetS.value == "") {
+            if(id == 2) {
                 selectedPostavschikId = 0;
                 filetS.setAttribute('data-id', selectedPostavschikId);
 
-            } else {
+            }else {
                 selectedServiceId = 0;
                 filetS.setAttribute('data-id', selectedServiceId);
 
             }
-            if (!filteredDiv.classList.contains("hidden")) {
+            if(!filteredDiv.classList.contains("hidden")) {
                 filteredDiv.classList.add("hidden");
             }
-        } else {
-            if (filteredDiv.classList.contains("hidden")) {
+        }else{
+            if(filteredDiv.classList.contains("hidden")) {
                 filteredDiv.classList.remove("hidden");
             }
         }
+
 
 
     });
 }
 
 
-function setServiceman(event) {
+
+function setServiceman(event){
     $("#filterServicemans").val(event.target.innerText);
     selectedServiceId = event.target.getAttribute('data-id');
 }
 
-function setPostavschik(event) {
+function setPostavschik(event){
     $("#filterPostavschik").val(event.target.innerText);
     selectedPostavschikId = event.target.getAttribute('data-id');
 }
 
-function showModalAddOborudovanieUnspecified() {
+function showModalAddOborudovanieUnspecified(){
     $('#editBtnOb').hide();
     $('#addBtnOb').show();
     $('#editOborudovanieModal').modal('show');
     $('#editOborudovanieModal .modal-title').text("Добавление оборудования");
 }
 
-function addOborudovanieUnspecified() {
-    if (selectedServiceId === 0) {
+function addOborudovanieUnspecified(){
+    if(selectedServiceId === 0){
         alert("Выберите сервисную организацию из списка!");
         return;
     }
-    if (selectedPostavschikId === 0) {
+    if(selectedPostavschikId === 0){
         alert("Выберите поставщика из списка!");
         return;
     }
@@ -805,10 +809,11 @@ function addOborudovanieUnspecified() {
             reasons: document.getElementById('edit_reasons').value || null
         },
         success: function (data) {
-            if (data == "1") {
+            if (data == "1"){
                 alert("Оборудование добавлено!");
                 location.reload();
-            } else {
+            }
+            else{
                 alert("Произошла непредвиденная ошибка, свяжитесь с разработчиком");
             }
         }
