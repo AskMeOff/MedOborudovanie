@@ -103,6 +103,7 @@ class User
 
 
 
+
     public function toJson() {
         return json_encode([
             'id' => $this->id,
