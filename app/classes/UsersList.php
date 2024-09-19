@@ -1,6 +1,5 @@
 <?php
 //include '../../connection/connection.php';
-require_once 'connection/connection.php';
 include 'User.php';
 
 class UsersList
@@ -68,7 +67,7 @@ class UsersList
         $sql = "SELECT * FROM users";
         $result = mysqli_query($con, $sql);
         while ($row = mysqli_fetch_assoc($result)) {
-            $user = new User($row['id_user'], $row['login'], $row['username'], $row['email'], $row['id_role'], $row['token']);
+            $user = new User($row['id_user'], $row['login'], $row['username'], $row['email'], $row['id_role'], $row['token'], $row['id_uz']);
             $this->putUser($user);
         }
     }
