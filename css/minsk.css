@@ -255,3 +255,11 @@ th{
     text-align: center;
     vertical-align: middle;
 }
+
+.zaehal{
+    transform: translateX(500px);
+}
+
+.viehal{
+    transform: translateX(0px);
+}

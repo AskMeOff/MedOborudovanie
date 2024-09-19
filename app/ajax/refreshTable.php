@@ -6,7 +6,7 @@ $sql = "SELECT o.*, type_oborudovanie.name, s.name as servname FROM oborudovanie
         left outer join type_oborudovanie on o.id_type_oborudovanie = type_oborudovanie.id_type_oborudovanie
         left outer join uz on o.id_uz = uz.id_uz
         left outer join servicemans s on s.id_serviceman = o.id_serviceman
-        where uz.id_uz = '$id_org'
+        where uz.id_uz = '$id_org' and status in (0,1)
         ";
 $result = $connectionDB->executeQuery($sql);
 

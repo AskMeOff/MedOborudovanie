@@ -74,7 +74,17 @@ if (isset($_COOKIE['token']) && $_COOKIE['token'] !== '') {
             $serviceNames[] = $row['name'];
         }
         if (!isset($_GET['id_type'])) {
-            echo '           <div>  <button class="btn btn-info" onclick="startFilter()" style=" margin-top: 10px; ">Фильтры</button> </div> 
+            echo '           <div>  <button class="btn btn-info" onclick="startFilter()" style=" margin-top: 10px; ">Фильтры</button> 
+           <a class="nav-link sidebartoggler nav-icon-hover" id="arrow-left" onclick="toggleRightSection()" style="
+           position: absolute;
+    right: 50px;
+    cursor: pointer;
+    top: 11%;
+    color: rgb(152, 212, 212);
+    display: none;" >
+                    <i class="ti ti-arrow-left" style="font-size: 30px; "></i>
+                </a>
+           </div> 
             <div id="filterContainer" style="display: none;">
             <div class = "filtCol row">
                         <div class="col-lg-4">
@@ -159,20 +169,20 @@ if (isset($_COOKIE['token']) && $_COOKIE['token'] !== '') {
                                         INNER JOIN uz on oborudovanie.id_uz=uz.id_uz
                                         left outer join type_oborudovanie on oborudovanie.id_type_oborudovanie = type_oborudovanie.id_type_oborudovanie
                                         left outer join servicemans s on s.id_serviceman = oborudovanie.id_serviceman
-                                        WHERE uz.id_oblast=$id_obl and uz.id_uz = $id_uz and oborudovanie.status = 0";
+                                        WHERE uz.id_oblast=$id_obl and uz.id_uz = $id_uz and (oborudovanie.status = 0)";
             } else if ($id_role == 2 || $id_role == 1) {
                 $sql1 = "SELECT oborudovanie.*, type_oborudovanie.name, uz.name as poliklinika, s.name as servname FROM oborudovanie 
                                         INNER JOIN uz on oborudovanie.id_uz=uz.id_uz
                                         left outer join type_oborudovanie on oborudovanie.id_type_oborudovanie = type_oborudovanie.id_type_oborudovanie
                                         left outer join servicemans s on s.id_serviceman = oborudovanie.id_serviceman
-                                        WHERE uz.id_oblast=$id_obl  and oborudovanie.status = 0";
+                                        WHERE uz.id_oblast=$id_obl  and (oborudovanie.status = 0)";
             } else if ($id_role == 3) {
                 if ($id_obl == $idoblguzo) {
                     $sql1 = "SELECT oborudovanie.*, type_oborudovanie.name, uz.name as poliklinika, s.name as servname FROM oborudovanie 
                                         INNER JOIN uz on oborudovanie.id_uz=uz.id_uz
                                         left outer join type_oborudovanie on oborudovanie.id_type_oborudovanie = type_oborudovanie.id_type_oborudovanie
                                         left outer join servicemans s on s.id_serviceman = oborudovanie.id_serviceman
-                                        WHERE uz.id_oblast=$id_obl  and oborudovanie.status = 0";
+                                        WHERE uz.id_oblast=$id_obl  and (oborudovanie.status = 0)";
                 } else {
                     echo "Данные недоступны для вашей области.";
                     exit;
@@ -255,7 +265,7 @@ if (isset($_COOKIE['token']) && $_COOKIE['token'] !== '') {
         $sql1 = "SELECT oborudovanie.*, type_oborudovanie.name, s.name as servname FROM oborudovanie
                                         left outer join type_oborudovanie on oborudovanie.id_type_oborudovanie = type_oborudovanie.id_type_oborudovanie
                                         left outer join servicemans s on s.id_serviceman = oborudovanie.id_serviceman
-                                        where id_uz = $id_uz";
+                                        where id_uz = $id_uz and status in (0,1)";
         $result1 = $connectionDB->executeQuery($sql1);
         while ($row1 = mysqli_fetch_assoc($result1)) {
             $nameOborudov = $row1['name'];
@@ -292,7 +302,10 @@ if (isset($_COOKIE['token']) && $_COOKIE['token'] !== '') {
     }
 
 
-    echo '<section class="col-lg-3" id="right_section">
+    echo '<section class="col-lg-3" id="right_section" style="transition: transform 1s;">
+<a class="nav-link sidebartoggler nav-icon-hover" onclick="toggleRightSection()" style="margin-top: 10px; cursor: pointer; color: rgb(152, 212, 212)" >
+                    <i class="ti ti-arrow-right" style="font-size: 30px; "></i>
+                </a>
     <div><input style="width:100%;" type="text" id="myInputOrg" onkeyup="myFunctionOrg(this)"
                 placeholder="Поиск организации"
                 title="Type in a name">
