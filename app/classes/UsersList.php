@@ -72,6 +72,15 @@ class UsersList
         }
     }
 
+    public function getOblastByToken($con,$token)
+    {
+        $sql = "SELECT us.id_obl FROM users us where us.token = '$token'";
+
+        $result = mysqli_query($con, $sql);
+        $row = mysqli_fetch_assoc($result);
+        return $row['id_obl'];
+    }
+
 
     public function getListUsers()
     {

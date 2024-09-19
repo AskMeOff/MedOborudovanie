@@ -3,6 +3,7 @@ const contMenu = document.getElementById("contMenu");
 const body = document.getElementsByTagName("body")[0];
 let selectedEquipmentId;
 let selectedServiceId = 0;
+let oblId;
 
 function showMenu(thisTr, idOborudovanie) {
     event.preventDefault();
@@ -687,29 +688,55 @@ function filterTable() {
     let dateReleaseFilter = $("#filterDateRelease").val();
     let serviceFilter = $("#filterService").val();
     let statusFilter = $("#filterStatus").val();
+    if (selectedOrg>0) {
+        $.ajax({
+            type: "POST",
+            url: "/app/ajax/filterGetData.php",
+            data: {
+                equipment: equipmentFilter,
+                id_uz: selectedOrg,
+                year: yearFilter,
+                datePostavki: datePostavkiFilter,
+                dateRelease: dateReleaseFilter,
+                service: serviceFilter,
+                status: statusFilter
+            },
+            success: function (response) {
+                $('#infoOb' + selectedOrg).DataTable().destroy();
+                $("#infoOb" + selectedOrg).html(response);
+                $('#infoOb' + selectedOrg).DataTable();
 
-    $.ajax({
-        type: "POST",
-        url: "/app/ajax/filterGetData.php",
-        data: {
-            equipment: equipmentFilter,
-            id_uz: selectedOrg,
-            year: yearFilter,
-            datePostavki: datePostavkiFilter,
-            dateRelease: dateReleaseFilter,
-            service: serviceFilter,
-            status: statusFilter
-        },
-        success: function(response) {
-            $('#infoOb' + selectedOrg).DataTable().destroy();
-            $("#infoOb" + selectedOrg).html(response);
-            $('#infoOb' + selectedOrg).DataTable();
+            },
+            error: function (xhr, status, error) {
+                console.error("Ошибка при выполнении запроса: " + error);
+            }
+        });
+    }
+    else{
+console.log (oblId + "oblast");
+        $.ajax({
+            type: "POST",
+            url: "/app/ajax/filterGetDataNoOrg.php",
+            data: {
+                equipment: equipmentFilter,
+                id_obl: oblId,
+                year: yearFilter,
+                datePostavki: datePostavkiFilter,
+                dateRelease: dateReleaseFilter,
+                service: serviceFilter,
+                status: statusFilter
+            },
+            success: function (response) {
+                $('#infoObAll').DataTable().destroy();
+                $('#infoObAll').html(response);
+                $('#infoObAll').DataTable();
 
-        },
-        error: function(xhr, status, error) {
-            console.error("Ошибка при выполнении запроса: " + error);
-        }
-    });
+            },
+            error: function (xhr, status, error) {
+                console.error("Ошибка при выполнении запроса: " + error);
+            }
+        });
+    }
 }
 
 let selectedPostavschikId = 0;

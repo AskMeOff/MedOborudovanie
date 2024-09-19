@@ -13,31 +13,31 @@ if (currentUrl == "?main" || currentUrl == "") {
     serviceMenu.classList.add('active');
 }
 
-function getUzs(id_obl) {
-    console.log('xyu')
-
-    $.ajax({
-        url: "app/pages/obls/minsk.php",
-        method: "GET",
-        data: {id_obl: id_obl}
-    }).then(response => {
-        let bodywrap = document.getElementById("bodywrap");
-        bodywrap.innerHTML = response;
-        if ($("#infoObAll").length) {
-            try {
-                $("#infoObAll").DataTable().destroy();
-            } catch (e) {
-                console.log(e);
-            }
-        }
-        $("#infoObAll").DataTable();
-
-
-    })
-
-}
+// function getUzs(id_obl) {
+//
+//     $.ajax({
+//         url: "app/pages/obls/minsk.php",
+//         method: "GET",
+//         data: {id_obl: id_obl}
+//     }).then(response => {
+//         let bodywrap = document.getElementById("bodywrap");
+//         bodywrap.innerHTML = response;
+//         if ($("#infoObAll").length) {
+//             try {
+//                 $("#infoObAll").DataTable().destroy();
+//             } catch (e) {
+//                 console.log(e);
+//             }
+//         }
+//         $("#infoObAll").DataTable();
+//
+//
+//     })
+//
+// }
 
 function getUzs(id_obl, id_type) {
+    oblId=id_obl;
     $.ajax({
         url: "app/pages/obls/minsk.php",
         method: "GET",
@@ -106,3 +106,18 @@ function filterFunction() {
         option.style.display = txtValue.toLowerCase().indexOf(filter) > -1 ? "" : "none";
     }
 }
+$(document).ready(function() {
+    $('#saveService').click(function() {
+        let serviceName = $('#serviceName').val();
+        $.ajax({
+            url: '/app/ajax/saveService.php',
+            type: 'POST',
+            data: { name: serviceName },
+            success: function(response) {
+                console.log (response)
+                    alert('Сервисант успешно добавлен!');
+                    $('#addServiceModal').modal('hide');
+                }
+        });
+    });
+});

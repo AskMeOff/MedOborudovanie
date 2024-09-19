@@ -3,7 +3,10 @@
 echo '<link rel="stylesheet" href="css/minsk.css">
 <section class="content" style="margin-top: 100px; margin-left: 15px">
     <div class="container-fluid" id="container_fluid">
-        <div class="row" id="main_row">';
+    '; if($login=='admin'){
+echo ' <a href="#" class="btn btn-info" data-toggle="modal" data-target="#addServiceModal">Добавить сервисанта</a>
+';}
+     echo'   <div class="row" id="main_row">';
 
 
             $query = "select * from servicemans;";
@@ -40,22 +43,7 @@ while ($row = mysqli_fetch_assoc($result)) {
                                                     </tr>
                             </thead>
                             <tbody>';
-//    $sql1 = "SELECT count(o.id_oborudovanie) countUz,uz.id_uz, uz.name   FROM oborudovanie o
-//                                        left join uz uz on o.id_uz = uz.id_uz
-//                                        left join servicemans s on s.id_serviceman = o.id_serviceman
-//                                        where s.id_serviceman = '$id_serviceman' group by uz.id_uz";
-//    $result1 = $connectionDB->executeQuery($sql1);
-//    while ($row1 = mysqli_fetch_assoc($result1)) {
-//        $nameUz = $row1['name'];
-//        $id_uz = $row1['id_uz'];
-//        $countUz = $row1['countUz'];
-//        echo '<tr id=iduz'.$id_uz.'  >';
-//
-//        echo '<td>' . $nameUz . '</td>';
-//        echo '<td>' . $countUz . '</td>';
-//
-//        echo '</tr>';
-//    }
+
 $sql1 = "SELECT ob.id_oborudovanie, uz.id_uz, uz.name, typ.name as typename, ob.date_dogovor_service, ob.srok_dogovor_service, ob.summa_dogovor_service, ob.type_work_dogovor_service FROM `servicemans` s
 inner JOIN oborudovanie ob on s.id_serviceman = ob.id_serviceman
 LEFT JOIN uz uz on uz.id_uz = ob.id_uz
@@ -163,7 +151,7 @@ echo '<div class="modal" id="editServiceModal">
             </div>
         </div>
     </div>
-    
+
 </div>'
 ;
 echo '<div class="overlay" id="overlay">
@@ -171,11 +159,37 @@ echo '<div class="overlay" id="overlay">
        Выберите сервисанта
     </div>
     <img src="app/assets/images/fast-forward.gif" alt="GIF" class="overlay-gif">
-</div>';
+</div>
 
-
+<div class="modal fade" id="addServiceModal" tabindex="-1" role="dialog" aria-labelledby="addServiceModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addServiceModalLabel">Добавить сервисную организацию</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="serviceForm">
+                    <div class="form-group">
+                        <label for="serviceName">Наименование сервисной организации</label>
+                        <input type="text" class="form-control" id="serviceName" required>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
+                <button type="button" class="btn btn-primary" id="saveService">Сохранить</button>
+            </div>
+        </div>
+    </div>
+</div>
+';
 
 echo '
-
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 ';
 ?>
