@@ -643,10 +643,7 @@ function saveAddedOborudovanie() {
     let select_type_oborudovanie = document.getElementById("select_type_oborudovanie");
     let select_servicemans = document.getElementById("select_serviceman");
     let select_status = document.getElementById("select_status");
-    if(selectedServiceId === 0){
-        alert("Выберите сервисную организацию из списка!");
-        return;
-    }
+
     $.ajax({
         url: '/app/ajax/insertOborudovanie.php',
         type: 'POST',
@@ -822,4 +819,19 @@ function addOborudovanieUnspecified(){
             }
         }
     })
+}
+
+function toggleRightSection(){
+    $("#right_section").toggle();
+    $("#arrow-left").toggle();
+    let section = $(".connectedSortable");
+    if(section.hasClass("col-lg-9")) {
+        section.removeClass("col-lg-9");
+        section.addClass("col-lg-12");
+    }
+    else{
+        section.removeClass("col-lg-12");
+        section.addClass("col-lg-9");
+    }
+
 }
