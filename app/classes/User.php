@@ -8,9 +8,10 @@ class User
     private $email;
     private $role;
     private $token;
+    private $id_uz;
 
 
-    public function __construct($id, $login, $username, $email, $role, $token)
+    public function __construct($id, $login, $username, $email, $role, $token, $id_uz)
     {
         $this->id = $id;
         $this->login = $login;
@@ -18,6 +19,7 @@ class User
         $this->email = $email;
         $this->role = $role;
         $this->token = $token;
+        $this->id_uz = $id_uz;
     }
 
 
@@ -91,6 +93,16 @@ class User
         $this->token = $token;
     }
 
+    /**
+     * @return mixed
+     */
+    public function getIdUz()
+    {
+        return $this->id_uz;
+    }
+
+
+
     public function toJson() {
         return json_encode([
             'id' => $this->id,
@@ -98,7 +110,8 @@ class User
             'username' => $this->username,
             'email' => $this->email,
             'role' => $this->role,
-            'token' => $this->token
+            'token' => $this->token,
+            'id_uz' => $this->id_uz
         ]);
     }
 

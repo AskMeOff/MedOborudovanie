@@ -712,7 +712,9 @@ function filterTable() {
     }
 }
 
-function filterS(event){
+let selectedPostavschikId = 0;
+
+function filterS(event, id){
     let filetS = event.target;
     let filteredDiv = filetS.nextElementSibling;
     if(filteredDiv.classList.contains("hidden")) {
@@ -741,8 +743,15 @@ function filterS(event){
             }
         }
         if(filetS.value == "") {
-            selectedServiceId = 0;
-            filetS.setAttribute('data-id', selectedServiceId);
+            if(id == 2) {
+                selectedPostavschikId = 0;
+                filetS.setAttribute('data-id', selectedPostavschikId);
+
+            }else {
+                selectedServiceId = 0;
+                filetS.setAttribute('data-id', selectedServiceId);
+
+            }
             if(!filteredDiv.classList.contains("hidden")) {
                 filteredDiv.classList.add("hidden");
             }
@@ -762,4 +771,43 @@ function filterS(event){
 function setServiceman(event){
     $("#filterServicemans").val(event.target.innerText);
     selectedServiceId = event.target.getAttribute('data-id');
+}
+
+function setPostavschik(event){
+    $("#filterPostavschik").val(event.target.innerText);
+    selectedPostavschikId = event.target.getAttribute('data-id');
+}
+
+function showModalAddOborudovanieUnspecified(){
+    $('#editBtnOb').hide();
+    $('#addBtnOb').show();
+    $('#editOborudovanieModal').modal('show');
+    $('#editOborudovanieModal .modal-title').text("Добавление оборудования");
+}
+
+function addOborudovanieUnspecified(){
+    $.ajax({
+        url: '/app/ajax/insertOborudovanieUnspecified.php',
+        type: 'POST',
+        data: {
+            id_type_oborudovanie: document.getElementById('select_type_oborudovanie').options[document.getElementById('select_type_oborudovanie').selectedIndex].value,
+            cost: document.getElementById('edit_cost').value,
+            model: document.getElementById('edit_model').value || null,
+            contract: document.getElementById('edit_contract').value || null,
+            id_serviceman: selectedServiceId || null,
+            id_postavschik: selectedPostavschikId || null,
+            date_get_sklad: document.getElementById('edit_date_get_oborud').value || null,
+            date_srok_vvoda: document.getElementById('edit_date_srok_vvoda').value || null,
+            reasons: document.getElementById('edit_reasons').value || null
+        },
+        success: function (data) {
+            if (data == "1"){
+                alert("Оборудование добавлено!");
+                location.reload();
+            }
+            else{
+                alert("Произошла непредвиденная ошибка, свяжитесь с разработчиком");
+            }
+        }
+    })
 }
