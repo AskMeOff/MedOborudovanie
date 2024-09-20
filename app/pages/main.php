@@ -77,6 +77,90 @@ $result = $connectionDB->executeQuery($sql);
             }
 
         }
+
+
+
+        .popup {
+            display: none;
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            animation: fadeIn 0.5s;
+        }
+        .popup-content {
+            background: linear-gradient(135deg, #ffffff, #e0e0e0);
+            padding: 40px;
+            border-radius: 15px;
+            text-align: center;
+            width: 500px;
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.5);
+            transform: translateY(-30px);
+            animation: slideIn 0.5s forwards;
+        }
+        .close {
+            color: #888;
+            float: right;
+            font-size: 32px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .close:hover,
+        .close:focus {
+            color: #ff4c4c;
+            text-decoration: none;
+        }
+        h2 {
+            font-family: 'Arial', sans-serif;
+            color: #333;
+            margin-bottom: 15px;
+            border-bottom: 2px solid #ff4c4c;
+            padding-bottom: 10px;
+        }
+        p {
+            font-family: 'Arial', sans-serif;
+            color: #555;
+            font-size: 16px;
+            line-height: 1.5;
+            margin-top: 15px;
+        }
+        .button {
+            background-color: #ff4c4c;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: background-color 0.3s;
+        }
+        .button:hover {
+            background-color: #e63946;
+        }
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+        @keyframes slideIn {
+            from {
+                transform: translateY(-30px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
     </style>
 </head>
 <body>
@@ -121,7 +205,20 @@ foreach ($regions as $region) {
     echo "</div>";
     $i++;
 }
-echo "</div>";
+echo "</div>
+";
+
+
+echo '<div id="popup" class="popup">
+    <div class="popup-content">
+        <span class="close" onclick="closePopup()">&times;</span>
+        <h2>Важная новость!</h2>
+        <p>Уважаемые пользователи системы! Пожалуйста, заполните таблицу неисправности оборудования по всему неисправному оборудованию (кликните на кнопку, которая находится в столбце статус "Неисправное" красным цветом).</p>
+        <button class="button" onclick="closePopup()">Закрыть</button>
+    </div>
+</div>';
+
+
 
 
 ?>
@@ -129,6 +226,19 @@ echo "</div>";
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
 
 <script>
+
+    function showPopup() {
+        document.getElementById("popup").style.display = "flex";
+    }
+
+    function closePopup() {
+        document.getElementById("popup").style.display = "none";
+    }
+    window.onload = function() {
+        showPopup();
+    };
+
+
     let mainChartData = [<?php echo $sumIspravno?>,<?php echo $sumNeispravno?>];
 
     new Chart('chartBelarus', {
