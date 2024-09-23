@@ -70,7 +70,7 @@ where s.id_serviceman = '$id_serviceman'";
         echo '<td>' . $costRepair . '</td>';
         echo '<td>' . $typeWorkDogovor . '</td>';
         if($id_role == "1")
-            echo '<td><a href="#" onclick="editService(' . $id_oborudovanie . ')">✏️</a></td>';
+            echo '<td><a href="#" onclick="editService(' . $id_oborudovanie . ')"><i class="fa fa-edit" style="font-size: 20px;"></i>️</a></td>';
         echo '</tr>';
     }
     echo ' 

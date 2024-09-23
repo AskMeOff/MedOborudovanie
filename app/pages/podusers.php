@@ -73,7 +73,7 @@ if (isset($_COOKIE['token']) && $_COOKIE['token'] !== '') {
             echo '<tr data-id=' . $id_user . '  >';
             echo '<td>' . $name . '</td>';
             echo '<td>' . $loginOrg . '</td>';
-            echo '<td style="cursor: pointer" contenteditable="true" onblur="changePass(event)" data-pass="' . $password . '">' . $password . '</td>';
+            echo '<td style="cursor: pointer" contenteditable="true" id="td-change-pass" onblur="changePass(event)" data-pass="' . $password . '">' . $password . '</td>';
             echo '<td><button class="btn btn-danger" onclick="deletePodUser(' . $id_user . ')">&#10060;</button></td>';
             echo '</tr>';
         }
@@ -153,6 +153,17 @@ echo '
         "order": [[0, "asc"]],
         "pageLength": 10 
         });
+         
+             let tdChangePass = document.getElementById("td-change-pass");
+
+         
+         tdChangePass.addEventListener("keypress", function (e) {
+             
+        if (e.key === "Enter") { 
+            e.preventDefault();  
+            changePass(e);
+        }
+    });
     });
     
     function modalAddUser(){
@@ -178,6 +189,9 @@ echo '
             })
         }
     }
+    
+    
+    
     
     function changePass(event){
         

@@ -152,7 +152,7 @@ function refreshTableOborudovanieService() {
                     tableContent += '<td>' + row.srok_dogovor_service + '</td>';
                     tableContent += '<td>' + row.summa_dogovor_service + '</td>';
                     tableContent += '<td>' + row.type_work_dogovor_service + '</td>';
-                    tableContent += '<td><a href="#" onclick="editService(' + row.id_oborudovanie + ')">✏️</a></td>';
+                    tableContent += '<td><a href="#" onclick="editService(' + row.id_oborudovanie + ')"><i class="fa fa-edit" style="font-size: 20px;"></i>️</a></td>';
                     tableContent += '</tr>';
                 });
             } else {

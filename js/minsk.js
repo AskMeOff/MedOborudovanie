@@ -133,7 +133,7 @@ function getFaultsTable(idOborudovanie) {
                     tableContent += '<td>' + stringDays + '</td>';
                     tableContent += '<td>' + (row.remont > 0 ? 'Да' : 'Нет') +  '</td>';
                     tableContent += '<td>' + row.date_remont + '</td>';
-                    tableContent += '<td><a href="#" onclick="confirmDeleteFault(' + row.id_fault + '); return false;">&#10060;</a><a href="#" onclick="editFault(' + row.id_fault + ');">✏️</a></td>';
+                    tableContent += '<td><a href="#" onclick="confirmDeleteFault(' + row.id_fault + '); return false;"><i class="fa fa-trash" style="font-size: 20px;"></i></a><a href="#" onclick="editFault(' + row.id_fault + ');"><i class="fa fa-edit" style="font-size: 20px;"></i>️</a></td>';
                     tableContent += '</tr>';
                 });
             } else {
@@ -194,7 +194,7 @@ function refreshMainTable() {
                         tableContent += '<td  onclick="getFaultsTable(' + row.id_oborudovanie + ')" style="cursor: pointer"><div style = "border-radius: 5px;background-color: red;color: white;padding: 5px; font-size: 11px; width: 85px;">неисправно</div></td>';
 
                     }
-                    tableContent += '<td><a href="#" onclick="confirmDeleteOborudovanie(' + row.id_oborudovanie + ')">&#10060;</a><a href="#" onclick="editOborudovanie(' + row.id_oborudovanie + ')">✏️</a></td>';
+                    tableContent += '<td><a href="#" onclick="confirmDeleteOborudovanie(' + row.id_oborudovanie + ')"><i class="fa fa-trash" style="font-size: 20px;"></i></a><a href="#" onclick="editOborudovanie(' + row.id_oborudovanie + ')"><i class="fa fa-edit" style="font-size: 20px;"></i>️</a></td>';
                     tableContent += '</tr>';
                 });
             } else {
@@ -242,7 +242,7 @@ function getEffectTable(selectedEquipmentId) {
                     tableContent += '<tr>';
                     tableContent += '<td>' + row.count_research + '</td>';
                     tableContent += '<td>' + row.count_patient + '</td>';
-                    tableContent += '<td><a href="#" onclick="confirmDeleteEffect(' + row.id_use_efficiency + '); return false;">&#10060;</a><a href="#" onclick="editEffect(' + row.id_use_efficiency + ');">✏️</a></td>';
+                    tableContent += '<td><a href="#" onclick="confirmDeleteEffect(' + row.id_use_efficiency + '); return false;"><i class="fa fa-trash" style="font-size: 20px;"></i></a><a href="#" onclick="editEffect(' + row.id_use_efficiency + ');"><i class="fa fa-edit" style="font-size: 20px;"></i>️</a></td>';
                     tableContent += '</tr>';
                 });
             } else {
@@ -599,6 +599,13 @@ function saveEditedOborudovanie() {
 
     if(selectedServiceId)
         so = selectedServiceId;
+    else{
+        if(select_servicemans.value != ""){
+            alert("Введенной сервисной организации нет в базе, выберите организацию из списка, либо обратитесь в техническую поддержку.");
+            return;
+        }
+    }
+
     $.ajax({
         url: '/app/ajax/updateOborudovanie.php',
         type: 'POST',

@@ -55,3 +55,11 @@ body {
     }
 }
 
+.fa-edit{
+    margin-left: 5px;
+    color: green;
+}
+
+.fa-trash{
+    color: orange;
+}
