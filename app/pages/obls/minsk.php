@@ -31,7 +31,12 @@ if (isset($_COOKIE['token']) && $_COOKIE['token'] !== '') {
     if ($id_role == 4) {
         $query = "select * from uz where id_oblast = '$id_obl' and id_uz = '$id_uz';";
     } else if ($id_role == 2 || $id_role == 1) {
-        $query = "select * from uz where id_oblast = '$id_obl';";
+
+        if ($id_obl == 111){
+            $query = "select * from uz";
+        }else {
+            $query = "select * from uz where id_oblast = '$id_obl';";
+        }
     } else if ($id_role == 3) {
         if ($id_obl == $idoblguzo) {
             $query = "select * from uz where id_oblast = '$id_obl'";
@@ -171,7 +176,15 @@ if (isset($_COOKIE['token']) && $_COOKIE['token'] !== '') {
                                         left outer join servicemans s on s.id_serviceman = oborudovanie.id_serviceman
                                         WHERE uz.id_oblast=$id_obl and uz.id_uz = $id_uz and (oborudovanie.status in (0,1))";
             } else if ($id_role == 2 || $id_role == 1) {
-                $sql1 = "SELECT oborudovanie.*, type_oborudovanie.name, uz.name as poliklinika, s.name as servname FROM oborudovanie 
+                 if ($id_obl == 111){
+                     $sql1 = "SELECT oborudovanie.*, type_oborudovanie.name, uz.name as poliklinika, s.name as servname FROM oborudovanie 
+                                        INNER JOIN uz on oborudovanie.id_uz=uz.id_uz
+                                        left outer join type_oborudovanie on oborudovanie.id_type_oborudovanie = type_oborudovanie.id_type_oborudovanie
+                                        left outer join servicemans s on s.id_serviceman = oborudovanie.id_serviceman
+                                        WHERE  (oborudovanie.status in (0,1))";
+
+                 }else {
+                     $sql1 = "SELECT oborudovanie.*, type_oborudovanie.name, uz.name as poliklinika, s.name as servname FROM oborudovanie 
                                         INNER JOIN uz on oborudovanie.id_uz=uz.id_uz
                                         left outer join type_oborudovanie on oborudovanie.id_type_oborudovanie = type_oborudovanie.id_type_oborudovanie
                                         left outer join servicemans s on s.id_serviceman = oborudovanie.id_serviceman
@@ -315,7 +328,12 @@ if (isset($_COOKIE['token']) && $_COOKIE['token'] !== '') {
     if ($id_role == 4) {
         $sql = "select * from uz where id_oblast = $id_obl and id_uz = $id_uz";
     } else if ($id_role == 2 || $id_role == 1) {
-        $sql = "select * from uz where id_oblast = $id_obl and id_uz is not null";
+        if ($id_obl == 111) {
+            $sql = "select * from uz where id_uz is not null";
+            }
+        else{
+            $sql = "select * from uz where id_oblast = $id_obl and id_uz is not null";
+        }
     } else if ($id_role == 3) {
         if ($id_obl == $idoblguzo) {
             $sql = "select * from uz where id_oblast = $id_obl and id_uz is not null";
