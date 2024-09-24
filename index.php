@@ -89,6 +89,9 @@ if (isset($TOKEN)) {
                 case "reportNewAddedOb":
                     require_once "app/pages/reportNewAddedOb.php";
                     break;
+                case "reportStatisticObor":
+                    require_once "app/pages/reportStatisticObor.php";
+                    break;
                 default:
                     require_once "app/pages/main.php";
             }

@@ -26,7 +26,7 @@ echo '
                                 <th>№ контракта, дата подписания</th>
                                 <th>Поставщик</th>
                                 <th>Сервисант</th>
-                                <th>Дата получения оборудования со склада покупателя</th>
+                                <th>Дата получения оборудования со склада продавца</th>
                                 <th>Нормативный срок ввода (дата) </th>
                                 <th>Причины, препятствующие вводу </th>
                                 <th>Статус </th>
@@ -141,7 +141,7 @@ while ($row = $result->fetch_assoc()) {
 
 echo ' </div>
                     <!---->
-                    <label for="date_get_oborud">Дата получения оборудования со склада покупателя:</label>
+                    <label for="date_get_oborud">Дата получения оборудования со склада продавца:</label>
                     <input type="date" id="edit_date_get_oborud" name="date_get_oborud">
                     
                     <label for="date_srok_vvoda">Нормативный срок ввода (дата):</label>
