@@ -4,6 +4,8 @@ const body = document.getElementsByTagName("body")[0];
 let selectedEquipmentId;
 let selectedServiceId = 0;
 let oblId;
+let currselectedEquipmentId;
+
 
 function showMenu(thisTr, idOborudovanie) {
     event.preventDefault();
@@ -218,6 +220,7 @@ function refreshMainTable() {
 
 
 function getEffectTable(selectedEquipmentId) {
+    currselectedEquipmentId  = selectedEquipmentId;
     $.ajax({
         url: '/app/ajax/getEffectTable.php',
         type: 'GET',
@@ -371,15 +374,14 @@ function addFualt() {
 }
 
 
-$('#addEffectForm').on('submit', function (e) {
-    e.preventDefault();
-
+function addEffectR () {
+console.log (currselectedEquipmentId);
     let count_research = $('#count_research').val();
     let count_patient = $('#count_patient').val();
     let data = {
         count_research: count_research,
         count_patient: count_patient,
-        id_oborudovanie: selectedEquipmentId
+        id_oborudovanie: currselectedEquipmentId
     };
     $.ajax({
         url: '/app/ajax/insertEffect.php',
@@ -399,7 +401,7 @@ $('#addEffectForm').on('submit', function (e) {
             }
         }
     });
-});
+}
 
 
 function editFault(id_fault) {

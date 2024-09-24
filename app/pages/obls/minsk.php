@@ -504,7 +504,7 @@ echo '
             </div>
             <div class="modal-body">
 
-                <form id="addEffectForm">
+                <div id="addEffectForm">
                     <label for="count_research">Количество проведенных исследований:</label>
                     <input type="number" id="count_research" name="count_research">
 
@@ -512,10 +512,10 @@ echo '
                     <input type="number" id="count_patient" name="count_patient">
 
                     <div id="btnsGroupEffect" style="margin-top: 10px;">
-                        <button type="submit" class="btn btn-info">Добавить запись</button>
+                        <button type="button" onclick = "addEffectR()" class="btn btn-info">Добавить запись</button>
                         <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Закрыть</button>
                     </div>
-                </form>
+                </div>
             </div>
         </div>
     </div>

@@ -9,10 +9,7 @@ $endDate = $_POST['endDate'];
 $id_oblast = isset($_POST['id_oblast']) ? $_POST['id_oblast'] : null;
 $id_type_oborudovanie = isset($_POST['id_type_oborudovanie']) ? $_POST['id_type_oborudovanie'] : null;
 
-$startDateTime = new DateTime($startDate);
-$endDateTime = new DateTime($endDate);
-$endDateTime->modify('+1 day');
-$endDate = $endDateTime->format('Y-m-d');
+
 
 $sql = "SELECT 
     ob.* , 
@@ -21,6 +18,7 @@ $sql = "SELECT
     servicemans.*,
        uz.name as uzname,
        type_oborudovanie.name as typename,
+              ob.date_create as dcr,
        ob.date_insert_ob as dto
 
 FROM 
@@ -31,8 +29,16 @@ LEFT JOIN
     type_oborudovanie ON ob.id_type_oborudovanie = type_oborudovanie.id_type_oborudovanie
 LEFT JOIN 
     servicemans ON ob.id_serviceman = servicemans.id_serviceman
-WHERE 
-    ob.date_insert_ob >= '$startDate' AND ob.date_insert_ob <= '$endDate'";
+WHERE 1=1";
+
+if (!empty($startDate) && !empty($endDate)) {
+    $startDateTime = new DateTime($startDate);
+    $endDateTime = new DateTime($endDate);
+    $endDateTime->modify('+1 day');
+    $endDate = $endDateTime->format('Y-m-d');
+    $sql .= " AND ob.date_insert_ob >= '$startDate' AND ob.date_insert_ob <= '$endDate'";
+}
+
 
 $conditions = [];
 
@@ -54,6 +60,7 @@ $output = ' <table class="table table-striped table-responsive-sm dataTable no-f
                         <tr>
                             <th>Организация</th>
                             <th>Вид оборудования</th>
+                            <th>Год производства</th>
                             <th>Дата создания записи</th>
 
                         </tr>
@@ -66,6 +73,7 @@ if ($result->num_rows > 0) {
         $output .= "<tr>";
         $output .= "<td>" . $row['uzname'] . "</td>";
         $output .= "<td>" . $row['typename'] . "</td>";
+        $output .= "<td>" . $row['dcr'] . "</td>";
         $output .= "<td>" . $row['dto'] . "</td>";
         $output .= "</tr>";
     }

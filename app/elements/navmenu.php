@@ -66,6 +66,7 @@ while ($row = mysqli_fetch_assoc($resultTypes)) {
                         <ul class="submenu">
                             <li><a href="index.php?report1">Отчет 1</a></li>
                             <li><a href="index.php?reportNewAddedOb">Отчет о добавленном<br>оборудовании</a></li>
+                            <li><a href="index.php?reportStatisticObor">Статистика оборудования</a></li>
                         </ul>
                     </li>
                     <li><a href="#"><i class="fa fa-asterisk"></i>Помощь </a>

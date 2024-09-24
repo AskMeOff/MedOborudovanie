@@ -60,7 +60,8 @@ echo ' </select>
                         <tr>
                             <th>Организация</th>
                             <th>Вид оборудования</th>
-                            <th>Сервисная организация</th>
+                            <th>Год производства</th>
+                            <th>Дата создания записи</th>
 
                         </tr>
                         </thead>
@@ -86,10 +87,7 @@ echo ' </select>
 
 
     function getReportNewAddedOb() {
-        if($("#startDate").val() == "" || $("#endDate").val() == "") {
-        alert("Заполните поля даты!");
-        return;
-    }
+
         $.ajax({
             url: "app/ajax/getReportNewAddedOb.php",
             type: "POST",
