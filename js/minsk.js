@@ -602,10 +602,10 @@ function saveEditedOborudovanie() {
     if(selectedServiceId)
         so = selectedServiceId;
     else{
-        if(select_servicemans.value != ""){
-            alert("Введенной сервисной организации нет в базе, выберите организацию из списка, либо обратитесь в техническую поддержку.");
-            return;
-        }
+        // if(select_servicemans.value != ""){
+        //     alert("Введенной сервисной организации нет в базе, выберите организацию из списка, либо обратитесь в техническую поддержку.");
+        //     return;
+        // }
     }
 
     $.ajax({

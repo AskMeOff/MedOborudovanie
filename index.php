@@ -80,6 +80,9 @@ if (isset($TOKEN)) {
                 case "contacts":
                     require_once "app/pages/contacts.php";
                     break;
+                case "guides":
+                    require_once "app/pages/guides.php";
+                    break;
                 case "news":
                     require_once "app/pages/news.php";
                     break;
