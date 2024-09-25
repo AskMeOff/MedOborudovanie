@@ -381,6 +381,11 @@ Distributor: http://bootstraptema.ru/
         visibility: hidden;
         width: 0px;
 }
+
+.jquery-accordion-menu::-webkit-overflow-scrolling {
+        visibility: hidden;
+        width: 0px;
+}
 /*конец*/
 
 /*стили для черного цвета меню*/

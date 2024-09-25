@@ -3,12 +3,13 @@ include "../../connection/connection.php";
 if (!$connectionDB) {
     die("Connection failed: " . mysqli_connect_error());
 }
+$start_year = isset($_POST['start_year']) ? intval($_POST['start_year']) : null;
+$end_year = isset($_POST['end_year']) ? intval($_POST['end_year']) : null;
 
 $sql = "SELECT 
     type_oborudovanie.id_type_oborudovanie,
     type_oborudovanie.name AS typename,
     oblast.name AS oblast_name, 
-        ob.date_create,
     COUNT(ob.id_oborudovanie) AS quantity
 FROM 
     oborudovanie ob
@@ -19,8 +20,18 @@ LEFT JOIN
 LEFT JOIN 
     servicemans ON ob.id_serviceman = servicemans.id_serviceman
 LEFT JOIN 
-    oblast ON uz.id_oblast = oblast.id_oblast  
-GROUP BY 
+    oblast ON uz.id_oblast = oblast.id_oblast";
+
+$where_conditions = [];
+if ($start_year && $end_year) {
+    $where_conditions[] = "YEAR(ob.date_create) BETWEEN $start_year AND $end_year";
+}
+
+if (count($where_conditions) > 0) {
+    $sql .= " WHERE " . implode(" AND ", $where_conditions);
+}
+
+$sql .= " GROUP BY 
     type_oborudovanie.id_type_oborudovanie, 
     type_oborudovanie.name, 
     oblast.name

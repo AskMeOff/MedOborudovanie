@@ -1,5 +1,6 @@
 <?php
 require_once '../../connection/connection.php';
+require_once '../../app/classes/UsersList.php';
 $id_type = $_GET['id_type'];
 
 
@@ -58,16 +59,30 @@ echo '
 <section class="col-lg-12 connectedSortable ui-sortable" style="margin-top: 90px">'?>
 
     <?php
-    $query = "SELECT * FROM oblast;";
-    $result = $connectionDB->executeQuery($query);
-    while ($row = mysqli_fetch_assoc($result)) {
-        $id_oblast = $row['id_oblast'];
+
+$id_role = $usersList->getUser($_COOKIE['token'])->getRole();
+if (isset($id_role )) {
+    if ($id_role == 1 || $id_role == 2) {
         echo "<div class='row'>";
-        echo "<div class='card card1' onclick='getUzs($id_oblast,". $id_type.")'>";
-        echo "<h2>". $row['name']. "</h2>";
+        echo "<div class='card card1' onclick='getUzs(111," . $id_type . ")'>";
+        echo "<h2>Республика Беларусь</h2>";
         echo "</div>";
         echo "</div>";
     }
+}
+
+
+        $query = "SELECT * FROM oblast;";
+        $result = $connectionDB->executeQuery($query);
+        while ($row = mysqli_fetch_assoc($result)) {
+            $id_oblast = $row['id_oblast'];
+            echo "<div class='row'>";
+            echo "<div class='card card1' onclick='getUzs($id_oblast," . $id_type . ")'>";
+            echo "<h2>" . $row['name'] . "</h2>";
+            echo "</div>";
+            echo "</div>";
+
+}
     ?>
 
 

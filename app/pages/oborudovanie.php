@@ -66,7 +66,6 @@
             echo "</div>";
         }
     }
-
     $query = "SELECT * FROM oblast;";
     $result = $connectionDB->executeQuery($query);
     while ($row = mysqli_fetch_assoc($result)) {
@@ -77,6 +76,10 @@
         echo "</div>";
         echo "</div>";
     }
+
+
+
+
 
     ?>
 
