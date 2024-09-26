@@ -247,9 +247,9 @@ function getEffectTable(selectedEquipmentId) {
                     tableContent += '<tr>';
                     tableContent += '<td>' + row.count_research + '</td>';
                     tableContent += '<td>' + row.count_patient + '</td>';
+                    tableContent += '<td><a href="#" onclick="confirmDeleteEffect(' + row.id_use_efficiency + '); return false;"><i class="fa fa-trash" style="font-size: 20px;"></i></a><a href="#" onclick="editEffect(' + row.id_use_efficiency + ');"><i class="fa fa-edit" style="font-size: 20px;"></i>️</a></td>';
                     tableContent += '<td>' + row.data_year_efficiency + '</td>';
                     tableContent += '<td>' + row.data_month_efficiency + '</td>';
-                    tableContent += '<td><a href="#" onclick="confirmDeleteEffect(' + row.id_use_efficiency + '); return false;"><i class="fa fa-trash" style="font-size: 20px;"></i></a><a href="#" onclick="editEffect(' + row.id_use_efficiency + ');"><i class="fa fa-edit" style="font-size: 20px;"></i>️</a></td>';
                     tableContent += '</tr>';
                 });
             } else {
@@ -380,6 +380,7 @@ function addFualt() {
 
 function addEffectR () {
 console.log (currselectedEquipmentId);
+
     let count_research = $('#count_research').val();
     let count_patient = $('#count_patient').val();
     let data_month_efficiency = $('#data_month_efficiency').val();
@@ -387,9 +388,9 @@ console.log (currselectedEquipmentId);
     let data = {
         count_research: count_research,
         count_patient: count_patient,
-        id_oborudovanie: currselectedEquipmentId,
         data_month_efficiency: data_month_efficiency,
-        data_year_efficiency: data_year_efficiency
+        data_year_efficiency: data_year_efficiency,
+        id_oborudovanie: currselectedEquipmentId
     };
     $.ajax({
         url: '/app/ajax/insertEffect.php',
@@ -406,6 +407,7 @@ console.log (currselectedEquipmentId);
                 });
             } else {
                 getEffectTable(currselectedEquipmentId);
+                console.log (response);
             }
         }
     });
@@ -533,6 +535,8 @@ function saveEffectData() {
             idUseEfficiency: idUseEfficiency,
             countPatient: countPatient,
             countResearch: countResearch,
+            data_month_efficiency: data_month_efficiency,
+            data_year_efficiency: data_year_efficiency
         },
         success: function (response) {
             if (response === "Запись обновлена.") {

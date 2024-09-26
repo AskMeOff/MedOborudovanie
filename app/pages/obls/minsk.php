@@ -176,22 +176,22 @@ if (isset($_COOKIE['token']) && $_COOKIE['token'] !== '') {
                                         left outer join servicemans s on s.id_serviceman = oborudovanie.id_serviceman
                                         WHERE uz.id_oblast=$id_obl and uz.id_uz = $id_uz and (oborudovanie.status in (0,1))";
             } else if ($id_role == 2 || $id_role == 1) {
-                 if ($id_obl == 111){
-                     $sql1 = "SELECT oborudovanie.*, type_oborudovanie.name, uz.name as poliklinika, s.name as servname FROM oborudovanie 
+                if ($id_obl == 111){
+                    $sql1 = "SELECT oborudovanie.*, type_oborudovanie.name, uz.name as poliklinika, s.name as servname FROM oborudovanie 
                                         INNER JOIN uz on oborudovanie.id_uz=uz.id_uz
                                         left outer join type_oborudovanie on oborudovanie.id_type_oborudovanie = type_oborudovanie.id_type_oborudovanie
                                         left outer join servicemans s on s.id_serviceman = oborudovanie.id_serviceman
                                         WHERE  (oborudovanie.status in (0,1))";
 
-                 }else {
-                     $sql1 = "SELECT oborudovanie.*, type_oborudovanie.name, uz.name as poliklinika, s.name as servname FROM oborudovanie 
+                }else {
+                    $sql1 = "SELECT oborudovanie.*, type_oborudovanie.name, uz.name as poliklinika, s.name as servname FROM oborudovanie 
                                         INNER JOIN uz on oborudovanie.id_uz=uz.id_uz
                                         left outer join type_oborudovanie on oborudovanie.id_type_oborudovanie = type_oborudovanie.id_type_oborudovanie
                                         left outer join servicemans s on s.id_serviceman = oborudovanie.id_serviceman
                                         WHERE uz.id_oblast=$id_obl  and (oborudovanie.status in (0,1))";
+                }
             }
-            }
-                 else if ($id_role == 3) {
+            else if ($id_role == 3) {
                 if ($id_obl == $idoblguzo) {
                     $sql1 = "SELECT oborudovanie.*, type_oborudovanie.name, uz.name as poliklinika, s.name as servname FROM oborudovanie 
                                         INNER JOIN uz on oborudovanie.id_uz=uz.id_uz
@@ -215,7 +215,7 @@ if (isset($_COOKIE['token']) && $_COOKIE['token'] !== '') {
                                         left outer join servicemans s on s.id_serviceman = oborudovanie.id_serviceman
                                         WHERE tob.id_type_oborudovanie = $id_type and oborudovanie.status in (0,1)";
             }else{
-            $sql1 = "SELECT oborudovanie.*, tob.name, uz.name as poliklinika, s.name as servname FROM oborudovanie 
+                $sql1 = "SELECT oborudovanie.*, tob.name, uz.name as poliklinika, s.name as servname FROM oborudovanie 
                                         INNER JOIN uz on oborudovanie.id_uz=uz.id_uz
                                         left outer join type_oborudovanie tob on oborudovanie.id_type_oborudovanie = tob.id_type_oborudovanie
                                         left outer join servicemans s on s.id_serviceman = oborudovanie.id_serviceman
@@ -340,7 +340,7 @@ if (isset($_COOKIE['token']) && $_COOKIE['token'] !== '') {
     } else if ($id_role == 2 || $id_role == 1) {
         if ($id_obl == 111) {
             $sql = "select * from uz where id_uz is not null";
-            }
+        }
         else{
             $sql = "select * from uz where id_oblast = $id_obl and id_uz is not null";
         }
@@ -520,9 +520,9 @@ echo '
             </div>
         </div>
     </div>
-</div>
+</div>';
 
-
+echo'
 <div class="modal" id="addEffectModal">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -538,6 +538,37 @@ echo '
 
                     <label for="count_patient">Количество обследованных пациентов:</label>
                     <input type="number" id="count_patient" name="count_patient">
+                    
+                    <label for="data_year_efficiency">Год:</label>
+<select id="edit_data_year_efficiency" name="data_year_efficiency" class="styled-select">
+    <option value="" selected disabled>Выберите год</option>
+    <option value="2024">2024</option>
+    <option value="2023">2023</option>
+    <option value="2022">2022</option>
+    <option value="2021">2021</option>
+    <option value="2020">2020</option>
+    <option value="2019">2019</option>
+    <option value="2018">2018</option>
+</select>
+                    
+<label for="data_month_efficiency">Месяц:</label>
+<select id="edit_data_month_efficiency" name="data_month_efficiency" class="styled-select">
+    <option value="" selected disabled>Выберите месяц</option>
+    <option value="Январь">Январь</option>
+    <option value="Февраль">Февраль</option>
+    <option value="Март">Март</option>
+    <option value="Апрель">Апрель</option>
+    <option value="Май">Май</option>
+    <option value="Июнь">Июнь</option>
+    <option value="Июль">Июль</option>
+    <option value="Август">Август</option>
+    <option value="Сентябрь">Сентябрь</option>
+    <option value="Октябрь">Октябрь</option>
+    <option value="Ноябрь">Ноябрь</option>
+    <option value="Декабрь">Декабрь</option>
+</select>
+
+                    
 
                     <div id="btnsGroupEffect" style="margin-top: 10px;">
                         <button type="button" onclick = "addEffectR()" class="btn btn-info">Добавить запись</button>
@@ -625,6 +656,35 @@ echo '
 
                     <label for="count_patient">Количество обследованных пациентов:</label>
                     <input type="number" id="edit_count_patient" name="count_patient">
+                    
+                    <label for="data_year_efficiency">Год:</label>
+                    <select id="edit_data_year_efficiency" name="data_year_efficiency" class="styled-select">
+    <option value="" selected disabled>Выберите год</option>
+    <option value="2024">2024</option>
+    <option value="2023">2023</option>
+    <option value="2022">2022</option>
+    <option value="2021">2021</option>
+    <option value="2020">2020</option>
+    <option value="2019">2019</option>
+    <option value="2018">2018</option>
+</select>
+                    
+                    <label for="data_month_efficiency">Месяц:</label>
+                    <select id="edit_data_month_efficiency" name="data_month_efficiency" class="styled-select">
+                    <option value="" selected disabled>Выберите месяц</option>
+    <option value="Январь">Январь</option>
+    <option value="Февраль">Февраль</option>
+    <option value="Март">Март</option>
+    <option value="Апрель">Апрель</option>
+    <option value="Май">Май</option>
+    <option value="Июнь">Июнь</option>
+    <option value="Июль">Июль</option>
+    <option value="Август">Август</option>
+    <option value="Сентябрь">Сентябрь</option>
+    <option value="Октябрь">Октябрь</option>
+    <option value="Ноябрь">Ноябрь</option>
+    <option value="Декабрь">Декабрь</option>
+</select>
 
                     <input type="hidden" id="edit_id_use_efficiency" name="id_use_efficiency">
 

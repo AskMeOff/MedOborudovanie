@@ -327,3 +327,33 @@ p {
 .button:hover {
     background-color: #e63946;
 }
+.styled-select {
+    width: 200px; /* Задаём ширину */
+    padding: 10px; /* Внутренние отступы */
+    font-size: 16px; /* Размер шрифта */
+    border: 2px solid #007bff; /* Цвет границы */
+    border-radius: 8px; /* Скругляем углы */
+    background-color: #f8f9fa; /* Цвет фона */
+    color: #343a40; /* Цвет текста */
+    outline: none; /* Убираем стандартную обводку при фокусе */
+    transition: all 0.3s ease; /* Анимация на изменение */
+    appearance: none; /* Убираем стандартные стрелочки браузера */
+    -webkit-appearance: none; /* Для Safari */
+    -moz-appearance: none; /* Для Firefox */
+    background-image: url('data:image/svg+xml;charset=US-ASCII,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 4 5"><path fill="#007bff" d="M2 0L0 2h4z"/></svg>'); /* Иконка стрелки */
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+}
+
+.styled-select:focus {
+    border-color: #0056b3; /* Цвет границы при фокусе */
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); /* Тень при фокусе */
+}
+
+label {
+    font-size: 16px; /* Размер шрифта для лейбла */
+    color: #343a40; /* Цвет текста лейбла */
+    margin-right: 10px;
+    display: block;
+    margin-bottom: 8px;
+}
