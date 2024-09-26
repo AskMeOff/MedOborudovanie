@@ -629,7 +629,7 @@ echo '
                     <input type="hidden" id="edit_id_use_efficiency" name="id_use_efficiency">
 
                     <div id="edit_btnsGroup" style="margin-top: 10px;">
-                        <button type="submit" class="btn btn-info">Сохранить</button>
+                        <button type="button" class="btn btn-info" onclick="saveEffectData()">Сохранить</button>
                         <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Закрыть</button>
                     </div>
                 </form>
@@ -656,6 +656,14 @@ while ($row = $result->fetch_assoc()) {
     echo "<option value='" . $row['id_type_oborudovanie'] . "'>" . $row['name'] . "</option>";
 }
 
+
+?>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
+
+<script>
+
+</script>
+<?php
 echo ' </select>
 
 
@@ -675,6 +683,7 @@ echo ' </select>
                     <label >Сервисная организация:</label>
                     
                     <input type="text" id="filterServicemans" autocomplete="off" onclick="filterS(event)"/>
+                    
                     <div class="hidden" style="margin-top: 10px; margin-left: 10px; height: 150px; width: 95%; inline-block; overflow: auto">
                     ';
 $query = "select * from servicemans";
@@ -709,6 +718,15 @@ echo '
                 </form>
             </div>
         </div>
+    </div>
+</div>';
+echo '<div id="popup" class="popup">
+    <div class="popup-content-serviceman">
+        <span class="close" onclick="closePopup()">&times;</span>
+        <h2>Выбор из списка!</h2>
+        <p>Данное поле для поиска из текущего списка</p>
+        <p>Если в списке нет вашей сервисной организации, то отправьте запрос на добавление по данному электронному адресу: <a href="mailto:sydykav@rnpcmt.by">sydykav@rnpcmt.by</a></p>
+        <button class="button" onclick="closePopup()">Закрыть</button>
     </div>
 </div>';
 echo '

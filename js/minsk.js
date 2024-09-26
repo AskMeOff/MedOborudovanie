@@ -234,6 +234,8 @@ function getEffectTable(selectedEquipmentId) {
                     'count_research': 'Количество проведенных исследований',
                     'count_patient': 'Количество диагностированных пациентов',
                     'id_use_efficiency': 'Действия',
+                    'data_year_efficiency': 'Год',
+                    'data_month_efficiency': 'Месяц'
 
                 };
                 Object.keys(headers).forEach(function (key) {
@@ -245,6 +247,8 @@ function getEffectTable(selectedEquipmentId) {
                     tableContent += '<tr>';
                     tableContent += '<td>' + row.count_research + '</td>';
                     tableContent += '<td>' + row.count_patient + '</td>';
+                    tableContent += '<td>' + row.data_year_efficiency + '</td>';
+                    tableContent += '<td>' + row.data_month_efficiency + '</td>';
                     tableContent += '<td><a href="#" onclick="confirmDeleteEffect(' + row.id_use_efficiency + '); return false;"><i class="fa fa-trash" style="font-size: 20px;"></i></a><a href="#" onclick="editEffect(' + row.id_use_efficiency + ');"><i class="fa fa-edit" style="font-size: 20px;"></i>️</a></td>';
                     tableContent += '</tr>';
                 });
@@ -295,10 +299,10 @@ function confirmDeleteEffect(id_use_efficiency) {
                     $('#deleteModal').modal('show');
                     $('#deleteModal').on('hidden.bs.modal', function (e) {
                         $('#deleteModal').modal('hide');
-                        getEffectTable();
+                        getEffectTable(currselectedEquipmentId);
                     });
                 } else {
-                    getEffectTable();
+                    getEffectTable(currselectedEquipmentId);
                 }
             }
         });
@@ -378,10 +382,14 @@ function addEffectR () {
 console.log (currselectedEquipmentId);
     let count_research = $('#count_research').val();
     let count_patient = $('#count_patient').val();
+    let data_month_efficiency = $('#data_month_efficiency').val();
+    let data_year_efficiency = $('#data_year_efficiency').val();
     let data = {
         count_research: count_research,
         count_patient: count_patient,
-        id_oborudovanie: currselectedEquipmentId
+        id_oborudovanie: currselectedEquipmentId,
+        data_month_efficiency: data_month_efficiency,
+        data_year_efficiency: data_year_efficiency
     };
     $.ajax({
         url: '/app/ajax/insertEffect.php',
@@ -394,10 +402,10 @@ console.log (currselectedEquipmentId);
                 $('#addModal').modal('show');
                 $('#addModal').on('hidden.bs.modal', function (e) {
                     $('#addModal').modal('hide');
-                    getEffectTable(selectedEquipmentId);
+                    getEffectTable(currselectedEquipmentId);
                 });
             } else {
-                getEffectTable(selectedEquipmentId);
+                getEffectTable(currselectedEquipmentId);
             }
         }
     });
@@ -501,6 +509,9 @@ function editEffect(id_use_efficiency) {
             document.getElementById('edit_count_research').value = data.count_research;
             document.getElementById('edit_count_patient').value = data.count_patient;
             document.getElementById('edit_id_use_efficiency').value = data.id_use_efficiency;
+            document.getElementById('data_year_efficiency').value = data.data_year_efficiency;
+            document.getElementById('data_month_efficiency').value = data.data_month_efficiency;
+
         }
     });
 }
@@ -511,6 +522,8 @@ function saveEffectData() {
     let countResearch = $('#edit_count_research').val();
     let countPatient = $('#edit_count_patient').val();
     let idUseEfficiency = $('#edit_id_use_efficiency').val();
+    let data_year_efficiency = $('#edit_data_year_efficiency').val();
+    let data_month_efficiency = $('#edit_data_month_efficiency').val();
 
 
     $.ajax({
@@ -527,10 +540,10 @@ function saveEffectData() {
                 $('#saveModal').modal('show');
                 $('#saveModal').on('hidden.bs.modal', function (e) {
                     $('#saveModal').modal('hide');
-                    getEffectTable();
+                    getEffectTable(currselectedEquipmentId);
                 });
             } else {
-                getEffectTable();
+                getEffectTable(currselectedEquipmentId);
             }
         }
     });
@@ -742,10 +755,10 @@ console.log (oblId + "oblast");
         });
     }
 }
-
 let selectedPostavschikId = 0;
 
 function filterS(event, id){
+    showPopup();
     let filetS = event.target;
     let filteredDiv = filetS.nextElementSibling;
     if(filteredDiv.classList.contains("hidden")) {
@@ -876,3 +889,12 @@ function toggleRightSection() {
     $("#arrow-left").toggle();
 
 }
+function showPopup() {
+    document.getElementById("popup").style.display = "flex";
+}
+
+function closePopup() {
+    document.getElementById("popup").style.display = "none";
+}
+
+

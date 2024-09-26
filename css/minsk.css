@@ -263,3 +263,67 @@ th{
 .viehal{
     transform: translateX(0px);
 }
+.popup {
+    display: none;
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.3);
+    justify-content: center;
+    align-items: center;
+    z-index: 10000;
+    animation: fadeIn 0.5s;
+}
+.popup-content-serviceman{
+    background: linear-gradient(135deg, #ffffff, #e0e0e0);
+    padding: 20px;
+    border-radius: 15px;
+    text-align: center;
+    width: 500px; /* уменьшение ширины в 2 раза */
+    position: fixed;
+    top: 55%; /* сдвигаем чуть ниже центра */
+    left: 49.7%;
+    transform: translate(-50%, -30%);
+    animation: slideIn 0.5s forwards;
+}
+.close {
+    color: #888;
+    float: right;
+    font-size: 32px;
+    font-weight: bold;
+    cursor: pointer;
+}
+.close:hover,
+.close:focus {
+    color: #ff4c4c;
+    text-decoration: none;
+}
+h2 {
+    font-family: 'Arial', sans-serif;
+    color: #333;
+    margin-bottom: 15px;
+    border-bottom: 2px solid #ff4c4c;
+    padding-bottom: 10px;
+}
+p {
+    font-family: 'Arial', sans-serif;
+    color: #555;
+    font-size: 16px;
+    line-height: 1.5;
+    margin-top: 15px;
+}.button {
+     background-color: #ff4c4c;
+     color: white;
+     border: none;
+     border-radius: 5px;
+     padding: 10px 20px;
+     font-size: 16px;
+     cursor: pointer;
+     margin-top: 20px;
+     transition: background-color 0.3s;
+ }
+.button:hover {
+    background-color: #e63946;
+}
