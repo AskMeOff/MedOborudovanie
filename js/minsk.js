@@ -762,9 +762,11 @@ console.log (oblId + "oblast");
     }
 }
 let selectedPostavschikId = 0;
-
+let popupShown = false;
 function filterS(event, id){
-    showPopup();
+    if (!popupShown)
+        showPopup();
+        popupShown = true;
     let filetS = event.target;
     let filteredDiv = filetS.nextElementSibling;
     if(filteredDiv.classList.contains("hidden")) {
