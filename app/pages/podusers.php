@@ -26,10 +26,14 @@ if (isset($_COOKIE['token']) && $_COOKIE['token'] !== '') {
         $query = "select id_user, uz.name, login, password from users
                 left join uz on uz.id_uz = users.id_uz
                 where users.id_role = 4";
-    } else {
+    } else if ($id_role != 4){
         $query = "select id_user, uz.name, login, password from users
                 left join uz on uz.id_uz = users.id_uz
                 where uz.id_oblast = '$idoblguzo' and users.id_role = 4";
+    }
+    else {
+        echo 'Данные недоступны. Требуется авторизация.';
+        return;
     }
 
     $result = $connectionDB->executeQuery($query);

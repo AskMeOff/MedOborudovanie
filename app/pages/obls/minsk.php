@@ -240,10 +240,11 @@ if (isset($_COOKIE['token']) && $_COOKIE['token'] !== '') {
             echo '<td>' . $row1['date_last_TO'] . '</td>';
             $status = $row1['status'] === "1" ? "исправно" : "неисправно";
             if ($row1['status'] === "1") {
-                echo '<td  onclick="getFaultsTable(' . $idOborudovanie . ')" style="cursor: pointer"><div style = "border-radius: 5px;background-color: green;color: white; padding: 5px;">' . $status . '</div></td>';
+                echo '<td   style="cursor: pointer"><div style = "border-radius: 5px;background-color: green;color: white; padding: 5px;">' . $status . '</div></td>';
             } else {
-                echo '<td  onclick="getFaultsTable(' . $idOborudovanie . ')" style="cursor: pointer"><div style = "border-radius: 5px;background-color: red;color: white; padding: 5px; font-size: 11px;width: 85px;">' . $status . '</div></td>';
+                echo '<td   style="cursor: pointer"><div style = "border-radius: 5px;background-color: red;color: white; padding: 5px; font-size: 11px;width: 85px;">' . $status . '</div></td>';
             }
+            //onclick="getFaultsTable(' . $idOborudovanie . ')"
             //echo '<td><a href="#" onclick="confirmDeleteOborudovanie(' . $idOborudovanie . ')">&#10060;</a><a href="#" onclick="editOborudovanie(' . $idOborudovanie . ')">✏️</a></td>';
             echo '</tr>';
         }
@@ -629,7 +630,7 @@ echo '
                     <input type="hidden" id="edit_id_use_efficiency" name="id_use_efficiency">
 
                     <div id="edit_btnsGroup" style="margin-top: 10px;">
-                        <button type="submit" class="btn btn-info">Сохранить</button>
+                        <button type="button" class="btn btn-info" onclick = "saveEffectData()">Сохранить</button>
                         <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Закрыть</button>
                     </div>
                 </form>

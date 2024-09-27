@@ -295,10 +295,10 @@ function confirmDeleteEffect(id_use_efficiency) {
                     $('#deleteModal').modal('show');
                     $('#deleteModal').on('hidden.bs.modal', function (e) {
                         $('#deleteModal').modal('hide');
-                        getEffectTable();
+                        getEffectTable(currselectedEquipmentId);
                     });
                 } else {
-                    getEffectTable();
+                    getEffectTable(currselectedEquipmentId);
                 }
             }
         });
@@ -394,10 +394,11 @@ console.log (currselectedEquipmentId);
                 $('#addModal').modal('show');
                 $('#addModal').on('hidden.bs.modal', function (e) {
                     $('#addModal').modal('hide');
-                    getEffectTable(selectedEquipmentId);
+                    getEffectTable(currselectedEquipmentId);
+
                 });
             } else {
-                getEffectTable(selectedEquipmentId);
+                getEffectTable(currselectedEquipmentId);
             }
         }
     });
@@ -527,10 +528,10 @@ function saveEffectData() {
                 $('#saveModal').modal('show');
                 $('#saveModal').on('hidden.bs.modal', function (e) {
                     $('#saveModal').modal('hide');
-                    getEffectTable();
+                    getEffectTable(currselectedEquipmentId);
                 });
             } else {
-                getEffectTable();
+                getEffectTable(currselectedEquipmentId);
             }
         }
     });

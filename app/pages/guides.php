@@ -116,7 +116,7 @@
                     <div class="col-md-4">
                         <div class="video-block">
                             <video controls class="video-thumbnail" width="100%">
-                                <source src="../../documents/Добавление оборудования.webm" type="video/mp4">
+                                <source src="../../documents/Добавление оборудования.mp4" type="video/mp4">
                                 Ваш браузер не поддерживает видео.
                             </video>
                             <div class="video-title">Видеоинструкция "Добавление оборудования"</div>
@@ -129,24 +129,24 @@
                     <div class="col-md-4">
                         <div class="video-block">
                             <video controls class="video-thumbnail" width="100%">
-                                <source src="../../documents/Добавление оборудования.webm" type="video/mp4">
+                                <source src="../../documents/Изменение пароля.mp4" type="video/mp4">
                                 Ваш браузер не поддерживает видео.
                             </video>
-                            <div class="video-title">Видеоинструкция 2</div>
+                            <div class="video-title">Видеоинструкция "Изменение пароля для пользователей"</div>
                             <div class="video-info">
-                                <p>Краткое описание видеоинструкции 2.</p>
+                                <p>В данном видео мы подробно расскажем, как изменить пароль для пользователя в Роли вышестоящей организации.</p>
                             </div>
                         </div>
                     </div>
                     <div class="col-md-4">
                         <div class="video-block">
                             <video controls class="video-thumbnail" width="100%">
-                                <source src="../../documents/Добавление оборудования.webm" type="video/mp4">
+                                <source src="../../documents/Редактирование оборудования.mp4" type="video/mp4">
                                 Ваш браузер не поддерживает видео.
                             </video>
-                            <div class="video-title">Видеоинструкция 3</div>
+                            <div class="video-title">Видеоинструкция "Редактирование оборудования"</div>
                             <div class="video-info">
-                                <p>Краткое описание видеоинструкции 3.</p>
+                                <p>В данном видео мы подробно расскажем, как правильно редактировать запись оборудования</p>
                             </div>
                         </div>
                     </div>
