@@ -234,6 +234,8 @@ function getEffectTable(selectedEquipmentId) {
                     'count_research': 'Количество проведенных исследований',
                     'count_patient': 'Количество диагностированных пациентов',
                     'id_use_efficiency': 'Действия',
+                    'data_year_efficiency': 'Год',
+                    'data_month_efficiency': 'Месяц'
 
                 };
                 Object.keys(headers).forEach(function (key) {
@@ -246,6 +248,8 @@ function getEffectTable(selectedEquipmentId) {
                     tableContent += '<td>' + row.count_research + '</td>';
                     tableContent += '<td>' + row.count_patient + '</td>';
                     tableContent += '<td><a href="#" onclick="confirmDeleteEffect(' + row.id_use_efficiency + '); return false;"><i class="fa fa-trash" style="font-size: 20px;"></i></a><a href="#" onclick="editEffect(' + row.id_use_efficiency + ');"><i class="fa fa-edit" style="font-size: 20px;"></i>️</a></td>';
+                    tableContent += '<td>' + row.data_year_efficiency + '</td>';
+                    tableContent += '<td>' + row.data_month_efficiency + '</td>';
                     tableContent += '</tr>';
                 });
             } else {
@@ -376,12 +380,19 @@ function addFualt() {
 
 function addEffectR () {
 console.log (currselectedEquipmentId);
+
     let count_research = $('#count_research').val();
     let count_patient = $('#count_patient').val();
+    let data_month_efficiency = $('#data_month_efficiency').val();
+    let data_year_efficiency = $('#data_year_efficiency').val();
+    console.log(data_month_efficiency, data_year_efficiency);
     let data = {
         count_research: count_research,
         count_patient: count_patient,
-        id_oborudovanie: currselectedEquipmentId
+        id_oborudovanie: currselectedEquipmentId,
+        data_month_efficiency: data_month_efficiency,
+        data_year_efficiency: data_year_efficiency
+
     };
     $.ajax({
         url: '/app/ajax/insertEffect.php',
@@ -395,10 +406,10 @@ console.log (currselectedEquipmentId);
                 $('#addModal').on('hidden.bs.modal', function (e) {
                     $('#addModal').modal('hide');
                     getEffectTable(currselectedEquipmentId);
-
                 });
             } else {
                 getEffectTable(currselectedEquipmentId);
+                //console.log (response);
             }
         }
     });
@@ -502,6 +513,9 @@ function editEffect(id_use_efficiency) {
             document.getElementById('edit_count_research').value = data.count_research;
             document.getElementById('edit_count_patient').value = data.count_patient;
             document.getElementById('edit_id_use_efficiency').value = data.id_use_efficiency;
+            document.getElementById('data_year_efficiency').value = data.data_year_efficiency;
+            document.getElementById('data_month_efficiency').value = data.data_month_efficiency;
+
         }
     });
 }
@@ -512,6 +526,8 @@ function saveEffectData() {
     let countResearch = $('#edit_count_research').val();
     let countPatient = $('#edit_count_patient').val();
     let idUseEfficiency = $('#edit_id_use_efficiency').val();
+    let data_year_efficiency = $('#edit_data_year_efficiency').val();
+    let data_month_efficiency = $('#edit_data_month_efficiency').val();
 
 
     $.ajax({
@@ -521,6 +537,8 @@ function saveEffectData() {
             idUseEfficiency: idUseEfficiency,
             countPatient: countPatient,
             countResearch: countResearch,
+            data_month_efficiency: data_month_efficiency,
+            data_year_efficiency: data_year_efficiency
         },
         success: function (response) {
             if (response === "Запись обновлена.") {
@@ -877,3 +895,12 @@ function toggleRightSection() {
     $("#arrow-left").toggle();
 
 }
+function showPopup() {
+    document.getElementById("popup").style.display = "flex";
+}
+
+function closePopup() {
+    document.getElementById("popup").style.display = "none";
+}
+
+

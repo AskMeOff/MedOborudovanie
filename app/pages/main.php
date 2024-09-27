@@ -103,6 +103,19 @@ $result = $connectionDB->executeQuery($sql);
             transform: translateY(-30px);
             animation: slideIn 0.5s forwards;
         }
+        .popup-content-serviceman{
+            background: linear-gradient(135deg, #ffffff, #e0e0e0);
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            width: 250px; /* уменьшение ширины в 2 раза */
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.5); /* уменьшение тени */
+            position: fixed;
+            top: 60%; /* сдвигаем чуть ниже центра */
+            left: 50%;
+            transform: translate(-50%, -30%);
+            animation: slideIn 0.5s forwards;
+        }
         .close {
             color: #888;
             float: right;

@@ -240,11 +240,10 @@ if (isset($_COOKIE['token']) && $_COOKIE['token'] !== '') {
             echo '<td>' . $row1['date_last_TO'] . '</td>';
             $status = $row1['status'] === "1" ? "исправно" : "неисправно";
             if ($row1['status'] === "1") {
-                echo '<td   style="cursor: pointer"><div style = "border-radius: 5px;background-color: green;color: white; padding: 5px;">' . $status . '</div></td>';
+                echo '<td  onclick="getFaultsTable(' . $idOborudovanie . ')" style="cursor: pointer"><div style = "border-radius: 5px;background-color: green;color: white; padding: 5px;">' . $status . '</div></td>';
             } else {
-                echo '<td   style="cursor: pointer"><div style = "border-radius: 5px;background-color: red;color: white; padding: 5px; font-size: 11px;width: 85px;">' . $status . '</div></td>';
+                echo '<td  onclick="getFaultsTable(' . $idOborudovanie . ')" style="cursor: pointer"><div style = "border-radius: 5px;background-color: red;color: white; padding: 5px; font-size: 11px;width: 85px;">' . $status . '</div></td>';
             }
-            //onclick="getFaultsTable(' . $idOborudovanie . ')"
             //echo '<td><a href="#" onclick="confirmDeleteOborudovanie(' . $idOborudovanie . ')">&#10060;</a><a href="#" onclick="editOborudovanie(' . $idOborudovanie . ')">✏️</a></td>';
             echo '</tr>';
         }
@@ -521,9 +520,9 @@ echo '
             </div>
         </div>
     </div>
-</div>
+</div>';
 
-
+echo'
 <div class="modal" id="addEffectModal">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -539,6 +538,37 @@ echo '
 
                     <label for="count_patient">Количество обследованных пациентов:</label>
                     <input type="number" id="count_patient" name="count_patient">
+                    
+                    <label for="data_year_efficiency">Год:</label>
+<select id="data_year_efficiency" name="data_year_efficiency" class="styled-select">
+    <option value="" selected disabled>Выберите год</option>
+    <option value="2024">2024</option>
+    <option value="2023">2023</option>
+    <option value="2022">2022</option>
+    <option value="2021">2021</option>
+    <option value="2020">2020</option>
+    <option value="2019">2019</option>
+    <option value="2018">2018</option>
+</select>
+                    
+<label for="data_month_efficiency">Месяц:</label>
+<select id="data_month_efficiency" name="data_month_efficiency" class="styled-select">
+    <option value="" selected disabled>Выберите месяц</option>
+    <option value="Январь">Январь</option>
+    <option value="Февраль">Февраль</option>
+    <option value="Март">Март</option>
+    <option value="Апрель">Апрель</option>
+    <option value="Май">Май</option>
+    <option value="Июнь">Июнь</option>
+    <option value="Июль">Июль</option>
+    <option value="Август">Август</option>
+    <option value="Сентябрь">Сентябрь</option>
+    <option value="Октябрь">Октябрь</option>
+    <option value="Ноябрь">Ноябрь</option>
+    <option value="Декабрь">Декабрь</option>
+</select>
+        <input type="hidden" id="edit_id_use_efficiency" name="id_use_efficiency">
+                    
 
                     <div id="btnsGroupEffect" style="margin-top: 10px;">
                         <button type="button" onclick = "addEffectR()" class="btn btn-info">Добавить запись</button>
@@ -626,11 +656,40 @@ echo '
 
                     <label for="count_patient">Количество обследованных пациентов:</label>
                     <input type="number" id="edit_count_patient" name="count_patient">
+                    
+                    <label for="data_year_efficiency">Год:</label>
+                    <select id="edit_data_year_efficiency" name="data_year_efficiency" class="styled-select">
+    <option value="" selected disabled>Выберите год</option>
+    <option value="2024">2024</option>
+    <option value="2023">2023</option>
+    <option value="2022">2022</option>
+    <option value="2021">2021</option>
+    <option value="2020">2020</option>
+    <option value="2019">2019</option>
+    <option value="2018">2018</option>
+</select>
+                    
+                    <label for="data_month_efficiency">Месяц:</label>
+                    <select id="edit_data_month_efficiency" name="data_month_efficiency" class="styled-select">
+                    <option value="" selected disabled>Выберите месяц</option>
+    <option value="Январь">Январь</option>
+    <option value="Февраль">Февраль</option>
+    <option value="Март">Март</option>
+    <option value="Апрель">Апрель</option>
+    <option value="Май">Май</option>
+    <option value="Июнь">Июнь</option>
+    <option value="Июль">Июль</option>
+    <option value="Август">Август</option>
+    <option value="Сентябрь">Сентябрь</option>
+    <option value="Октябрь">Октябрь</option>
+    <option value="Ноябрь">Ноябрь</option>
+    <option value="Декабрь">Декабрь</option>
+</select>
 
                     <input type="hidden" id="edit_id_use_efficiency" name="id_use_efficiency">
 
                     <div id="edit_btnsGroup" style="margin-top: 10px;">
-                        <button type="button" class="btn btn-info" onclick = "saveEffectData()">Сохранить</button>
+                        <button type="button" class="btn btn-info" onclick="saveEffectData()">Сохранить</button>                    
                         <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Закрыть</button>
                     </div>
                 </form>
@@ -676,6 +735,7 @@ echo ' </select>
                     <label >Сервисная организация:</label>
                     
                     <input type="text" id="filterServicemans" autocomplete="off" onclick="filterS(event)"/>
+                    
                     <div class="hidden" style="margin-top: 10px; margin-left: 10px; height: 150px; width: 95%; inline-block; overflow: auto">
                     ';
 $query = "select * from servicemans";
@@ -710,6 +770,15 @@ echo '
                 </form>
             </div>
         </div>
+    </div>
+</div>';
+echo '<div id="popup" class="popup">
+    <div class="popup-content-serviceman">
+        <span class="close" onclick="closePopup()">&times;</span>
+        <h2>Выбор из списка!</h2>
+        <p>Данное поле для поиска из текущего списка</p>
+        <p>Если в списке нет вашей сервисной организации, то отправьте запрос на добавление по данному электронному адресу: <a href="mailto:sydykav@rnpcmt.by">sydykav@rnpcmt.by</a></p>
+        <button class="button" onclick="closePopup()">Закрыть</button>
     </div>
 </div>';
 echo '
