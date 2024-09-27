@@ -540,7 +540,7 @@ echo'
                     <input type="number" id="count_patient" name="count_patient">
                     
                     <label for="data_year_efficiency">Год:</label>
-<select id="edit_data_year_efficiency" name="data_year_efficiency" class="styled-select">
+<select id="data_year_efficiency" name="data_year_efficiency" class="styled-select">
     <option value="" selected disabled>Выберите год</option>
     <option value="2024">2024</option>
     <option value="2023">2023</option>
@@ -552,7 +552,7 @@ echo'
 </select>
                     
 <label for="data_month_efficiency">Месяц:</label>
-<select id="edit_data_month_efficiency" name="data_month_efficiency" class="styled-select">
+<select id="data_month_efficiency" name="data_month_efficiency" class="styled-select">
     <option value="" selected disabled>Выберите месяц</option>
     <option value="Январь">Январь</option>
     <option value="Февраль">Февраль</option>
@@ -567,7 +567,7 @@ echo'
     <option value="Ноябрь">Ноябрь</option>
     <option value="Декабрь">Декабрь</option>
 </select>
-
+        <input type="hidden" id="edit_id_use_efficiency" name="id_use_efficiency">
                     
 
                     <div id="btnsGroupEffect" style="margin-top: 10px;">

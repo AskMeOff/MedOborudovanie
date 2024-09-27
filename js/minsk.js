@@ -385,12 +385,14 @@ console.log (currselectedEquipmentId);
     let count_patient = $('#count_patient').val();
     let data_month_efficiency = $('#data_month_efficiency').val();
     let data_year_efficiency = $('#data_year_efficiency').val();
+    console.log(data_month_efficiency, data_year_efficiency);
     let data = {
         count_research: count_research,
         count_patient: count_patient,
+        id_oborudovanie: currselectedEquipmentId,
         data_month_efficiency: data_month_efficiency,
-        data_year_efficiency: data_year_efficiency,
-        id_oborudovanie: currselectedEquipmentId
+        data_year_efficiency: data_year_efficiency
+
     };
     $.ajax({
         url: '/app/ajax/insertEffect.php',
@@ -407,7 +409,7 @@ console.log (currselectedEquipmentId);
                 });
             } else {
                 getEffectTable(currselectedEquipmentId);
-                console.log (response);
+                //console.log (response);
             }
         }
     });
