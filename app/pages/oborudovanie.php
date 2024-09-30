@@ -83,83 +83,9 @@
 
     ?>
 
-
-<!--    <button onclick="sendSms()">-->
-<!--        Тест смс-->
-<!--    </button>-->
 </section>
 
 <script>
 
 
 </script>
-
-<!--<script>-->
-<!--    function sendSms() {-->
-<!--        let email = prompt('Введите вашу почту');-->
-<!--        let pattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; // Паттерн для проверки формата номера-->
-<!---->
-<!--        if (email && pattern.test(email)) {-->
-<!--            $.ajax({-->
-<!--                type: "POST",-->
-<!--                url: "checkCode.php",-->
-<!--                data: {-->
-<!--                    email: email-->
-<!--                },-->
-<!--                success: function (codeFromDb) {-->
-<!--                    let code = prompt("Введите полученный код");-->
-<!--                    if(code === codeFromDb){-->
-<!--                        alert("Код верный");-->
-<!--                    }-->
-<!--                    else{-->
-<!--                        alert("Код не верный");-->
-<!--                    }-->
-<!--                }-->
-<!--            });-->
-<!--        } else {-->
-<!--            alert('Вы ввели неверный формат почты');-->
-<!--        }-->
-<!---->
-<!--    }-->
-<!--</script>-->
-<!--<div class="container-fluid">-->
-<!--    <div class="row">-->
-<!--        <div class="col-lg-6">-->
-<!--            5-->
-<!--        </div>-->
-<!--        <div class="col-lg-6">-->
-<!--            <table class="table table-striped table-responsive-sm dataTable no-footer" id="myusers" role="grid" aria-describedby="agreementsTable_info">-->
-<!--                <thead>-->
-<!--                <tr>-->
-<!--                <th>ID</th>-->
-<!--                <th>login</th>-->
-<!--                <th>username</th>-->
-<!--                <th>email</th>-->
-<!--                <th>token</th>-->
-<!--                </tr>-->
-<!--                </thead>-->
-<!--                <tbody>-->
-<!--                </tbody>-->
-<!--            </table>-->
-<!---->
-<!---->
-<!---->
-<!---->
-<!---->
-<!--        </div>-->
-<!--    </div>-->
-<!--    <div class="row" style="justify-content: center;">-->
-<!---->
-<!--        <div class="col-lg-6">-->
-<!--            7-->
-<!--        </div>-->
-<!---->
-<!---->
-<!--        <div class="col-lg-6">-->
-<!--            8-->
-<!--        </div>-->
-<!--    </div>-->
-<!---->
-<!---->
-<!--</div>-->
-<!--<script src="js/controllerUsers.js"></script>-->
