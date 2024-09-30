@@ -721,7 +721,8 @@ echo ' </select>
 
                     <!---->
                     <label for="date_create">Год производства:</label>
-                    <input type="text" id="edit_date_create" name="date_create">
+                    <input type="text" id="edit_date_create" name="date_create" placeholder="YYYY">
+                    <span id="yearError" style="color: red; display: none;">Некорректный ввод данных. Год состоит из 4 цифр!</span>
                     <!---->
                     <label for="date_postavki">Дата поставки:</label>
                     <input type="date" id="edit_date_postavki" name="date_postavki">
@@ -765,7 +766,7 @@ echo '
                         <button type="button" class="btn btn-info" id="editBtnOb" onclick="saveEditedOborudovanie()">
                             Сохранить
                         </button>
-                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Закрыть</button>
+                        <button type="button" class="btn btn-danger" id="closeBtnOb" data-bs-dismiss="modal">Закрыть</button>
                     </div>
                 </form>
             </div>
