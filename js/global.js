@@ -72,14 +72,49 @@ function getUzs(id_obl, id_type) {
 
 }
 
-$(".region").on("click", function () {
-    var regionNumber = $(this).data("region");
-    getUzs(regionNumber);
-    $("#sidebarnav").children().removeClass("selected active");
-    $("#sidebarnav").children().children().removeClass("active");
-    $("#sidebarnav").children().eq(1).addClass("selected active");
-});
 
+
+function getUzsDiagram(id_obl, status) {
+    oblId=id_obl;
+    $.ajax({
+        url: "app/pages/obls/minsk.php",
+        method: "GET",
+        data: {id_obl: id_obl, status: status}
+    }).then(response => {
+        let bodywrap = document.getElementById("bodywrap");
+        bodywrap.innerHTML = response;
+        if ($("#infoObAll").length) {
+            try {
+                $("#infoObAll").DataTable().destroy();
+            } catch (e) {
+                console.log(e);
+            }
+        }
+        try {
+            if (status)
+                $('.vid_oborudovaniya').each(function () {
+                    $(this).addClass('hidden')
+                })
+            else {
+                $('.vid_oborudovaniya').each(function () {
+                    $(this).removeClass('hidden')
+                })
+
+            }
+            $("#infoObAll").DataTable();
+        } catch (e) {
+            console.log(e);
+        }
+
+    })
+
+}
+
+
+$(".region").on("click", "h3", function() {
+    var regionNumber = $(this).parent().data("region");
+    getUzs(regionNumber);
+});
 
 
 if(currentUrl == '?oborud'){

@@ -12,6 +12,10 @@ echo '
 if (isset($_GET['id_obl'])) {
     $id_obl = $_GET['id_obl'];
 }
+if (isset($_GET['status'])) {
+    $getStatus = $_GET['status'];
+}
+
 
 
 //-----------ДЛЯ ОРГАНИЗАЦИЙ -------------------------------------
@@ -169,6 +173,7 @@ if (isset($_COOKIE['token']) && $_COOKIE['token'] !== '') {
                             </thead>
                             <tbody>';
         if (!isset($_GET['id_type'])) {
+            if (!isset($_GET['status'])) {
             if ($id_role == 4) {
                 $sql1 = "SELECT oborudovanie.*, type_oborudovanie.name, uz.name as poliklinika, s.name as servname FROM oborudovanie 
                                         INNER JOIN uz on oborudovanie.id_uz=uz.id_uz
@@ -206,7 +211,24 @@ if (isset($_COOKIE['token']) && $_COOKIE['token'] !== '') {
                 echo "Данные недоступны. Требуется Авторизация";
                 exit;
             }
-        } else {
+        }
+                else if ((isset($_GET['status']))){
+                    if ($id_obl == 111){
+                        $sql1 = "SELECT oborudovanie.*, tob.name, uz.name as poliklinika, s.name as servname FROM oborudovanie 
+                                        INNER JOIN uz on oborudovanie.id_uz=uz.id_uz
+                                        left outer join type_oborudovanie tob on oborudovanie.id_type_oborudovanie = tob.id_type_oborudovanie
+                                        left outer join servicemans s on s.id_serviceman = oborudovanie.id_serviceman
+                                        WHERE oborudovanie.status = $getStatus";
+                    }else{
+                        $sql1 = "SELECT oborudovanie.*, tob.name, uz.name as poliklinika, s.name as servname FROM oborudovanie 
+                                        INNER JOIN uz on oborudovanie.id_uz=uz.id_uz
+                                        left outer join type_oborudovanie tob on oborudovanie.id_type_oborudovanie = tob.id_type_oborudovanie
+                                        left outer join servicemans s on s.id_serviceman = oborudovanie.id_serviceman
+                                        WHERE uz.id_oblast=$id_obl and oborudovanie.status = $getStatus";
+                    }
+                }
+
+        } else if (isset($_GET['id_type'])){
             $id_type = $_GET['id_type'];
             if ($id_obl == 111){
                 $sql1 = "SELECT oborudovanie.*, tob.name, uz.name as poliklinika, s.name as servname FROM oborudovanie 

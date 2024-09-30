@@ -21,34 +21,6 @@ $result = $connectionDB->executeQuery($sql);
             margin: 10px;
             margin-top: 20px;
         }
-        /*.region1{*/
-        /*    top: -24%;*/
-        /*    left: 13%;*/
-        /*}*/
-        /*.region2{*/
-        /*    top: -28%;*/
-        /*    left: 40%;*/
-        /*}*/
-        /*.region3{*/
-        /*    top: -24%;*/
-        /*    left: 67%;*/
-        /*}*/
-        /*.region4{*/
-        /*    top: 20%;*/
-        /*    left: 13%;*/
-        /*}*/
-        /*.region5{*/
-        /*    top: 20%;*/
-        /*    left: 67%;*/
-        /*}*/
-        /*.region6{*/
-        /*    top: 43%;*/
-        /*    left: 30%;*/
-        /*}*/
-        /*.region7{*/
-        /*    top: 43%;*/
-        /*    left: 50%;*/
-        /*}*/
 
 
         #mainChart {
@@ -283,6 +255,16 @@ echo '<div id="popup" class="popup">
             }]
         },
         options: {
+            onClick: function(evt) {
+                var activePoints = this.getElementsAtEventForMode(evt, 'nearest', { intersect: true }, false);
+                if (activePoints.length) {
+                    var clickedIndex = activePoints[0]._index;
+                    var label = activePoints[0]._chart.data.labels[clickedIndex];
+                    var value = clickedIndex === 0 ? 1 : 0;
+                    var regionNumber = $(this.canvas.parentNode).data("region");
+                    getUzsDiagram(regionNumber, value);
+                }
+            }
 
         },
         aspectRatio: 0.5
