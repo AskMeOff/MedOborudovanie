@@ -112,7 +112,7 @@ function getUzsDiagram(id_obl, status) {
 
 
 $(".region").on("click", "h3", function() {
-    var regionNumber = $(this).parent().data("region");
+    let regionNumber = $(this).parent().data("region");
     getUzs(regionNumber);
 });
 
