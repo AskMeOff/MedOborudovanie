@@ -50,8 +50,10 @@ function showSection(idOrg, element) {
     container_fluid.insertAdjacentElement("afterbegin", btnAddOborudovanie);
 
     btnAddOborudovanie.onclick = () => {
+
         $('#editBtnOb').hide();
         $('#addBtnOb').show();
+        $('#yearError').hide();
         $('#editOborudovanieModal').modal('show');
         $('#editOborudovanieModal .modal-title').text("Добавление оборудования");
         let select_type_oborudovanie = document.getElementById("select_type_oborudovanie");
@@ -568,6 +570,7 @@ function editOborudovanie(idOborudovanie) {
         success: function (data) {
             $('#editBtnOb').show();
             $('#addBtnOb').hide();
+            $('#yearError').hide();
             $('#editOborudovanieModal').modal('show');
             $('#editOborudovanieModal .modal-title').text("Изменение оборудования");
             let select_type_oborudovanie = document.getElementById("select_type_oborudovanie");
@@ -626,7 +629,19 @@ function saveEditedOborudovanie() {
         //     return;
         // }
     }
+    const yearValue = $('#edit_date_create').val();
 
+    // Проверяем, является ли год 4-значным числом
+    if (!/^\d{4}$/.test(yearValue)) {
+        $('#yearError').show();  // Показываем сообщение об ошибке
+
+        $('#editOborudovanieModal').animate({
+            scrollTop: $('#edit_date_create').offset().top - $('#editOborudovanieModal').offset().top + $('#editOborudovanieModal').scrollTop() - 150
+        }, 500);
+        return false;  // Останавливаем выполнение функции, предотвращаем сохранение
+    }
+
+    $('#yearError').hide();  // Скрываем сообщение об ошибке, если данные корректны
     $.ajax({
         url: '/app/ajax/updateOborudovanie.php',
         type: 'POST',
@@ -670,7 +685,19 @@ function saveAddedOborudovanie() {
     let select_type_oborudovanie = document.getElementById("select_type_oborudovanie");
     let select_servicemans = document.getElementById("select_serviceman");
     let select_status = document.getElementById("select_status");
+    const yearValue = $('#edit_date_create').val();
 
+    // Проверяем, является ли год 4-значным числом
+    if (!/^\d{4}$/.test(yearValue)) {
+        $('#yearError').show();  // Показываем сообщение об ошибке
+
+        $('#editOborudovanieModal').animate({
+            scrollTop: $('#edit_date_create').offset().top - $('#editOborudovanieModal').offset().top + $('#editOborudovanieModal').scrollTop() - 150
+        }, 500);
+        return false;  // Останавливаем выполнение функции, предотвращаем сохранение
+    }
+
+    $('#yearError').hide();  // Скрываем сообщение об ошибке, если данные корректны
     $.ajax({
         url: '/app/ajax/insertOborudovanie.php',
         type: 'POST',
@@ -907,4 +934,27 @@ function closePopup() {
     document.getElementById("popup").style.display = "none";
 }
 
+//
+// $('#closeBtnOb').on('click', function () {
+//     console.log("ddd");
+//     $('#yearError').hide();
+// });
+// document.getElementById('closeBtnOb').addEventListener('click', function(event) {
+//     event.preventDefault();
+//     console.log("ddd");  // Логируем сообщение в консоль
+//     document.getElementById('yearError').style.display = 'none';  // Скрываем сообщение об ошибке
+// });
 
+/////////////////////////////////////56 СТРОКА УДАЛИТЬ ПРИ ПРОВЕРКЕ
+// $(document).ready(function() {
+//     console.log('Document is ready'); // Проверка, сработало ли событие ready
+//
+//     $('#edit_date_create').on('input', function() {
+//         console.log('Input event triggered');  // Проверка, срабатывает ли событие
+//         $('#yearError').hide();  // Скрываем ошибку, как только пользователь начинает вводить данные
+//     });
+//
+//     $('#editOborudovanieModal').on('hidden.bs.modal', function () {
+//         $('#yearError').hide();  // Скрываем сообщение об ошибке при закрытии модального окна
+//     });
+// });
