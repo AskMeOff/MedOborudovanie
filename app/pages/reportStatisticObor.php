@@ -1,9 +1,21 @@
 
 <?php
 
+$equipmentTypes = [];
+$oblastNames = [];
+$sqlTypes = "SELECT DISTINCT name FROM type_oborudovanie";
+$resultTypes = $connectionDB->executeQuery($sqlTypes);
+while ($row = mysqli_fetch_assoc($resultTypes)) {
+    $equipmentTypes[] = $row['name'];
+}
+$sqlOblast = "SELECT DISTINCT o.name FROM oblast o";
+$resultOblast = $connectionDB->executeQuery($sqlOblast);
+while ($row = mysqli_fetch_assoc($resultOblast)) {
+    $oblastNames[] = $row['name'];
+}
 echo '
 <link rel="stylesheet" href="css/minsk.css">
-<section class="content" style="margin-top: 100px; margin-left: 15px">
+<section class="content" style="margin-top: 100px;">
     <div class="container-fluid" id="container_fluid" style="overflow: auto; height: 85vh;">
         <div class="row" id="main_row">
             <h1 class="ms-3">Статистика по видам оборудования по областям</h1>
@@ -13,7 +25,44 @@ echo '
 
                </div>
                 <button class="btn btn-info m-3" onclick="getReportStatisticObor()">Построить отчет</button>
-            </section>
+                <div> <button class="btn btn-info" onclick="startFilterReport()" style=" margin-left: 15px;">Фильтры</button>
+                <a class="nav-link sidebartoggler nav-icon-hover" id="arrow-left" onclick="toggleRightSection()" style="
+           position: absolute;
+    right: 50px;
+    cursor: pointer;
+    top: 12%;
+    color: rgb(152, 212, 212);
+    display: none; z-index: 9999;" >
+                    <i class="ti ti-arrow-left" style="font-size: 30px; "></i>
+                </a>
+           </div> 
+            <div id="filterContainer" style="display: none;">
+            <div class = "filtCol row" style="padding-left: 12px">
+                        <div class="col-lg-4" >
+
+                 <label for="filterEquipment">Вид оборудования:</label>
+                 <select id="filterEquipment" onchange="filterTableReport()">
+                 <option value="">Все</option>';
+foreach ($equipmentTypes as $type) {
+    echo '<option value="' . $type . '">' . $type . '</option>';
+}
+
+echo '  
+            </select>
+             </div>
+            <div class="col-lg-4">
+
+            <label for="filterOblast">Область:</label>
+            <select id="filterOblast" onchange="filterTableReport()">
+            <option value="">Все</option>           
+            
+            
+            ';
+foreach ($oblastNames as $oblast) {
+    echo '<option value="' . $oblast . '">' . $oblast . '</option>';
+}
+        echo ' </select></div>
+             </div>
         </div>
         <div class="row hidden" id="table_row">
             <section class="col-lg-11 connectedSortable ui-sortable" style="display: block;">
@@ -99,8 +148,52 @@ echo '
         newWindow.document.write("</body></html>");
         newWindow.document.close();
         newWindow.print();
-    }
-
+    } 
+document.addEventListener("DOMContentLoaded", function() {
+    // Здесь вызов вашей функции
+   getReportStatisticObor();
+});    
+    
   
 </script>';
+
+echo'
+<script>
+function startFilterReport() {
+    let filterContainer = document.getElementById("filterContainer");
+    filterContainer.style.display = filterContainer.style.display === "none" ? "block" : "none";
+}
+
+
+function filterTableReport() {
+    let equipmentFilter = $("#filterEquipment").val();
+    let oblastFilter = $("#filterOblast").val();
+//    var startYear = $("#start_year").val();
+//    var endYear = $("#end_year").val();
+        $.ajax({
+            type: "POST",
+            url: "/app/ajax/filterGetDataStats.php",
+            data: {
+                equipment: equipmentFilter,
+                oblast: oblastFilter
+            },
+            success: function (response) {
+
+        $("#table_report1").DataTable().destroy();
+    
+               $("#table_report1").html(response);
+//               console.log(response);   
+               $("#table_report1").DataTable();
+    
+            },
+            error: function (xhr, status, error) {
+                console.error("Ошибка при выполнении запроса: " + error);
+            }
+        });
+    
+}
+</script>
+
+
+';
 ?>
