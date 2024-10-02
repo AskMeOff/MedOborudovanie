@@ -632,9 +632,9 @@ function saveEditedOborudovanie() {
     const yearValue = $('#edit_date_create').val();
 
     // Проверяем, является ли год 4-значным числом
-    if (!/^\d{4}$/.test(yearValue)) {
+    if (!(yearValue === "") && !/^\d{4}$/.test(yearValue)) {
         $('#yearError').show();  // Показываем сообщение об ошибке
-
+        console.log("Ошибка: значение пустое или не 4 цифры");
         $('#editOborudovanieModal').animate({
             scrollTop: $('#edit_date_create').offset().top - $('#editOborudovanieModal').offset().top + $('#editOborudovanieModal').scrollTop() - 150
         }, 500);
@@ -688,7 +688,7 @@ function saveAddedOborudovanie() {
     const yearValue = $('#edit_date_create').val();
 
     // Проверяем, является ли год 4-значным числом
-    if (!/^\d{4}$/.test(yearValue)) {
+    if (!(yearValue === "") && !/^\d{4}$/.test(yearValue)) {
         $('#yearError').show();  // Показываем сообщение об ошибке
 
         $('#editOborudovanieModal').animate({
