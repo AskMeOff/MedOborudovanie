@@ -923,16 +923,16 @@ function toggleRightSection() {
 
 }
 
-function showPopup() {
-    document.getElementById("popup").style.display = "flex";
-    setTimeout(function() {
-        document.getElementById("popup").style.display = "none";
-    }, 1000);
-}
-
-function closePopup() {
-    document.getElementById("popup").style.display = "none";
-}
+// function showPopup() {
+//     document.getElementById("popup").style.display = "flex";
+//     setTimeout(function() {
+//         document.getElementById("popup").style.display = "none";
+//     }, 1000);
+// }
+//
+// function closePopup() {
+//     document.getElementById("popup").style.display = "none";
+// }
 
 //
 // $('#closeBtnOb').on('click', function () {
