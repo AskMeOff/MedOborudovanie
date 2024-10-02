@@ -69,8 +69,8 @@ while ($row = mysqli_fetch_assoc($result)) {
     $output .= '<td onclick="getFaultsTable(' . $idOborudovanie . ')" style="cursor: pointer">';
     $output .= '<div style="border-radius: 5px; background-color: ' . ($status === "исправно" ? 'green' : 'red') . '; color: white; padding: 5px;">' . $status . '</div>';
     $output .= '</td>';
-    $output .= '<td><a href="#" onclick="confirmDeleteOborudovanie(' . $idOborudovanie . ')"><i class="fa fa-edit" style="font-size: 20px;"></i></a>';
-    $output .= '<a href="#" onclick="editOborudovanie(' . $idOborudovanie . ')"><i class="fa fa-trash" style="font-size: 20px;"></i>️</a></td>';
+    $output .= '<a href="#" onclick="editOborudovanie(' . $idOborudovanie . ')"><i class="fa fa-edit" style="font-size: 20px;"></i>️</a></td>';
+    $output .= '<td><a href="#" onclick="confirmDeleteOborudovanie(' . $idOborudovanie . ')"><i class="fa fa-trash" style="font-size: 20px;"></i></a>';
     $output .= '</tr>';
 }
 
