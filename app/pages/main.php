@@ -154,7 +154,7 @@ $result = $connectionDB->executeQuery($sql);
 
 
 $regions = ["Брестская", "Витебская", "Гомельская", "Гродненская", "Минская", "Могилевская","Минск", "РНПЦ"];
-$equipmentData = array_fill_keys($regions, ['Исправно' => 0, 'Неисправно' => 0]);
+$equipmentData = array_fill_keys($regions, ['Исправно' => 0, 'Неисправно' => 0, 'Работа в ограниченном режиме'=> 0]);
 $i = 0;
 while ($row = $result->fetch_assoc()) {
     if (isset($regions[$i])) {

@@ -195,7 +195,11 @@ function refreshMainTable() {
                     tableContent += '<td>' + row.date_last_TO + '</td>';
                     if (row.status === "1") {
                         tableContent += '<td  onclick="getFaultsTable(' + row.id_oborudovanie + ')" style="cursor: pointer; "><div style = "border-radius: 5px;background-color: green;color: white;padding: 5px;">исправно</div></td>';
-                    } else {
+                    }
+                    else if (row.status === "3") {
+                        tableContent += '<td  onclick="getFaultsTable(' + row.id_oborudovanie + ')" style="cursor: pointer; "><div style = "border-radius: 5px;background-color: orange;color: white;padding: 5px;">Работа в ограниченном режиме</div></td>';
+                    }
+                    else {
                         tableContent += '<td  onclick="getFaultsTable(' + row.id_oborudovanie + ')" style="cursor: pointer"><div style = "border-radius: 5px;background-color: red;color: white;padding: 5px; font-size: 11px; width: 85px;">неисправно</div></td>';
 
                     }

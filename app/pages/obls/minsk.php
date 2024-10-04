@@ -71,7 +71,7 @@ if (isset($_COOKIE['token']) && $_COOKIE['token'] !== '') {
     } else {
         $equipmentTypes = [];
         $serviceNames = [];
-        $statuses = ['исправно', 'неисправно'];
+        $statuses = ['исправно', 'неисправно','Работа в ограниченном режиме'];
         $sqlTypes = "SELECT DISTINCT name FROM type_oborudovanie";
         $resultTypes = $connectionDB->executeQuery($sqlTypes);
         while ($row = mysqli_fetch_assoc($resultTypes)) {
@@ -179,21 +179,21 @@ if (isset($_COOKIE['token']) && $_COOKIE['token'] !== '') {
                                         INNER JOIN uz on oborudovanie.id_uz=uz.id_uz
                                         left outer join type_oborudovanie on oborudovanie.id_type_oborudovanie = type_oborudovanie.id_type_oborudovanie
                                         left outer join servicemans s on s.id_serviceman = oborudovanie.id_serviceman
-                                        WHERE uz.id_oblast=$id_obl and uz.id_uz = $id_uz and (oborudovanie.status in (0,1))";
+                                        WHERE uz.id_oblast=$id_obl and uz.id_uz = $id_uz and (oborudovanie.status in (0,1,3))";
             } else if ($id_role == 2 || $id_role == 1) {
                  if ($id_obl == 111){
                      $sql1 = "SELECT oborudovanie.*, type_oborudovanie.name, uz.name as poliklinika, s.name as servname FROM oborudovanie 
                                         INNER JOIN uz on oborudovanie.id_uz=uz.id_uz
                                         left outer join type_oborudovanie on oborudovanie.id_type_oborudovanie = type_oborudovanie.id_type_oborudovanie
                                         left outer join servicemans s on s.id_serviceman = oborudovanie.id_serviceman
-                                        WHERE  (oborudovanie.status in (0,1))";
+                                        WHERE  (oborudovanie.status in (0,1,3))";
 
                  }else {
                      $sql1 = "SELECT oborudovanie.*, type_oborudovanie.name, uz.name as poliklinika, s.name as servname FROM oborudovanie 
                                         INNER JOIN uz on oborudovanie.id_uz=uz.id_uz
                                         left outer join type_oborudovanie on oborudovanie.id_type_oborudovanie = type_oborudovanie.id_type_oborudovanie
                                         left outer join servicemans s on s.id_serviceman = oborudovanie.id_serviceman
-                                        WHERE uz.id_oblast=$id_obl  and (oborudovanie.status in (0,1))";
+                                        WHERE uz.id_oblast=$id_obl  and (oborudovanie.status in (0,1,3))";
             }
             }
                  else if ($id_role == 3) {
@@ -202,7 +202,7 @@ if (isset($_COOKIE['token']) && $_COOKIE['token'] !== '') {
                                         INNER JOIN uz on oborudovanie.id_uz=uz.id_uz
                                         left outer join type_oborudovanie on oborudovanie.id_type_oborudovanie = type_oborudovanie.id_type_oborudovanie
                                         left outer join servicemans s on s.id_serviceman = oborudovanie.id_serviceman
-                                        WHERE uz.id_oblast=$id_obl  and (oborudovanie.status in (0,1))";
+                                        WHERE uz.id_oblast=$id_obl  and (oborudovanie.status in (0,1,3))";
                 } else {
                     echo "Данные недоступны для вашей области.";
                     exit;
@@ -235,13 +235,13 @@ if (isset($_COOKIE['token']) && $_COOKIE['token'] !== '') {
                                         INNER JOIN uz on oborudovanie.id_uz=uz.id_uz
                                         left outer join type_oborudovanie tob on oborudovanie.id_type_oborudovanie = tob.id_type_oborudovanie
                                         left outer join servicemans s on s.id_serviceman = oborudovanie.id_serviceman
-                                        WHERE tob.id_type_oborudovanie = $id_type and oborudovanie.status in (0,1)";
+                                        WHERE tob.id_type_oborudovanie = $id_type and oborudovanie.status in (0,1,3)";
             }else{
             $sql1 = "SELECT oborudovanie.*, tob.name, uz.name as poliklinika, s.name as servname FROM oborudovanie 
                                         INNER JOIN uz on oborudovanie.id_uz=uz.id_uz
                                         left outer join type_oborudovanie tob on oborudovanie.id_type_oborudovanie = tob.id_type_oborudovanie
                                         left outer join servicemans s on s.id_serviceman = oborudovanie.id_serviceman
-                                        WHERE uz.id_oblast=$id_obl and tob.id_type_oborudovanie = $id_type and oborudovanie.status in (0,1)";
+                                        WHERE uz.id_oblast=$id_obl and tob.id_type_oborudovanie = $id_type and oborudovanie.status in (0,1,3)";
             }
         }
         $result1 = $connectionDB->executeQuery($sql1);
@@ -260,10 +260,15 @@ if (isset($_COOKIE['token']) && $_COOKIE['token'] !== '') {
             echo '<td>' . $row1['date_release'] . '</td>';
             echo '<td>' . $row1['servname'] . '</td>';
             echo '<td>' . $row1['date_last_TO'] . '</td>';
-            $status = $row1['status'] === "1" ? "исправно" : "неисправно";
+            $status = ($row1['status'] === "1") ? "исправно" : (($row1['status'] === "3") ? "Работа в ограниченном режиме" : "неисправно");
+
             if ($row1['status'] === "1") {
                 echo '<td   style="cursor: pointer"><div style = "border-radius: 5px;background-color: green;color: white; padding: 5px;">' . $status . '</div></td>';
-            } else {
+            }
+            else if ($row1['status'] === "3") {
+                echo '<td   style="cursor: pointer"><div style = "border-radius: 5px;background-color: orange;color: white; padding: 5px;">' . $status . '</div></td>';
+            }
+            else {
                 echo '<td   style="cursor: pointer"><div style = "border-radius: 5px;background-color: red;color: white; padding: 5px; font-size: 11px;width: 85px;">' . $status . '</div></td>';
             }
             //echo '<td><a href="#" onclick="confirmDeleteOborudovanie(' . $idOborudovanie . ')">&#10060;</a><a href="#" onclick="editOborudovanie(' . $idOborudovanie . ')">✏️</a></td>';
@@ -310,7 +315,7 @@ if (isset($_COOKIE['token']) && $_COOKIE['token'] !== '') {
         $sql1 = "SELECT oborudovanie.*, type_oborudovanie.name, s.name as servname FROM oborudovanie
                                         left outer join type_oborudovanie on oborudovanie.id_type_oborudovanie = type_oborudovanie.id_type_oborudovanie
                                         left outer join servicemans s on s.id_serviceman = oborudovanie.id_serviceman
-                                        where id_uz = $id_uz and status in (0,1)";
+                                        where id_uz = $id_uz and status in (0,1,3)";
         $result1 = $connectionDB->executeQuery($sql1);
         while ($row1 = mysqli_fetch_assoc($result1)) {
             $nameOborudov = $row1['name'];
@@ -326,10 +331,14 @@ if (isset($_COOKIE['token']) && $_COOKIE['token'] !== '') {
             echo '<td>' . $row1['date_release'] . '</td>';
             echo '<td>' . $row1['servname'] . '</td>';
             echo '<td>' . $row1['date_last_TO'] . '</td>';
-            $status = $row1['status'] === "1" ? "исправно" : "неисправно";
+            $status = ($row1['status'] === "1") ? "исправно" : (($row1['status'] === "3") ? "Работа в ограниченном режиме" : "неисправно");
             if ($row1['status'] === "1") {
                 echo '<td  onclick="getFaultsTable(' . $idOborudovanie . ')" style="cursor: pointer"><div style = "border-radius: 5px;background-color: green;color: white; padding: 5px;">' . $status . '</div></td>';
-            } else {
+            }
+            else if ($row1['status'] === "3") {
+                echo '<td  onclick="getFaultsTable(' . $idOborudovanie . ')" style="cursor: pointer"><div style = "border-radius: 5px;background-color: orange;color: white; padding: 5px; font-size: 11px; width: 85px;">' . $status . '</div></td>';
+            }
+            else {
                 echo '<td  onclick="getFaultsTable(' . $idOborudovanie . ')" style="cursor: pointer"><div style = "border-radius: 5px;background-color: red;color: white; padding: 5px; font-size: 11px; width: 85px;">' . $status . '</div></td>';
             }
             echo '<td><a href="#" onclick="confirmDeleteOborudovanie(' . $idOborudovanie . ')"><i class="fa fa-trash" style="font-size: 20px;"></i></a><a href="#" onclick="editOborudovanie(' . $idOborudovanie . ')"><i class="fa fa-edit" style="font-size: 20px;"></i>️</a></td>';
@@ -777,6 +786,7 @@ echo '
                     <select class="form-select" id="select_status">
                         <option value="0">Неисправно</option>
                         <option value="1">Исправно</option>
+                        <option value="3">Работа в ограниченном режиме</option>
                     </select>
                     <!---->
                     <!--                    <input type="hidden" id="edit_id_fault" name="id_fault">-->

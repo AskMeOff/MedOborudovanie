@@ -28,7 +28,7 @@ if (!empty($service)) {
     $sql .= " AND s.name LIKE '%" . $connectionDB->escapeString($service) . "%'";
 }
 if (!empty($status)) {
-    $statusValue = ($status === "исправно") ? "1" : "0";
+    $statusValue = ($status === "исправно") ? "1" : (($status === "Работа в ограниченном режиме") ? "3" : "0");
     $sql .= " AND oborudovanie.status = '" . $connectionDB->escapeString($statusValue) . "'";
 }
 
@@ -55,7 +55,8 @@ while ($row = mysqli_fetch_assoc($result)) {
     $nameOborudov = $row['name'];
     $idOborudovanie = $row['id_oborudovanie'];
     $model = $row['model'];
-    $status = $row['status'] === "1" ? "исправно" : "неисправно";
+    $status = ($row['status'] === "1") ? "исправно" : (($row['status'] === "3") ? "Работа в ограниченном режиме" : "неисправно");
+
 
 
     $output .= '<tr id="idob' . $idOborudovanie . '">';
@@ -67,7 +68,7 @@ while ($row = mysqli_fetch_assoc($result)) {
     $output .= '<td>' . $row['servname'] . '</td>';
     $output .= '<td>' . $row['date_last_TO'] . '</td>';
     $output .= '<td onclick="getFaultsTable(' . $idOborudovanie . ')" style="cursor: pointer">';
-    $output .= '<div style="border-radius: 5px; background-color: ' . ($status === "исправно" ? 'green' : 'red') . '; color: white; padding: 5px;">' . $status . '</div>';
+    $output .= '<div style="border-radius: 5px; background-color: ' . $color = ($status === "исправно") ? 'green' : (($status === "Работа в ограниченном режиме") ? 'orange' : 'red') . '; color: white; padding: 5px;">' . $status . '</div>';
     $output .= '</td>';
     $output .= '<td><a href="#" onclick="editOborudovanie(' . $idOborudovanie . ')"><i class="fa fa-edit" style="font-size: 20px;"></i>️</a>';
     $output .= '<a href="#" onclick="confirmDeleteOborudovanie(' . $idOborudovanie . ')"><i class="fa fa-trash" style="font-size: 20px;"></i></a></td>';
