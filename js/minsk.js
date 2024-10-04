@@ -580,6 +580,7 @@ function editOborudovanie(idOborudovanie) {
                     option.selected = true;
                 }
             });
+
             // document.getElementById('edit_cost').value = data.cost;
             document.getElementById('edit_date_create').value = data.date_create;
             document.getElementById('edit_date_postavki').value = data.date_postavki;
