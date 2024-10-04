@@ -262,14 +262,14 @@ if (isset($_COOKIE['token']) && $_COOKIE['token'] !== '') {
             echo '<td>' . $row1['date_last_TO'] . '</td>';
             $status = $row1['status'] === "1" ? "исправно" : "неисправно";
             if ($row1['status'] === "1") {
-                echo '<td  onclick="getFaultsTable(' . $idOborudovanie . ')" style="cursor: pointer"><div style = "border-radius: 5px;background-color: green;color: white; padding: 5px;">' . $status . '</div></td>';
+                echo '<td   style="cursor: pointer"><div style = "border-radius: 5px;background-color: green;color: white; padding: 5px;">' . $status . '</div></td>';
             } else {
-                echo '<td  onclick="getFaultsTable(' . $idOborudovanie . ')" style="cursor: pointer"><div style = "border-radius: 5px;background-color: red;color: white; padding: 5px; font-size: 11px;width: 85px;">' . $status . '</div></td>';
+                echo '<td   style="cursor: pointer"><div style = "border-radius: 5px;background-color: red;color: white; padding: 5px; font-size: 11px;width: 85px;">' . $status . '</div></td>';
             }
             //echo '<td><a href="#" onclick="confirmDeleteOborudovanie(' . $idOborudovanie . ')">&#10060;</a><a href="#" onclick="editOborudovanie(' . $idOborudovanie . ')">✏️</a></td>';
             echo '</tr>';
         }
-
+//onclick="getFaultsTable(' . $idOborudovanie . ')"
         echo ' 
                             </tbody>
                         </table>
@@ -757,7 +757,7 @@ echo ' </select>
                    
                     <label >Сервисная организация:</label>
                     
-                    <input type="text" id="filterServicemans" autocomplete="off" onclick="filterS(event)"/>
+                   <input type="text" id="filterServicemans" autocomplete="off" onclick="filterS(event)"/>
                     
                     <div class="hidden" style="margin-top: 10px; margin-left: 10px; height: 150px; width: 95%; inline-block; overflow: auto">
                     ';

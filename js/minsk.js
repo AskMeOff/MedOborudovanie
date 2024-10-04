@@ -5,6 +5,7 @@ let selectedEquipmentId;
 let selectedServiceId = 0;
 let oblId;
 let currselectedEquipmentId;
+let globalserviceman;
 
 
 function showMenu(thisTr, idOborudovanie) {
@@ -584,6 +585,11 @@ function editOborudovanie(idOborudovanie) {
             document.getElementById('edit_date_postavki').value = data.date_postavki;
             document.getElementById('edit_date_release').value = data.date_release;
             document.getElementById('edit_model_prozvoditel').value = data.model_prozvoditel;
+            if (data.service_organization == 0)
+            {
+                document.getElementById('filterServicemans').value = "";
+            }
+
             let select_serviceman = document.getElementById("filterServicemans");
             let filteredDiv = select_serviceman.nextElementSibling.children;////
             filteredDiv.forEach(item => {
@@ -593,6 +599,13 @@ function editOborudovanie(idOborudovanie) {
                     select_serviceman.value = item.innerText;
                 }
             });
+            console.log (select_serviceman.value);
+            if (select_serviceman.value == 0)
+            {
+                let select_servicemans = document.getElementById("filterServicemans");
+                globalserviceman = select_servicemans.getAttribute('data-id');
+                globalserviceman = 0;
+            }
             document.getElementById('edit_date_last_TO').value = data.date_last_TO;
 
 
@@ -617,17 +630,19 @@ function saveEditedOborudovanie() {
     let dr = document.getElementById('edit_date_release').value;
     let mod = document.getElementById('edit_model_prozvoditel').value;
     let so = select_servicemans.getAttribute('data-id');
+    console.log(globalserviceman);
    // let so = document.getElementById('edit_serviceman').value;
     let dto = document.getElementById('edit_date_last_TO').value;
     let stat = select_status.options[select_status.selectedIndex].value
 
-    if(selectedServiceId)
+    if(selectedServiceId){
+
         so = selectedServiceId;
+    }
     else{
-        // if(select_servicemans.value != ""){
-        //     alert("Введенной сервисной организации нет в базе, выберите организацию из списка, либо обратитесь в техническую поддержку.");
-        //     return;
-        // }
+         if(select_servicemans.value == ""){
+             so = 0;
+         }
     }
     const yearValue = $('#edit_date_create').val();
 
