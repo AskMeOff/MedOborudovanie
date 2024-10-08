@@ -1,7 +1,8 @@
 <?php
 
-$sql = "select obl , total_ispravno, total_neispravno ,  (total_ispravno+total_neispravno) as sumtotal from (SELECT oblast.id_oblast obl,   
+$sql = "select obl , total_ispravno, total_neispravno , total_rabota_v_ogranich,  (total_ispravno+total_neispravno+total_rabota_v_ogranich) as sumtotal from (SELECT oblast.id_oblast obl,   
        SUM(CASE WHEN status = '1' THEN 1 ELSE 0 END) as total_ispravno,  
+       SUM(CASE WHEN status = '3' THEN 1 ELSE 0 END) as total_rabota_v_ogranich,  
        SUM(CASE WHEN status = '0' THEN 1 ELSE 0 END) as total_neispravno
 FROM oblast 
 LEFT JOIN uz ON oblast.id_oblast = uz.id_oblast 
@@ -160,6 +161,7 @@ while ($row = $result->fetch_assoc()) {
     if (isset($regions[$i])) {
         $equipmentData[$regions[$i]] = [
             'Исправно' => $row['total_ispravno'],
+            'Работа в ограниченном режиме' => $row['total_rabota_v_ogranich'],
             'Неисправно' => $row['total_neispravno']
         ];
     }
@@ -167,17 +169,19 @@ while ($row = $result->fetch_assoc()) {
 }
 $sumIspravno = 0;
 $sumNeispravno = 0;
+$sumRabotavOgranich = 0;
 foreach ($equipmentData as $regionData) {
     $sumIspravno += $regionData['Исправно'];
     $sumNeispravno += $regionData['Неисправно'];
+    $sumRabotavOgranich += $regionData['Работа в ограниченном режиме'];
 }
 
-echo "<div id='mainChart' ><canvas id='chartBelarus' style='margin-top: 18%;'></canvas><div style='display:flex;justify-content: center;' class='total'>Всего: " . ($sumIspravno + $sumNeispravno) . "</div></div>";
+echo "<div id='mainChart' ><canvas id='chartBelarus' style='margin-top: 18%;'></canvas><div style='display:flex;justify-content: center;' class='total'>Всего: " . ($sumIspravno + $sumNeispravno + $sumRabotavOgranich) . "</div></div>";
 
 echo "<div class='container'>";
 $i=1;
 foreach ($regions as $region) {
-    $total = $equipmentData[$region]['Исправно'] + $equipmentData[$region]['Неисправно'];
+    $total = $equipmentData[$region]['Исправно'] + $equipmentData[$region]['Неисправно']+ $equipmentData[$region]['Работа в ограниченном режиме'];
     echo "<div class='region region$i' data-region='$i' style='cursor: pointer'>";
     if($i < 7){
         echo "<h3>$region область</h3>";
@@ -224,14 +228,14 @@ echo '<div id="popup" class="popup">
     };
 
 
-    let mainChartData = [<?php echo $sumIspravno?>,<?php echo $sumNeispravno?>];
+    let mainChartData = [<?php echo $sumIspravno?>,<?php echo $sumNeispravno?>,<?php echo $sumRabotavOgranich?>];
 
     new Chart('chartBelarus', {
         type: 'doughnut',
         data: {
-            labels: ['Исправно', 'Неисправно'],
+            labels: ['Исправно', 'Неисправно', 'Работа в ограниченном режиме'],
             datasets: [{
-                backgroundColor: ['#10a1007d', '#fb000091'],
+                backgroundColor: ['#10a1007d', '#fb000091', '#ff8c00'],
                 data: mainChartData
             }]
         },
@@ -248,10 +252,10 @@ echo '<div id="popup" class="popup">
     new Chart('chart<?= $regionName ?>', {
         type: 'doughnut',
         data: {
-            labels: ['Исправно', 'Неисправно'],
+            labels: ['Исправно', 'Неисправно', 'Работа в ограниченном режиме'],
             datasets: [{
-                backgroundColor: ['#10a1007d', '#fb000091'],
-                data: [<?= $data['Исправно'] ?>, <?= $data['Неисправно'] ?>]
+                backgroundColor: ['#10a1007d', '#fb000091', '#ff8c00'],
+                data: [<?= $data['Исправно'] ?>, <?= $data['Неисправно'] ?>, <?= $data['Работа в ограниченном режиме'] ?>]
             }]
         },
         options: {
