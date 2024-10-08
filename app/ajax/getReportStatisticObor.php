@@ -82,7 +82,7 @@ JOIN
 LEFT JOIN 
     type_oborudovanie ON ob.id_type_oborudovanie = type_oborudovanie.id_type_oborudovanie
 WHERE 
-    ob.status IN (2)
+    ob.status IN (0,1,3)
 GROUP BY 
     type_oborudovanie.id_type_oborudovanie, 
     type_oborudovanie.name
