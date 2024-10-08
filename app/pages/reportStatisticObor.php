@@ -15,6 +15,7 @@ while ($row = mysqli_fetch_assoc($resultOblast)) {
 }
 echo '
 <link rel="stylesheet" href="css/minsk.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.16.9/xlsx.full.min.js"></script>
 <section class="content" style="margin-top: 100px;">
     <div class="container-fluid" id="container_fluid" style="overflow: auto; height: 85vh;">
         <div class="row" id="main_row">
@@ -62,6 +63,13 @@ foreach ($oblastNames as $oblast) {
     echo '<option value="' . $oblast . '">' . $oblast . '</option>';
 }
         echo ' </select></div>
+  <label for="filterStat">Статус:</label>
+   <div class="col-lg-4">
+            <select id="filterStat" onchange="filterTableReport()">
+            <option value="0,1,2,3">Все</option>  
+            <option value="0,1,3">Установленное</option>
+            <option value="2">Неустановленное</option> 
+            </select></div>   
              </div>
         </div>
         <div class="row hidden" id="table_row">
@@ -81,7 +89,7 @@ foreach ($oblastNames as $oblast) {
 
                         </tbody>
                     </table>
-                </div>
+                </div>         
                 <button class="btn btn-info m-3" onclick="printTable()">Печать статистики по областям</button>
                 <button class="btn btn-info m-3" onclick="printTable1()">Печать статистики по Республике Беларусь</button>
 
@@ -154,7 +162,7 @@ document.addEventListener("DOMContentLoaded", function() {
    getReportStatisticObor();
 });    
     
-  
+
 </script>';
 
 echo'
@@ -168,6 +176,7 @@ function startFilterReport() {
 function filterTableReport() {
     let equipmentFilter = $("#filterEquipment").val();
     let oblastFilter = $("#filterOblast").val();
+    let statFilter = $("#filterStat").val();
 //    var startYear = $("#start_year").val();
 //    var endYear = $("#end_year").val();
         $.ajax({
@@ -175,7 +184,8 @@ function filterTableReport() {
             url: "/app/ajax/filterGetDataStats.php",
             data: {
                 equipment: equipmentFilter,
-                oblast: oblastFilter
+                oblast: oblastFilter,
+                stat: statFilter
             },
             success: function (response) {
 

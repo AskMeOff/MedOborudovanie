@@ -1,11 +1,14 @@
 <?php
 include "../../connection/connection.php";
 
-// Получаем значения из POST
+
 $equipment = isset($_POST['equipment']) ? $_POST['equipment'] : '';
 $oblast = isset($_POST['oblast']) ? $_POST['oblast'] : '';
+$stat = isset($_POST['stat']) ? $_POST['stat'] : '';
 
-// Начинаем формировать основной SQL запрос
+
+
+
 $sql = "SELECT 
     type_oborudovanie.name AS typename, 
     o.name AS oblast_name, 
@@ -16,10 +19,10 @@ LEFT JOIN type_oborudovanie ON oborudovanie.id_type_oborudovanie = type_oborudov
 LEFT JOIN servicemans ON oborudovanie.id_serviceman = servicemans.id_serviceman
 LEFT JOIN oblast o ON uz.id_oblast = o.id_oblast";
 
-// Подготовка условий фильтрации
+
 $where_conditions = [];
 
-// Проверяем, есть ли значения для фильтрации
+
 if (!empty($equipment)) {
     $where_conditions[] = "type_oborudovanie.name LIKE '%" . $connectionDB->escapeString($equipment) . "%'";
 }
@@ -28,22 +31,26 @@ if (!empty($oblast)) {
     $where_conditions[] = "o.name LIKE '%" . $connectionDB->escapeString($oblast) . "%'";
 }
 
-// Добавляем WHERE, если есть условия
+if (!empty($stat)) {
+    $statArray = explode(',', $connectionDB->escapeString($stat));
+    $statList = implode(',', $statArray);
+    $where_conditions[] = "oborudovanie.status IN ($statList)";
+}
+
+
 if (count($where_conditions) > 0) {
     $sql .= " WHERE " . implode(" AND ", $where_conditions);
 }
 
-// Добавляем GROUP BY
+
 $sql .= " GROUP BY type_oborudovanie.name, o.name";
 
-// Для отладки, выведем финальный SQL запрос
-// Убедитесь, что запрос выводится на экран для проверки
-// echo $sql; // Раскомментируйте это для отладки
 
-// Выполняем запрос
+
+
 $result = $connectionDB->executeQuery($sql);
 
-// Формируем HTML для таблицы
+
 $output = '<div class="table-responsive">
                         <table class="table table-striped table-responsive-sm dataTable no-footer" id="table_report1"
                                style="display: none">
@@ -68,6 +75,5 @@ if ($result && $result->num_rows > 0) {
 
 $output .= '  </tbody></table></div>';
 
-// Отправляем результат
 echo $output;
 ?>
