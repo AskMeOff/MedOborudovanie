@@ -264,7 +264,14 @@ echo '<div id="popup" class="popup">
                 if (activePoints.length) {
                     var clickedIndex = activePoints[0]._index;
                     var label = activePoints[0]._chart.data.labels[clickedIndex];
-                    var value = clickedIndex === 0 ? 1 : 0;
+                    var value;
+                    if (clickedIndex === 0) {
+                        value = 1; // Исправно
+                    } else if (clickedIndex === 1) {
+                        value = 0; // Неисправно
+                    } else if (clickedIndex === 2) {
+                        value = 3; // Работа в ограниченном режиме
+                    }
                     var regionNumber = $(this.canvas.parentNode).data("region");
                     getUzsDiagram(regionNumber, value);
                 }
