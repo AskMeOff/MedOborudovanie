@@ -260,7 +260,14 @@ if (isset($_COOKIE['token']) && $_COOKIE['token'] !== '') {
             echo '<td>' . $row1['date_release'] . '</td>';
             echo '<td>' . $row1['servname'] . '</td>';
             echo '<td>' . $row1['date_last_TO'] . '</td>';
-            $status = ($row1['status'] === "1") ? "исправно" : (($row1['status'] === "3") ? "Работа в ограниченном режиме" : "неисправно");
+            if($row1['status'] === "1")
+            {
+                $status = "исправно";
+            }
+            else{
+                $status =  (($row1['status'] === "3") ? "Работа в ограниченном режиме" : "неисправно");
+            }
+
 
             if ($row1['status'] === "1") {
                 echo '<td   style="cursor: pointer"><div style = "border-radius: 5px;background-color: green;color: white; padding: 5px;">' . $status . '</div></td>';
@@ -331,7 +338,13 @@ if (isset($_COOKIE['token']) && $_COOKIE['token'] !== '') {
             echo '<td>' . $row1['date_release'] . '</td>';
             echo '<td>' . $row1['servname'] . '</td>';
             echo '<td>' . $row1['date_last_TO'] . '</td>';
-            $status = ($row1['status'] === "1") ? "исправно" : (($row1['status'] === "3") ? "Работа в ограниченном режиме" : "неисправно");
+            if($row1['status'] === "1")
+            {
+                $status = "исправно";
+            }
+            else{
+                $status =  (($row1['status'] === "3") ? "Работа в ограниченном режиме" : "неисправно");
+            }
             if ($row1['status'] === "1") {
                 echo '<td  onclick="getFaultsTable(' . $idOborudovanie . ')" style="cursor: pointer"><div style = "border-radius: 5px;background-color: green;color: white; padding: 5px;">' . $status . '</div></td>';
             }
