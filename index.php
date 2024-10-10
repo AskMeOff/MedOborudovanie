@@ -146,5 +146,6 @@ if (isset($TOKEN)) {
 
 <script src="js/minsk.js"></script>
 <script src="js/serviceman.js"></script>
-
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.16.2/xlsx.full.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
 </html>

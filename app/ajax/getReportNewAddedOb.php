@@ -79,7 +79,7 @@ if ($result->num_rows > 0) {
     }
 }
 else {
-    $output .= "<tr><td colspan='3' style='text-align:center;'>Нет данных</td></tr>";
+
 }
 
 $output .= "</tbody></table>";

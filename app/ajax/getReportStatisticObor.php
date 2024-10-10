@@ -90,6 +90,10 @@ ORDER BY
     type_oborudovanie.name ASC";
 
 $result_total = $connectionDB->executeQuery($sql_total);
+echo '<button class="btn btn-info m-3" onclick="printTable()">Печать статистики по областям</button>';
+echo '<button class="btn btn-info m-3" onclick="printTable1()">Печать статистики по Республике Беларусь</button>';
+echo '<button class="btn btn-success m-3" onclick="exportTableToExcelStatObl(\'table_report1\', \'Таблица_отчета\')">Экспорт статистики по областям в Excel</button>';
+echo '<button class="btn btn-success m-3" onclick="exportTableToExcelStatRepublic(\'table_total\', \'Таблица_отчета\')">Экспорт статистики по Республике в Excel</button>';
 $output_total = '<h2>Общее количество оборудования по видам (Республика Беларусь):</h2>';
 $output_total .= '<table class="table table-striped table-responsive-sm dataTable no-footer" id="table_total">
                     <thead>
