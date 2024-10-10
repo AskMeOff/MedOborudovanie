@@ -47,7 +47,7 @@ function showSection(idOrg, element) {
     btnAddOborudovanie = document.createElement("button");
     btnAddOborudovanie.innerHTML = "Добавить оборудование";
     btnAddOborudovanie.id = "btnAddOborudovanie";
-    btnAddOborudovanie.className = "btn btn-info";
+    btnAddOborudovanie.className = "btn btn-info m-2";
     container_fluid.insertAdjacentElement("afterbegin", btnAddOborudovanie);
 
     btnAddOborudovanie.onclick = () => {
@@ -71,7 +71,18 @@ function showSection(idOrg, element) {
         select_status.options[0].selected = true;
 
     }
+    let btnExportExcel = document.getElementById("btnExportExcel");
+    if (btnExportExcel)
+        btnExportExcel.remove();
+    btnExportExcel = document.createElement("button");
+    btnExportExcel.innerHTML = "Экспорт в Excel";
+    btnExportExcel.id = "btnExportExcel";
+    btnExportExcel.className = "btn btn-info";
+    container_fluid.insertAdjacentElement("afterbegin", btnExportExcel);
+    btnExportExcel.onclick = () => {
+        exportTableToExcelAddedOb('infoOb' + idOrg, 'Отчет_организация_' + idOrg);
 
+    }
 }
 
 function myFunctionOrg(input) {
@@ -942,7 +953,41 @@ function toggleRightSection() {
     $("#arrow-left").toggle();
 
 }
+function exportTableToExcelAddedOb(tableID, filename = '') {
+    // Получаем таблицу
+    var table = document.getElementById(tableID);
 
+    // Копируем таблицу, исключая последний столбец
+    var clonedTable = table.cloneNode(true);
+
+    // Удаляем последний столбец из каждой строки таблицы
+    var rows = clonedTable.rows;
+    for (var i = 0; i < rows.length; i++) {
+        if (rows[i].cells.length > 1) {
+            rows[i].deleteCell(-1); // Удаляет последний столбец
+        }
+    }
+    var workbook = XLSX.utils.table_to_book(clonedTable, { sheet: "Sheet1" });
+
+    // Устанавливаем имя файла
+    filename = filename ? filename + '.xlsx' : 'table_export.xlsx';
+
+    const worksheet = workbook.Sheets['Sheet1'];
+    const range = XLSX.utils.decode_range(worksheet['!ref']); // Получаем диапазон ячеек
+
+    // Устанавливаем ширину для каждой колонки
+    worksheet['!cols'] = [];
+    for (let col = range.s.c; col <= range.e.c; col++) {
+        const maxWidth = Array.from({ length: range.e.r + 1 }, (_, row) => {
+            const cell = worksheet[XLSX.utils.encode_cell({ c: col, r: row })];
+            return cell ? cell.v.toString().length : 0; // Получаем длину значения ячейки
+        }).reduce((max, width) => Math.max(max, width), 0); // Находим максимальную ширину
+
+        worksheet['!cols'].push({ wch: maxWidth + 2 }); // Добавляем 2 для небольшого отступа
+    }
+    // Генерируем Excel-файл и сохраняем его
+    XLSX.writeFile(workbook, filename);
+}
 // function showPopup() {
 //     document.getElementById("popup").style.display = "flex";
 //     setTimeout(function() {
