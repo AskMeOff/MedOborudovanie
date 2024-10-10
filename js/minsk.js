@@ -83,6 +83,7 @@ function showSection(idOrg, element) {
         exportTableToExcelAddedOb('infoOb' + idOrg, 'Отчет_организация_' + idOrg);
 
     }
+    filterTable();
 }
 
 function myFunctionOrg(input) {
