@@ -25,7 +25,7 @@ echo '
                 <div class="row">              
 
                </div>
-                <button class="btn btn-info m-3" onclick="getReportStatisticObor()">Построить отчет</button>
+           <!--    <button class="btn btn-info m-3" onclick="getReportStatisticObor()">Построить отчет</button> -->
                 <div> <button class="btn btn-info" onclick="startFilterReport()" style=" margin-left: 15px;">Фильтры</button>
                 <a class="nav-link sidebartoggler nav-icon-hover" id="arrow-left" onclick="toggleRightSection()" style="
            position: absolute;
