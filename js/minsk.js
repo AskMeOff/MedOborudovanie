@@ -918,7 +918,8 @@ function addOborudovanieUnspecified(){
             reasons: document.getElementById('edit_reasons').value || null
         },
         success: function (data) {
-            if (data == "1"){
+            var trimmedData = data.trim();
+            if (trimmedData === "1"){
                 alert("Оборудование добавлено!");
                 location.reload();
             }

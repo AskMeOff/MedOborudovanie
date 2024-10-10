@@ -35,7 +35,10 @@ if (!empty($status)) {
     }
     $sql .= " AND oborudovanie.status = '" . $connectionDB->escapeString($statusValue) . "'";
     /*($status === "исправно") ? "1" :*/
+}else {
+    $sql .= " AND oborudovanie.status in (0,1,3)";
 }
+
 
 $result = $connectionDB->executeQuery($sql);
 $output = '<div class="table-responsive">

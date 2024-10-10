@@ -69,6 +69,8 @@ foreach ($oblastNames as $oblast) {
             <option value="0,1,2,3">Все</option>  
             <option value="0,1,3">Установленное</option>
             <option value="2">Неустановленное</option> 
+             <option value="1">Исправное</option> 
+             <option value="0,0">Неисправное</option> 
             </select></div>   
              </div>
         </div>
