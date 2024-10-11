@@ -82,7 +82,7 @@ if (isset($_COOKIE['token']) && $_COOKIE['token'] !== '') {
         while ($row = mysqli_fetch_assoc($resultServices)) {
             $serviceNames[] = $row['name'];
         }
-        if (!isset($_GET['id_type'])) {
+
             echo '           <div>  <button class="btn btn-info" onclick="startFilter()" style=" margin-top: 10px; ">Фильтры</button> 
            <a class="nav-link sidebartoggler nav-icon-hover" id="arrow-left" onclick="toggleRightSection()" style="
            position: absolute;
@@ -148,7 +148,7 @@ if (isset($_COOKIE['token']) && $_COOKIE['token'] !== '') {
             </div>
            
                    </div>  ';
-        }
+
         echo '
 <section class="col-lg-9 connectedSortable ui-sortable" id="orgAll" style="display: block;">
                 
