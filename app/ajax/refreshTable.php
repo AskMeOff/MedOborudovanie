@@ -2,6 +2,7 @@
 include "../../connection/connection.php";
 $id_org = $_GET['id_org'];
 
+
 $sql = "SELECT o.*, type_oborudovanie.name, s.name as servname FROM oborudovanie o
         left outer join type_oborudovanie on o.id_type_oborudovanie = type_oborudovanie.id_type_oborudovanie
         left outer join uz on o.id_uz = uz.id_uz

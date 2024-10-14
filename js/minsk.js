@@ -244,6 +244,7 @@ function refreshMainTable() {
                 "stateSave": true
             } );
         },
+
         error: function (xhr, status, error) {
             console.log(error);
         }
