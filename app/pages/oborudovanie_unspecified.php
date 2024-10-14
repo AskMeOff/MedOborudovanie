@@ -9,6 +9,19 @@ echo '
     <div class="container-fluid" id="container_fluid" style="overflow: auto; height: 85vh;">
 
         <div class="row" id="main_row">';
+
+if (isset($_COOKIE['token']) && $_COOKIE['token'] !== '') {
+$login = $_COOKIE['login'];
+$token = $_COOKIE['token'];
+$getiduz = "SELECT * FROM users WHERE token = '$token';";
+$resultiduz = $connectionDB->executeQuery($getiduz);
+$userData = $resultiduz->fetch_assoc();
+if ($userData) {
+    $id_uz = $userData['id_uz'];
+    $id_role = $userData['id_role'];
+    $idoblguzo = $userData['id_obl'];
+}
+
 echo '
 <section class="ms-1 connectedSortable ui-sortable" id="orgAll" style="display: block; width:98%">
                 <button class="btn btn-info" onclick="showModalAddOborudovanieUnspecified()">Добавить оборудование</button>
@@ -35,13 +48,37 @@ echo '
                             </thead>
                             <tbody>';
 
-$sql1 = "SELECT o.id_oborudovanie, o.model, type_oborudovanie.name as type_name, cost,num_and_date ,s2.name as name_postavschik,date_get_sklad,date_norm_srok_vvoda,reasons,
+
+if ($id_role == 4) {
+    $sql1 = "SELECT o.id_oborudovanie, o.model, type_oborudovanie.name as type_name, cost,num_and_date ,s2.name as name_postavschik,date_get_sklad,date_norm_srok_vvoda,reasons,
+       uz.name as uzname, s1.name as servname FROM oborudovanie o
+                                        left JOIN uz on o.id_uz=uz.id_uz
+                                        left outer join type_oborudovanie on o.id_type_oborudovanie = type_oborudovanie.id_type_oborudovanie
+                                        left outer join servicemans s1 on s1.id_serviceman = o.id_serviceman
+                                        left outer join servicemans s2 on s2.id_serviceman = o.id_postavschik
+                                        WHERE  o.status = 2 and o.id_uz = '$id_uz'";
+}  else if ($id_role == 2 || $id_role == 1) {
+    $sql1 = "SELECT o.id_oborudovanie, o.model, type_oborudovanie.name as type_name, cost,num_and_date ,s2.name as name_postavschik,date_get_sklad,date_norm_srok_vvoda,reasons,
        uz.name as uzname, s1.name as servname FROM oborudovanie o
                                         left JOIN uz on o.id_uz=uz.id_uz
                                         left outer join type_oborudovanie on o.id_type_oborudovanie = type_oborudovanie.id_type_oborudovanie
                                         left outer join servicemans s1 on s1.id_serviceman = o.id_serviceman
                                         left outer join servicemans s2 on s2.id_serviceman = o.id_postavschik
                                         WHERE  o.status = 2";
+}
+else if ($id_role == 3) {
+    $sql1 = "SELECT o.id_oborudovanie, o.model, type_oborudovanie.name as type_name, cost,num_and_date ,s2.name as name_postavschik,date_get_sklad,date_norm_srok_vvoda,reasons,
+       uz.name as uzname, s1.name as servname FROM oborudovanie o
+                                        left JOIN uz on o.id_uz=uz.id_uz
+                                        left outer join type_oborudovanie on o.id_type_oborudovanie = type_oborudovanie.id_type_oborudovanie
+                                        left outer join servicemans s1 on s1.id_serviceman = o.id_serviceman
+                                        left outer join servicemans s2 on s2.id_serviceman = o.id_postavschik
+                                        WHERE  o.status = 2 and uz.id_oblast = '$idoblguzo'";
+}
+else{
+    echo "Данные недоступны для вашей области.";
+    exit;
+}
 
 
 $result1 = $connectionDB->executeQuery($sql1);
@@ -82,6 +119,11 @@ echo '</div>
     </div>
 </section>';
 
+}
+else {
+    echo 'Данные недоступны. Требуется авторизация.';
+
+}
 
 echo '<div class="modal" id="editOborudovanieModal">
     <div class="modal-dialog">
