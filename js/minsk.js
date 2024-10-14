@@ -826,8 +826,6 @@ function filterTable() {
     let dateReleaseFilter = $("#filterDateRelease").val();
     let serviceFilter = $("#filterService").val();
     let statusFilter = $("#filterStatus").val();
-
-
     let data = {
         equipment: equipmentFilter,
         id_uz: selectedOrg,
@@ -835,7 +833,7 @@ function filterTable() {
         datePostavki: datePostavkiFilter,
         dateRelease: dateReleaseFilter,
         service: serviceFilter,
-        status: statusFilter,
+        status: statusFilter === "Все" ? "" : statusFilter,
         id_obl: oblId
     };
 

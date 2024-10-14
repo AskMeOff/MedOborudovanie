@@ -58,7 +58,7 @@ if (!empty($dateRelease)) {
 if (!empty($service)) {
     $sql .= " AND s.name LIKE '%" . $connectionDB->escapeString($service) . "%'";
 }
-if (!empty($status)) {
+if (!empty($status) && $status !== "Все") {
     $statusValue = ($status === "исправно") ? "1" : (($status === "Работа в ограниченном режиме") ? "3" : "0");
     $sql .= " AND oborudovanie.status = '" . $connectionDB->escapeString($statusValue) . "'";
 }

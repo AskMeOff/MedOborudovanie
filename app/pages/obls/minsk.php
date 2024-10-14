@@ -139,7 +139,7 @@ if (isset($_COOKIE['token']) && $_COOKIE['token'] !== '') {
 
             <label for="filterStatus">Статус:</label>
             <select id="filterStatus" onchange="filterTable()">
-                <option value="">Все</option>';
+                <option value="Все">Все</option>';
             foreach ($statuses as $status) {
                 echo '<option value="' . $status . '">' . $status . '</option>';
             }
