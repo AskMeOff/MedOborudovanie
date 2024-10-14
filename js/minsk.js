@@ -129,6 +129,7 @@ function getFaultsTable(idOborudovanie) {
                     'downtime': 'Время простоя',
                     'remont': 'Отремонтировано',
                     'date_remont': 'Дата ремонта',
+                    'remontOrg': 'Организация осуществляющая ремонт',
                     'id_fault': 'Действия'
                 };
                 Object.keys(headers).forEach(function (key) {
@@ -153,6 +154,7 @@ function getFaultsTable(idOborudovanie) {
                     tableContent += '<td>' + stringDays + '</td>';
                     tableContent += '<td>' + (row.remont > 0 ? 'Да' : 'Нет') +  '</td>';
                     tableContent += '<td>' + row.date_remont + '</td>';
+                    tableContent += '<td>' + row.remontOrg + '</td>';
                     tableContent += '<td><a href="#" onclick="confirmDeleteFault(' + row.id_fault + '); return false;"><i class="fa fa-trash" style="font-size: 20px;"></i></a><a href="#" onclick="editFault(' + row.id_fault + ');"><i class="fa fa-edit" style="font-size: 20px;"></i>️</a></td>';
                     tableContent += '</tr>';
                 });
@@ -218,7 +220,14 @@ function refreshMainTable() {
                         tableContent += '<td  onclick="getFaultsTable(' + row.id_oborudovanie + ')" style="cursor: pointer"><div style = "border-radius: 5px;background-color: red;color: white;padding: 5px; font-size: 11px; width: 85px;">неисправно</div></td>';
 
                     }
-                    tableContent += '<td><a href="#" onclick="confirmDeleteOborudovanie(' + row.id_oborudovanie + ')"><i class="fa fa-trash" style="font-size: 20px;"></i></a><a href="#" onclick="editOborudovanie(' + row.id_oborudovanie + ')"><i class="fa fa-edit" style="font-size: 20px;"></i>️</a></td>';
+                    tableContent += '<td>' +
+                        '<a href="#" onclick="confirmDeleteOborudovanie(' + row.id_oborudovanie + ')">' +
+                        '<i class="fa fa-trash" style="font-size: 20px;"></i></a>' +
+                        '<a href="#" onclick="editOborudovanie(' + row.id_oborudovanie + ')">' +
+                        '<i class="fa fa-edit" style="font-size: 20px;"></i>️</a>' +
+                        '<a href="#" onclick="duplicateOborudovanie(' + row.id_oborudovanie + ')">' +
+                        '<i class="fa fa-copy" style="font-size: 20px;"></i></a>' +
+                        '</td>';
                     tableContent += '</tr>';
                 });
             } else {
@@ -365,6 +374,7 @@ function addFualt() {
     let date_dogovora = $('#date_dogovora').val();
     let cost_repair = $('#cost_repair').val();
     let time_repair = $('#time_repair').val();
+    let add_remontOrg = $('#add_remontOrg').val();
     // let downtime = $('#downtime').val();
 
 
@@ -376,6 +386,7 @@ function addFualt() {
         date_dogovora: date_dogovora,
         cost_repair: cost_repair,
         time_repair: time_repair,
+        add_remontOrg: add_remontOrg,
         // downtime: downtime,
         id_oborudovanie: selectedEquipmentId
     };
@@ -464,6 +475,7 @@ function editFault(id_fault) {
                 remontSelect.value = '';
             }
             document.getElementById('edit_date_remont').value = data.date_remont;
+            document.getElementById('edit_remontOrg').value = data.remontOrg || '';
             document.getElementById('edit_id_fault').value = data.id_fault;
 
         }
@@ -482,6 +494,7 @@ function saveFaultData() {
     let timeRepair = $('#edit_time_repair').val() || null;
     let remont = $('#edit_remont').val() || null;
     let date_remont = $('#edit_date_remont').val() || null;
+    let edit_remontOrg = $('#edit_remontOrg').val() || null;
     // let downtime = $('#edit_downtime').val();
     let idFault = $('#edit_id_fault').val();
 
@@ -499,6 +512,7 @@ function saveFaultData() {
             time_repair: timeRepair,
             remont: remont,
             date_remont: date_remont,
+            edit_remontOrg: edit_remontOrg,
             // downtime: downtime
         },
         success: function (response) {
@@ -1140,4 +1154,28 @@ function saveNotInstallEditedOborudovanie() {
 
         }
     });
+}
+
+
+
+function duplicateOborudovanie(id) {
+    if (confirm("Вы уверены, что хотите дублировать это оборудование?")) {
+        $.ajax({
+            url: '/app/ajax/duplicateOborudovanie.php',
+            type: 'POST',
+            data: { id: id },
+            success: function(response) {
+                console.log(response);
+                if (response.success) {
+                    alert("Оборудование успешно дублировано!");
+                    refreshMainTable();
+                } else {
+                    alert("Ошибка при дублировании оборудования: " + response.message);
+                }
+            },
+            error: function() {
+                alert("Произошла ошибка при отправке запроса.");
+            }
+        });
+    }
 }

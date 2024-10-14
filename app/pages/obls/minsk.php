@@ -354,7 +354,11 @@ if (isset($_COOKIE['token']) && $_COOKIE['token'] !== '') {
             else {
                 echo '<td  onclick="getFaultsTable(' . $idOborudovanie . ')" style="cursor: pointer"><div style = "border-radius: 5px;background-color: red;color: white; padding: 5px; font-size: 11px; width: 85px;">' . $status . '</div></td>';
             }
-            echo '<td><a href="#" onclick="confirmDeleteOborudovanie(' . $idOborudovanie . ')"><i class="fa fa-trash" style="font-size: 20px;"></i></a><a href="#" onclick="editOborudovanie(' . $idOborudovanie . ')"><i class="fa fa-edit" style="font-size: 20px;"></i>️</a></td>';
+            echo '<td>
+           <a href="#" onclick="confirmDeleteOborudovanie(' . $idOborudovanie . ')"><i class="fa fa-trash" style="font-size: 20px;"></i></a>
+           <a href="#" onclick="editOborudovanie(' . $idOborudovanie . ')"><i class="fa fa-edit" style="font-size: 20px;"></i>️</a>
+           <a href="#" onclick="duplicateOborudovanie(' . $idOborudovanie . ')"><i class="fa fa-copy" style="font-size: 20px;"></i></a>
+         </td>';
             echo '</tr>';
         }
 
@@ -551,8 +555,12 @@ echo '
                     <label for="cost_repair">Стоимость ремонта:</label>
                     <input type="number" id="cost_repair" name="cost_repair">
 
-                    <label for="time_repair">Время ремонта:</label>
+                    <label for="time_repair">Срок ремонта/поставки запасных частей:</label>
                     <input type="date" id="time_repair" name="time_repair">
+                    
+                    <label for="add_remontOrg">Организация осуществляющая ремонт:</label>
+                    <input type="text" id="add_remontOrg" name="add_remontOrg">
+
 
                <!--     <label for="downtime">Продолжительность простоя:</label>
                     <input type="text" id="downtime" name="downtime">-->
@@ -591,8 +599,7 @@ echo'
     <option value="2022">2022</option>
     <option value="2021">2021</option>
     <option value="2020">2020</option>
-    <option value="2019">2019</option>
-    <option value="2018">2018</option>
+
 </select>
                     
 <label for="data_month_efficiency">Месяц:</label>
@@ -668,6 +675,9 @@ echo'
                     <label for="date_remont">Дата ремонта:</label>
                     <input type="date" id="edit_date_remont" name="date_remont">
                     
+                    <label for="edit_remontOrg">Организация осуществляющая ремонт:</label>
+                    <input type="text" id="edit_remontOrg" name="edit_remontOrg">
+                    
 
 
             <!--        <label for="downtime">Продолжительность простоя:</label>
@@ -709,8 +719,6 @@ echo '
     <option value="2022">2022</option>
     <option value="2021">2021</option>
     <option value="2020">2020</option>
-    <option value="2019">2019</option>
-    <option value="2018">2018</option>
 </select>
                     
                     <label for="data_month_efficiency">Месяц:</label>

@@ -20,6 +20,7 @@ if ($result->num_rows > 0) {
         , 'downtime' => $row['downtime']
         , 'remont' => $row['remont']
         , 'date_remont' => $row['date_remont']
+        , 'remontOrg' => $row['remontOrg']
         , 'id_fault' => $row['id_fault']
 
         );

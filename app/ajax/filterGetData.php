@@ -97,7 +97,9 @@ while ($row = mysqli_fetch_assoc($result)) {
     $output .= '<div style="border-radius: 5px; background-color: ' . $color . '; color: white; padding: 5px;">' . $status . '</div>';
     $output .= '</td>';
     $output .= '<td><a href="#" onclick="editOborudovanie(' . $idOborudovanie . ')"><i class="fa fa-edit" style="font-size: 20px;"></i>️</a>';
-    $output .= '<a href="#" onclick="confirmDeleteOborudovanie(' . $idOborudovanie . ')"><i class="fa fa-trash" style="font-size: 20px;"></i></a></td>';
+    $output .= '<a href="#" onclick="confirmDeleteOborudovanie(' . $idOborudovanie . ')"><i class="fa fa-trash" style="font-size: 20px;"></i></a>
+ <a href="#" onclick="duplicateOborudovanie(' . $idOborudovanie . ')"><i class="fa fa-copy" style="font-size: 20px;"></i></a> 
+ </td>';
     $output .= '</tr>';
 }
 
