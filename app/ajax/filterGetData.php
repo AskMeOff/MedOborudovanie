@@ -7,13 +7,20 @@ $datePostavki = $_POST['datePostavki'];
 $dateRelease = $_POST['dateRelease'];
 $service = $_POST['service'];
 $status = $_POST['status'];
+$id_type_oborudovanie = $_POST['id_type_oborudovanie'];
 $sql = "SELECT oborudovanie.*, type_oborudovanie.name, s.name as servname FROM oborudovanie
         LEFT JOIN type_oborudovanie ON oborudovanie.id_type_oborudovanie = type_oborudovanie.id_type_oborudovanie
         LEFT JOIN servicemans s ON s.id_serviceman = oborudovanie.id_serviceman
         WHERE oborudovanie.id_uz = $id_uz";
 
+
+
 if (!empty($equipment)) {
     $sql .= " AND type_oborudovanie.name LIKE '%" . $connectionDB->escapeString($equipment) . "%'";
+}else{
+    if (!empty($id_type_oborudovanie)) {
+        $sql .= " AND oborudovanie.id_type_oborudovanie = " . $connectionDB->escapeString($id_type_oborudovanie);
+    }
 }
 if (!empty($year)) {
     $sql .= " AND oborudovanie.date_create = '" . $connectionDB->escapeString($year) . "'";

@@ -122,6 +122,7 @@ while ($row = mysqli_fetch_assoc($resultTypes)) {
     }
 
     function checkHash(id_type, event) {
+        selectedEquipmentType = id_type;
         $.ajax({
             url: "app/ajax/getOblsByType.php",
             method: "GET",

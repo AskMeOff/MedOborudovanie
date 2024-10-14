@@ -6,6 +6,7 @@ let selectedServiceId = 0;
 let oblId;
 let currselectedEquipmentId;
 let globalserviceman;
+let selectedEquipmentType = null;
 
 
 function showMenu(thisTr, idOborudovanie) {
@@ -770,19 +771,27 @@ function filterTable() {
     let dateReleaseFilter = $("#filterDateRelease").val();
     let serviceFilter = $("#filterService").val();
     let statusFilter = $("#filterStatus").val();
+
+
+    let data = {
+        equipment: equipmentFilter,
+        id_uz: selectedOrg,
+        year: yearFilter,
+        datePostavki: datePostavkiFilter,
+        dateRelease: dateReleaseFilter,
+        service: serviceFilter,
+        status: statusFilter
+    };
+
+    if (selectedEquipmentType) {
+        data.id_type_oborudovanie = selectedEquipmentType;
+    }
+
     if (selectedOrg>0) {
         $.ajax({
             type: "POST",
             url: "/app/ajax/filterGetData.php",
-            data: {
-                equipment: equipmentFilter,
-                id_uz: selectedOrg,
-                year: yearFilter,
-                datePostavki: datePostavkiFilter,
-                dateRelease: dateReleaseFilter,
-                service: serviceFilter,
-                status: statusFilter
-            },
+            data: data,
             success: function (response) {
                 $('#infoOb' + selectedOrg).DataTable().destroy();
                 $("#infoOb" + selectedOrg).html(response);
@@ -799,15 +808,7 @@ console.log (oblId + "oblast");
         $.ajax({
             type: "POST",
             url: "/app/ajax/filterGetDataNoOrg.php",
-            data: {
-                equipment: equipmentFilter,
-                id_obl: oblId,
-                year: yearFilter,
-                datePostavki: datePostavkiFilter,
-                dateRelease: dateReleaseFilter,
-                service: serviceFilter,
-                status: statusFilter
-            },
+            data: data,
             success: function (response) {
                 $('#infoObAll').DataTable().destroy();
                 $('#infoObAll').html(response);
