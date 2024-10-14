@@ -98,7 +98,7 @@
         while ($row = $connectionDB->getRowResult($result)) {
             echo '<div class="news-block">';
             echo '<h2>' . htmlspecialchars($row['title']) . '</h2>';
-            echo '<p>' . htmlspecialchars(substr($row['content'], 0, 100)) . '...</p>'; // Показать только первые 100 символов
+            echo '<p>' . nl2br(htmlspecialchars_decode($row['content'])) . '</p>';
             echo '<button class="more-button" onclick="openNewsModal(' . $row['id_news'] . ')">Подробнее</button>';
             echo '</div>';
         }
@@ -135,7 +135,7 @@
             dataType: 'json',
             success: function(data) {
                 modalTitle.textContent = data.title;
-                modalContent.textContent = data.content;
+                modalContent.innerHTML = data.content;
                 modal.style.display = "block";
             },
             error: function(xhr, status, error) {
