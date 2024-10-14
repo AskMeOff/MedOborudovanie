@@ -65,6 +65,7 @@
                 endDate: $('#endDate').val()
             },
             success: function (response) {
+                console.log(response);
                 $('#table_row').removeClass('hidden');
                 $('.table-responsive table').DataTable().destroy();
                 $('.table-responsive').html(response);
