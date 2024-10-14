@@ -3,9 +3,11 @@ const contMenu = document.getElementById("contMenu");
 const body = document.getElementsByTagName("body")[0];
 let selectedEquipmentId;
 let selectedServiceId = 0;
+let selectedPostavschikId = 0;
 let oblId;
 let currselectedEquipmentId;
 let globalserviceman;
+let globalpostavschick;
 let selectedEquipmentType = null;
 
 
@@ -822,7 +824,7 @@ console.log (oblId + "oblast");
     }
 }
 
-let selectedPostavschikId = 0;
+
 
 function filterS(event, id){
     let filetS = event.target;
@@ -889,6 +891,17 @@ function setPostavschik(event){
 }
 
 function showModalAddOborudovanieUnspecified(){
+    document.getElementById('edit_cost').value = null;
+    document.getElementById('edit_model').value  = null;
+    document.getElementById('edit_contract').value  = null;
+    document.getElementById('edit_date_get_oborud').value  = null;
+    document.getElementById('edit_date_srok_vvoda').value  = null;
+    document.getElementById('edit_reasons').value  = null;
+    selectedServiceId = null;
+    selectedPostavschikId = null;
+    document.getElementById('filterServicemans').value  = null;
+
+
     $('#editBtnOb').hide();
     $('#addBtnOb').show();
     $('#editOborudovanieModal').modal('show');
@@ -991,38 +1004,140 @@ function exportTableToExcelAddedOb(tableID, filename = '') {
     // Генерируем Excel-файл и сохраняем его
     XLSX.writeFile(workbook, filename);
 }
-// function showPopup() {
-//     document.getElementById("popup").style.display = "flex";
-//     setTimeout(function() {
-//         document.getElementById("popup").style.display = "none";
-//     }, 1000);
-// }
-//
-// function closePopup() {
-//     document.getElementById("popup").style.display = "none";
-// }
 
-//
-// $('#closeBtnOb').on('click', function () {
-//     console.log("ddd");
-//     $('#yearError').hide();
-// });
-// document.getElementById('closeBtnOb').addEventListener('click', function(event) {
-//     event.preventDefault();
-//     console.log("ddd");  // Логируем сообщение в консоль
-//     document.getElementById('yearError').style.display = 'none';  // Скрываем сообщение об ошибке
-// });
+function editNotInstallOborudovanie(idOborudovanie) {
+    event.stopPropagation();
+    editedOborudovanie = idOborudovanie;
+    $.ajax({
+        url: '/app/ajax/getSingleNotInstallOborudovanie.php',
+        type: 'GET',
+        data: {id_oborudovanie: idOborudovanie},
+        dataType: 'json',
+        success: function (data) {
+            $('#editBtnOb').show();
+            $('#addBtnOb').hide();
+            $('#yearError').hide();
+            $('#editOborudovanieModal').modal('show');
+            $('#editOborudovanieModal .modal-title').text("Изменение неустановленного оборудования");
+            let select_type_oborudovanie = document.getElementById("select_type_oborudovanie");
+            select_type_oborudovanie.options.forEach(option => {
+                if (option.value === data.id_type_oborudovanie) {
+                    option.selected = true;
+                }
+            });
+            document.getElementById('edit_model').value = data.model_prozvoditel;
+            document.getElementById('edit_cost').value = data.cost;
+            document.getElementById('edit_contract').value = data.num_and_date;
+            if (data.service_organization == 0)
+            {
+                document.getElementById('filterServicemans').value = "";
+            }
 
-/////////////////////////////////////56 СТРОКА УДАЛИТЬ ПРИ ПРОВЕРКЕ
-// $(document).ready(function() {
-//     console.log('Document is ready'); // Проверка, сработало ли событие ready
-//
-//     $('#edit_date_create').on('input', function() {
-//         console.log('Input event triggered');  // Проверка, срабатывает ли событие
-//         $('#yearError').hide();  // Скрываем ошибку, как только пользователь начинает вводить данные
-//     });
-//
-//     $('#editOborudovanieModal').on('hidden.bs.modal', function () {
-//         $('#yearError').hide();  // Скрываем сообщение об ошибке при закрытии модального окна
-//     });
-// });
+            let select_serviceman = document.getElementById("filterServicemans");
+            let filteredDiv = select_serviceman.nextElementSibling.children;////
+            filteredDiv.forEach(item => {
+                if (item.getAttribute('data-id') == data.service_organization) {
+
+                    select_serviceman.setAttribute('data-id', item.getAttribute('data-id'))
+                    select_serviceman.value = item.innerText;
+                }
+            });
+            console.log (select_serviceman.value);
+            if (select_serviceman.value == 0)
+            {
+                let select_servicemans = document.getElementById("filterServicemans");
+                globalserviceman = select_servicemans.getAttribute('data-id');
+                globalserviceman = 0;
+            }
+
+
+            if (data.service_postavschik == 0)
+            {
+                document.getElementById('filterPostavschik').value = "";
+            }
+
+            let select_postavschik = document.getElementById("filterPostavschik");
+            let filteredDivPostavschik = select_postavschik.nextElementSibling.children;////
+            filteredDiv.forEach(item => {
+                if (item.getAttribute('data-id') == data.service_postavschik) {
+
+                    select_postavschik.setAttribute('data-id', item.getAttribute('data-id'))
+                    select_postavschik.value = item.innerText;
+                }
+            });
+            console.log (select_postavschik.value);
+            if (select_postavschik.value == 0)
+            {
+                let select_postav = document.getElementById("filterServicemans");
+                globalpostavschick = select_postav.getAttribute('data-id');
+                globalpostavschick = 0;
+            }
+
+            document.getElementById('edit_date_get_oborud').value = data.date_get_sklad;
+            document.getElementById('edit_date_srok_vvoda').value = data.date_norm_srok_vvoda;
+            document.getElementById('edit_reasons').value = data.reasons;
+        }
+    });
+}
+
+
+
+function saveNotInstallEditedOborudovanie() {
+    let select_type_oborudovanie = document.getElementById("select_type_oborudovanie");
+    let edit_model = document.getElementById('edit_model').value;
+    let edit_cost = document.getElementById('edit_cost').value;
+    let edit_contract = document.getElementById('edit_contract').value;
+    let select_servicemans = document.getElementById("filterServicemans");
+    let select_postavschik = document.getElementById("filterPostavschik");
+    let edit_date_get_oborud = document.getElementById('edit_date_get_oborud').value;
+    let edit_date_srok_vvoda = document.getElementById('edit_date_srok_vvoda').value;
+    let edit_reasons = document.getElementById('edit_reasons').value;
+
+    let sto = select_type_oborudovanie.options[select_type_oborudovanie.selectedIndex].value;
+    let so = select_servicemans.getAttribute('data-id');
+    let sp = select_postavschik.getAttribute('data-id');
+    if(selectedServiceId){
+
+        so = selectedServiceId;
+    }
+    else{
+        if(select_servicemans.value == ""){
+            so = 0;
+        }
+    }
+
+    if(selectedPostavschikId){
+
+        sp = selectedPostavschikId;
+    }
+    else{
+        if(select_postavschik.value == ""){
+            sp = 0;
+        }
+    }
+    $.ajax({
+        url: '/app/ajax/updateNotInstallOborudovanie.php',
+        type: 'POST',
+        data: {
+            id_oborudovanie: editedOborudovanie,
+            id_type_oborudovanie: select_type_oborudovanie.options[select_type_oborudovanie.selectedIndex].value,
+            edit_model: edit_model,
+            edit_cost: edit_cost,
+            edit_contract: edit_contract,
+            service_organization: so,
+            service_postavschik: sp,
+            edit_date_get_oborud: edit_date_get_oborud,
+            edit_date_srok_vvoda: edit_date_srok_vvoda,
+            edit_reasons: edit_reasons
+        },
+        success: function (data) {
+            if (data == "1") {
+                alert("Запись изменена");
+                location.reload();
+            } else {
+                alert("Ошибка в заполнении");
+            }
+
+        }
+    });
+}

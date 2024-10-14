@@ -90,7 +90,7 @@ while ($row1 = mysqli_fetch_assoc($result1)) {
     $model = $row1['model'];
 
     echo '<tr id=idob' . $idOborudovanie . '  >';
-    echo '<td><a href="#" onclick="deleteNotInstallOborudovanie(' . $idOborudovanie . ')"><i class="fa fa-trash" style="font-size: 20px;"></i></a><a href="#" onclick="editOborudovanie(' . $idOborudovanie . ')"><i class="fa fa-edit" style="font-size: 20px;"></i>️</a></td>';
+    echo '<td><a href="#" onclick="confirmDeleteOborudovanie(' . $idOborudovanie . ')"><i class="fa fa-trash" style="font-size: 20px;"></i></a><a href="#" onclick="editNotInstallOborudovanie(' . $idOborudovanie . ')"><i class="fa fa-edit" style="font-size: 20px;"></i>️</a></td>';
     echo '<td>' . $poliklinika . '</td>';
     echo '<td >' . $model . '</td>';
     echo '<td >' . $nameOborudov . '</td>';
@@ -151,7 +151,7 @@ echo ' </select>
 
                     <!---->
                     <label for="date_create">Модель, производитель:</label>
-                    <input type="text" id="edit_model" name="date_create">
+                    <input type="text" id="edit_model" name="edit_model_prozvoditel">
                     <!---->
                     <label for="date_postavki">Стоимость:</label>
                     <input type="number" id="edit_cost" >
@@ -201,7 +201,7 @@ echo ' </div>
                         <button type="button" class="btn btn-info" id="addBtnOb" onclick="addOborudovanieUnspecified()">
                             Добавить
                         </button>
-                        <button type="button" class="btn btn-info" id="editBtnOb" onclick="saveEditedOborudovanie()">
+                        <button type="button" class="btn btn-info" id="editBtnOb" onclick="saveNotInstallEditedOborudovanie()">
                             Сохранить
                         </button>
                         <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Закрыть</button>
