@@ -835,7 +835,8 @@ function filterTable() {
         datePostavki: datePostavkiFilter,
         dateRelease: dateReleaseFilter,
         service: serviceFilter,
-        status: statusFilter
+        status: statusFilter,
+        id_obl: oblId
     };
 
     if (selectedEquipmentType) {

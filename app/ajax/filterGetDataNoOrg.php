@@ -98,8 +98,19 @@ while ($row = mysqli_fetch_assoc($result1)) {
     $output .= '<td>' . $row['date_release'] . '</td>';
     $output .= '<td>' . $row['servname'] . '</td>';
     $output .= '<td>' . $row['date_last_TO'] . '</td>';
-    $output .= '<td onclick="getFaultsTable(' . $idOborudovanie . ')" style="cursor: pointer">';
-    $output .= '<div style="border-radius: 5px; background-color: ' . ($status === "исправно") ? 'green' : (($status === "Работа в ограниченном режиме") ? 'orange' : 'red') . '; color: white; padding: 5px;">' . $status . '</div>';
+    $output .= '<td>';
+    if($status=== "исправно")
+    {
+        $color = "green";
+    }
+    else if ($status === "Работа в ограниченном режиме")
+    {
+        $color = "orange";
+    }
+    else {
+        $color = "red";
+    }
+    $output .= '<div style="border-radius: 5px; background-color: ' . $color . '; color: white; padding: 5px;">' . $status . '</div>';
     $output .= '</td>';
     $output .= '</tr>';
 }
