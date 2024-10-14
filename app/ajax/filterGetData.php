@@ -34,7 +34,7 @@ if (!empty($dateRelease)) {
 if (!empty($service)) {
     $sql .= " AND s.name LIKE '%" . $connectionDB->escapeString($service) . "%'";
 }
-if (!empty($status)) {
+if (!empty($status) && $status !== "Все") {
     if($status === "исправно"){
         $statusValue=1;
     }else {
