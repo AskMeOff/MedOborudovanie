@@ -32,6 +32,7 @@ echo '
                                style="display: block">
                             <thead>
                             <tr>
+                                <th>Действия</th>
                                 <th>Организация</th>
                                 <th>Модель, производитель</th>
                                 <th>Наименование оборудования</th>
@@ -87,7 +88,9 @@ while ($row1 = mysqli_fetch_assoc($result1)) {
     $nameOborudov = $row1['type_name'];
     $idOborudovanie = $row1['id_oborudovanie'];
     $model = $row1['model'];
+
     echo '<tr id=idob' . $idOborudovanie . '  >';
+    echo '<td><a href="#" onclick="deleteNotInstallOborudovanie(' . $idOborudovanie . ')"><i class="fa fa-trash" style="font-size: 20px;"></i></a><a href="#" onclick="editOborudovanie(' . $idOborudovanie . ')"><i class="fa fa-edit" style="font-size: 20px;"></i>️</a></td>';
     echo '<td>' . $poliklinika . '</td>';
     echo '<td >' . $model . '</td>';
     echo '<td >' . $nameOborudov . '</td>';
