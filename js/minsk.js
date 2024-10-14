@@ -66,6 +66,10 @@ function showSection(idOrg, element) {
         document.getElementById('edit_date_create').value = "";
         document.getElementById('edit_date_release').value = "";
         document.getElementById('edit_model_prozvoditel').value = "";
+        document.getElementById('edit_serial_number').value = "";
+        document.getElementById('edit_date_postavki').value = "";
+        document.getElementById('edit_date_postavki').value = "";
+        document.getElementById('filterServicemans').value = "";
         // document.getElementById('select_serviceman').value = "";
         document.getElementById('edit_date_last_TO').value = "";
 
@@ -185,6 +189,7 @@ function refreshMainTable() {
                 let headers = {
                     'name': 'Вид оборудования',
                     'model': 'Модель, производитель',
+                    'serial_number': 'Серийный(заводской) номер оборудования',
                     // 'cost': 'Стоимость',
                     'date_create': 'Год производства',
                     'date_postavki': 'Дата поставки',
@@ -205,6 +210,7 @@ function refreshMainTable() {
                     tableContent += '<td onclick="getEffectTable(' + row.id_oborudovanie + ')" id=idob' + row.id_oborudovanie + ' style="cursor: pointer; color: #167877;\n' +
                         '    font-weight: 550;">' + row.name + '</td>';
                     tableContent += '<td>' + row.model + '</td>';
+                    tableContent += '<td>' + row.serial_number + '</td>';
                     tableContent += '<td style="text-align: justify;">' + row.date_create + '</td>';
                     tableContent += '<td style="text-align: justify;">' + row.date_postavki + '</td>';
                     tableContent += '<td>' + row.date_release + '</td>';
@@ -622,6 +628,7 @@ function editOborudovanie(idOborudovanie) {
             document.getElementById('edit_date_postavki').value = data.date_postavki;
             document.getElementById('edit_date_release').value = data.date_release;
             document.getElementById('edit_model_prozvoditel').value = data.model_prozvoditel;
+            document.getElementById('edit_serial_number').value = data.serial_number;
             if (data.service_organization == 0)
             {
                 document.getElementById('filterServicemans').value = "";
@@ -665,6 +672,7 @@ function saveEditedOborudovanie() {
     let dp = document.getElementById('edit_date_postavki').value;
     let dr = document.getElementById('edit_date_release').value;
     let mod = document.getElementById('edit_model_prozvoditel').value;
+    let serial_number = document.getElementById('edit_serial_number').value;
     let so = select_servicemans.getAttribute('data-id');
 
     if (selectedServiceId) {
@@ -699,6 +707,7 @@ function saveEditedOborudovanie() {
             date_postavki: dp,
             date_release: dr,
             model_prozvoditel: mod,
+            serial_number: serial_number,
             service_organization: so,
             date_last_TO: document.getElementById('edit_date_last_TO').value,
             status: select_status.options[select_status.selectedIndex].value
@@ -748,6 +757,7 @@ function saveAddedOborudovanie() {
             date_postavki: document.getElementById('edit_date_postavki').value || null,
             date_release: document.getElementById('edit_date_release').value || null,
             model_prozvoditel: document.getElementById('edit_model_prozvoditel').value || null,
+            serial_number: document.getElementById('edit_serial_number').value || null,
             service_organization: selectedServiceId || null,
             date_last_TO: document.getElementById('edit_date_last_TO').value || null,
             status: select_status.options[select_status.selectedIndex].value,
@@ -756,10 +766,10 @@ function saveAddedOborudovanie() {
         success: function (data) {
             if (data === "1") {
                 alert("Запись добавлена");
-                refreshMainTable(); // Обновление главной таблицы
+                refreshMainTable();
             } else {
                 alert("Ошибка в заполнении");
-                return; // Если ошибка, выходим из функции
+                return;
             }
 
             let newEquipmentName = select_type_oborudovanie.options[select_type_oborudovanie.selectedIndex].text;

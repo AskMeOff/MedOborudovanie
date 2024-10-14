@@ -17,6 +17,7 @@ if ($result->num_rows > 0) {
         $data[] = array(
             'name' => $row['name'] ?? "Нет данных"
         , 'model' => $row['model'] ?? "Нет данных"
+        , 'serial_number' => $row['serial_number'] ?? "Нет данных"
         , 'date_create' => $row['date_create'] ?? "Нет данных"
         , 'date_postavki' => $row['date_postavki'] ?? "Нет данных"
         , 'date_release' => $row['date_release'] ?? "Нет данных"

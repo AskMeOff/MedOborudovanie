@@ -55,6 +55,7 @@ $output = '<div class="table-responsive">
                                 <tr>
                                 <th>Вид оборудования</th>
                                 <th>Модель, производитель</th>
+                                <th>Серийный(заводской) номер оборудования</th>
                                 <th>Год производства</th>
                                 <th>Дата поставки</th>
                                 <th>Дата ввода в эксплуатацию</th>
@@ -70,6 +71,7 @@ while ($row = mysqli_fetch_assoc($result)) {
     $nameOborudov = $row['name'];
     $idOborudovanie = $row['id_oborudovanie'];
     $model = $row['model'];
+    $serial_number = $row['serial_number'];
     $status = ($row['status'] === "1") ? "исправно" : (($row['status'] === "3") ? "Работа в ограниченном режиме" : "неисправно");
 
 
@@ -77,6 +79,7 @@ while ($row = mysqli_fetch_assoc($result)) {
     $output .= '<tr id="idob' . $idOborudovanie . '">';
     $output .= '<td onclick="getEffectTable(' . $idOborudovanie . ')" style="cursor: pointer; color: #167877; font-weight: 550;">' . $nameOborudov . '</td>';
     $output .= '<td>' . $model . '</td>';
+    $output .= '<td>' . $serial_number . '</td>';
     $output .= '<td>' . $row['date_create'] . '</td>';
     $output .= '<td>' . $row['date_postavki'] . '</td>';
     $output .= '<td>' . $row['date_release'] . '</td>';

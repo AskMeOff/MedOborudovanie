@@ -18,6 +18,7 @@ if ($result->num_rows > 0) {
         , 'date_postavki' => $row['date_postavki']
         , 'date_release' => $row['date_release']
         , 'model_prozvoditel' => $row['model']
+        , 'serial_number' => $row['serial_number']
         , 'date_dogovora' => $row['date_dogovora']
         , 'service_organization' => $row['id_serviceman']
         , 'date_last_TO' => $row['date_last_TO']

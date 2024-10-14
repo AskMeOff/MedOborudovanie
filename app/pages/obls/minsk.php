@@ -161,6 +161,7 @@ if (isset($_COOKIE['token']) && $_COOKIE['token'] !== '') {
                             <tr>
                                 <th>Организация</th>
                                 <th>Модель, производитель</th>
+                                <th>Серийный(заводской) номер оборудования</th>
                                 <th class="vid_oborudovaniya">Вид оборудования</th>
                                 <th>Год производства</th>
                                 <th>Дата поставки</th>
@@ -250,9 +251,11 @@ if (isset($_COOKIE['token']) && $_COOKIE['token'] !== '') {
             $nameOborudov = $row1['name'];
             $idOborudovanie = $row1['id_oborudovanie'];
             $model = $row1['model'];
+            $serial_number = $row1['serial_number'];
             echo '<tr id=idob' . $idOborudovanie . '  >';
             echo '<td>' . $poliklinika . '</td>';
             echo '<td>' . $model . '</td>';
+            echo '<td>' . $serial_number . '</td>';
             echo '<td class="vid_oborudovaniya" onclick="getEffectTable(' . $idOborudovanie . ')" style="cursor: pointer; color: #167877;
     font-weight: 550;">' . $nameOborudov . '</td>';
             echo '<td>' . $row1['date_create'] . '</td>';
@@ -309,6 +312,7 @@ if (isset($_COOKIE['token']) && $_COOKIE['token'] !== '') {
                             <tr>
                                 <th>Вид оборудования</th>
                                 <th>Модель, производитель</th>
+                                <th>Серийный(заводской) номер оборудования</th>                              
                                 <th>Год производства</th>
                                 <th>Дата поставки</th>
                                 <th>Дата ввода в эксплуатацию</th>
@@ -328,11 +332,13 @@ if (isset($_COOKIE['token']) && $_COOKIE['token'] !== '') {
             $nameOborudov = $row1['name'];
             $idOborudovanie = $row1['id_oborudovanie'];
             $model = $row1['model'];
+            $serial_number = $row1['serial_number'];
             echo '<tr id=idob' . $idOborudovanie . '  >';
 
             echo '<td onclick="getEffectTable(' . $idOborudovanie . ')" style="cursor: pointer; color: #167877;
     font-weight: 550;">' . $nameOborudov . '</td>';
             echo '<td>' . $model . '</td>';
+            echo '<td>' . $serial_number . '</td>';
             echo '<td>' . $row1['date_create'] . '</td>';
             echo '<td>' . $row1['date_postavki'] . '</td>';
             echo '<td>' . $row1['date_release'] . '</td>';
@@ -784,6 +790,9 @@ echo ' </select>
                     <!---->
                      <label for="model_prozvoditel">Модель, производитель:</label>
                     <input type="text" id="edit_model_prozvoditel" name="model_prozvoditel">
+                    
+                    <label for="edit_serial_number">Серийный(заводской) номер оборудования:</label>
+                    <input type="text" id="edit_serial_number" name="edit_serial_number">
                    
                     <label >Сервисная организация:</label>
                     
