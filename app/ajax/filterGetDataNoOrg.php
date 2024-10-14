@@ -58,7 +58,7 @@ if (!empty($dateRelease)) {
 if (!empty($service)) {
     $sql .= " AND s.name LIKE '%" . $connectionDB->escapeString($service) . "%'";
 }
-if (!empty($status)) {
+if (!empty($status) && $status !== "Все") {
     $statusValue = ($status === "исправно") ? "1" : (($status === "Работа в ограниченном режиме") ? "3" : "0");
     $sql .= " AND oborudovanie.status = '" . $connectionDB->escapeString($statusValue) . "'";
 }
@@ -87,7 +87,18 @@ while ($row = mysqli_fetch_assoc($result1)) {
     $nameOborudov = $row['name'];
     $idOborudovanie = $row['id_oborudovanie'];
     $model = $row['model'];
-    $statusValue = ($status === "исправно") ? "1" : (($status === "Работа в ограниченном режиме") ? "3" : "0");
+    $currentStatus = $row['status'];
+
+    if ($currentStatus == "1") {
+        $color = "green";
+        $statusText = "исправно";
+    } else if ($currentStatus == "3") {
+        $color = "orange";
+        $statusText = "Работа в ограниченном режиме";
+    } else if ($currentStatus == "0") {
+        $color = "red";
+        $statusText = "неисправно";
+    }
 
     $output .= '<tr id="idob' . $idOborudovanie . '">';
     $output .= '<td>' . $poliklinika . '</td>';
@@ -99,18 +110,7 @@ while ($row = mysqli_fetch_assoc($result1)) {
     $output .= '<td>' . $row['servname'] . '</td>';
     $output .= '<td>' . $row['date_last_TO'] . '</td>';
     $output .= '<td>';
-    if($status=== "исправно")
-    {
-        $color = "green";
-    }
-    else if ($status === "Работа в ограниченном режиме")
-    {
-        $color = "orange";
-    }
-    else {
-        $color = "red";
-    }
-    $output .= '<div style="border-radius: 5px; background-color: ' . $color . '; color: white; padding: 5px;">' . $status . '</div>';
+    $output .= '<div style="border-radius: 5px; background-color: ' . $color . '; color: white; padding: 5px;">' . $statusText . '</div>';
     $output .= '</td>';
     $output .= '</tr>';
 }
