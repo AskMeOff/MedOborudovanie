@@ -229,7 +229,9 @@ function refreshMainTable() {
             tableContent += '</tbody></table>';
             $('#org' + selectedOrg + ' .table-responsive').html(tableContent);
             $('#editOborudovanieModal').modal('hide');
-            $('#infoOb' + selectedOrg).DataTable();
+            $('#infoOb' + selectedOrg).DataTable( {
+                "stateSave": true
+            } );
         },
         error: function (xhr, status, error) {
             console.log(error);
@@ -642,26 +644,20 @@ function saveEditedOborudovanie() {
     let select_servicemans = document.getElementById("filterServicemans");
     let select_status = document.getElementById("select_status");
     let sto = select_type_oborudovanie.options[select_type_oborudovanie.selectedIndex].value;
-    // let cst = document.getElementById('edit_cost').value;
     let dcr = document.getElementById('edit_date_create').value;
     let dp = document.getElementById('edit_date_postavki').value;
     let dr = document.getElementById('edit_date_release').value;
     let mod = document.getElementById('edit_model_prozvoditel').value;
     let so = select_servicemans.getAttribute('data-id');
-    console.log(globalserviceman);
-   // let so = document.getElementById('edit_serviceman').value;
-    let dto = document.getElementById('edit_date_last_TO').value;
-    let stat = select_status.options[select_status.selectedIndex].value
 
-    if(selectedServiceId){
-
+    if (selectedServiceId) {
         so = selectedServiceId;
+    } else {
+        if (select_servicemans.value == "") {
+            so = 0;
+        }
     }
-    else{
-         if(select_servicemans.value == ""){
-             so = 0;
-         }
-    }
+
     const yearValue = $('#edit_date_create').val();
 
     // Проверяем, является ли год 4-значным числом
@@ -675,13 +671,13 @@ function saveEditedOborudovanie() {
     }
 
     $('#yearError').hide();  // Скрываем сообщение об ошибке, если данные корректны
+
     $.ajax({
         url: '/app/ajax/updateOborudovanie.php',
         type: 'POST',
         data: {
             id_oborudovanie: editedOborudovanie,
-            id_type_oborudovanie: select_type_oborudovanie.options[select_type_oborudovanie.selectedIndex].value,
-            // cost: document.getElementById('edit_cost').value,
+            id_type_oborudovanie: sto,
             date_create: dcr,
             date_postavki: dp,
             date_release: dr,
@@ -692,16 +688,15 @@ function saveEditedOborudovanie() {
         },
         success: function (data) {
             if (data == "1") {
-
-                refreshMainTable();
                 alert("Запись изменена");
+                    refreshMainTable();
             } else {
                 alert("Ошибка в заполнении");
             }
-
         }
     });
 }
+
 
 $('#editFaultForm').on('submit', function (event) {
     event.preventDefault();
@@ -716,27 +711,22 @@ $('#editEffectForm').on('submit', function (event) {
 
 function saveAddedOborudovanie() {
     let select_type_oborudovanie = document.getElementById("select_type_oborudovanie");
-    let select_servicemans = document.getElementById("select_serviceman");
     let select_status = document.getElementById("select_status");
     const yearValue = $('#edit_date_create').val();
 
     // Проверяем, является ли год 4-значным числом
     if (!(yearValue === "") && !/^\d{4}$/.test(yearValue)) {
-        $('#yearError').show();  // Показываем сообщение об ошибке
-
-        $('#editOborudovanieModal').animate({
-            scrollTop: $('#edit_date_create').offset().top - $('#editOborudovanieModal').offset().top + $('#editOborudovanieModal').scrollTop() - 150
-        }, 500);
-        return false;  // Останавливаем выполнение функции, предотвращаем сохранение
+        $('#yearError').show(); // Показываем сообщение об ошибке
+        return false; // Останавливаем выполнение функции, предотвращаем сохранение
     }
 
-    $('#yearError').hide();  // Скрываем сообщение об ошибке, если данные корректны
+    $('#yearError').hide(); // Скрываем сообщение об ошибке, если данные корректны
+
     $.ajax({
         url: '/app/ajax/insertOborudovanie.php',
         type: 'POST',
         data: {
             id_type_oborudovanie: select_type_oborudovanie.options[select_type_oborudovanie.selectedIndex].value,
-            // cost: document.getElementById('edit_cost').value,
             date_create: document.getElementById('edit_date_create').value || null,
             date_postavki: document.getElementById('edit_date_postavki').value || null,
             date_release: document.getElementById('edit_date_release').value || null,
@@ -747,16 +737,64 @@ function saveAddedOborudovanie() {
             id_org: selectedOrg
         },
         success: function (data) {
-            if (data == "1") {
+            if (data === "1") {
                 alert("Запись добавлена");
-                refreshMainTable();
+                refreshMainTable(); // Обновление главной таблицы
             } else {
                 alert("Ошибка в заполнении");
+                return; // Если ошибка, выходим из функции
             }
 
+            let newEquipmentName = select_type_oborudovanie.options[select_type_oborudovanie.selectedIndex].text;
+            //console.log("Добавленное оборудование:", newEquipmentName);
+
+            // Убедимся, что таблица обновилась
+            setTimeout(function () {
+                let searchValue = newEquipmentName.trim().toLowerCase();
+                let matchingIndex = -1; // Начальное значение для индекса
+
+                // Используем метод rows().data() для получения всех данных
+                let allData = $('#infoOb' + selectedOrg).DataTable().rows().data();
+
+                // Перебираем строки данных в обратном порядке
+                for (let i = allData.length - 1; i >= 0; i--) {
+                    let equipmentName = allData[i][0].trim().toLowerCase(); // Получаем название оборудования из первой ячейки
+
+                    //console.log(`Сравниваем: '${equipmentName}' с '${searchValue}'`);
+
+                    // Если текст ячейки совпадает с названием оборудования
+                    if (equipmentName.includes(searchValue)) {
+                        matchingIndex = i; // Сохраняем индекс найденной строки
+                        break; // Прерываем цикл, так как мы нашли последнюю запись
+                    }
+                }
+
+                if (matchingIndex !== -1) {
+                    //console.log("Последняя запись с названием 'УЗИ Аппараты' найдена на индексе:", matchingIndex);
+
+                    // Теперь находим страницу для перехода
+                    let table = $('#infoOb' + selectedOrg).DataTable();
+                    let pageSize = table.page.len();
+                    let newPage = Math.floor(matchingIndex / pageSize);
+
+                    // Переходим на нужную страницу
+                    table.page(newPage).draw(false);
+
+                    // Прокручиваем к новой строке
+                    let newRow = $('#infoOb' + selectedOrg).find('tr').eq(matchingIndex + 1); // +1 для учета заголовка
+                }
+
+            }, 200); // Небольшая задержка, чтобы убедиться, что таблица обновилась
+        },
+        error: function (xhr, status, error) {
+            console.error("Ошибка при добавлении записи: " + error);
         }
     });
 }
+
+
+
+
 
 
 
