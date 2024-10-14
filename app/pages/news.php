@@ -31,6 +31,8 @@
     }
 </style>
 <section class="content" style="margin-top: 100px; margin-left: 15px">
+    <h1 style="margin-left: 50px;">Новости</h1>
+
     <div class="container-fluid" id="container_fluid" style="overflow: auto; height: 85vh;">
         <div class="row" id="main_row">
 <div class="news-container">

@@ -85,6 +85,12 @@ while ($row = mysqli_fetch_assoc($resultTypes)) {
                             </li>
                         </ul>
                     </li>
+                    <li>
+                        <a href="index.php?news">
+                            <i class="fa fa-asterisk"></i> Новости
+                            <span class="new-icon" style="color: red; font-size: 0.8em; margin-left: 5px;">!</span>
+                        </a>
+                    </li>
                     <li><a href="index.php?servicemans"><i class="fa fa-cog"></i>Сервисанты </a></li>
 
 
