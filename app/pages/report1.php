@@ -14,6 +14,20 @@
                         <label for="endDate">Конечная дата:</label>
                         <input type="date" id="endDate">
                     </div>
+                    <div class="col-3 m-3">
+                        <label for="organization">Организация:</label>
+                        <select class="form-select" id="select_organization">
+                            <option value="0">-- Ничего не выбрано --</option>
+
+<?php
+                            $query = "select * from uz";
+                            $result = $connectionDB->executeQuery($query);
+                            while ($row = $result->fetch_assoc()) {
+                            echo "<option value='" . $row['id_uz'] . "'>" . $row['name'] . "</option>";
+                            }
+?>
+                            </select>
+                    </div>
                 </div>
                 <button class="btn btn-info m-3" onclick="getReport()">Построить отчет</button>
             </section>
@@ -62,6 +76,7 @@
             type: 'POST',
             data: {
                 startDate: $('#startDate').val(),
+                id_uz: $("#select_organization").val(),
                 endDate: $('#endDate').val()
             },
             success: function (response) {
