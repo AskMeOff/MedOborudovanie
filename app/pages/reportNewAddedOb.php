@@ -10,29 +10,43 @@ echo '
 
             <section class="col-lg-11 connectedSortable ui-sortable" style="display: block;">
                 <div class="row">
-                    <div class="col-3 m-3">
+                    <div class="col-2 m-3">
                         <label for="startDate">Начальная дата:</label>
                         <input type="date" id="startDate" >
                     </div>
-                    <div class="col-3 m-3">
+                    <div class="col-2 m-3">
                         <label for="endDate">Конечная дата:</label>
                         <input type="date" id="endDate">
                     </div>
                     <div class="col-3 m-3">
+                    <label for="organization">Организация:</label>
+                        <select class="form-select" id="select_organization">
+                            <option value="0">-- Ничего не выбрано --</option>
+                    ';
+
+
+                    $query = "select * from uz";
+                    $result = $connectionDB->executeQuery($query);
+                    while ($row = $result->fetch_assoc()) {
+                        echo "<option value='" . $row['id_uz'] . "'>" . $row['name'] . "</option>";
+                    }
+
+echo ' </select></div>
+ ``                 <div class="col-3 m-3">
                     <label>Область:</label>
                     <select class="form-select" id="select_oblast">
                      <option value="0">-- Ничего не выбрано --</option>
                     ';
 
 
-                    $query = "select * from oblast";
-                    $result = $connectionDB->executeQuery($query);
-                    while ($row = $result->fetch_assoc()) {
-                     echo "<option value='" . $row['id_oblast'] . "'>" . $row['name'] . "</option>";
-                    }
+$query = "select * from oblast";
+$result = $connectionDB->executeQuery($query);
+while ($row = $result->fetch_assoc()) {
+    echo "<option value='" . $row['id_oblast'] . "'>" . $row['name'] . "</option>";
+}
 
-echo ' </select>
-                    </div>
+echo ' </select></div>
+                    
                     <div class="col-3 m-3">
                     <label>Вид оборудования:</label>
                     <select class="form-select" id="select_type_oborudovanie">
@@ -100,6 +114,7 @@ echo ' </select>
              startDate: $("#startDate").val(),
             endDate: $("#endDate").val(),
             id_oblast: $("#select_oblast").val(), 
+            id_uz: $("#select_organization").val(),
             id_type_oborudovanie: $("#select_type_oborudovanie").val() 
         },
             success: function (response) {

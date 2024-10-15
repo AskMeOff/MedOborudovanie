@@ -8,7 +8,7 @@ $startDate = $_POST['startDate'];
 $endDate = $_POST['endDate'];
 $id_oblast = isset($_POST['id_oblast']) ? $_POST['id_oblast'] : null;
 $id_type_oborudovanie = isset($_POST['id_type_oborudovanie']) ? $_POST['id_type_oborudovanie'] : null;
-
+$id_uz = isset($_POST['id_uz']) ? $_POST['id_uz'] : null;
 
 
 $sql = "SELECT 
@@ -44,6 +44,10 @@ $conditions = [];
 
 if ($id_oblast && $id_oblast != '0') {
     $conditions[] = "uz.id_oblast = '$id_oblast'";
+}
+
+if ($id_uz && $id_uz != '0') {
+    $conditions[] = "uz.id_uz = '$id_uz'";
 }
 
 if ($id_type_oborudovanie && $id_type_oborudovanie != '0') {
