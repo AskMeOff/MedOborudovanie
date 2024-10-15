@@ -6,7 +6,7 @@ if (!$connectionDB) {
 
 $startDate = $_POST['startDate'];
 $endDate = $_POST['endDate'];
-
+$id_uz = isset($_POST['id_uz']) ? $_POST['id_uz'] : null;
 $sql = "SELECT DISTINCT tfbd.id_oborudovanie, uz.name as uz_name, `to`.name as type_name, s.name as serv_name FROM table_faults_by_date tfbd 
     left join oborudovanie o on tfbd.id_oborudovanie=o.id_oborudovanie
     left join uz uz on o.id_uz=uz.id_uz
@@ -16,9 +16,15 @@ WHERE tfbd.date BETWEEN '$startDate' AND '$endDate'
 AND uz.name IS NOT NULL 
 AND `to`.name IS NOT NULL";
 
+$conditions = [];
 
+if ($id_uz && $id_uz != '0') {
+    $conditions[] = "uz.id_uz = '$id_uz'";
+}
 
-
+if (count($conditions) > 0) {
+    $sql .= " AND " . implode(" AND ", $conditions);
+}
 
 $output = '<table class="table table-striped table-responsive-sm dataTable no-footer" id="table_report1"
                            style="display: block">
