@@ -258,11 +258,15 @@ if (isset($_COOKIE['token']) && $_COOKIE['token'] !== '') {
             echo '<td>' . $serial_number . '</td>';
             echo '<td class="vid_oborudovaniya" onclick="getEffectTable(' . $idOborudovanie . ')" style="cursor: pointer; color: #167877;
     font-weight: 550;">' . $nameOborudov . '</td>';
-            echo '<td>' . $row1['date_create'] . '</td>';
-            echo '<td>' . $row1['date_postavki'] . '</td>';
-            echo '<td>' . $row1['date_release'] . '</td>';
+            $date_create = $row1['date_create'];
+            echo '<td>' . ($date_create ? date('Y', strtotime($date_create)) : 'Нет данных') . '</td>';
+            $date_postavki = $row1['date_postavki'];
+            echo '<td>' . ($date_postavki ? date('d.m.Y', strtotime($date_postavki)) : 'Нет данных') . '</td>';
+            $date_release = $row1['date_release'];
+            echo '<td>' . ($date_release ? date('d.m.Y', strtotime($date_release)) : 'Нет данных') . '</td>';
             echo '<td>' . $row1['servname'] . '</td>';
-            echo '<td>' . $row1['date_last_TO'] . '</td>';
+            $date_last_TO = $row1['date_last_TO'];
+            echo '<td>' . ($date_last_TO ? date('d.m.Y', strtotime($date_last_TO)) : 'Нет данных') . '</td>';
             if($row1['status'] === "1")
             {
                 $status = "исправно";
@@ -339,11 +343,15 @@ if (isset($_COOKIE['token']) && $_COOKIE['token'] !== '') {
     font-weight: 550;">' . $nameOborudov . '</td>';
             echo '<td>' . $model . '</td>';
             echo '<td>' . $serial_number . '</td>';
-            echo '<td>' . $row1['date_create'] . '</td>';
-            echo '<td>' . $row1['date_postavki'] . '</td>';
-            echo '<td>' . $row1['date_release'] . '</td>';
+            $date_create = $row1['date_create'];
+            echo '<td>' . ($date_create ? date('Y', strtotime($date_create)) : 'Нет данных') . '</td>';
+            $date_postavki = $row1['date_postavki'];
+            echo '<td>' . ($date_postavki ? date('d.m.Y', strtotime($date_postavki)) : 'Нет данных') . '</td>';
+            $date_release = $row1['date_release'];
+            echo '<td>' . ($date_release ? date('d.m.Y', strtotime($date_release)) : 'Нет данных') . '</td>';
             echo '<td>' . $row1['servname'] . '</td>';
-            echo '<td>' . $row1['date_last_TO'] . '</td>';
+            $date_last_TO = $row1['date_last_TO'];
+            echo '<td>' . ($date_last_TO ? date('d.m.Y', strtotime($date_last_TO)) : 'Нет данных') . '</td>';
             if($row1['status'] === "1")
             {
                 $status = "исправно";

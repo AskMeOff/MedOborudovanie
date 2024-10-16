@@ -80,11 +80,20 @@ while ($row = mysqli_fetch_assoc($result)) {
     $output .= '<td onclick="getEffectTable(' . $idOborudovanie . ')" style="cursor: pointer; color: #167877; font-weight: 550;">' . $nameOborudov . '</td>';
     $output .= '<td>' . $model . '</td>';
     $output .= '<td>' . $serial_number . '</td>';
-    $output .= '<td>' . $row['date_create'] . '</td>';
-    $output .= '<td>' . $row['date_postavki'] . '</td>';
-    $output .= '<td>' . $row['date_release'] . '</td>';
+    $date_create = $row['date_create'];
+    $output .= '<td>' . ($date_create ? date('Y', strtotime($date_create)) : 'Нет данных') . '</td>';
+
+    $date_postavki = $row['date_postavki'];
+    $output .= '<td>' . ($date_postavki ? date('d.m.Y', strtotime($date_postavki)) : 'Нет данных') . '</td>';
+
+    $date_release = $row['date_release'];
+    $output .= '<td>' . ($date_release ? date('d.m.Y', strtotime($date_release)) : 'Нет данных') . '</td>';
+
     $output .= '<td>' . $row['servname'] . '</td>';
-    $output .= '<td>' . $row['date_last_TO'] . '</td>';
+
+    $date_last_TO = $row['date_last_TO'];
+    $output .= '<td>' . ($date_last_TO ? date('d.m.Y', strtotime($date_last_TO)) : 'Нет данных') . '</td>';
+
     $output .= '<td onclick="getFaultsTable(' . $idOborudovanie . ')" style="cursor: pointer">';
     if($status=== "исправно")
     {
