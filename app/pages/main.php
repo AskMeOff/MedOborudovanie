@@ -196,8 +196,6 @@ foreach ($regions as $region) {
 }
 echo "</div>
 ";
-
-
 echo '<div id="popup" class="popup">
     <div class="popup-content">
         <span class="close" onclick="closePopup()">&times;</span>

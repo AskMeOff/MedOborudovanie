@@ -3,7 +3,6 @@ include "../../connection/connection.php";
 if (!$connectionDB) {
     die("Connection failed: " . mysqli_connect_error());
 }
-
 $id_type_oborudovanie = $_POST['id_type_oborudovanie'];
 $date_create = isset($_POST['date_create']) && $_POST['date_create'] !== "" ? "'" . $connectionDB->escapeString($_POST['date_create']) . "'" : "NULL";
 $date_postavki = isset($_POST['date_postavki']) && $_POST['date_postavki'] !== "" ? "'" . $connectionDB->escapeString($_POST['date_postavki']) . "'" : "NULL";
@@ -14,7 +13,6 @@ $service_organization = isset($_POST['service_organization']) && $_POST['service
 $date_last_TO = isset($_POST['date_last_TO']) && $_POST['date_last_TO'] !== "" ? "'" . $connectionDB->escapeString($_POST['date_last_TO']) . "'" : "NULL";
 $status = (int)$_POST['status'];
 $id_org = $_POST['id_org'];
-
 $sql = "INSERT INTO oborudovanie (id_type_oborudovanie, date_create, date_postavki, date_release, model,serial_number, id_serviceman, date_last_TO, status, id_uz)
         VALUES ('$id_type_oborudovanie', $date_create, $date_postavki, $date_release, $model_prozvoditel,$serial_number, $service_organization, $date_last_TO, '$status', '$id_org')";
 
