@@ -273,22 +273,45 @@ function formatDate(dateString) {
 
 function getEffectTable(selectedEquipmentId) {
     currselectedEquipmentId  = selectedEquipmentId;
+
     $.ajax({
         url: '/app/ajax/getEffectTable.php',
         type: 'GET',
         data: {id_oborudovanie: selectedEquipmentId},
         dataType: 'json',
         success: function (data) {
+            let id_type_oborudovanie = null;
             let tableContent = '<table class="table" style="font-size: 13px;">';
+
+            // Проверяем, возвращены ли данные и тип оборудования
+            if (data.hasOwnProperty('empty') && data.empty) {
+                // Если данные пустые, но есть id_type_oborudovanie
+                id_type_oborudovanie = data.id_type_oborudovanie;
+                console.log('No data, but ID Type Oborudovanie:', id_type_oborudovanie);
+            } else if (data.length > 0) {
+                // Если данные есть
+                id_type_oborudovanie = data[0].id_type_oborudovanie;
+                console.log('ID Type Oborudovanie:', id_type_oborudovanie);
+            }
+
+            // Определяем текст для поля "Количество проведенных исследований" в зависимости от типа оборудования
+            let countNameofField = 'Количество проведенных исследований';
+            if (id_type_oborudovanie == 13 || id_type_oborudovanie == 17) {
+                countNameofField = 'Количество часов работы';
+                document.querySelector('label[for="count_research"]').textContent = 'Количество часов работы';
+            } else {
+                document.querySelector('label[for="count_research"]').textContent = 'Количество проведенных исследований';
+            }
+
+            // Если данные не пустые, строим таблицу
             if (!data.hasOwnProperty('empty')) {
                 tableContent += '<thead><tr>';
                 let headers = {
-                    'count_research': 'Количество проведенных исследований',
+                    'count_research': countNameofField,
                     'count_patient': 'Количество диагностированных пациентов',
                     'id_use_efficiency': 'Действия',
                     'data_year_efficiency': 'Год',
                     'data_month_efficiency': 'Месяц'
-
                 };
                 Object.keys(headers).forEach(function (key) {
                     tableContent += '<th>' + headers[key] + '</th>';
@@ -305,17 +328,21 @@ function getEffectTable(selectedEquipmentId) {
                     tableContent += '</tr>';
                 });
             } else {
+                // Если данных нет, показываем сообщение
                 tableContent += '<thead><tr>';
                 tableContent += '<th></th>';
                 tableContent += '</tr></thead><tbody>';
                 tableContent += '<tr><td colspan="8" style="text-align:center;">Нет данных</td></tr>';
             }
             tableContent += '</tbody></table>';
+
+            // Вставляем таблицу или сообщение в модальное окно
             $('#effectModal .modal-body').html(tableContent);
             $('#effectModal').modal('show');
         }
     });
 }
+
 
 
 function confirmDeleteFault(id_fault) {
