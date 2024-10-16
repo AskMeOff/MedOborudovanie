@@ -211,11 +211,11 @@ function refreshMainTable() {
                         '    font-weight: 550;">' + row.name + '</td>';
                     tableContent += '<td>' + row.model + '</td>';
                     tableContent += '<td>' + row.serial_number + '</td>';
-                    tableContent += '<td style="text-align: justify;">' + row.date_create + '</td>';
-                    tableContent += '<td style="text-align: justify;">' + row.date_postavki + '</td>';
-                    tableContent += '<td>' + row.date_release + '</td>';
+                    tableContent += '<td style="text-align: justify;">' + formatYear(row.date_create) + '</td>';
+                    tableContent += '<td style="text-align: justify;">' + formatDate(row.date_postavki) + '</td>';
+                    tableContent += '<td>' + formatDate(row.date_release) + '</td>';
                     tableContent += '<td>' + row.service_organization + '</td>';
-                    tableContent += '<td>' + row.date_last_TO + '</td>';
+                    tableContent += '<td>' + formatDate(row.date_last_TO) + '</td>';
                     if (row.status === "1") {
                         tableContent += '<td  onclick="getFaultsTable(' + row.id_oborudovanie + ')" style="cursor: pointer; "><div style = "border-radius: 5px;background-color: green;color: white;padding: 5px;">исправно</div></td>';
                     }
@@ -257,7 +257,19 @@ function refreshMainTable() {
     });
 
 }
-
+function formatYear(dateString) {
+    if (!dateString) return 'Нет данных';
+    const date = new Date(dateString);
+    return date.getFullYear();
+}
+function formatDate(dateString) {
+    if (!dateString) return 'Нет данных';
+    const date = new Date(dateString);
+    const day = String(date.getDate()).padStart(2, '0');
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const year = date.getFullYear();
+    return `${day}.${month}.${year}`;
+}
 
 function getEffectTable(selectedEquipmentId) {
     currselectedEquipmentId  = selectedEquipmentId;
