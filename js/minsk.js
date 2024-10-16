@@ -78,18 +78,18 @@ function showSection(idOrg, element) {
         select_status.options[0].selected = true;
 
     }
-    let btnExportExcel = document.getElementById("btnExportExcel");
-    if (btnExportExcel)
-        btnExportExcel.remove();
-    btnExportExcel = document.createElement("button");
-    btnExportExcel.innerHTML = "Экспорт в Excel";
-    btnExportExcel.id = "btnExportExcel";
-    btnExportExcel.className = "btn btn-info";
-    container_fluid.insertAdjacentElement("afterbegin", btnExportExcel);
-    btnExportExcel.onclick = () => {
-        exportTableToExcelAddedOb('infoOb' + idOrg, 'Отчет_организация_' + idOrg);
-
-    }
+    // let btnExportExcel = document.getElementById("btnExportExcel");
+    // if (btnExportExcel)
+    //     btnExportExcel.remove();
+    // btnExportExcel = document.createElement("button");
+    // btnExportExcel.innerHTML = "Экспорт в Excel";
+    // btnExportExcel.id = "btnExportExcel";
+    // btnExportExcel.className = "btn btn-info";
+    // container_fluid.insertAdjacentElement("afterbegin", btnExportExcel);
+    // btnExportExcel.onclick = () => {
+    //     exportTableToExcelAddedOb('infoOb' + idOrg, 'Отчет_организация_' + idOrg);
+    //
+    // }
     filterTable();
 }
 
