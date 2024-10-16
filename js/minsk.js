@@ -287,18 +287,16 @@ function getEffectTable(selectedEquipmentId) {
             if (data.hasOwnProperty('empty') && data.empty) {
                 // Если данные пустые, но есть id_type_oborudovanie
                 id_type_oborudovanie = data.id_type_oborudovanie;
-                console.log('No data, but ID Type Oborudovanie:', id_type_oborudovanie);
             } else if (data.length > 0) {
                 // Если данные есть
                 id_type_oborudovanie = data[0].id_type_oborudovanie;
-                console.log('ID Type Oborudovanie:', id_type_oborudovanie);
             }
 
             // Определяем текст для поля "Количество проведенных исследований" в зависимости от типа оборудования
             let countNameofField = 'Количество проведенных исследований';
             if (id_type_oborudovanie == 13 || id_type_oborudovanie == 17) {
-                countNameofField = 'Количество часов работы';
-                document.querySelector('label[for="count_research"]').textContent = 'Количество часов работы';
+                countNameofField = 'Количество часов работы:';
+                document.querySelector('label[for="count_research"]').textContent = 'Количество часов работы:';
             } else {
                 document.querySelector('label[for="count_research"]').textContent = 'Количество проведенных исследований';
             }
