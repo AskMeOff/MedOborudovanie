@@ -227,16 +227,12 @@ echo '
         if (confirm("Вы уверены, что хотите удалить пользователя?")) {
             $.ajax({
                 url: "app/ajax/deletePodUser.php",
-                method: "POST",
+                method: "GET",
                 data: { id_user: id_user }
-            }).then((response) => {
-                if (response == "1") {
-                    alert("Пользователь удален.");
-                    location.reload(); 
-                } else {
-                    alert("Ошибка при удалении.");
-                }
-            });
+            }) .done(function (response) {
+                        alert("Пользователь удален.");
+                    
+                    })
         }
     }
     

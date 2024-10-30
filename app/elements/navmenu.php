@@ -64,44 +64,44 @@ while ($row = mysqli_fetch_assoc($resultTypes)) {
                     </li>
                     <li><a href="#"><i class="fa fa-file-image-o"></i>Отчеты </a>
                         <ul class="submenu">
-                            <li><a href="index.php?report1">Отчет 1</a></li>
-                            <li><a href="index.php?reportNewAddedOb">Отчет о добавленном<br>оборудовании</a></li>
-                            <li><a href="index.php?reportStatisticObor">Статистика оборудования</a></li>
-                        </ul>
-                    </li>
-                    <li>
-                        <a href="#">
-                            <i class="fa fa-asterisk"></i> Помощь
-                            <span class="new-icon" style="color: red; font-size: 0.8em; margin-left: 5px;">★</span>
-                        </a>
-                        <ul class="submenu">
-                            <li>
-                                <a href="index.php?contacts">Контакты</a>
-                            </li>
-                            <li>
-                                <a href="index.php?guides">
-                                     Руководство пользователя <span class="new-icon" style="color: red; font-size: 0.8em; margin-left: 5px;">★</span>
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
-                    <li>
-                        <a href="index.php?news">
-                            <i class="fa fa-asterisk"></i> Новости
-                            <span class="new-icon" style="color: red; font-size: 0.8em; margin-left: 5px;">!</span>
-                        </a>
-                    </li>
-                    <li><a href="index.php?servicemans"><i class="fa fa-cog"></i>Сервисанты </a></li>
+                            <!--        <li><a href="index.php?report1">Отчет 1</a></li>-->
+                                 <li><a href="index.php?reportNewAddedOb">Отчет о добавленном<br>оборудовании</a></li>
+                                 <li><a href="index.php?reportStatisticObor">Статистика оборудования</a></li>
+                             </ul>
+                         </li>
+                         <li>
+                             <a href="#">
+                                 <i class="fa fa-asterisk"></i> Помощь
+                                 <span class="new-icon" style="color: red; font-size: 0.8em; margin-left: 5px;">★</span>
+                             </a>
+                             <ul class="submenu">
+                                 <li>
+                                     <a href="index.php?contacts">Контакты</a>
+                                 </li>
+                                 <li>
+                                     <a href="index.php?guides">
+                                          Руководство пользователя <span class="new-icon" style="color: red; font-size: 0.8em; margin-left: 5px;">★</span>
+                                     </a>
+                                 </li>
+                             </ul>
+                         </li>
+                         <li>
+                             <a href="index.php?news">
+                                 <i class="fa fa-asterisk"></i> Новости
+                                 <span class="new-icon" style="color: red; font-size: 0.8em; margin-left: 5px;">!</span>
+                             </a>
+                         </li>
+                         <li><a href="index.php?servicemans"><i class="fa fa-cog"></i>Сервисанты </a></li>
 
 
 
-                </ul>
+                     </ul>
 
 
 
 
-            </div>
-        <!-- End Sidebar navigation -->
+                 </div>
+             <!-- End Sidebar navigation -->
     <!-- End Sidebar scroll-->
 </aside>
 

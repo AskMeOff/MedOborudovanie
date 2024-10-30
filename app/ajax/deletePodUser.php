@@ -1,16 +1,13 @@
 <?php
 include "../../connection/connection.php";
+include '../classes/UsersList.php';
 
-if (isset($_POST['id_user'])) {
-    $id_user = intval($_POST['id_user']);
+$id_user = $_GET['id_user'];
 
-    $query = "DELETE FROM users WHERE id_user = '$id_user'";
-    if ($connectionDB->executeQuery($query)) {
-        echo "1";
-    } else {
-        echo "0";
-    }
-} else {
-    echo "0";
-}
+$usersList = new UsersList();
+$connectionDB = new ConnectionDB();
+
+$usersList->deleteUser($connectionDB->con, $id_user);
+
+echo json_encode(['success' => true, 'message' => 'Пользователь удален.']);
 ?>

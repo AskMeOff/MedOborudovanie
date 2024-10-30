@@ -238,14 +238,14 @@ require_once 'connection/connection.php';
         function deletePodUser(id_user) {
             if (confirm("Пользователь будет удален. Удалить?")) {
                 $.ajax({
-                    url: "ajax/deletePodUserGuzo.php",
+                    url: "ajax/deletePodUser.php",
                     method: "GET",
                     data: {id_user: id_user}
 
                 })
                     .done(function (response) {
                         alert("Пользователь удален.");
-                        location.href = "/index.php?usersAdm";
+
                     })
             }
         }
