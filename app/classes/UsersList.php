@@ -97,8 +97,7 @@ class UsersList
 {
     $sql = "DELETE FROM users WHERE id_user = '$id_user'";
     mysqli_query($con, $sql);
-    $sqlUz = "DELETE FROM uz WHERE id_uz = '$id_user'";
-    mysqli_query($con, $sqlUz);
+
 }
 
 
