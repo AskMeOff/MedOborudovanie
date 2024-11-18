@@ -400,26 +400,25 @@ function addFualt() {
     let add_remontOrg = $('#add_remontOrg').val();
     // let downtime = $('#downtime').val();
 
+    let fileReport = document.getElementById("document_neispravnost");
+    let xhr = new XMLHttpRequest();
+    let form = new FormData();
 
-    let data = {
-        date_fault: date_fault,
-        date_call_service: date_call_service,
-        reason_fault: reason_fault,
-        date_procedure_purchase: date_procedure_purchase,
-        date_dogovora: date_dogovora,
-        cost_repair: cost_repair,
-        time_repair: time_repair,
-        add_remontOrg: add_remontOrg,
-        // downtime: downtime,
-        id_oborudovanie: selectedEquipmentId
-    };
-    $.ajax({
-        url: '/app/ajax/insertFault.php',
-        type: 'POST',
-        data: data,
-        success: function (response) {
+    form.append("fileReport", fileReport.files[0]);
+    form.append("date_fault", date_fault);
+    form.append("date_call_service", date_call_service);
+    form.append("reason_fault", reason_fault);
+    form.append("date_procedure_purchase", date_procedure_purchase);
+    form.append("date_dogovora", date_dogovora);
+    form.append("cost_repair", cost_repair);
+    form.append("time_repair", time_repair);
+    form.append("add_remontOrg", add_remontOrg);
+    form.append("id_oborudovanie", selectedEquipmentId);
 
-            if (response === "Запись добавлена.") {
+    xhr.open("POST", "/app/ajax/insertFault.php", true);
+    xhr.onload = function () {
+        if (xhr.status === 200) {
+            if (xhr.responseText === "Запись добавлена.") {
                 $('#addFaultModal').modal('hide');
                 $('#addModal').modal('show');
                 $('#addModal').on('hidden.bs.modal', function (e) {
@@ -429,8 +428,11 @@ function addFualt() {
             } else {
                 getFaultsTable(selectedEquipmentId);
             }
+        } else {
+            console.error("Ошибка при отправке данных: " + xhr.statusText);
         }
-    });
+    };
+    xhr.send(form);
 }
 
 
@@ -1241,3 +1243,4 @@ function duplicateOborudovanie(id) {
         });
     }
 }
+
