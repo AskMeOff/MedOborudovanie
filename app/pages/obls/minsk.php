@@ -575,7 +575,8 @@ echo '
                     <label for="add_remontOrg">Организация осуществляющая ремонт:</label>
                     <input type="text" id="add_remontOrg" name="add_remontOrg">
 
-
+                    <label for="document"> Прикрепить документ: </label>
+                    <input type="file" id="document" name="document" accept=".pdf,.doc,.docx,.jpg,.png">
                <!--     <label for="downtime">Продолжительность простоя:</label>
                     <input type="text" id="downtime" name="downtime">-->
                     <div id="btnsGroup" style="margin-top: 10px;">
