@@ -7567,7 +7567,7 @@ textarea.form-control-lg {
 
 @media (min-width: 1300px) {
     .modal-xl {
-        --bs-modal-width: 1350px
+        --bs-modal-width: 1650px
     }
 }
 
