@@ -21,6 +21,7 @@ if ($result->num_rows > 0) {
         , 'remont' => $row['remont']
         , 'date_remont' => $row['date_remont']
         , 'remontOrg' => $row['remontOrg']
+        , 'documentOrg' => $row['documentOrg']
         , 'id_fault' => $row['id_fault']
 
         );

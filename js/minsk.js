@@ -134,6 +134,7 @@ function getFaultsTable(idOborudovanie) {
                     'remont': 'Отремонтировано',
                     'date_remont': 'Дата ремонта',
                     'remontOrg': 'Организация осуществляющая ремонт',
+                    'documentOrg': 'Документ',
                     'id_fault': 'Действия'
                 };
                 Object.keys(headers).forEach(function (key) {
@@ -159,6 +160,7 @@ function getFaultsTable(idOborudovanie) {
                     tableContent += '<td>' + (row.remont > 0 ? 'Да' : 'Нет') +  '</td>';
                     tableContent += '<td>' + row.date_remont + '</td>';
                     tableContent += '<td>' + row.remontOrg + '</td>';
+                    tableContent += '<td><a href="app/documents/' + row.documentOrg + '" target="_blank">' + row.documentOrg + '</a></td>';
                     tableContent += '<td><a href="#" onclick="confirmDeleteFault(' + row.id_fault + '); return false;"><i class="fa fa-trash" style="font-size: 20px;"></i></a><a href="#" onclick="editFault(' + row.id_fault + ');"><i class="fa fa-edit" style="font-size: 20px;"></i>️</a></td>';
                     tableContent += '</tr>';
                 });
