@@ -12,7 +12,7 @@ $cost_repair = $_POST['cost_repair'];
 $time_repair = $_POST['time_repair'];
 $add_remontOrg = $_POST['add_remontOrg'];
 $id_oborudovanie = $_POST['id_oborudovanie'];
-
+$cost_repair = !empty($cost_repair) ? "'" . $cost_repair . "'" : 0;
 $date_fault = !empty($date_fault) ? "'" . $date_fault . "'" : "NULL";
 $date_call_service = !empty($date_call_service) ? "'" . $date_call_service . "'" : "NULL";
 $date_procedure_purchase = !empty($date_procedure_purchase) ? "'" . $date_procedure_purchase . "'" : "NULL";
