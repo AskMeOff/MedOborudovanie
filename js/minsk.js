@@ -213,7 +213,7 @@ function refreshMainTable() {
                         '    font-weight: 550;">' + row.name + '</td>';
                     tableContent += '<td>' + row.model + '</td>';
                     tableContent += '<td>' + row.serial_number + '</td>';
-                    tableContent += '<td style="text-align: justify;">' + formatYear(row.date_create) + '</td>';
+                    tableContent += '<td style="text-align: justify;">' + row.date_create + '</td>';
                     tableContent += '<td style="text-align: justify;">' + formatDate(row.date_postavki) + '</td>';
                     tableContent += '<td>' + formatDate(row.date_release) + '</td>';
                     tableContent += '<td>' + row.service_organization + '</td>';

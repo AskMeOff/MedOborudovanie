@@ -108,7 +108,7 @@ while ($row = mysqli_fetch_assoc($result1)) {
     $output .= '<td>' . $model . '</td>';
     $output .= '<td>' . $serial_number . '</td>';
     $date_create = $row['date_create'];
-    $output .= '<td>' . ($date_create ? date('Y', strtotime($date_create)) : 'Нет данных') . '</td>';
+    $output .= '<td>' . $date_create . '</td>';
 
     $date_postavki = $row['date_postavki'];
     $output .= '<td>' . ($date_postavki ? date('d.m.Y', strtotime($date_postavki)) : 'Нет данных') . '</td>';
