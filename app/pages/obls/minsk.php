@@ -259,7 +259,7 @@ if (isset($_COOKIE['token']) && $_COOKIE['token'] !== '') {
             echo '<td class="vid_oborudovaniya" onclick="getEffectTable(' . $idOborudovanie . ')" style="cursor: pointer; color: #167877;
     font-weight: 550;">' . $nameOborudov . '</td>';
             $date_create = $row1['date_create'];
-            echo '<td>' . ($date_create ? date('Y', strtotime($date_create)) : 'Нет данных') . '</td>';
+            echo  '<td>' . $date_create . '</td>';
             $date_postavki = $row1['date_postavki'];
             echo '<td>' . ($date_postavki ? date('d.m.Y', strtotime($date_postavki)) : 'Нет данных') . '</td>';
             $date_release = $row1['date_release'];
@@ -344,7 +344,7 @@ if (isset($_COOKIE['token']) && $_COOKIE['token'] !== '') {
             echo '<td>' . $model . '</td>';
             echo '<td>' . $serial_number . '</td>';
             $date_create = $row1['date_create'];
-            echo '<td>' . ($date_create ? date('Y', strtotime($date_create)) : 'Нет данных') . '</td>';
+            echo '<td>' . $date_create . '</td>';
             $date_postavki = $row1['date_postavki'];
             echo '<td>' . ($date_postavki ? date('d.m.Y', strtotime($date_postavki)) : 'Нет данных') . '</td>';
             $date_release = $row1['date_release'];
