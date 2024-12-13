@@ -38,6 +38,7 @@ if (currentUrl == "?main" || currentUrl == "") {
 
 function getUzs(id_obl, id_type) {
     oblId=id_obl;
+    document.getElementById("preloader").style.display = 'flex';
     $.ajax({
         url: "app/pages/obls/minsk.php",
         method: "GET",
@@ -45,6 +46,7 @@ function getUzs(id_obl, id_type) {
     }).then(response => {
         let bodywrap = document.getElementById("bodywrap");
         bodywrap.innerHTML = response;
+        document.getElementById("preloader").style.display = 'none';
         if ($("#infoObAll").length) {
             try {
                 $("#infoObAll").DataTable().destroy();
