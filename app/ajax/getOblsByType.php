@@ -62,13 +62,13 @@ echo '
 
 $id_role = $usersList->getUser($_COOKIE['token'])->getRole();
 if (isset($id_role )) {
-//    if ($id_role == 1 || $id_role == 2) {
-//        echo "<div class='row'>";
-//        echo "<div class='card card1' onclick='getUzs(111," . $id_type . ")'>";
-//        echo "<h2>Республика Беларусь</h2>";
-//        echo "</div>";
-//        echo "</div>";
-//    }
+    if ($id_role == 1 || $id_role == 2) {
+        echo "<div class='row'>";
+        echo "<div class='card card1' onclick='getUzs(111," . $id_type . ")'>";
+        echo "<h2>Республика Беларусь</h2>";
+        echo "</div>";
+        echo "</div>";
+    }
 }
 
 
