@@ -38,6 +38,7 @@ if (currentUrl == "?main" || currentUrl == "") {
 
 function getUzs(id_obl, id_type) {
     oblId=id_obl;
+    $("#preloader").show();
     $.ajax({
         url: "app/pages/obls/minsk.php",
         method: "GET",
@@ -45,6 +46,7 @@ function getUzs(id_obl, id_type) {
     }).then(response => {
         let bodywrap = document.getElementById("bodywrap");
         bodywrap.innerHTML = response;
+        $("#preloader").hide();
         if ($("#infoObAll").length) {
             try {
                 $("#infoObAll").DataTable().destroy();
@@ -68,7 +70,11 @@ function getUzs(id_obl, id_type) {
             console.log(e);
         }
 
-    })
+    }).fail(() => {
+        // Скрыть прелоадер в случае ошибки
+        $("#preloader").hide();
+        alert("Ошибка при загрузке данных. Попробуйте еще раз.");
+    });
 
 }
 

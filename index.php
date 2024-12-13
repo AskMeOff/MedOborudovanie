@@ -112,11 +112,13 @@ if (isset($TOKEN)) {
             <strong> © 2024 <a href="https://rnpcmt.by/">РНПЦ МТ</a></strong>
 
             <div class="float-right d-none d-sm-inline-block" style="right: 10px; position:absolute;">
-                <b >Версия</b> 1.1.1
+                <b >Версия</b> 1.2.1
             </div>
         </footer>
     </div>
-
+    <div id="preloader" style="display: none;">
+        <div class="loader"></div>
+    </div>
     <?php include "app/elements/scripts.php"; ?>
 
 </body>

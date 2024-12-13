@@ -858,7 +858,9 @@ echo '<div id="popup" class="popup">
         <p>Если в списке нет вашей сервисной организации, то отправьте запрос на добавление по данному электронному адресу: <a href="mailto:sydykav@rnpcmt.by">sydykav@rnpcmt.by</a></p>
         <button class="button" onclick="closePopup()">Закрыть</button>
     </div>
-</div>';
+</div>
+
+';
 echo '
 <script>
     $(document).ready(function() {
