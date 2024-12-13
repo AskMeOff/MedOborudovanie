@@ -155,4 +155,24 @@ $(document).ready(function() {
                 }
         });
     });
+
 });
+
+
+function showModalAddZapchast(){
+    document.getElementById('filter_uz_from').value = null;
+    document.getElementById('filter_serial_number').value  = null;
+    document.getElementById('edit_name_zapchast').value  = null;
+    document.getElementById('edit_photo').value  = null;
+    document.getElementById('edit_akt').value  = null;
+    document.getElementById('edit_kat_nomer').value  = null;
+    document.getElementById('edit_mark_zapchast').value  = null;
+    document.getElementById('edit_cost').value  = null;
+    document.getElementById('filter_uz_from').value  = null;
+
+
+    $('#editBtnZap').hide();
+    $('#addBtnZap').show();
+    $('#editZapchastModal').modal('show');
+    $('#editZapchastModal .modal-title').text("Добавление записи");
+}
