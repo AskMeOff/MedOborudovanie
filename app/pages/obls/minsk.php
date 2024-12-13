@@ -159,6 +159,7 @@ if (isset($_COOKIE['token']) && $_COOKIE['token'] !== '') {
                                <!--style="display: block"-->
                             <thead>
                             <tr>
+                                <th>!!!</th>
                                 <th>Организация</th>
                                 <th>Модель, производитель</th>
                                 <th>Серийный(заводской) номер оборудования</th>
@@ -252,7 +253,9 @@ if (isset($_COOKIE['token']) && $_COOKIE['token'] !== '') {
             $idOborudovanie = $row1['id_oborudovanie'];
             $model = $row1['model'];
             $serial_number = $row1['serial_number'];
+            $mark1 = empty($serial_number) ? '<span style="color: red; font-size: 20px;">!</span>' : '';
             echo '<tr id=idob' . $idOborudovanie . '  >';
+            echo '<td>' . $mark1. '</td>';
             echo '<td>' . $poliklinika . '</td>';
             echo '<td>' . $model . '</td>';
             echo '<td>' . $serial_number . '</td>';
@@ -314,6 +317,7 @@ if (isset($_COOKIE['token']) && $_COOKIE['token'] !== '') {
                                style="display: none">
                             <thead>
                             <tr>
+                                <th>!!!</th>
                                 <th>Вид оборудования</th>
                                 <th>Модель, производитель</th>
                                 <th>Серийный(заводской) номер оборудования</th>                              
@@ -337,8 +341,9 @@ if (isset($_COOKIE['token']) && $_COOKIE['token'] !== '') {
             $idOborudovanie = $row1['id_oborudovanie'];
             $model = $row1['model'];
             $serial_number = $row1['serial_number'];
+            $mark1 = empty($serial_number) ? '<span style="color: red; font-size: 20px;">!</span>' : '';
             echo '<tr id=idob' . $idOborudovanie . '  >';
-
+            echo '<td>' . $mark1 . '</td>';
             echo '<td onclick="getEffectTable(' . $idOborudovanie . ')" style="cursor: pointer; color: #167877;
     font-weight: 550;">' . $nameOborudov . '</td>';
             echo '<td>' . $model . '</td>';
@@ -801,7 +806,8 @@ echo ' </select>
                     <input type="text" id="edit_model_prozvoditel" name="model_prozvoditel">
                     
                     <label for="edit_serial_number">Серийный(заводской) номер оборудования:</label>
-                    <input type="text" id="edit_serial_number" name="edit_serial_number">
+                    <input type="text" id="edit_serial_number" name="edit_serial_number" required>
+                    <span id="serialNumberError" style="color: red; display: none;">Это поле обязательно для заполнения!</span>
                    
                     <label >Сервисная организация:</label>
                     
