@@ -189,6 +189,7 @@ function refreshMainTable() {
             if (!response.hasOwnProperty('empty')) {
                 tableContent += '<thead><tr>';
                 let headers = {
+                    'mark1': '!!!',
                     'name': 'Вид оборудования',
                     'model': 'Модель, производитель',
                     'serial_number': 'Серийный(заводской) номер оборудования',
@@ -209,6 +210,7 @@ function refreshMainTable() {
                 response.forEach(function (row) {
                     let today = new Date();
                     tableContent += '<tr>';
+                    tableContent += '<td>'+ row.mark1 + '</td>';
                     tableContent += '<td onclick="getEffectTable(' + row.id_oborudovanie + ')" id=idob' + row.id_oborudovanie + ' style="cursor: pointer; color: #167877;\n' +
                         '    font-weight: 550;">' + row.name + '</td>';
                     tableContent += '<td>' + row.model + '</td>';
@@ -699,6 +701,20 @@ function saveEditedOborudovanie() {
         }
     }
 
+
+
+    if (serial_number.trim() === "") {
+        $('#serialNumberError').show();
+        console.log("Ошибка: Серийный номер обязателен для заполнения");
+        $('#editOborudovanieModal').animate({
+            scrollTop: $('#edit_serial_number').offset().top - $('#editOborudovanieModal').offset().top + $('#editOborudovanieModal').scrollTop() - 150
+        }, 500);
+        return false;
+    } else {
+        $('#serialNumberError').hide();
+    }
+
+
     const yearValue = $('#edit_date_create').val();
 
     // Проверяем, является ли год 4-значным числом
@@ -754,15 +770,29 @@ $('#editEffectForm').on('submit', function (event) {
 function saveAddedOborudovanie() {
     let select_type_oborudovanie = document.getElementById("select_type_oborudovanie");
     let select_status = document.getElementById("select_status");
-    const yearValue = $('#edit_date_create').val();
+    let serial_number = document.getElementById('edit_serial_number').value;
 
-    // Проверяем, является ли год 4-значным числом
-    if (!(yearValue === "") && !/^\d{4}$/.test(yearValue)) {
-        $('#yearError').show(); // Показываем сообщение об ошибке
-        return false; // Останавливаем выполнение функции, предотвращаем сохранение
+    if (serial_number.trim() === "") {
+        $('#serialNumberError').show();
+        console.log("Ошибка: Серийный номер обязателен для заполнения");
+        $('#editOborudovanieModal').animate({
+            scrollTop: $('#edit_serial_number').offset().top - $('#editOborudovanieModal').offset().top + $('#editOborudovanieModal').scrollTop() - 150
+        }, 500);
+        return false;
+    } else {
+        $('#serialNumberError').hide();
     }
 
-    $('#yearError').hide(); // Скрываем сообщение об ошибке, если данные корректны
+
+    const yearValue = $('#edit_date_create').val();
+
+
+    if (!(yearValue === "") && !/^\d{4}$/.test(yearValue)) {
+        $('#yearError').show();
+        return false;
+    }
+
+    $('#yearError').hide();
 
     $.ajax({
         url: '/app/ajax/insertOborudovanie.php',

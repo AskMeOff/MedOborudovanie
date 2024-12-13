@@ -68,6 +68,7 @@ $output = '<div class="table-responsive">
                         <table class="table table-striped table-responsive-sm dataTable no-footer" id="infoObAll"   style="display: none">
                             <thead>                    
                                 <tr>
+                                <th>!!!</th>
                                 <th>Организация</th>
                                 <th>Вид оборудования</th>
                                 <th>Модель, производитель</th>
@@ -89,6 +90,7 @@ while ($row = mysqli_fetch_assoc($result1)) {
     $idOborudovanie = $row['id_oborudovanie'];
     $model = $row['model'];
     $serial_number = $row['serial_number'];
+    $mark1 = empty($serial_number) ? '<span style="color: red; font-size: 20px;">!</span>' : '';
     $currentStatus = $row['status'];
 
     if ($currentStatus == "1") {
@@ -103,6 +105,7 @@ while ($row = mysqli_fetch_assoc($result1)) {
     }
 
     $output .= '<tr id="idob' . $idOborudovanie . '">';
+    $output .= '<td>' . $mark1 . '</td>';
     $output .= '<td>' . $poliklinika . '</td>';
     $output .= '<td onclick="getEffectTable(' . $idOborudovanie . ')" style="cursor: pointer; color: #167877; font-weight: 550;">' . $nameOborudov . '</td>';
     $output .= '<td>' . $model . '</td>';
