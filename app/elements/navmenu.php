@@ -62,6 +62,15 @@ while ($row = mysqli_fetch_assoc($resultTypes)) {
 <!--                            </li>-->
                         </ul>
                     </li>
+
+
+                    <li>
+                        <a href="index.php?zapchasti">
+                            <i class="fa fa-wrench"></i> Запчасти
+                        </a>
+                    </li>
+
+
                     <li><a href="#"><i class="fa fa-file-image-o"></i>Отчеты </a>
                         <ul class="submenu">
                             <!--        <li><a href="index.php?report1">Отчет 1</a></li>-->

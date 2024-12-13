@@ -95,6 +95,11 @@ if (isset($TOKEN)) {
                 case "reportStatisticObor":
                     require_once "app/pages/reportStatisticObor.php";
                     break;
+
+                case "zapchasti":
+                    require_once "app/pages/zapchasti.php";
+                    break;
+
                 default:
                     require_once "app/pages/main.php";
             }
