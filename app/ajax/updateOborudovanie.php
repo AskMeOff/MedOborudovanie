@@ -11,6 +11,7 @@ $date_postavki = isset($_POST['date_postavki']) && $_POST['date_postavki'] !== "
 $date_release = isset($_POST['date_release']) && $_POST['date_release'] !== "" ? "'" . $connectionDB->escapeString($_POST['date_release']) . "'" : "NULL";
 $model_prozvoditel = isset($_POST['model_prozvoditel']) && $_POST['model_prozvoditel'] !== "" ? "'" . $connectionDB->escapeString($_POST['model_prozvoditel']) . "'" : "NULL";
 $serial_number = isset($_POST['serial_number']) && $_POST['serial_number'] !== "" ? "'" . $connectionDB->escapeString($_POST['serial_number']) . "'" : "NULL";
+$id_from_reestr = isset($_POST['id_from_reestr']) && $_POST['id_from_reestr'] !== "" ? "'" . $connectionDB->escapeString($_POST['id_from_reestr']) . "'" : "NULL";
 $service_organization = isset($_POST['service_organization']) && $_POST['service_organization'] !== "" ? "'" . $connectionDB->escapeString($_POST['service_organization']) . "'" : "NULL";
 $date_last_TO = isset($_POST['date_last_TO']) && $_POST['date_last_TO'] !== "" ? "'" . $connectionDB->escapeString($_POST['date_last_TO']) . "'" : "NULL";
 $status = (int)$_POST['status'];
@@ -24,7 +25,8 @@ $sql = "UPDATE oborudovanie SET
             serial_number = $serial_number,
             id_serviceman = $service_organization, 
             date_last_TO = $date_last_TO, 
-            status = $status 
+            status = $status,
+            id_from_reestr = $id_from_reestr
         WHERE id_oborudovanie = '$id_oborudovanie'";
 
 try {

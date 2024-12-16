@@ -72,7 +72,7 @@ $output = '<div class="table-responsive">
                                 <th>Организация</th>
                                 <th>Вид оборудования</th>
                                 <th>Модель, производитель</th>
-                                <th>Серийный(заводской) номер оборудования</th>
+                                <th>Регистрационный номер оборудования</th>
                                 <th>Год производства</th>
                                 <th>Дата поставки</th>
                                 <th>Дата ввода в эксплуатацию</th>
@@ -90,7 +90,7 @@ while ($row = mysqli_fetch_assoc($result1)) {
     $idOborudovanie = $row['id_oborudovanie'];
     $model = $row['model'];
     $serial_number = $row['serial_number'];
-    $mark1 = empty($serial_number) ? '<span style="color: red; font-size: 20px;">!</span>' : '';
+    $mark1 = empty($serial_number) || empty($nameOborudov) ? '<span style="color: red; font-size: 20px;">!</span>' : '';
     $currentStatus = $row['status'];
 
     if ($currentStatus == "1") {

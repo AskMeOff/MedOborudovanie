@@ -10,6 +10,8 @@ let globalserviceman;
 let globalpostavschick;
 let selectedEquipmentType = null;
 
+let selectedItemFromReestr;
+
 
 function showMenu(thisTr, idOborudovanie) {
     event.preventDefault();
@@ -65,8 +67,8 @@ function showSection(idOrg, element) {
         // document.getElementById('edit_cost').value = "";
         document.getElementById('edit_date_create').value = "";
         document.getElementById('edit_date_release').value = "";
-        document.getElementById('edit_model_prozvoditel').value = "";
-        document.getElementById('edit_serial_number').value = "";
+        // document.getElementById('edit_model_prozvoditel').value = "";
+        document.getElementById('filterSerialNumber').value = "";
         document.getElementById('edit_date_postavki').value = "";
         document.getElementById('edit_date_postavki').value = "";
         document.getElementById('filterServicemans').value = "";
@@ -192,7 +194,7 @@ function refreshMainTable() {
                     'mark1': '!!!',
                     'name': 'Вид оборудования',
                     'model': 'Модель, производитель',
-                    'serial_number': 'Серийный(заводской) номер оборудования',
+                    'serial_number': 'Регистрационный номер оборудования',
                     // 'cost': 'Стоимость',
                     'date_create': 'Год производства',
                     'date_postavki': 'Дата поставки',
@@ -202,7 +204,6 @@ function refreshMainTable() {
                     'status': 'Статус',
                     'id_oborudovanie': 'Действие'
                 };
-                console.log(response);
                 Object.keys(headers).forEach(function (key) {
                     tableContent += '<th>' + headers[key] + '</th>';
                 });
@@ -645,8 +646,8 @@ function editOborudovanie(idOborudovanie) {
             document.getElementById('edit_date_create').value = data.date_create;
             document.getElementById('edit_date_postavki').value = data.date_postavki;
             document.getElementById('edit_date_release').value = data.date_release;
-            document.getElementById('edit_model_prozvoditel').value = data.model_prozvoditel;
-            document.getElementById('edit_serial_number').value = data.serial_number;
+            // document.getElementById('edit_model_prozvoditel').value = data.model_prozvoditel;
+            document.getElementById('filterSerialNumber').value = data.serial_number;
             if (data.service_organization == 0)
             {
                 document.getElementById('filterServicemans').value = "";
@@ -689,8 +690,8 @@ function saveEditedOborudovanie() {
     let dcr = document.getElementById('edit_date_create').value;
     let dp = document.getElementById('edit_date_postavki').value;
     let dr = document.getElementById('edit_date_release').value;
-    let mod = document.getElementById('edit_model_prozvoditel').value;
-    let serial_number = document.getElementById('edit_serial_number').value;
+    let id_from_reestr = document.getElementById('filterSerialNumber').getAttribute('data-id');
+    let serial_number = document.getElementById('filterSerialNumber').value;
     let so = select_servicemans.getAttribute('data-id');
 
     if (selectedServiceId) {
@@ -702,10 +703,10 @@ function saveEditedOborudovanie() {
     }
 
 
-
     if (serial_number.trim() === "") {
+
         $('#serialNumberError').show();
-        console.log("Ошибка: Серийный номер обязателен для заполнения");
+        console.log("Ошибка: Регистрационный номер оборудования обязателен для заполнения");
         $('#editOborudovanieModal').animate({
             scrollTop: $('#edit_serial_number').offset().top - $('#editOborudovanieModal').offset().top + $('#editOborudovanieModal').scrollTop() - 150
         }, 500);
@@ -738,8 +739,9 @@ function saveEditedOborudovanie() {
             date_create: dcr,
             date_postavki: dp,
             date_release: dr,
-            model_prozvoditel: mod,
-            serial_number: serial_number,
+            model_prozvoditel: selectedItemFromReestr['Наименование'] + selectedItemFromReestr['Производитель'],
+            serial_number: selectedItemFromReestr['Рег_номер_товара'],
+            id_from_reestr: id_from_reestr,
             service_organization: so,
             date_last_TO: document.getElementById('edit_date_last_TO').value,
             status: select_status.options[select_status.selectedIndex].value
@@ -770,11 +772,12 @@ $('#editEffectForm').on('submit', function (event) {
 function saveAddedOborudovanie() {
     let select_type_oborudovanie = document.getElementById("select_type_oborudovanie");
     let select_status = document.getElementById("select_status");
-    let serial_number = document.getElementById('edit_serial_number').value;
+    let id_from_reestr = document.getElementById('filterSerialNumber').getAttribute('data-id');
+    let serial_number = document.getElementById('filterSerialNumber').value;
 
     if (serial_number.trim() === "") {
         $('#serialNumberError').show();
-        console.log("Ошибка: Серийный номер обязателен для заполнения");
+        console.log("Ошибка: Регистрационный номер оборудования для заполнения");
         $('#editOborudovanieModal').animate({
             scrollTop: $('#edit_serial_number').offset().top - $('#editOborudovanieModal').offset().top + $('#editOborudovanieModal').scrollTop() - 150
         }, 500);
@@ -802,8 +805,9 @@ function saveAddedOborudovanie() {
             date_create: document.getElementById('edit_date_create').value || null,
             date_postavki: document.getElementById('edit_date_postavki').value || null,
             date_release: document.getElementById('edit_date_release').value || null,
-            model_prozvoditel: document.getElementById('edit_model_prozvoditel').value || null,
-            serial_number: document.getElementById('edit_serial_number').value || null,
+            model_prozvoditel: selectedItemFromReestr['Наименование'] + selectedItemFromReestr['Производитель'],
+            serial_number: selectedItemFromReestr['Рег_номер_товара'],
+            id_from_reestr: id_from_reestr,
             service_organization: selectedServiceId || null,
             date_last_TO: document.getElementById('edit_date_last_TO').value || null,
             status: select_status.options[select_status.selectedIndex].value,
@@ -985,6 +989,9 @@ function filterS(event, id){
 
     });
 }
+
+
+
 
 
 
@@ -1259,7 +1266,6 @@ function duplicateOborudovanie(id) {
             type: 'POST',
             data: { id: id },
             success: function(response) {
-                console.log(response);
                 if (response.success) {
                     alert("Оборудование успешно дублировано!");
                     refreshMainTable();
@@ -1274,3 +1280,44 @@ function duplicateOborudovanie(id) {
     }
 }
 
+function filterSNumber(event){
+    let filetS = event.target;
+    let filteredDiv = filetS.nextElementSibling;
+
+    if(filteredDiv.classList.contains("hidden")) {
+        filteredDiv.classList.remove("hidden");
+    }else{
+        filteredDiv.classList.add("hidden");
+    }
+
+    filetS.addEventListener("input", function(event) {
+        filteredDiv.innerHTML = "";
+        let sortedArr1 = JsonReestr.filter( (item) => {
+            return item['Рег_номер_товара'].toLowerCase().includes(filetS.value.toLowerCase()) ;
+        });
+        sortedArr1.forEach(item => {
+            let divEl = document.createElement('div');
+            divEl.style = "cursor: pointer";
+            divEl.setAttribute("data-id", item['N_п_п']);
+            divEl.innerHTML = item['Рег_номер_товара'];
+            divEl.onclick = (event) => {
+                filetS.value = event.target.innerHTML;
+                filteredDiv.classList.add("hidden");
+                filetS.setAttribute('data-id', event.target.getAttribute('data-id'))
+                selectedItemFromReestr = item;
+            }
+            filteredDiv.appendChild(divEl)
+        })
+
+        if(filetS.value == "") {
+            if(!filteredDiv.classList.contains("hidden")) {
+                filteredDiv.classList.add("hidden");
+            }
+        }else{
+            if(filteredDiv.classList.contains("hidden")) {
+                filteredDiv.classList.remove("hidden");
+            }
+        }
+
+    });
+}

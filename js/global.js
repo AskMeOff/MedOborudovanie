@@ -82,6 +82,8 @@ function getUzs(id_obl, id_type) {
 
 function getUzsDiagram(id_obl, status) {
     oblId=id_obl;
+    $("#preloader").show();
+
     $.ajax({
         url: "app/pages/obls/minsk.php",
         method: "GET",
@@ -108,6 +110,8 @@ function getUzsDiagram(id_obl, status) {
 
             }
             $("#infoObAll").DataTable();
+            $("#preloader").hide();
+
         } catch (e) {
             console.log(e);
         }
@@ -147,6 +151,7 @@ function filterFunction() {
         option.style.display = txtValue.toLowerCase().indexOf(filter) > -1 ? "" : "none";
     }
 }
+let JsonReestr;
 $(document).ready(async function() {
     $('#saveService').click(function() {
         let serviceName = $('#serviceName').val();
@@ -162,11 +167,20 @@ $(document).ready(async function() {
         });
     });
 
-    let response = await fetch("https://www.rceth.by/ru/JsonGetReestrMT"
-    )
-    console.log(response)
+    new Promise((resolve, reject) => {
+        $.ajax({
+            url: "getOborudovanieJson.php",
+            method: "GET"
+        }).then(response => {
 
+            JsonReestr = response;
+        })
+        resolve()
+    }).then(() => {
+    })
 });
+
+
 
 
 function showModalAddZapchast(){
