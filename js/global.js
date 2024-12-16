@@ -147,7 +147,7 @@ function filterFunction() {
         option.style.display = txtValue.toLowerCase().indexOf(filter) > -1 ? "" : "none";
     }
 }
-$(document).ready(function() {
+$(document).ready(async function() {
     $('#saveService').click(function() {
         let serviceName = $('#serviceName').val();
         $.ajax({
@@ -161,6 +161,10 @@ $(document).ready(function() {
                 }
         });
     });
+
+    let response = await fetch("https://www.rceth.by/ru/JsonGetReestrMT"
+    )
+    console.log(response)
 
 });
 
@@ -182,3 +186,4 @@ function showModalAddZapchast(){
     $('#editZapchastModal').modal('show');
     $('#editZapchastModal .modal-title').text("Добавление записи");
 }
+
