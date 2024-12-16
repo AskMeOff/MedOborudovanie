@@ -182,3 +182,26 @@ function showModalAddZapchast(){
     $('#editZapchastModal').modal('show');
     $('#editZapchastModal .modal-title').text("Добавление записи");
 }
+
+function confirmDeleteZapchast(idZapchast) {
+    event.stopPropagation();
+    if (confirm('Вы точно хотите удалить эту запись?')) {
+        $.ajax({
+            url: '/app/ajax/deleteZapchast.php',
+            type: 'POST',
+            data: {id_zapchast: idZapchast},
+            success: function (response) {
+                if (response === "Запись успешно удалена.") {
+                    $('#deleteModal').modal('show');
+                    $('#deleteModal').on('hidden.bs.modal', function (e) {
+                        $('#deleteModal').modal('hide');
+                     //   refreshZapchastTable();
+                    });
+                } else {
+               //     refreshZapchastTable();
+                }
+
+            }
+        });
+    }
+}
