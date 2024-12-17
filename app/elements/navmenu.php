@@ -151,7 +151,6 @@ while ($row = mysqli_fetch_assoc($resultTypes)) {
                 toastr.info("Теперь можно выбрать область для отображения");
             }
         })
-        console.log(id_type);
     }
 
 

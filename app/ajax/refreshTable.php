@@ -15,7 +15,8 @@ if ($result->num_rows > 0) {
     $data = array();
     while ($row = $result->fetch_assoc()) {
         $serial_number = $row['serial_number'];
-        $mark1 = empty($serial_number) || $serial_number === 'Нет данных' ? '<span style="color: red; font-size: 20px;">!</span>' : '';
+        $nameOborudov = $row['name'];
+        $mark1 = empty($serial_number) || $serial_number === 'Нет данных' || empty($nameOborudov) ? '<span style="color: red; font-size: 20px;">!</span>' : '';
 
         $data[] = array(
             'mark1' => $mark1

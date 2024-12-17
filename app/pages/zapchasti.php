@@ -52,7 +52,7 @@ echo '
                             <tr>
                                 <th>наименование</th>
                                 <th>год выпуска</th>
-                                <th>серийный номер</th>
+                                <th>регистрационный номер оборудования</th>
 </tr>
                             </thead>
                             <tbody>';
@@ -147,7 +147,7 @@ echo ' </div>
 
 
                     <!---->
-                     <label >Серийный номер:</label>
+                     <label >Регистрационный номер оборудования:</label>
                     
                     <input type="text" id="filter_serial_number" autocomplete="off" onclick="filterSN(event,2)"/>
                     <div class="hidden" style="margin-top: 10px; margin-left: 10px; height: 150px; width: 95%; inline-block; overflow: auto">
