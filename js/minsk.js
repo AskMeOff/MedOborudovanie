@@ -623,6 +623,7 @@ let editedOborudovanie;
 
 function editOborudovanie(idOborudovanie) {
     event.stopPropagation();
+    document.getElementById('filterSerialNumber').removeAttribute("data-id");
     editedOborudovanie = idOborudovanie;
     $.ajax({
         url: '/app/ajax/getSingleOborudovanie.php',
@@ -694,67 +695,74 @@ function saveEditedOborudovanie() {
     let serial_number = document.getElementById('filterSerialNumber').value;
     let so = select_servicemans.getAttribute('data-id');
 
-    if (selectedServiceId) {
-        so = selectedServiceId;
-    } else {
-        if (select_servicemans.value == "") {
-            so = 0;
-        }
-    }
+console.log (id_from_reestr);
+    if (id_from_reestr == null) {
+        alert('Не выбран регистрационный номер');
+    }else {
 
 
-    if (serial_number.trim() === "") {
-
-        $('#serialNumberError').show();
-        console.log("Ошибка: Регистрационный номер оборудования обязателен для заполнения");
-        $('#editOborudovanieModal').animate({
-            scrollTop: $('#edit_serial_number').offset().top - $('#editOborudovanieModal').offset().top + $('#editOborudovanieModal').scrollTop() - 150
-        }, 500);
-        return false;
-    } else {
-        $('#serialNumberError').hide();
-    }
-
-
-    const yearValue = $('#edit_date_create').val();
-
-    // Проверяем, является ли год 4-значным числом
-    if (!(yearValue === "") && !/^\d{4}$/.test(yearValue)) {
-        $('#yearError').show();  // Показываем сообщение об ошибке
-        console.log("Ошибка: значение пустое или не 4 цифры");
-        $('#editOborudovanieModal').animate({
-            scrollTop: $('#edit_date_create').offset().top - $('#editOborudovanieModal').offset().top + $('#editOborudovanieModal').scrollTop() - 150
-        }, 500);
-        return false;  // Останавливаем выполнение функции, предотвращаем сохранение
-    }
-
-    $('#yearError').hide();  // Скрываем сообщение об ошибке, если данные корректны
-
-    $.ajax({
-        url: '/app/ajax/updateOborudovanie.php',
-        type: 'POST',
-        data: {
-            id_oborudovanie: editedOborudovanie,
-            id_type_oborudovanie: sto,
-            date_create: dcr,
-            date_postavki: dp,
-            date_release: dr,
-            model_prozvoditel: selectedItemFromReestr['Наименование'] + selectedItemFromReestr['Производитель'],
-            serial_number: selectedItemFromReestr['Рег_номер_товара'],
-            id_from_reestr: id_from_reestr,
-            service_organization: so,
-            date_last_TO: document.getElementById('edit_date_last_TO').value,
-            status: select_status.options[select_status.selectedIndex].value
-        },
-        success: function (data) {
-            if (data == "1") {
-                alert("Запись изменена");
-                    refreshMainTable();
-            } else {
-                alert("Ошибка в заполнении");
+        if (selectedServiceId) {
+            so = selectedServiceId;
+        } else {
+            if (select_servicemans.value == "") {
+                so = 0;
             }
         }
-    });
+
+
+        if (serial_number.trim() === "") {
+
+            $('#serialNumberError').show();
+            console.log("Ошибка: Регистрационный номер оборудования обязателен для заполнения");
+            $('#editOborudovanieModal').animate({
+                scrollTop: $('#edit_serial_number').offset().top - $('#editOborudovanieModal').offset().top + $('#editOborudovanieModal').scrollTop() - 150
+            }, 500);
+            return false;
+        } else {
+            $('#serialNumberError').hide();
+        }
+
+
+        const yearValue = $('#edit_date_create').val();
+
+        // Проверяем, является ли год 4-значным числом
+        if (!(yearValue === "") && !/^\d{4}$/.test(yearValue)) {
+            $('#yearError').show();  // Показываем сообщение об ошибке
+            console.log("Ошибка: значение пустое или не 4 цифры");
+            $('#editOborudovanieModal').animate({
+                scrollTop: $('#edit_date_create').offset().top - $('#editOborudovanieModal').offset().top + $('#editOborudovanieModal').scrollTop() - 150
+            }, 500);
+            return false;  // Останавливаем выполнение функции, предотвращаем сохранение
+        }
+
+        $('#yearError').hide();  // Скрываем сообщение об ошибке, если данные корректны
+
+        $.ajax({
+            url: '/app/ajax/updateOborudovanie.php',
+            type: 'POST',
+            data: {
+                id_oborudovanie: editedOborudovanie,
+                id_type_oborudovanie: sto,
+                date_create: dcr,
+                date_postavki: dp,
+                date_release: dr,
+                model_prozvoditel: selectedItemFromReestr['Наименование'] + selectedItemFromReestr['Производитель'],
+                serial_number: selectedItemFromReestr['Рег_номер_товара'],
+                id_from_reestr: id_from_reestr,
+                service_organization: so,
+                date_last_TO: document.getElementById('edit_date_last_TO').value,
+                status: select_status.options[select_status.selectedIndex].value
+            },
+            success: function (data) {
+                if (data == "1") {
+                    alert("Запись изменена");
+                    refreshMainTable();
+                } else {
+                    alert("Ошибка в заполнении");
+                }
+            }
+        });
+    }
 }
 
 
@@ -1308,7 +1316,6 @@ function filterSNumber(event){
             }
             filteredDiv.appendChild(divEl)
         })
-
         if(filetS.value == "") {
             if(!filteredDiv.classList.contains("hidden")) {
                 filteredDiv.classList.add("hidden");
