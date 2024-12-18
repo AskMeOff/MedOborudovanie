@@ -358,3 +358,7 @@ label {
     margin-bottom: 8px;
 }
 
+.hover-reg-num:hover{
+    background-color: lightgray;
+    color: black;
+}

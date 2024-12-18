@@ -1,9 +1,11 @@
 <?php require_once 'connection/connection.php';
 
 require_once 'app/classes/UsersList.php';
+include 'app/classes/ListReestr.php';
 include "app/constants/cookie.php";
 include 'app/auth/auth.php';
 include 'app/auth/out.php';
+
 
 
 
@@ -35,6 +37,12 @@ if (isset($TOKEN)) {
     <?php include "app/elements/links.php"; ?>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
+    <?php
+    echo "<script>
+     let JsonReestr = " . $reestrList->getReestrList() . ";
+   console.log(JsonReestr);
+</script>";
+    ?>
 </head>
 
 

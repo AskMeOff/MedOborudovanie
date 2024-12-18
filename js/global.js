@@ -151,7 +151,7 @@ function filterFunction() {
         option.style.display = txtValue.toLowerCase().indexOf(filter) > -1 ? "" : "none";
     }
 }
-let JsonReestr;
+
 $(document).ready(async function() {
     $('#saveService').click(function() {
         let serviceName = $('#serviceName').val();
@@ -167,17 +167,7 @@ $(document).ready(async function() {
         });
     });
 
-    new Promise((resolve, reject) => {
-        $.ajax({
-            url: "getOborudovanieJson.php",
-            method: "GET"
-        }).then(response => {
 
-            JsonReestr = response;
-        })
-        resolve()
-    }).then(() => {
-    })
 });
 
 
