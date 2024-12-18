@@ -651,6 +651,9 @@ function editOborudovanie(idOborudovanie) {
             document.getElementById('edit_date_release').value = data.date_release;
             // document.getElementById('edit_model_prozvoditel').value = data.model_prozvoditel;
             document.getElementById('filterSerialNumber').value = data.serial_number;
+            document.getElementById('filterSerialNumber').setAttribute('data-id', data.id_from_reestr);
+
+            selectedItemFromReestr = JsonReestr.find((item) => item['N_п_п'] == data.id_from_reestr)
             document.getElementById('zavod_nomer').value = data.zavod_nomer;
             if (data.service_organization == 0)
             {

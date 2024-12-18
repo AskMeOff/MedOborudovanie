@@ -24,6 +24,7 @@ if ($result->num_rows > 0) {
         , 'service_organization' => $row['id_serviceman']
         , 'date_last_TO' => $row['date_last_TO']
         , 'status' => $row['status']
+        , 'id_from_reestr' => $row['id_from_reestr']
 
         ];
     }
