@@ -16,6 +16,5 @@ $data = array();
     echo json_encode($data);
 
 
-
 $connectionDB->con->close();
 ?>
