@@ -38,10 +38,7 @@ if (isset($TOKEN)) {
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
     <?php
-    echo "<script>
-     let JsonReestr = " . $reestrList->getReestrList() . ";
-   console.log(JsonReestr);
-</script>";
+
     ?>
 </head>
 
