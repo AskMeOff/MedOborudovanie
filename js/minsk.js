@@ -69,6 +69,7 @@ function showSection(idOrg, element) {
         document.getElementById('edit_date_release').value = "";
         // document.getElementById('edit_model_prozvoditel').value = "";
         document.getElementById('filterSerialNumber').value = "";
+        document.getElementById('zavod_nomer').value = "";
         document.getElementById('edit_date_postavki').value = "";
         document.getElementById('edit_date_postavki').value = "";
         document.getElementById('filterServicemans').value = "";
@@ -195,7 +196,7 @@ function refreshMainTable() {
                     'name': 'Вид оборудования',
                     'model': 'Модель, производитель',
                     'serial_number': 'Регистрационный номер оборудования',
-                    // 'cost': 'Стоимость',
+                    'zavod_nomer': 'Серийный(заводской) номер',
                     'date_create': 'Год производства',
                     'date_postavki': 'Дата поставки',
                     'date_release': 'Дата ввода в эксплуатацию',
@@ -216,6 +217,7 @@ function refreshMainTable() {
                         '    font-weight: 550;">' + row.name + '</td>';
                     tableContent += '<td>' + row.model + '</td>';
                     tableContent += '<td>' + row.serial_number + '</td>';
+                    tableContent += '<td>' + row.zavod_nomer + '</td>';
                     tableContent += '<td style="text-align: justify;">' + row.date_create + '</td>';
                     tableContent += '<td style="text-align: justify;">' + formatDate(row.date_postavki) + '</td>';
                     tableContent += '<td>' + formatDate(row.date_release) + '</td>';
@@ -649,6 +651,7 @@ function editOborudovanie(idOborudovanie) {
             document.getElementById('edit_date_release').value = data.date_release;
             // document.getElementById('edit_model_prozvoditel').value = data.model_prozvoditel;
             document.getElementById('filterSerialNumber').value = data.serial_number;
+            document.getElementById('zavod_nomer').value = data.zavod_nomer;
             if (data.service_organization == 0)
             {
                 document.getElementById('filterServicemans').value = "";
@@ -693,6 +696,7 @@ function saveEditedOborudovanie() {
     let dr = document.getElementById('edit_date_release').value;
     let id_from_reestr = document.getElementById('filterSerialNumber').getAttribute('data-id');
     let serial_number = document.getElementById('filterSerialNumber').value;
+    let zavod_nomer = document.getElementById('zavod_nomer').value;
     let so = select_servicemans.getAttribute('data-id');
 
 console.log (id_from_reestr);
@@ -748,6 +752,7 @@ console.log (id_from_reestr);
                 date_release: dr,
                 model_prozvoditel: selectedItemFromReestr['Наименование'] + selectedItemFromReestr['Производитель'],
                 serial_number: selectedItemFromReestr['Рег_номер_товара'],
+                zavod_nomer: zavod_nomer,
                 id_from_reestr: id_from_reestr,
                 service_organization: so,
                 date_last_TO: document.getElementById('edit_date_last_TO').value,
@@ -782,6 +787,7 @@ function saveAddedOborudovanie() {
     let select_status = document.getElementById("select_status");
     let id_from_reestr = document.getElementById('filterSerialNumber').getAttribute('data-id');
     let serial_number = document.getElementById('filterSerialNumber').value;
+    let zavod_nomer = document.getElementById('zavod_nomer').value;
 
     if (serial_number.trim() === "") {
         $('#serialNumberError').show();
@@ -815,6 +821,7 @@ function saveAddedOborudovanie() {
             date_release: document.getElementById('edit_date_release').value || null,
             model_prozvoditel: selectedItemFromReestr['Наименование'] + selectedItemFromReestr['Производитель'],
             serial_number: selectedItemFromReestr['Рег_номер_товара'],
+            zavod_nomer: zavod_nomer,
             id_from_reestr: id_from_reestr,
             service_organization: selectedServiceId || null,
             date_last_TO: document.getElementById('edit_date_last_TO').value || null,
@@ -1289,6 +1296,7 @@ function duplicateOborudovanie(id) {
 }
 
 function filterSNumber(event){
+    console.log ($('#preloader'));
     let filetS = event.target;
     let filteredDiv = filetS.nextElementSibling;
 
@@ -1299,6 +1307,8 @@ function filterSNumber(event){
     }
 
     filetS.addEventListener("input", function(event) {
+        $('#preloader').show();
+
         filteredDiv.innerHTML = "";
         let sortedArr1 = JsonReestr.filter( (item) => {
             return item['Рег_номер_товара'].toLowerCase().includes(filetS.value.toLowerCase()) ;
@@ -1325,6 +1335,8 @@ function filterSNumber(event){
                 filteredDiv.classList.remove("hidden");
             }
         }
+           $('#preloader').hide();
+
 
     });
 }

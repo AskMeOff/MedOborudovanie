@@ -163,6 +163,7 @@ if (isset($_COOKIE['token']) && $_COOKIE['token'] !== '') {
                                 <th>Организация</th>
                                 <th>Модель, производитель</th>
                                 <th>Регистрационный номер оборудования</th>
+                                <th>Серийный(заводской) номер</th>
                                 <th class="vid_oborudovaniya">Вид оборудования</th>
                                 <th>Год производства</th>
                                 <th>Дата поставки</th>
@@ -253,12 +254,14 @@ if (isset($_COOKIE['token']) && $_COOKIE['token'] !== '') {
             $idOborudovanie = $row1['id_oborudovanie'];
             $model = $row1['model'];
             $serial_number = $row1['serial_number'];
+            $zavod_nomer = $row1['zavod_nomer'];
             $mark1 = empty($serial_number) || empty($nameOborudov) ?  '<span style="color: red; font-size: 20px;">!</span>' : '';
             echo '<tr id=idob' . $idOborudovanie . '  >';
             echo '<td>' . $mark1. '</td>';
             echo '<td>' . $poliklinika . '</td>';
             echo '<td>' . $model . '</td>';
             echo '<td>' . $serial_number . '</td>';
+            echo '<td>' . $zavod_nomer . '</td>';
             echo '<td class="vid_oborudovaniya" onclick="getEffectTable(' . $idOborudovanie . ')" style="cursor: pointer; color: #167877;
     font-weight: 550;">' . $nameOborudov . '</td>';
             $date_create = $row1['date_create'];
@@ -321,6 +324,7 @@ if (isset($_COOKIE['token']) && $_COOKIE['token'] !== '') {
                                 <th>Вид оборудования</th>
                                 <th>Модель, производитель</th>
                                 <th>Регистрационный номер оборудования</th>                              
+                                <th>Серийный(заводской) номер</th>                             
                                 <th>Год производства</th>
                                 <th>Дата поставки</th>
                                 <th>Дата ввода в эксплуатацию</th>
@@ -341,6 +345,7 @@ if (isset($_COOKIE['token']) && $_COOKIE['token'] !== '') {
             $idOborudovanie = $row1['id_oborudovanie'];
             $model = $row1['model'];
             $serial_number = $row1['serial_number'];
+            $zavod_nomer = $row1['zavod_nomer'];
             $mark1 = empty($serial_number) || empty($nameOborudov) ? '<span style="color: red; font-size: 20px;">!</span>' : '';
             echo '<tr id=idob' . $idOborudovanie . '  >';
             echo '<td>' . $mark1 . '</td>';
@@ -348,6 +353,7 @@ if (isset($_COOKIE['token']) && $_COOKIE['token'] !== '') {
     font-weight: 550;">' . $nameOborudov . '</td>';
             echo '<td>' . $model . '</td>';
             echo '<td>' . $serial_number . '</td>';
+            echo '<td>' . $zavod_nomer . '</td>';
             $date_create = $row1['date_create'];
             echo '<td>' . $date_create . '</td>';
             $date_postavki = $row1['date_postavki'];
@@ -803,11 +809,16 @@ echo ' </select>
                     <input type="date" id="edit_date_release" name="date_release">
                     <!---->
                    
-                    <label for="filterSerialNumber">Регистрационный номер оборудования:</label>
+                    <label for="filterSerialNumber">Регистрационный номер оборудования (Реестры УП «Центр экспертиз и испытаний в здравоохранении»):</label>
                      <input type="text" id="filterSerialNumber" autocomplete="off" onclick="filterSNumber(event)"/>
+                 
+                     
                     <div class="hidden" style="margin-top: 10px; margin-left: 10px; height: 150px; width: 95%; inline-block; overflow: auto">
                     </div>
                     <span id="serialNumberError" style="color: red; display: none;">Это поле обязательно для заполнения!</span>
+                    
+                     <label for="zavod_nomer">Серийный(заводской) номер:</label>
+                     <input type="text" id="zavod_nomer" autocomplete="off"/>
                    
                     <label >Сервисная организация:</label>
                     
