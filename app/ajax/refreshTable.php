@@ -15,6 +15,7 @@ if ($result->num_rows > 0) {
     $data = array();
     while ($row = $result->fetch_assoc()) {
         $serial_number = $row['serial_number'];
+        $zavod_nomer = $row['zavod_nomer'];
         $nameOborudov = $row['name'];
         $mark1 = empty($serial_number) || $serial_number === 'Нет данных' || empty($nameOborudov) ? '<span style="color: red; font-size: 20px;">!</span>' : '';
 
@@ -23,6 +24,7 @@ if ($result->num_rows > 0) {
         ,'name' => $row['name'] ?? "Нет данных"
         , 'model' => $row['model'] ?? "Нет данных"
         , 'serial_number' => $row['serial_number'] ?? ""
+        , 'zavod_nomer' => $row['zavod_nomer'] ?? ""
         , 'date_create' => $row['date_create'] ?? "Нет данных"
         , 'date_postavki' => $row['date_postavki'] ?? "Нет данных"
         , 'date_release' => $row['date_release'] ?? "Нет данных"
