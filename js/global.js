@@ -169,11 +169,11 @@ $(document).ready(async function() {
 
     new Promise((resolve, reject) => {
         $.ajax({
-            url: "getOborudovanieJson.php",
+            url: "app/ajax/getReestr.php",
             method: "GET"
         }).then(response => {
 
-            JsonReestr = response;
+            JsonReestr = JSON.parse(response);
         })
         resolve()
     }).then(() => {
