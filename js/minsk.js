@@ -1288,76 +1288,46 @@ function duplicateOborudovanie(id) {
     }
 }
 
-
-function debounce(func, delay) {
-    let timeout;
-    return function(...args) {
-        const context = this;
-        clearTimeout(timeout);
-        timeout = setTimeout(() => func.apply(context, args), delay);
-    };
-}
-
-function filterSNumber(event) {
+function filterSNumber(event){
     let filetS = event.target;
     let filteredDiv = filetS.nextElementSibling;
 
-    // Показать или скрыть список при фокусе
-    filetS.addEventListener("focus", () => {
+    if(filteredDiv.classList.contains("hidden")) {
         filteredDiv.classList.remove("hidden");
-    });
+    }else{
+        filteredDiv.classList.add("hidden");
+    }
 
-    filetS.addEventListener("blur", () => {
-        setTimeout(() => { // Задержка для предотвращения закрытия списка до выбора
-            filteredDiv.classList.add("hidden");
-        }, 100);
-    });
-
-    const filterItems = debounce(function() {
-        const inputValue = filetS.value.toLowerCase().trim();
-        filteredDiv.innerHTML = ""; // очищаем содержимое
-
-        // Индикатор загрузки
-        const loadingIndicator = document.createElement('div');
-        loadingIndicator.innerText = "Идет фильтрация...";
-        loadingIndicator.className = "loading-indicator";
-        filteredDiv.appendChild(loadingIndicator);
-
-        if (inputValue === "") {
-            filteredDiv.classList.add("hidden");
-            return;
-        }
-
-        let sortedArr1 = JsonReestr.filter((item) => {
-            return item['Рег_номер_товара'].toLowerCase().includes(inputValue);
+    filetS.addEventListener("input", function(event) {
+        filteredDiv.innerHTML = "";
+        let sortedArr1 = JsonReestr.filter( (item) => {
+            return item['Рег_номер_товара'].toLowerCase().includes(filetS.value.toLowerCase().trim()) ;
         });
-
-        // Удаляем индикатор загрузки
-        filteredDiv.removeChild(loadingIndicator);
-
-        if (sortedArr1.length === 0) {
-            filteredDiv.classList.add("hidden");
-            return;
-        } else {
-            filteredDiv.classList.remove("hidden");
-        }
-
         sortedArr1.forEach(item => {
             let divEl = document.createElement('div');
-            divEl.style.cursor = "pointer";
+            divEl.style = "cursor: pointer";
             divEl.className = "hover-reg-num";
             divEl.setAttribute("data-id", item['N_п_п']);
             divEl.setAttribute("data-reg-num", item['Рег_номер_товара']);
-            divEl.innerHTML = `${item['Рег_номер_товара']}<br>${item['Наименование']}`;
+            divEl.innerHTML = item['Рег_номер_товара'];
+            divEl.innerHTML += "<br>" + item['Наименование'];
             divEl.onclick = (event) => {
                 filetS.value = event.target.getAttribute('data-reg-num');
                 filteredDiv.classList.add("hidden");
-                filetS.setAttribute('data-id', event.target.getAttribute('data-id'));
+                filetS.setAttribute('data-id', event.target.getAttribute('data-id'))
                 selectedItemFromReestr = item;
             }
-            filteredDiv.appendChild(divEl);
-        });
-    }, 300); // Задержка 300 мс
+            filteredDiv.appendChild(divEl)
+        })
+        if(filetS.value == "") {
+            if(!filteredDiv.classList.contains("hidden")) {
+                filteredDiv.classList.add("hidden");
+            }
+        }else{
+            if(filteredDiv.classList.contains("hidden")) {
+                filteredDiv.classList.remove("hidden");
+            }
+        }
 
-    filetS.addEventListener("input", filterItems);
+    });
 }
