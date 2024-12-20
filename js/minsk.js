@@ -1295,46 +1295,50 @@ function duplicateOborudovanie(id) {
     }
 }
 
-function filterSNumber(event){
+function filterSNumber(event) {
     let filetS = event.target;
     let filteredDiv = filetS.nextElementSibling;
-
-    if(filteredDiv.classList.contains("hidden")) {
-        filteredDiv.classList.remove("hidden");
-    }else{
-        filteredDiv.classList.add("hidden");
-    }
-
-    filetS.addEventListener("input", function(event) {
+    filetS.addEventListener("input", debounce(function() {
         filteredDiv.innerHTML = "";
-        let sortedArr1 = JsonReestr.filter( (item) => {
-            return item['Рег_номер_товара'].toLowerCase().includes(filetS.value.toLowerCase().trim()) ;
+        let searchValue = filetS.value.toLowerCase().trim();
+        let sortedArr1 = JsonReestr.filter(item => {
+            return item['Рег_номер_товара'].toLowerCase().includes(searchValue);
         });
         sortedArr1.forEach(item => {
             let divEl = document.createElement('div');
-            divEl.style = "cursor: pointer";
+            divEl.style.cursor = "pointer";
             divEl.className = "hover-reg-num";
             divEl.setAttribute("data-id", item['N_п_п']);
             divEl.setAttribute("data-reg-num", item['Рег_номер_товара']);
-            divEl.innerHTML = item['Рег_номер_товара'];
-            divEl.innerHTML += "<br>" + item['Наименование'];
-            divEl.onclick = (event) => {
-                filetS.value = event.target.getAttribute('data-reg-num');
-                filteredDiv.classList.add("hidden");
-                filetS.setAttribute('data-id', event.target.getAttribute('data-id'))
-                selectedItemFromReestr = item;
-            }
-            filteredDiv.appendChild(divEl)
-        })
-        if(filetS.value == "") {
-            if(!filteredDiv.classList.contains("hidden")) {
-                filteredDiv.classList.add("hidden");
-            }
-        }else{
-            if(filteredDiv.classList.contains("hidden")) {
-                filteredDiv.classList.remove("hidden");
-            }
-        }
+            divEl.innerHTML = `${item['Рег_номер_товара']}<br>${item['Наименование']}`;
 
-    });
+            divEl.onclick = () => {
+                filetS.value = item['Рег_номер_товара'];
+                filteredDiv.classList.add("hidden");
+                filetS.setAttribute('data-id', item['N_п_п']);
+                selectedItemFromReestr = item;
+            };
+
+            filteredDiv.appendChild(divEl);
+        });
+
+        if (searchValue === "") {
+            filteredDiv.classList.add("hidden");
+        } else {
+            filteredDiv.classList.remove("hidden");
+        }
+    }, 300));
+}
+
+// Функция debounce
+function debounce(func, wait) {
+    let timeout;
+    return function executedFunction(...args) {
+        const later = () => {
+            clearTimeout(timeout);
+            func(...args);
+        };
+        clearTimeout(timeout);
+        timeout = setTimeout(later, wait);
+    };
 }
