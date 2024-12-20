@@ -1313,15 +1313,7 @@ function filterSNumber(event) {
     let filteredDiv = filetS.nextElementSibling;
 
     // Показать или скрыть список при фокусе
-    filetS.addEventListener("focus", () => {
-        filteredDiv.classList.remove("hidden");
-    });
 
-    filetS.addEventListener("blur", () => {
-        setTimeout(() => { // Задержка для предотвращения закрытия списка до выбора
-            filteredDiv.classList.add("hidden");
-        }, 100);
-    });
 
     const filterItems = debounce(function() {
         const inputValue = filetS.value.toLowerCase().trim();
