@@ -1,6 +1,6 @@
 <?php
 include "../../connection/connection.php";
-
+ini_set('memory_limit', '1056M');
     $query = "SELECT * FROM reestr ";
     $result = $connectionDB->executeQuery($query);
 $data = array();

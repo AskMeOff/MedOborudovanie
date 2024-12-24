@@ -649,7 +649,18 @@ function editOborudovanie(idOborudovanie) {
             document.getElementById('edit_date_create').value = data.date_create;
             document.getElementById('edit_date_postavki').value = data.date_postavki;
             document.getElementById('edit_date_release').value = data.date_release;
-            // document.getElementById('edit_model_prozvoditel').value = data.model_prozvoditel;
+            if(data.id_from_reestr == 0) {
+                $('#isNotReg').prop("checked",true);
+                $('#filterSerialNumber').prop('disabled', true);
+                $('#model_name').prop('disabled', false);
+                document.getElementById('model_name').value = data.model_prozvoditel;
+            }else{
+                $('#isNotReg').prop("checked",false);
+                $('#filterSerialNumber').prop('disabled', false);
+                $('#model_name').prop('disabled', true);
+                document.getElementById('model_name').value = data.model_prozvoditel;
+
+            }
             document.getElementById('filterSerialNumber').value = data.serial_number;
             document.getElementById('filterSerialNumber').setAttribute('data-id', data.id_from_reestr);
 
@@ -717,16 +728,26 @@ console.log (id_from_reestr);
         }
 
 
-        if (serial_number.trim() === "") {
+        let model_name = document.getElementById('model_name').value;
 
+        if (serial_number.trim() === "" && !$('#isNotReg').prop("checked")) {
             $('#serialNumberError').show();
-            console.log("Ошибка: Регистрационный номер оборудования обязателен для заполнения");
+            console.log("Ошибка: Регистрационный номер оборудования для заполнения");
             $('#editOborudovanieModal').animate({
                 scrollTop: $('#edit_serial_number').offset().top - $('#editOborudovanieModal').offset().top + $('#editOborudovanieModal').scrollTop() - 150
             }, 500);
             return false;
-        } else {
+        } else if (model_name.trim() === "" && $('#isNotReg').prop("checked")){
+            $('#modelError').show();
+            console.log("Ошибка: Регистрационный номер оборудования для заполнения");
+            $('#editOborudovanieModal').animate({
+                scrollTop: $('#edit_serial_number').offset().top - $('#editOborudovanieModal').offset().top + $('#editOborudovanieModal').scrollTop() - 150
+            }, 500);
+            return false;
+        }else{
             $('#serialNumberError').hide();
+            $('#modelError').hide();
+
         }
 
 
@@ -753,10 +774,10 @@ console.log (id_from_reestr);
                 date_create: dcr,
                 date_postavki: dp,
                 date_release: dr,
-                model_prozvoditel: selectedItemFromReestr['Наименование'] + selectedItemFromReestr['Производитель'],
-                serial_number: selectedItemFromReestr['Рег_номер_товара'],
+                model_prozvoditel: $('#isNotReg').prop('checked') ? $('#model_name').val() : selectedItemFromReestr['Наименование'] + selectedItemFromReestr['Производитель'],
+                serial_number: $('#isNotReg').prop('checked') ? "000" : selectedItemFromReestr['Рег_номер_товара'],
                 zavod_nomer: zavod_nomer,
-                id_from_reestr: id_from_reestr,
+                id_from_reestr: $('#isNotReg').prop('checked') ? 0 :id_from_reestr,
                 service_organization: so,
                 date_last_TO: document.getElementById('edit_date_last_TO').value,
                 status: select_status.options[select_status.selectedIndex].value
@@ -791,16 +812,26 @@ function saveAddedOborudovanie() {
     let id_from_reestr = document.getElementById('filterSerialNumber').getAttribute('data-id');
     let serial_number = document.getElementById('filterSerialNumber').value;
     let zavod_nomer = document.getElementById('zavod_nomer').value;
+    let model_name = document.getElementById('model_name').value;
 
-    if (serial_number.trim() === "") {
+    if (serial_number.trim() === "" && !$('#isNotReg').prop("checked")) {
         $('#serialNumberError').show();
         console.log("Ошибка: Регистрационный номер оборудования для заполнения");
         $('#editOborudovanieModal').animate({
             scrollTop: $('#edit_serial_number').offset().top - $('#editOborudovanieModal').offset().top + $('#editOborudovanieModal').scrollTop() - 150
         }, 500);
         return false;
-    } else {
+    } else if (model_name.trim() === "" && $('#isNotReg').prop("checked")){
+        $('#modelError').show();
+        console.log("Ошибка: Регистрационный номер оборудования для заполнения");
+        $('#editOborudovanieModal').animate({
+            scrollTop: $('#edit_serial_number').offset().top - $('#editOborudovanieModal').offset().top + $('#editOborudovanieModal').scrollTop() - 150
+        }, 500);
+        return false;
+    }else{
         $('#serialNumberError').hide();
+        $('#modelError').hide();
+
     }
 
 
@@ -814,6 +845,7 @@ function saveAddedOborudovanie() {
 
     $('#yearError').hide();
 
+
     $.ajax({
         url: '/app/ajax/insertOborudovanie.php',
         type: 'POST',
@@ -822,10 +854,10 @@ function saveAddedOborudovanie() {
             date_create: document.getElementById('edit_date_create').value || null,
             date_postavki: document.getElementById('edit_date_postavki').value || null,
             date_release: document.getElementById('edit_date_release').value || null,
-            model_prozvoditel: selectedItemFromReestr['Наименование'] + selectedItemFromReestr['Производитель'],
-            serial_number: selectedItemFromReestr['Рег_номер_товара'],
+            model_prozvoditel: $('#isNotReg').prop('checked') ? $('#model_name').val() : selectedItemFromReestr['Наименование'] + selectedItemFromReestr['Производитель'],
+            serial_number: $('#isNotReg').prop('checked') ? "000" : selectedItemFromReestr['Рег_номер_товара'],
             zavod_nomer: zavod_nomer,
-            id_from_reestr: id_from_reestr,
+            id_from_reestr: $('#isNotReg').prop('checked') ? 0 :id_from_reestr,
             service_organization: selectedServiceId || null,
             date_last_TO: document.getElementById('edit_date_last_TO').value || null,
             status: select_status.options[select_status.selectedIndex].value,
@@ -888,8 +920,15 @@ function saveAddedOborudovanie() {
 }
 
 
-
-
+function chckReg(el) {
+    if (el.checked) {
+        $('#filterSerialNumber').prop('disabled', true);
+        $('#model_name').prop('disabled', false);
+    } else {
+        $('#filterSerialNumber').prop('disabled', false);
+        $('#model_name').prop('disabled', true);
+    }
+}
 
 
 
