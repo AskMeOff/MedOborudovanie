@@ -809,13 +809,15 @@ echo ' </select>
                     <input type="date" id="edit_date_release" name="date_release">
                     <!---->
                    
-                    <label for="filterSerialNumber">Регистрационный номер оборудования (Реестры УП «Центр экспертиз и испытаний в здравоохранении»):</label>
+                    <label for="filterSerialNumber">Регистрационный номер оборудования (Реестры УП «Центр экспертиз и испытаний в здравоохранении»): <a target="_blank" href="documents/help_reg_number.mp4"><i style="font-size: 24px;" class="fa fa-question"></i></a></label>
                      <input type="text" id="filterSerialNumber" autocomplete="off" onclick="filterSNumber(event)"/>               
-                    <div style="display: flex; margin-top: 10px"><input id="isNotReg" onchange="chckReg(this)" type="checkbox"><div style="margin-left: 10px;">Нет регистрационного номера в реестре</div></div>
                     <div class="hidden" style="margin-top: 10px; margin-left: 10px; height: 150px; width: 95%; inline-block; overflow: auto">
                     </div>
-                    <span id="serialNumberError" style="color: red; display: none;">Это поле обязательно для заполнения!</span>
+                     <span id="serialNumberError" style="color: red; display: none;">Это поле обязательно для заполнения!</span>
+                    <div style="display: flex; margin-top: 10px"><input id="isNotReg" onchange="chckReg(this)" type="checkbox"><div style="margin-left: 10px;">Нет регистрационного номера в реестре</div></div>
+                    
                                          <label for="model_name">Модель, производитель:</label>
+                   
                      <input disabled type="text" id="model_name" autocomplete="off"/>
                     <span id="modelError" style="color: red; display: none;">Это поле обязательно для заполнения!</span>
                     
