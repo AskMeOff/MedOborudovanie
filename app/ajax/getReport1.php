@@ -7,13 +7,25 @@ if (!$connectionDB) {
 $startDate = $_POST['startDate'];
 $endDate = $_POST['endDate'];
 $id_uz = isset($_POST['id_uz']) ? $_POST['id_uz'] : null;
-$sql = "SELECT DISTINCT tfbd.id_oborudovanie, uz.name as uz_name, `to`.name as type_name, s.name as serv_name FROM table_faults_by_date tfbd 
-    LEFT JOIN oborudovanie o ON tfbd.id_oborudovanie=o.id_oborudovanie
-    LEFT JOIN uz uz ON o.id_uz=uz.id_uz
-    LEFT JOIN type_oborudovanie `to` ON o.id_type_oborudovanie=`to`.id_type_oborudovanie
-    LEFT JOIN servicemans s ON o.id_serviceman=s.id_serviceman
-WHERE uz.name IS NOT NULL 
-AND `to`.name IS NOT NULL";
+$sql = "SELECT DISTINCT 
+    tfbd.id_oborudovanie, 
+    uz.name AS uz_name, 
+    `to`.name AS type_name, 
+    o.model, 
+    s.name AS serv_name, 
+    fa.date_fault,
+    DATEDIFF(IFNULL(fa.date_remont, CURDATE()), fa.date_fault) AS days_of_downtime
+FROM 
+    table_faults_by_date tfbd 
+    LEFT JOIN oborudovanie o ON tfbd.id_oborudovanie = o.id_oborudovanie
+    LEFT JOIN faults fa ON o.id_oborudovanie = fa.id_oborudovanie
+    LEFT JOIN uz uz ON o.id_uz = uz.id_uz
+    LEFT JOIN type_oborudovanie `to` ON o.id_type_oborudovanie = `to`.id_type_oborudovanie
+    LEFT JOIN servicemans s ON o.id_serviceman = s.id_serviceman
+WHERE 
+    uz.name IS NOT NULL 
+    AND `to`.name IS NOT NULL
+    AND fa.remont != 1";
 $conditions = [];
 
 if ($startDate && $endDate) {

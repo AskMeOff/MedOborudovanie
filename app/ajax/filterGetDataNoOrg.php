@@ -7,33 +7,37 @@ $id_uz = $usersList->getUser($_COOKIE['token'])->getIdUz();
 $id_role = $usersList->getUser($_COOKIE['token'])->getRole();
 
 $year = $_POST['year'];
-$id_obl = $_POST['id_obl'];
+$id_obl = isset($_POST['id_obl']) ? $_POST['id_obl'] : null;
 
 $datePostavki = $_POST['datePostavki'];
 $dateRelease = $_POST['dateRelease'];
 $service = $_POST['service'];
 $status = $_POST['status'];
 
+if ($id_uz == 0 || $id_obl == 111) {
+    $id_obl = null;
+}
+
+$sql = "SELECT oborudovanie.*, type_oborudovanie.name, uz.name as poliklinika, s.name as servname FROM oborudovanie 
+        INNER JOIN uz on oborudovanie.id_uz=uz.id_uz
+        LEFT OUTER JOIN type_oborudovanie on oborudovanie.id_type_oborudovanie = type_oborudovanie.id_type_oborudovanie
+        LEFT OUTER JOIN servicemans s on s.id_serviceman = oborudovanie.id_serviceman
+        WHERE 1=1";
+
 if ($id_role == 4) {
-    $sql = "SELECT oborudovanie.*, type_oborudovanie.name, uz.name as poliklinika, s.name as servname FROM oborudovanie 
-                                        INNER JOIN uz on oborudovanie.id_uz=uz.id_uz
-                                        left outer join type_oborudovanie on oborudovanie.id_type_oborudovanie = type_oborudovanie.id_type_oborudovanie
-                                        left outer join servicemans s on s.id_serviceman = oborudovanie.id_serviceman
-                                        WHERE uz.id_oblast=$id_obl and uz.id_uz = $id_uz";
+    if ($id_obl !== null) {
+        $sql .= " AND uz.id_oblast=$id_obl AND uz.id_uz = $id_uz";
+    } else {
+        $sql .= " AND uz.id_uz = $id_uz";
+    }
 } else if ($id_role == 2 || $id_role == 1) {
-    $sql = "SELECT oborudovanie.*, type_oborudovanie.name, uz.name as poliklinika, s.name as servname FROM oborudovanie 
-                                        INNER JOIN uz on oborudovanie.id_uz=uz.id_uz
-                                        left outer join type_oborudovanie on oborudovanie.id_type_oborudovanie = type_oborudovanie.id_type_oborudovanie
-                                        left outer join servicemans s on s.id_serviceman = oborudovanie.id_serviceman
-                                        WHERE uz.id_oblast=$id_obl";
+    if ($id_obl !== null) {
+        $sql .= " AND uz.id_oblast=$id_obl";
+    }
 } else if ($id_role == 3) {
     $idoblguzo = $usersList->getOblastByToken($connectionDB->con, $_COOKIE['token']);
     if ($id_obl == $idoblguzo) {
-        $sql = "SELECT oborudovanie.*, type_oborudovanie.name, uz.name as poliklinika, s.name as servname FROM oborudovanie 
-                                        INNER JOIN uz on oborudovanie.id_uz=uz.id_uz
-                                        left outer join type_oborudovanie on oborudovanie.id_type_oborudovanie = type_oborudovanie.id_type_oborudovanie
-                                        left outer join servicemans s on s.id_serviceman = oborudovanie.id_serviceman
-                                        WHERE uz.id_oblast=$id_obl";
+        $sql .= " AND uz.id_oblast=$id_obl";
     } else {
         echo "Данные недоступны для вашей области.";
         exit;
