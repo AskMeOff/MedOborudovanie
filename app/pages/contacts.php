@@ -95,7 +95,7 @@
                             <div class="description-title">Дополнительные ресурсы</div>
                             <div class="description-info">
                                 <p>Для получения технической поддержки, вы можете скачать приложение для удаленного доступа:</p>
-                                <a href="https://anydesk.com/ru/downloads/windows" target="_blank" class="btn btn-info" download>Скачать AnyDesc</a>
+                                <a href="https://anydesk.com/ru/downloads/windows" target="_blank" class="btn btn-info" download>Скачать AnyDesk</a>
                             </div>
                         </div>
                     </div>
