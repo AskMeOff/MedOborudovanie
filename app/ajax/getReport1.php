@@ -14,7 +14,6 @@ $sql = "SELECT DISTINCT tfbd.id_oborudovanie, uz.name as uz_name, `to`.name as t
     LEFT JOIN servicemans s ON o.id_serviceman=s.id_serviceman
 WHERE uz.name IS NOT NULL 
 AND `to`.name IS NOT NULL";
-
 $conditions = [];
 
 if ($startDate && $endDate) {
