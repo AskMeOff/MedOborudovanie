@@ -810,12 +810,12 @@ echo ' </select>
                     <!---->
                    
                     <label for="filterSerialNumber">Регистрационный номер оборудования (Реестры УП «Центр экспертиз и испытаний в здравоохранении»):</label>
-                     <input type="text" id="filterSerialNumber" autocomplete="off" onclick="filterSNumber(event)"/>
-                 
-                     
+                     <input type="text" id="filterSerialNumber" autocomplete="off" onclick="filterSNumber(event)"/>               
                     <div class="hidden" style="margin-top: 10px; margin-left: 10px; height: 150px; width: 95%; inline-block; overflow: auto">
                     </div>
                     <span id="serialNumberError" style="color: red; display: none;">Это поле обязательно для заполнения!</span>
+                                         <label for="model_name">Модель, производитель:</label>
+                     <input disabled type="text" id="model_name" autocomplete="off"/>
                     
                      <label for="zavod_nomer">Серийный(заводской) номер:</label>
                      <input type="text" id="zavod_nomer" autocomplete="off"/>

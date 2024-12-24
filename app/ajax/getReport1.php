@@ -8,15 +8,18 @@ $startDate = $_POST['startDate'];
 $endDate = $_POST['endDate'];
 $id_uz = isset($_POST['id_uz']) ? $_POST['id_uz'] : null;
 $sql = "SELECT DISTINCT tfbd.id_oborudovanie, uz.name as uz_name, `to`.name as type_name, s.name as serv_name FROM table_faults_by_date tfbd 
-    left join oborudovanie o on tfbd.id_oborudovanie=o.id_oborudovanie
-    left join uz uz on o.id_uz=uz.id_uz
-    left join type_oborudovanie `to` on o.id_type_oborudovanie=`to`.id_type_oborudovanie
-    left join servicemans s on o.id_serviceman=s.id_serviceman
-WHERE tfbd.date BETWEEN '$startDate' AND '$endDate'
-AND uz.name IS NOT NULL 
+    LEFT JOIN oborudovanie o ON tfbd.id_oborudovanie=o.id_oborudovanie
+    LEFT JOIN uz uz ON o.id_uz=uz.id_uz
+    LEFT JOIN type_oborudovanie `to` ON o.id_type_oborudovanie=`to`.id_type_oborudovanie
+    LEFT JOIN servicemans s ON o.id_serviceman=s.id_serviceman
+WHERE uz.name IS NOT NULL 
 AND `to`.name IS NOT NULL";
 
 $conditions = [];
+
+if ($startDate && $endDate) {
+    $sql .= " AND tfbd.date BETWEEN '$startDate' AND '$endDate'";
+}
 
 if ($id_uz && $id_uz != '0') {
     $conditions[] = "uz.id_uz = '$id_uz'";

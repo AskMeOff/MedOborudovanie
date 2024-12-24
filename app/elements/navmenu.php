@@ -73,7 +73,7 @@ while ($row = mysqli_fetch_assoc($resultTypes)) {
 
                     <li><a href="#"><i class="fa fa-file-image-o"></i>Отчеты </a>
                         <ul class="submenu">
-                            <!--        <li><a href="index.php?report1">Отчет 1</a></li>-->
+                                    <li><a href="index.php?report1">Отчет о простаивающем<br>оборудовании</a></li>
                                  <li><a href="index.php?reportNewAddedOb">Отчет о добавленном<br>оборудовании</a></li>
                                  <li><a href="index.php?reportStatisticObor">Статистика оборудования</a></li>
                              </ul>

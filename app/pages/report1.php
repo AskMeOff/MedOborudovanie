@@ -2,7 +2,7 @@
 <section class="content" style="margin-top: 100px; margin-left: 15px">
     <div class="container-fluid" id="container_fluid" style="overflow: auto; height: 85vh;">
         <div class="row" id="main_row">
-            <h1 class="ms-3">Выберите период для отображения неработающего оборудования</h1>
+            <h1 class="ms-3">Выберите период для отображения простаивающего оборудования</h1>
 
             <section class="col-lg-11 connectedSortable ui-sortable" style="display: block;">
                 <div class="row">
@@ -67,10 +67,6 @@
 
 
     function getReport() {
-        if($('#startDate').val() == "" || $('#endDate').val() == "") {
-            alert('Заполните поля даты!');
-            return;
-        }
         $.ajax({
             url: 'app/ajax/getReport1.php',
             type: 'POST',

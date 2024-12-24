@@ -25,9 +25,12 @@ curl_close($ch);
 // Декодирование JSON-ответа
 $data = json_decode($response, true);
 
+$deleteSql = "DELETE FROM reestr";
+$connectionDB->con->exec($deleteSql);
+
 // Подготовка SQL-запроса
 $sql = "INSERT INTO reestr (Наименование, Производитель, Рег_номер_товара, Рег_номер_РУ, Тип, N_п_п) VALUES (?, ?, ?, ?, ?, ?)";
-$stmt = $connectionDB->con->prepare($sql); // Используем свойство $con класса ConnectionDB
+$stmt = $connectionDB->con->prepare($sql);
 
 // Вставка данных в таблицу
 foreach ($data as $item) {
