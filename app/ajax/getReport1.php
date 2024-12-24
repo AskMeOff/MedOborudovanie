@@ -11,9 +11,9 @@ $sql = "SELECT DISTINCT
     tfbd.id_oborudovanie, 
     uz.name AS uz_name, 
     `to`.name AS type_name, 
-    o.model, 
+    o.model as model, 
     s.name AS serv_name, 
-    fa.date_fault,
+    fa.date_fault as datfault,
     DATEDIFF(IFNULL(fa.date_remont, CURDATE()), fa.date_fault) AS days_of_downtime
 FROM 
     table_faults_by_date tfbd 
@@ -46,6 +46,9 @@ $output = '<table class="table table-striped table-responsive-sm dataTable no-fo
                         <tr>
                             <th>Организация</th>
                             <th>Вид оборудования</th>
+                            <th>Наименование оборудования</th>
+                            <th>Дата поломки</th>
+                            <th>Дни простоя</th>
                             <th>Сервисная организация</th>
 
                         </tr>
@@ -58,6 +61,9 @@ if ($result->num_rows > 0) {
         $output .= "<tr>";
         $output .= "<td>" . $row['uz_name'] . "</td>";
         $output .= "<td>" . $row['type_name'] . "</td>";
+        $output .= "<td>" . $row['model'] . "</td>";
+        $output .= "<td>" . $row['datfault'] . "</td>";
+        $output .= "<td>" . $row['days_of_downtime'] . "</td>";
         $output .= "<td>" . $row['serv_name'] . "</td>";
         $output .= "</tr>";
     }
