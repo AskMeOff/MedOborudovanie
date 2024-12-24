@@ -2,18 +2,18 @@
 <section class="content" style="margin-top: 100px; margin-left: 15px">
     <div class="container-fluid" id="container_fluid" style="overflow: auto; height: 85vh;">
         <div class="row" id="main_row">
-            <h1 class="ms-3">Выберите период для отображения простаивающего оборудования</h1>
+            <h1 class="ms-3">Простаивающее оборудование</h1>
 
             <section class="col-lg-11 connectedSortable ui-sortable" style="display: block;">
                 <div class="row">
-                    <div class="col-3 m-3">
-                        <label for="startDate">Начальная дата:</label>
-                        <input type="date" id="startDate" >
-                    </div>
-                    <div class="col-3 m-3">
-                        <label for="endDate">Конечная дата:</label>
-                        <input type="date" id="endDate">
-                    </div>
+<!--                    <div class="col-3 m-3">-->
+<!--                        <label for="startDate">Начальная дата:</label>-->
+<!--                        <input type="date" id="startDate" >-->
+<!--                    </div>-->
+<!--                    <div class="col-3 m-3">-->
+<!--                        <label for="endDate">Конечная дата:</label>-->
+<!--                        <input type="date" id="endDate">-->
+<!--                    </div>-->
                     <div class="col-3 m-3">
                         <label for="organization">Организация:</label>
                         <select class="form-select" id="select_organization">

@@ -4,8 +4,8 @@ if (!$connectionDB) {
     die("Connection failed: " . mysqli_connect_error());
 }
 
-$startDate = $_POST['startDate'];
-$endDate = $_POST['endDate'];
+$startDate = isset($_POST['startDate']) ? $_POST['startDate'] : null;
+$endDate = isset($_POST['endDate']) ? $_POST['endDate'] : null;
 $id_uz = isset($_POST['id_uz']) ? $_POST['id_uz'] : null;
 $sql = "SELECT DISTINCT 
     tfbd.id_oborudovanie, 
