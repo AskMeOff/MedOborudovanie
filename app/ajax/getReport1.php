@@ -7,8 +7,8 @@ if (!$connectionDB) {
 $startDate = isset($_POST['startDate']) ? $_POST['startDate'] : null;
 $endDate = isset($_POST['endDate']) ? $_POST['endDate'] : null;
 $id_uz = isset($_POST['id_uz']) ? $_POST['id_uz'] : null;
-$sql = "SELECT DISTINCT 
-    tfbd.id_oborudovanie, 
+$sql = "SELECT  
+    o.id_oborudovanie, 
     uz.name AS uz_name, 
     `to`.name AS type_name, 
     o.model as model, 
@@ -16,16 +16,14 @@ $sql = "SELECT DISTINCT
     fa.date_fault as datfault,
     DATEDIFF(IFNULL(fa.date_remont, CURDATE()), fa.date_fault) AS days_of_downtime
 FROM 
-    table_faults_by_date tfbd 
-    LEFT JOIN oborudovanie o ON tfbd.id_oborudovanie = o.id_oborudovanie
-    LEFT JOIN faults fa ON o.id_oborudovanie = fa.id_oborudovanie
-    LEFT JOIN uz uz ON o.id_uz = uz.id_uz
-    LEFT JOIN type_oborudovanie `to` ON o.id_type_oborudovanie = `to`.id_type_oborudovanie
-    LEFT JOIN servicemans s ON o.id_serviceman = s.id_serviceman
+    oborudovanie o 
+    left JOIN faults fa ON o.id_oborudovanie = fa.id_oborudovanie
+    right JOIN uz uz ON o.id_uz = uz.id_uz
+    left JOIN type_oborudovanie `to` ON o.id_type_oborudovanie = `to`.id_type_oborudovanie
+    left JOIN servicemans s ON o.id_serviceman = s.id_serviceman
 WHERE 
-    uz.name IS NOT NULL 
-    AND `to`.name IS NOT NULL
-    AND fa.remont != 1";
+     o.status = 0
+     group by o.id_oborudovanie";
 $conditions = [];
 
 if ($startDate && $endDate) {

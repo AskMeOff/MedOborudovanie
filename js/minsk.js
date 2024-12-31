@@ -1,4 +1,4 @@
-let selectedOrg  = 0;
+let selectedOrg = 0;
 const contMenu = document.getElementById("contMenu");
 const body = document.getElementsByTagName("body")[0];
 let selectedEquipmentId;
@@ -160,7 +160,7 @@ function getFaultsTable(idOborudovanie) {
                     let countDays = Math.floor((today.getTime() - new Date(row.date_fault).getTime()) / (1000 * 60 * 60 * 24));
                     let stringDays = countDays.toString() === "NaN" ? 'Не выставлена дата поломки' : (countDays + " дней");
                     tableContent += '<td>' + stringDays + '</td>';
-                    tableContent += '<td>' + (row.remont > 0 ? 'Да' : 'Нет') +  '</td>';
+                    tableContent += '<td>' + (row.remont > 0 ? 'Да' : 'Нет') + '</td>';
                     tableContent += '<td>' + row.date_remont + '</td>';
                     tableContent += '<td>' + row.remontOrg + '</td>';
                     tableContent += '<td><a href="app/documents/' + idOborudovanie + '/' + row.documentOrg + '" target="_blank">' + row.documentOrg + '</a></td>';
@@ -181,94 +181,110 @@ function getFaultsTable(idOborudovanie) {
 }
 
 function refreshMainTable() {
-    let trel = document.getElementById("idob" + selectedEquipmentId)
-    $.ajax({
-        url: '/app/ajax/refreshTable.php',
-        method: 'GET',
-        data: {id_org: selectedOrg},
-        dataType: 'json',
-        success: function (response) {
-            let tableContent = '<table class="table table-striped table-responsive-sm no-footer dataTable" id="infoOb' + selectedOrg + '" style="font-size: 13px;">';
-            if (!response.hasOwnProperty('empty')) {
-                tableContent += '<thead><tr>';
-                let headers = {
-                    'mark1': '!!!',
-                    'name': 'Вид оборудования',
-                    'model': 'Модель, производитель',
-                    'serial_number': 'Регистрационный номер оборудования',
-                    'zavod_nomer': 'Серийный(заводской) номер',
-                    'date_create': 'Год производства',
-                    'date_postavki': 'Дата поставки',
-                    'date_release': 'Дата ввода в эксплуатацию',
-                    'service_organization': 'Сервисная организация',
-                    'date_last_TO': 'Дата последнего ТО',
-                    'status': 'Статус',
-                    'id_oborudovanie': 'Действие'
-                };
-                Object.keys(headers).forEach(function (key) {
-                    tableContent += '<th>' + headers[key] + '</th>';
-                });
-                tableContent += '</tr></thead><tbody>';
-                response.forEach(function (row) {
-                    let today = new Date();
-                    tableContent += '<tr>';
-                    tableContent += '<td>'+ row.mark1 + '</td>';
-                    tableContent += '<td onclick="getEffectTable(' + row.id_oborudovanie + ')" id=idob' + row.id_oborudovanie + ' style="cursor: pointer; color: #167877;\n' +
-                        '    font-weight: 550;">' + row.name + '</td>';
-                    tableContent += '<td>' + row.model + '</td>';
-                    tableContent += '<td>' + row.serial_number + '</td>';
-                    tableContent += '<td>' + row.zavod_nomer + '</td>';
-                    tableContent += '<td style="text-align: justify;">' + row.date_create + '</td>';
-                    tableContent += '<td style="text-align: justify;">' + formatDate(row.date_postavki) + '</td>';
-                    tableContent += '<td>' + formatDate(row.date_release) + '</td>';
-                    tableContent += '<td>' + row.service_organization + '</td>';
-                    tableContent += '<td>' + formatDate(row.date_last_TO) + '</td>';
-                    if (row.status === "1") {
-                        tableContent += '<td  onclick="getFaultsTable(' + row.id_oborudovanie + ')" style="cursor: pointer; "><div style = "border-radius: 5px;background-color: green;color: white;padding: 5px;">исправно</div></td>';
-                    }
-                    else if (row.status === "3") {
-                        tableContent += '<td  onclick="getFaultsTable(' + row.id_oborudovanie + ')" style="cursor: pointer; "><div style = "border-radius: 5px;background-color: orange;color: white;padding: 5px;">Работа в ограниченном режиме</div></td>';
-                    }
-                    else {
-                        tableContent += '<td  onclick="getFaultsTable(' + row.id_oborudovanie + ')" style="cursor: pointer"><div style = "border-radius: 5px;background-color: red;color: white;padding: 5px; font-size: 11px; width: 85px;">неисправно</div></td>';
-
-                    }
-                    tableContent += '<td>' +
-                        '<a href="#" onclick="confirmDeleteOborudovanie(' + row.id_oborudovanie + ')">' +
-                        '<i class="fa fa-trash" style="font-size: 20px;"></i></a>' +
-                        '<a href="#" onclick="editOborudovanie(' + row.id_oborudovanie + ')">' +
-                        '<i class="fa fa-edit" style="font-size: 20px;"></i>️</a>' +
-                        '<a href="#" onclick="duplicateOborudovanie(' + row.id_oborudovanie + ')">' +
-                        '<i class="fa fa-copy" style="font-size: 20px;"></i></a>' +
-                        '</td>';
-                    tableContent += '</tr>';
-                });
-            } else {
-                tableContent += '<thead><tr>';
-                tableContent += '<th></th>';
-                tableContent += '</tr></thead><tbody>';
-                tableContent += '<tr><td colspan="8" style="text-align:center;">Нет данных</td></tr>';
-            }
-
-            tableContent += '</tbody></table>';
-            $('#org' + selectedOrg + ' .table-responsive').html(tableContent);
-            $('#editOborudovanieModal').modal('hide');
-            $('#infoOb' + selectedOrg).DataTable( {
-                "stateSave": true
-            } );
-        },
-
-        error: function (xhr, status, error) {
-            console.log(error);
+    let liItems = document.querySelectorAll('#menu_ustanovl .submenu1 li');
+    let activeItemName = null;
+    liItems.forEach(item => {
+        if (item.classList.contains('active')) {
+            activeItemName = item.textContent.trim();
         }
     });
+    if (activeItemName) {
+     let filterEquipment = document.getElementById("filterEquipment");
+
+        filterEquipment.value = activeItemName;
+        filterTable();
+
+    } else {
+        // let trel = document.getElementById("idob" + selectedEquipmentId)
+        $.ajax({
+            url: '/app/ajax/refreshTable.php',
+            method: 'GET',
+            data: {id_org: selectedOrg},
+            dataType: 'json',
+            success: function (response) {
+                let tableContent = '<table class="table table-striped table-responsive-sm no-footer dataTable" id="infoOb' + selectedOrg + '" style="font-size: 13px;">';
+                if (!response.hasOwnProperty('empty')) {
+                    tableContent += '<thead><tr>';
+                    let headers = {
+                        'mark1': '!!!',
+                        'name': 'Вид оборудования',
+                        'model': 'Модель, производитель',
+                        'serial_number': 'Регистрационный номер оборудования',
+                        'zavod_nomer': 'Серийный(заводской) номер',
+                        'date_create': 'Год производства',
+                        'date_postavki': 'Дата поставки',
+                        'date_release': 'Дата ввода в эксплуатацию',
+                        'service_organization': 'Сервисная организация',
+                        'date_last_TO': 'Дата последнего ТО',
+                        'status': 'Статус',
+                        'id_oborudovanie': 'Действие'
+                    };
+                    Object.keys(headers).forEach(function (key) {
+                        tableContent += '<th>' + headers[key] + '</th>';
+                    });
+                    tableContent += '</tr></thead><tbody>';
+                    response.forEach(function (row) {
+                        let today = new Date();
+                        tableContent += '<tr>';
+                        tableContent += '<td>' + row.mark1 + '</td>';
+                        tableContent += '<td onclick="getEffectTable(' + row.id_oborudovanie + ')" id=idob' + row.id_oborudovanie + ' style="cursor: pointer; color: #167877;\n' +
+                            '    font-weight: 550;">' + row.name + '</td>';
+                        tableContent += '<td>' + row.model + '</td>';
+                        tableContent += '<td>' + row.serial_number + '</td>';
+                        tableContent += '<td>' + row.zavod_nomer + '</td>';
+                        tableContent += '<td style="text-align: justify;">' + row.date_create + '</td>';
+                        tableContent += '<td style="text-align: justify;">' + formatDate(row.date_postavki) + '</td>';
+                        tableContent += '<td>' + formatDate(row.date_release) + '</td>';
+                        tableContent += '<td>' + row.service_organization + '</td>';
+                        tableContent += '<td>' + formatDate(row.date_last_TO) + '</td>';
+                        if (row.status === "1") {
+                            tableContent += '<td  onclick="getFaultsTable(' + row.id_oborudovanie + ')" style="cursor: pointer; "><div style = "border-radius: 5px;background-color: green;color: white;padding: 5px;">исправно</div></td>';
+                        } else if (row.status === "3") {
+                            tableContent += '<td  onclick="getFaultsTable(' + row.id_oborudovanie + ')" style="cursor: pointer; "><div style = "border-radius: 5px;background-color: orange;color: white;padding: 5px;">Работа в ограниченном режиме</div></td>';
+                        } else {
+                            tableContent += '<td  onclick="getFaultsTable(' + row.id_oborudovanie + ')" style="cursor: pointer"><div style = "border-radius: 5px;background-color: red;color: white;padding: 5px; font-size: 11px; width: 85px;">неисправно</div></td>';
+
+                        }
+                        tableContent += '<td>' +
+                            '<a href="#" onclick="confirmDeleteOborudovanie(' + row.id_oborudovanie + ')">' +
+                            '<i class="fa fa-trash" style="font-size: 20px;"></i></a>' +
+                            '<a href="#" onclick="editOborudovanie(' + row.id_oborudovanie + ')">' +
+                            '<i class="fa fa-edit" style="font-size: 20px;"></i>️</a>' +
+                            '<a href="#" onclick="duplicateOborudovanie(' + row.id_oborudovanie + ')">' +
+                            '<i class="fa fa-copy" style="font-size: 20px;"></i></a>' +
+                            '</td>';
+                        tableContent += '</tr>';
+                    });
+                } else {
+                    tableContent += '<thead><tr>';
+                    tableContent += '<th></th>';
+                    tableContent += '</tr></thead><tbody>';
+                    tableContent += '<tr><td colspan="8" style="text-align:center;">Нет данных</td></tr>';
+                }
+
+                tableContent += '</tbody></table>';
+                $('#org' + selectedOrg + ' .table-responsive').html(tableContent);
+                $('#infoOb' + selectedOrg).DataTable({
+                    "stateSave": true
+                });
+            },
+
+            error: function (xhr, status, error) {
+                console.log(error);
+            }
+        });
+    }
+    $('#editOborudovanieModal').modal('hide');
+
 
 }
+
 function formatYear(dateString) {
     if (!dateString) return 'Нет данных';
     const date = new Date(dateString);
     return date.getFullYear();
 }
+
 function formatDate(dateString) {
     if (!dateString) return 'Нет данных';
     const date = new Date(dateString);
@@ -279,7 +295,7 @@ function formatDate(dateString) {
 }
 
 function getEffectTable(selectedEquipmentId) {
-    currselectedEquipmentId  = selectedEquipmentId;
+    currselectedEquipmentId = selectedEquipmentId;
     $.ajax({
         url: '/app/ajax/getEffectTable.php',
         type: 'GET',
@@ -441,8 +457,8 @@ function addFualt() {
 }
 
 
-function addEffectR () {
-console.log (currselectedEquipmentId);
+function addEffectR() {
+    console.log(currselectedEquipmentId);
 
     let count_research = $('#count_research').val();
     let count_patient = $('#count_patient').val();
@@ -495,11 +511,11 @@ function editFault(id_fault) {
             document.getElementById('edit_date_dogovora').value = data.date_dogovora;
             document.getElementById('edit_cost_repair').value = data.cost_repair;
             document.getElementById('edit_time_repair').value = data.time_repair;
-            console.log (data.remont + '[eq[e[[qe[q[we[qew[eqe')
+            console.log(data.remont + '[eq[e[[qe[q[we[qew[eqe')
             const remontValue = parseInt(data.remont, 10);
-            if (remontValue  === 1) {
+            if (remontValue === 1) {
                 remontSelect.value = '1';
-            } else if (remontValue  === 0) {
+            } else if (remontValue === 0) {
                 remontSelect.value = '0';
             } else {
                 remontSelect.value = '';
@@ -649,13 +665,13 @@ function editOborudovanie(idOborudovanie) {
             document.getElementById('edit_date_create').value = data.date_create;
             document.getElementById('edit_date_postavki').value = data.date_postavki;
             document.getElementById('edit_date_release').value = data.date_release;
-            if(data.id_from_reestr == 0) {
-                $('#isNotReg').prop("checked",true);
+            if (data.id_from_reestr == 0) {
+                $('#isNotReg').prop("checked", true);
                 $('#filterSerialNumber').prop('disabled', true);
                 $('#model_name').prop('disabled', false);
                 document.getElementById('model_name').value = data.model_prozvoditel;
-            }else{
-                $('#isNotReg').prop("checked",false);
+            } else {
+                $('#isNotReg').prop("checked", false);
                 $('#filterSerialNumber').prop('disabled', false);
                 $('#model_name').prop('disabled', true);
                 document.getElementById('model_name').value = data.model_prozvoditel;
@@ -666,8 +682,7 @@ function editOborudovanie(idOborudovanie) {
 
             selectedItemFromReestr = JsonReestr.find((item) => item['N_п_п'] == data.id_from_reestr)
             document.getElementById('zavod_nomer').value = data.zavod_nomer;
-            if (data.service_organization == 0)
-            {
+            if (data.service_organization == 0) {
                 document.getElementById('filterServicemans').value = "";
             }
 
@@ -680,9 +695,8 @@ function editOborudovanie(idOborudovanie) {
                     select_serviceman.value = item.innerText;
                 }
             });
-            console.log (select_serviceman.value);
-            if (select_serviceman.value == 0)
-            {
+            console.log(select_serviceman.value);
+            if (select_serviceman.value == 0) {
                 let select_servicemans = document.getElementById("filterServicemans");
                 globalserviceman = select_servicemans.getAttribute('data-id');
                 globalserviceman = 0;
@@ -713,10 +727,10 @@ function saveEditedOborudovanie() {
     let zavod_nomer = document.getElementById('zavod_nomer').value;
     let so = select_servicemans.getAttribute('data-id');
 
-console.log (id_from_reestr);
+    console.log(id_from_reestr);
     if (id_from_reestr == null) {
         alert('Не выбран регистрационный номер');
-    }else {
+    } else {
 
 
         if (selectedServiceId) {
@@ -737,14 +751,14 @@ console.log (id_from_reestr);
                 scrollTop: $('#edit_serial_number').offset().top - $('#editOborudovanieModal').offset().top + $('#editOborudovanieModal').scrollTop() - 150
             }, 500);
             return false;
-        } else if (model_name.trim() === "" && $('#isNotReg').prop("checked")){
+        } else if (model_name.trim() === "" && $('#isNotReg').prop("checked")) {
             $('#modelError').show();
             console.log("Ошибка: Регистрационный номер оборудования для заполнения");
             $('#editOborudovanieModal').animate({
                 scrollTop: $('#edit_serial_number').offset().top - $('#editOborudovanieModal').offset().top + $('#editOborudovanieModal').scrollTop() - 150
             }, 500);
             return false;
-        }else{
+        } else {
             $('#serialNumberError').hide();
             $('#modelError').hide();
 
@@ -777,7 +791,7 @@ console.log (id_from_reestr);
                 model_prozvoditel: $('#isNotReg').prop('checked') ? $('#model_name').val() : selectedItemFromReestr['Наименование'] + selectedItemFromReestr['Производитель'],
                 serial_number: $('#isNotReg').prop('checked') ? "000" : selectedItemFromReestr['Рег_номер_товара'],
                 zavod_nomer: zavod_nomer,
-                id_from_reestr: $('#isNotReg').prop('checked') ? 0 :id_from_reestr,
+                id_from_reestr: $('#isNotReg').prop('checked') ? 0 : id_from_reestr,
                 service_organization: so,
                 date_last_TO: document.getElementById('edit_date_last_TO').value,
                 status: select_status.options[select_status.selectedIndex].value
@@ -792,6 +806,7 @@ console.log (id_from_reestr);
             }
         });
     }
+
 }
 
 
@@ -821,14 +836,14 @@ function saveAddedOborudovanie() {
             scrollTop: $('#edit_serial_number').offset().top - $('#editOborudovanieModal').offset().top + $('#editOborudovanieModal').scrollTop() - 150
         }, 500);
         return false;
-    } else if (model_name.trim() === "" && $('#isNotReg').prop("checked")){
+    } else if (model_name.trim() === "" && $('#isNotReg').prop("checked")) {
         $('#modelError').show();
         console.log("Ошибка: Регистрационный номер оборудования для заполнения");
         $('#editOborudovanieModal').animate({
             scrollTop: $('#edit_serial_number').offset().top - $('#editOborudovanieModal').offset().top + $('#editOborudovanieModal').scrollTop() - 150
         }, 500);
         return false;
-    }else{
+    } else {
         $('#serialNumberError').hide();
         $('#modelError').hide();
 
@@ -857,7 +872,7 @@ function saveAddedOborudovanie() {
             model_prozvoditel: $('#isNotReg').prop('checked') ? $('#model_name').val() : selectedItemFromReestr['Наименование'] + selectedItemFromReestr['Производитель'],
             serial_number: $('#isNotReg').prop('checked') ? "000" : selectedItemFromReestr['Рег_номер_товара'],
             zavod_nomer: zavod_nomer,
-            id_from_reestr: $('#isNotReg').prop('checked') ? 0 :id_from_reestr,
+            id_from_reestr: $('#isNotReg').prop('checked') ? 0 : id_from_reestr,
             service_organization: selectedServiceId || null,
             date_last_TO: document.getElementById('edit_date_last_TO').value || null,
             status: select_status.options[select_status.selectedIndex].value,
@@ -931,11 +946,11 @@ function chckReg(el) {
 }
 
 
-
 function startFilter() {
     let filterContainer = document.getElementById("filterContainer");
     filterContainer.style.display = filterContainer.style.display === "none" ? "block" : "none";
 }
+
 function filterTable() {
     let equipmentFilter = $("#filterEquipment").val();
     let yearFilter = $("#filterYear").val();
@@ -956,9 +971,10 @@ function filterTable() {
 
     if (selectedEquipmentType) {
         data.id_type_oborudovanie = selectedEquipmentType;
+
     }
 
-    if (selectedOrg>0) {
+    if (selectedOrg > 0) {
         $.ajax({
             type: "POST",
             url: "/app/ajax/filterGetData.php",
@@ -973,9 +989,8 @@ function filterTable() {
                 console.error("Ошибка при выполнении запроса: " + error);
             }
         });
-    }
-    else{
-console.log (oblId + "oblast");
+    } else {
+        console.log(oblId + "oblast");
         $.ajax({
             type: "POST",
             url: "/app/ajax/filterGetDataNoOrg.php",
@@ -994,21 +1009,20 @@ console.log (oblId + "oblast");
 }
 
 
-
-function filterS(event, id){
+function filterS(event, id) {
     let filetS = event.target;
     let filteredDiv = filetS.nextElementSibling;
-    if(filteredDiv.classList.contains("hidden")) {
+    if (filteredDiv.classList.contains("hidden")) {
         filteredDiv.classList.remove("hidden");
-    }else{
+    } else {
         filteredDiv.classList.add("hidden");
     }
-    let arrServices = Array.from(filteredDiv.children).map(function(event) {
+    let arrServices = Array.from(filteredDiv.children).map(function (event) {
         return {data_id: event.getAttribute('data-id'), text: event.innerText};
     });
-    filetS.addEventListener("input", function(event) {
-        let sortedArr = arrServices.filter( (item) => {
-                return item.text.toLowerCase().includes(event.target.value.toLowerCase()) ;
+    filetS.addEventListener("input", function (event) {
+        let sortedArr = arrServices.filter((item) => {
+            return item.text.toLowerCase().includes(event.target.value.toLowerCase());
         });
 
         let items = filteredDiv.children;
@@ -1023,55 +1037,50 @@ function filterS(event, id){
                 items[i].style.display = 'none';
             }
         }
-        if(filetS.value == "") {
-            if(id == 2) {
+        if (filetS.value == "") {
+            if (id == 2) {
                 selectedPostavschikId = 0;
                 filetS.setAttribute('data-id', selectedPostavschikId);
 
-            }else {
+            } else {
                 selectedServiceId = 0;
                 filetS.setAttribute('data-id', selectedServiceId);
 
             }
-            if(!filteredDiv.classList.contains("hidden")) {
+            if (!filteredDiv.classList.contains("hidden")) {
                 filteredDiv.classList.add("hidden");
             }
-        }else{
-            if(filteredDiv.classList.contains("hidden")) {
+        } else {
+            if (filteredDiv.classList.contains("hidden")) {
                 filteredDiv.classList.remove("hidden");
             }
         }
-
 
 
     });
 }
 
 
-
-
-
-
-function setServiceman(event){
+function setServiceman(event) {
     $("#filterServicemans").val(event.target.innerText);
     selectedServiceId = event.target.getAttribute('data-id');
 }
 
-function setPostavschik(event){
+function setPostavschik(event) {
     $("#filterPostavschik").val(event.target.innerText);
     selectedPostavschikId = event.target.getAttribute('data-id');
 }
 
-function showModalAddOborudovanieUnspecified(){
+function showModalAddOborudovanieUnspecified() {
     document.getElementById('edit_cost').value = null;
-    document.getElementById('edit_model').value  = null;
-    document.getElementById('edit_contract').value  = null;
-    document.getElementById('edit_date_get_oborud').value  = null;
-    document.getElementById('edit_date_srok_vvoda').value  = null;
-    document.getElementById('edit_reasons').value  = null;
+    document.getElementById('edit_model').value = null;
+    document.getElementById('edit_contract').value = null;
+    document.getElementById('edit_date_get_oborud').value = null;
+    document.getElementById('edit_date_srok_vvoda').value = null;
+    document.getElementById('edit_reasons').value = null;
     selectedServiceId = null;
     selectedPostavschikId = null;
-    document.getElementById('filterServicemans').value  = null;
+    document.getElementById('filterServicemans').value = null;
 
 
     $('#editBtnOb').hide();
@@ -1080,12 +1089,12 @@ function showModalAddOborudovanieUnspecified(){
     $('#editOborudovanieModal .modal-title').text("Добавление оборудования");
 }
 
-function addOborudovanieUnspecified(){
-    if(selectedServiceId === 0){
+function addOborudovanieUnspecified() {
+    if (selectedServiceId === 0) {
         alert("Выберите сервисную организацию из списка!");
         return;
     }
-    if(selectedPostavschikId === 0){
+    if (selectedPostavschikId === 0) {
         alert("Выберите поставщика из списка!");
         return;
     }
@@ -1105,11 +1114,10 @@ function addOborudovanieUnspecified(){
         },
         success: function (data) {
             var trimmedData = data.trim();
-            if (trimmedData === "1"){
+            if (trimmedData === "1") {
                 alert("Оборудование добавлено!");
                 location.reload();
-            }
-            else{
+            } else {
                 alert("Произошла непредвиденная ошибка, свяжитесь с разработчиком");
             }
         }
@@ -1141,6 +1149,7 @@ function toggleRightSection() {
     $("#arrow-left").toggle();
 
 }
+
 function exportTableToExcelAddedOb(tableID, filename = '') {
     // Получаем таблицу
     var table = document.getElementById(tableID);
@@ -1155,7 +1164,7 @@ function exportTableToExcelAddedOb(tableID, filename = '') {
             rows[i].deleteCell(-1); // Удаляет последний столбец
         }
     }
-    var workbook = XLSX.utils.table_to_book(clonedTable, { sheet: "Sheet1" });
+    var workbook = XLSX.utils.table_to_book(clonedTable, {sheet: "Sheet1"});
 
     // Устанавливаем имя файла
     filename = filename ? filename + '.xlsx' : 'table_export.xlsx';
@@ -1166,12 +1175,12 @@ function exportTableToExcelAddedOb(tableID, filename = '') {
     // Устанавливаем ширину для каждой колонки
     worksheet['!cols'] = [];
     for (let col = range.s.c; col <= range.e.c; col++) {
-        const maxWidth = Array.from({ length: range.e.r + 1 }, (_, row) => {
-            const cell = worksheet[XLSX.utils.encode_cell({ c: col, r: row })];
+        const maxWidth = Array.from({length: range.e.r + 1}, (_, row) => {
+            const cell = worksheet[XLSX.utils.encode_cell({c: col, r: row})];
             return cell ? cell.v.toString().length : 0; // Получаем длину значения ячейки
         }).reduce((max, width) => Math.max(max, width), 0); // Находим максимальную ширину
 
-        worksheet['!cols'].push({ wch: maxWidth + 2 }); // Добавляем 2 для небольшого отступа
+        worksheet['!cols'].push({wch: maxWidth + 2}); // Добавляем 2 для небольшого отступа
     }
     // Генерируем Excel-файл и сохраняем его
     XLSX.writeFile(workbook, filename);
@@ -1200,8 +1209,7 @@ function editNotInstallOborudovanie(idOborudovanie) {
             document.getElementById('edit_model').value = data.model_prozvoditel;
             document.getElementById('edit_cost').value = data.cost;
             document.getElementById('edit_contract').value = data.num_and_date;
-            if (data.service_organization == 0)
-            {
+            if (data.service_organization == 0) {
                 document.getElementById('filterServicemans').value = "";
             }
 
@@ -1214,17 +1222,15 @@ function editNotInstallOborudovanie(idOborudovanie) {
                     select_serviceman.value = item.innerText;
                 }
             });
-            console.log (select_serviceman.value);
-            if (select_serviceman.value == 0)
-            {
+            console.log(select_serviceman.value);
+            if (select_serviceman.value == 0) {
                 let select_servicemans = document.getElementById("filterServicemans");
                 globalserviceman = select_servicemans.getAttribute('data-id');
                 globalserviceman = 0;
             }
 
 
-            if (data.service_postavschik == 0)
-            {
+            if (data.service_postavschik == 0) {
                 document.getElementById('filterPostavschik').value = "";
             }
 
@@ -1237,9 +1243,8 @@ function editNotInstallOborudovanie(idOborudovanie) {
                     select_postavschik.value = item.innerText;
                 }
             });
-            console.log (select_postavschik.value);
-            if (select_postavschik.value == 0)
-            {
+            console.log(select_postavschik.value);
+            if (select_postavschik.value == 0) {
                 let select_postav = document.getElementById("filterServicemans");
                 globalpostavschick = select_postav.getAttribute('data-id');
                 globalpostavschick = 0;
@@ -1251,7 +1256,6 @@ function editNotInstallOborudovanie(idOborudovanie) {
         }
     });
 }
-
 
 
 function saveNotInstallEditedOborudovanie() {
@@ -1268,22 +1272,20 @@ function saveNotInstallEditedOborudovanie() {
     let sto = select_type_oborudovanie.options[select_type_oborudovanie.selectedIndex].value;
     let so = select_servicemans.getAttribute('data-id');
     let sp = select_postavschik.getAttribute('data-id');
-    if(selectedServiceId){
+    if (selectedServiceId) {
 
         so = selectedServiceId;
-    }
-    else{
-        if(select_servicemans.value == ""){
+    } else {
+        if (select_servicemans.value == "") {
             so = 0;
         }
     }
 
-    if(selectedPostavschikId){
+    if (selectedPostavschikId) {
 
         sp = selectedPostavschikId;
-    }
-    else{
-        if(select_postavschik.value == ""){
+    } else {
+        if (select_postavschik.value == "") {
             sp = 0;
         }
     }
@@ -1315,14 +1317,13 @@ function saveNotInstallEditedOborudovanie() {
 }
 
 
-
 function duplicateOborudovanie(id) {
     if (confirm("Вы уверены, что хотите дублировать это оборудование?")) {
         $.ajax({
             url: '/app/ajax/duplicateOborudovanie.php',
             type: 'POST',
-            data: { id: id },
-            success: function(response) {
+            data: {id: id},
+            success: function (response) {
                 if (response.success) {
                     alert("Оборудование успешно дублировано!");
                     refreshMainTable();
@@ -1330,7 +1331,7 @@ function duplicateOborudovanie(id) {
                     alert("Ошибка при дублировании оборудования: " + response.message);
                 }
             },
-            error: function() {
+            error: function () {
                 alert("Произошла ошибка при отправке запроса.");
             }
         });
@@ -1340,7 +1341,7 @@ function duplicateOborudovanie(id) {
 
 function debounce(func, delay) {
     let timeout;
-    return function(...args) {
+    return function (...args) {
         const context = this;
         clearTimeout(timeout);
         timeout = setTimeout(() => func.apply(context, args), delay);
@@ -1354,7 +1355,7 @@ function filterSNumber(event) {
     // Показать или скрыть список при фокусе
 
 
-    const filterItems = debounce(function() {
+    const filterItems = debounce(function () {
         const inputValue = filetS.value.toLowerCase().trim();
         filteredDiv.innerHTML = ""; // очищаем содержимое
 
