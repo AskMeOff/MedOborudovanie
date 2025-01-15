@@ -166,7 +166,6 @@ $(document).ready(async function() {
                 }
         });
     });
-
     new Promise((resolve, reject) => {
         $.ajax({
             url: "app/ajax/getReestr.php",
