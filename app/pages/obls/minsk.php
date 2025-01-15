@@ -620,11 +620,10 @@ echo'
                     <label for="data_year_efficiency">Год:</label>
 <select id="data_year_efficiency" name="data_year_efficiency" class="styled-select">
     <option value="" selected disabled>Выберите год</option>
+    <option value="2025">2025</option>
     <option value="2024">2024</option>
     <option value="2023">2023</option>
-    <option value="2022">2022</option>
-    <option value="2021">2021</option>
-    <option value="2020">2020</option>
+
 
 </select>
                     
@@ -809,7 +808,8 @@ echo ' </select>
                     <input type="date" id="edit_date_release" name="date_release">
                     <!---->
                    
-                    <label for="filterSerialNumber">Регистрационный номер оборудования (Реестры УП «Центр экспертиз и испытаний в здравоохранении»): <a target="_blank" href="documents/help_reg_number.mp4"><i style="font-size: 24px;" class="fa fa-question"></i></a></label>
+                    <label for="filterSerialNumber">Регистрационный номер оборудования (<a target="_blank" href="https://www.rceth.by/Refbank/reestr_medicinskoy_tehniki"> Реестры УП «Центр экспертиз и испытаний в здравоохранении»</a>): <a target="_blank" href="documents/help_reg_number.mp4"><i style="font-size: 24px;" class="fa fa-question"></i></a></label>
+                
                      <input type="text" id="filterSerialNumber" autocomplete="off" onclick="filterSNumber(event)"/>               
                     <div class="hidden" style="margin-top: 10px; margin-left: 10px; height: 150px; width: 95%; inline-block; overflow: auto">
                     </div>
