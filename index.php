@@ -31,6 +31,8 @@ if (isset($TOKEN)) {
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Админ панель</title>
+    <link type="image/x-icon" href="/public/favicon.ico" rel="shortcut icon">
+    <link type="Image/x-icon" href="/public/favicon.ico" rel="icon">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
 
     <?php include "app/elements/links.php"; ?>

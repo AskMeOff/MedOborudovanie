@@ -35,7 +35,7 @@ while ($row = mysqli_fetch_assoc($resultTypes)) {
                     <li class="active"><a  href="index.php?main" ><i class="fa fa-home"></i>Главная</a></li>
                     <?php
                     if (isset($id_role )){
-                        if($id_role == 1 || $id_role == 3){
+                        if($id_role == 1 ){
                             echo "<li><a href='index.php?podusers'><i class='fa fa-user'></i>Мои пользователи</a></li>";
                         }
                     }
