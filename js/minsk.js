@@ -803,10 +803,53 @@ function saveEditedOborudovanie() {
                 } else {
                     alert("Ошибка в заполнении");
                 }
+
+                let newEquipmentName = select_type_oborudovanie.options[select_type_oborudovanie.selectedIndex].text;
+                //console.log("Добавленное оборудование:", newEquipmentName);
+
+                // Убедимся, что таблица обновилась
+                setTimeout(function () {
+                    let searchValue = newEquipmentName.trim().toLowerCase();
+                    let matchingIndex = -1; // Начальное значение для индекса
+
+                    // Используем метод rows().data() для получения всех данных
+                    let allData = $('#infoOb' + selectedOrg).DataTable().rows().data();
+
+                    // Перебираем строки данных в обратном порядке
+                    for (let i = allData.length - 1; i >= 0; i--) {
+                        let equipmentName = allData[i][0].trim().toLowerCase(); // Получаем название оборудования из первой ячейки
+
+                        //console.log(`Сравниваем: '${equipmentName}' с '${searchValue}'`);
+
+                        // Если текст ячейки совпадает с названием оборудования
+                        if (equipmentName.includes(searchValue)) {
+                            matchingIndex = i; // Сохраняем индекс найденной строки
+                            break; // Прерываем цикл, так как мы нашли последнюю запись
+                        }
+                    }
+
+                    if (matchingIndex !== -1) {
+                        //console.log("Последняя запись с названием 'УЗИ Аппараты' найдена на индексе:", matchingIndex);
+
+                        // Теперь находим страницу для перехода
+                        let table = $('#infoOb' + selectedOrg).DataTable();
+                        let pageSize = table.page.len();
+                        let newPage = Math.floor(matchingIndex / pageSize);
+
+                        // Переходим на нужную страницу
+                        table.page(newPage).draw(false);
+
+                        // Прокручиваем к новой строке
+                        let newRow = $('#infoOb' + selectedOrg).find('tr').eq(matchingIndex + 1); // +1 для учета заголовка
+                    }
+
+                }, 200); // Небольшая задержка, чтобы убедиться, что таблица обновилась
+            },
+            error: function (xhr, status, error) {
+                console.error("Ошибка при добавлении записи: " + error);
             }
         });
     }
-
 }
 
 

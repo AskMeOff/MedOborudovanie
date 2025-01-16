@@ -2,6 +2,7 @@
 include "../../connection/connection.php";
 
 $uz_name = $_POST['uz_name'];
+$uz_unp = $_POST['uz_unp'];
 $login_org = $_POST['login_org'];
 $password_org = $_POST['password_org'];
 
@@ -19,7 +20,7 @@ if($connectionDB->getNumRows($result) > 0){
     echo '0';
 }
 else{
-    $query = "insert into uz (`name`, id_oblast) values ('$uz_name', '$id_obl')";
+    $query = "insert into uz (`name`, id_oblast, `unp`) values ('$uz_name', '$id_obl' , '$uz_unp')";
     mysqli_query($connectionDB->con, $query);
     $id_uz = mysqli_insert_id($connectionDB->con);
     $hash_password = md5($password_org);

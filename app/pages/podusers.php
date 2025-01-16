@@ -23,7 +23,7 @@ if (isset($_COOKIE['token']) && $_COOKIE['token'] !== '') {
     }
 
     if ($id_role == 1) {
-        $query = "select id_user, uz.name, login, password from users
+        $query = "select id_user, uz.name, uz.unp,  login, password from users
                 left join uz on uz.id_uz = users.id_uz
                 where users.id_role = 4";
     }
@@ -61,6 +61,7 @@ if (isset($_COOKIE['token']) && $_COOKIE['token'] !== '') {
                             <thead>
                             <tr>
                                 <th>Наименование организации</th>
+                                <th>УНП организации</th>
                                 <th>Логин</th>
                                 <th>Зашифрованный пароль</th>
                                 <th>Удалить</th>
@@ -72,11 +73,13 @@ if (isset($_COOKIE['token']) && $_COOKIE['token'] !== '') {
 
         while ($row = mysqli_fetch_assoc($result)) {
             $name = $row['name'];
+            $unp = $row['unp'];
             $id_user = $row['id_user'];
             $loginOrg = $row['login'];
             $password = $row['password'];
             echo '<tr data-id=' . $id_user . '  >';
             echo '<td>' . $name . '</td>';
+            echo '<td>' . $unp . '</td>';
             echo '<td>' . $loginOrg . '</td>';
             echo '<td style="cursor: pointer" contenteditable="true" id="td-change-pass" onblur="changePass(event)" data-pass="' . $password . '">' . $password . '</td>';
             echo '<td><button class="btn btn-danger" onclick="deletePodUser(' . $id_user . ')">&#10060;</button></td>';
@@ -110,6 +113,9 @@ if (isset($_COOKIE['token']) && $_COOKIE['token'] !== '') {
                 <div >
                     <label for="uz_name">Наименование организации</label>
                     <input type="text" id="uz_name" name="uz_name">
+
+                    <label for="uz_unp">УНП организации</label>
+                    <input type="text" id="uz_unp" name="uz_unp">
 
                     <label for="login_org">Логин</label>
                     <input type="text" id="login_org" name="login_org">
@@ -176,13 +182,13 @@ echo '
     }
     
     function addUser(id_obl){
-        if($("#uz_name").val() == "" || $("#login_org").val() == "" || $("#password_org").val() == ""){
+        if($("#uz_name").val() == "" || $("#login_org").val() == "" || $("#password_org").val() == "" || $("#uz_unp").val() == ""){
             alert("Не все поля заполнены!");
         }else{
             $.ajax({
                 url: "app/ajax/addUser.php",
                 method: "POST",
-                data: {uz_name: $("#uz_name").val(), login_org: $("#login_org").val(), password_org: $("#password_org").val(), id_obl: id_obl, sel_obl: $("#sel_obls").val()}
+                data: {uz_name: $("#uz_name").val(), uz_unp: $("#uz_unp").val(), login_org: $("#login_org").val(), password_org: $("#password_org").val(), id_obl: id_obl, sel_obl: $("#sel_obls").val()}
             }).then((response) => {
                 if(response == "0"){
                    alert("Пользователь с таким логином или наименованием уже существует.");
