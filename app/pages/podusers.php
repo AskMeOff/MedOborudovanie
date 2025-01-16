@@ -189,7 +189,7 @@ echo '
         if($("#uz_name").val() == "" || $("#login_org").val() == "" || $("#password_org").val() == "" || $("#uz_unp").val() == "" || $("#uz_email").val() == ""){
             alert("Не все поля заполнены!");
         }else{
-            $.ajax({
+            $.ajax({ 
                 url: "app/ajax/addUser.php",
                 method: "POST",
                 data: {uz_name: $("#uz_name").val(), uz_unp: $("#uz_unp").val(), email: $("#uz_email").val(), login_org: $("#login_org").val(), password_org: $("#password_org").val(), id_obl: id_obl, sel_obl: $("#sel_obls").val()}
