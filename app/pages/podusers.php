@@ -9,7 +9,6 @@ echo '
         <div class="row" id="main_row">';
 
 
-//-----------ДЛЯ ОРГАНИЗАЦИЙ -------------------------------------
 
 if (isset($_COOKIE['token']) && $_COOKIE['token'] !== '') {
     $token = $_COOKIE['token'];
