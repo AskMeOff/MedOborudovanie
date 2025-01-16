@@ -64,7 +64,7 @@ if (isset($_COOKIE['token']) && $_COOKIE['token'] !== '') {
                                 <th>Email</th>
                                 <th>Логин</th>
                                 <th>Зашифрованный пароль</th>
-                                <th>Удалить</th>
+                                <th>Действия</th>
                                 
                             </tr>
                             </thead>
@@ -81,67 +81,57 @@ if (isset($_COOKIE['token']) && $_COOKIE['token'] !== '') {
             echo '<tr data-id=' . $id_user . '  >';
             echo '<td>' . $name . '</td>';
             echo '<td>' . $unp . '</td>';
+            echo '<td>' . $email . '</td>';
             echo '<td>' . $loginOrg . '</td>';
             echo '<td style="cursor: pointer" contenteditable="true" id="td-change-pass" onblur="changePass(event)" data-pass="' . $password . '">' . $password . '</td>';
-            echo '<td><button class="btn btn-danger" onclick="deletePodUser(' . $id_user . ')">&#10060;</button></td>';
+            echo '<td><button class="btn btn-danger" onclick="deletePodUser(' . $id_user . ')">&#10060;</button> 
+                      <button class="btn btn-warning" onclick="editPodUser(' . $id_user . ', \'' . $name . '\', \'' . $unp . '\', \'' . $email . '\', \'' . $loginOrg . '\', \'' . $password . '\')">Редактировать</button>
+                  </td>';
             echo '</tr>';
         }
-
         echo ' 
                             </tbody>
                         </table>
                     </div>
                 </div>
-
-            </section>
-            ';
+            </section>';
     }
-
-
     echo '</div>
     </div>
 </section>
-
 <div class="modal" id="addUserModal">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Добавление организации</h5>
+                <h5 class="modal-title">Добавление/Редактирование организации</h5>
                 <button type="button" class="btn btn-danger btn-close" data-bs-dismiss="modal"></button>
             </div>
             <div class="modal-body">
-
-                <div >
+                <div>
                     <label for="uz_name">Наименование организации</label>
                     <input type="text" id="uz_name" name="uz_name">
-
                     <label for="uz_unp">УНП организации</label>
                     <input type="text" id="uz_unp" name="uz_unp">
-                    
-                        <label for="uz_email">email организации</label>
+                    <label for="uz_email">Email организации</label>
                     <input type="text" id="uz_email" name="uz_email">
-
                     <label for="login_org">Логин</label>
                     <input type="text" id="login_org" name="login_org">
-
                     <label for="password_org">Пароль</label>
                     <input type="text" id="password_org" name="password_org">
-                    ';
+                </div>';
     if ($id_role == 1) {
         echo '<label for="sel_obls">Область</label>
                     <select id="sel_obls" class="form-select">';
-        $query_obls = 'select * from oblast';
+        $query_obls = 'SELECT * FROM oblast';
         $rez = $connectionDB->executeQuery($query_obls);
-        for ($data = []; $row = mysqli_fetch_assoc($rez); $data[] = $row) ;
+        for ($data = []; $row = mysqli_fetch_assoc($rez); $data[] = $row);
         foreach ($data as $obls) {
             echo '<option value="' . $obls['id_oblast'] . '">' . $obls['name'] . '</option>';
         }
         echo '  </select>';
-    };
-
-
+    }
     echo '<div id="btnsGroup" style="margin-top: 10px;">
-                        <button type="button" class="btn btn-info" onclick="addUser(' . $idoblguzo . ')">Добавить пользователя</button>
+                        <button type="button" class="btn btn-info" id="saveUserBtn" onclick="addUser(' . $idoblguzo . ')">Добавить пользователя</button>
                         <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Закрыть</button>
                     </div>
                 </div>
@@ -150,104 +140,109 @@ if (isset($_COOKIE['token']) && $_COOKIE['token'] !== '') {
     </div>
 </div>
 ';
-
-} //-----------ДЛЯ АДМИНОВ И ОСТАЛЬНЫХ -------------------------------------
-else {
+} else {
     echo 'Данные недоступны. Требуется авторизация.';
-
 }
-
-
 echo '
 <script>
     $(document).ready(function() {
-         if ($("#infoObAll").length) {
+        if ($("#infoObAll").length) {
             $("#infoObAll").DataTable().destroy();
         }
         $("#infoObAll").DataTable({
-        "order": [[0, "asc"]],
-        "pageLength": 10 
+            "order": [[0, "asc"]],
+            "pageLength": 10 
         });
-         
-             let tdChangePass = document.getElementById("td-change-pass");
+    });
 
-         
-         tdChangePass.addEventListener("keypress", function (e) {
-             
-        if (e.key === "Enter") { 
-            e.preventDefault();  
-            changePass(e);
-        }
-    });
-    });
-    
     function modalAddUser(){
+        $("#uz_name").val("");
+        $("#uz_unp").val("");
+        $("#uz_email").val("");
+        $("#login_org").val("");
+        $("#password_org").val("");
+        $("#saveUserBtn").show();
         $("#addUserModal").modal("show");
     }
-    
+
+    function editPodUser(id_user, name, unp, email, login, password) {
+        $("#uz_name").val(name);
+        $("#uz_unp").val(unp);
+        $("#uz_email").val(email);
+        $("#login_org").val(login);
+        $("#password_org").val(password);
+        $("#saveUserBtn").off("click").on("click", function() {
+            updateUser(id_user);
+        });
+        $("#saveUserBtn").show();
+        $("#addUserModal").modal("show");
+    }
+
     function addUser(id_obl){
         if($("#uz_name").val() == "" || $("#login_org").val() == "" || $("#password_org").val() == "" || $("#uz_unp").val() == "" || $("#uz_email").val() == ""){
             alert("Не все поля заполнены!");
-        }else{
+        } else {
             $.ajax({ 
                 url: "app/ajax/addUser.php",
                 method: "POST",
-                data: {uz_name: $("#uz_name").val(), uz_unp: $("#uz_unp").val(), email: $("#uz_email").val(), login_org: $("#login_org").val(), password_org: $("#password_org").val(), id_obl: id_obl, sel_obl: $("#sel_obls").val()}
+                data: {
+                    uz_name: $("#uz_name").val(),
+                    uz_unp: $("#uz_unp").val(),
+                    email: $("#uz_email").val(),
+                    login_org: $("#login_org").val(),
+                    password_org: $("#password_org").val(),
+                    id_obl: id_obl,
+                    sel_obl: $("#sel_obls").val()
+                }
             }).then((response) => {
                 if(response == "0"){
                    alert("Пользователь с таким логином или наименованием уже существует.");
-                }else{
+                } else {
                     alert("Организация добавлена.");
                     location.reload();
                 }
-                
-            })
+            });
         }
     }
-    
-    
-    
-    
-    function changePass(event){
-        
-        let thisEl = event.target;
-        let id = thisEl.parentElement.getAttribute("data-id");
-        let nameOrg = thisEl.parentElement.children[0].innerHTML;
-        let oldPass = thisEl.getAttribute("data-pass");
-        let newPass = thisEl.innerHTML;
-        if(oldPass == newPass){
-            return;
-        }
-        else{
-            $.ajax({
-                url: "app/ajax/changePass.php",
+
+    function updateUser(id_user) {
+        if($("#uz_name").val() == "" || $("#login_org").val() == "" || $("#password_org").val() == "" || $("#uz_unp").val() == "" || $("#uz_email").val() == ""){
+            alert("Не все поля заполнены!");
+        } else {
+            $.ajax({ 
+                url: "app/ajax/updateUser.php",
                 method: "POST",
-                data: {id: id, newPass: newPass}
+                data: {
+                    id_user: id_user,
+                    uz_name: $("#uz_name").val(),
+                    uz_unp: $("#uz_unp").val(),
+                    email: $("#uz_email").val(),
+                    login_org: $("#login_org").val(),
+                    password_org: $("#password_org").val()
+                }
             }).then((response) => {
                 if(response == "0"){
-                   alert("Ошибка изменения пароля.");
+                   alert("Ошибка обновления данных.");
+                } else {
+                    alert("Данные организации обновлены.");
+                    location.reload();
                 }
-                alert("Пароль организации " + nameOrg + " изменен.");
-                location.reload();
-            })
+            });
         }
     }
-    
-    
-     function deletePodUser(id_user) {
+
+    function deletePodUser(id_user) {
         if (confirm("Вы уверены, что хотите удалить пользователя?")) {
             $.ajax({
                 url: "app/ajax/deletePodUser.php",
                 method: "GET",
                 data: { id_user: id_user }
-            }) .done(function (response) {
-                        alert("Пользователь удален.");
-                    
-                    })
+            }).done(function (response) {
+                alert("Пользователь удален.");
+                location.reload();
+            });
         }
     }
-    
-    
 </script>
 ';
 ?>
