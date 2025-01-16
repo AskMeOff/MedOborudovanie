@@ -22,7 +22,7 @@ if (isset($_COOKIE['token']) && $_COOKIE['token'] !== '') {
     }
 
     if ($id_role == 1) {
-        $query = "select id_user, uz.name, uz.unp,  login, password from users
+        $query = "select id_user, email, uz.name, uz.unp,  login, password from users
                 left join uz on uz.id_uz = users.id_uz
                 where users.id_role = 4";
     }
@@ -61,6 +61,7 @@ if (isset($_COOKIE['token']) && $_COOKIE['token'] !== '') {
                             <tr>
                                 <th>Наименование организации</th>
                                 <th>УНП организации</th>
+                                <th>Email</th>
                                 <th>Логин</th>
                                 <th>Зашифрованный пароль</th>
                                 <th>Удалить</th>
@@ -73,6 +74,7 @@ if (isset($_COOKIE['token']) && $_COOKIE['token'] !== '') {
         while ($row = mysqli_fetch_assoc($result)) {
             $name = $row['name'];
             $unp = $row['unp'];
+            $email = $row['email'];
             $id_user = $row['id_user'];
             $loginOrg = $row['login'];
             $password = $row['password'];
@@ -115,6 +117,9 @@ if (isset($_COOKIE['token']) && $_COOKIE['token'] !== '') {
 
                     <label for="uz_unp">УНП организации</label>
                     <input type="text" id="uz_unp" name="uz_unp">
+                    
+                        <label for="uz_email">email организации</label>
+                    <input type="text" id="uz_email" name="uz_email">
 
                     <label for="login_org">Логин</label>
                     <input type="text" id="login_org" name="login_org">
@@ -181,13 +186,13 @@ echo '
     }
     
     function addUser(id_obl){
-        if($("#uz_name").val() == "" || $("#login_org").val() == "" || $("#password_org").val() == "" || $("#uz_unp").val() == ""){
+        if($("#uz_name").val() == "" || $("#login_org").val() == "" || $("#password_org").val() == "" || $("#uz_unp").val() == "" || $("#uz_email").val() == ""){
             alert("Не все поля заполнены!");
         }else{
             $.ajax({
                 url: "app/ajax/addUser.php",
                 method: "POST",
-                data: {uz_name: $("#uz_name").val(), uz_unp: $("#uz_unp").val(), login_org: $("#login_org").val(), password_org: $("#password_org").val(), id_obl: id_obl, sel_obl: $("#sel_obls").val()}
+                data: {uz_name: $("#uz_name").val(), uz_unp: $("#uz_unp").val(), email: $("#uz_email").val(), login_org: $("#login_org").val(), password_org: $("#password_org").val(), id_obl: id_obl, sel_obl: $("#sel_obls").val()}
             }).then((response) => {
                 if(response == "0"){
                    alert("Пользователь с таким логином или наименованием уже существует.");
