@@ -15,7 +15,10 @@ $currentDocumentName = $currentDocumentRow['documentOrg'];
 
 if (isset($_FILES['document'])) {
     $file = $_FILES['document'];
-    $uploadDir = '../../app/documents/';
+    $uploadDir = '../../app/documents/'.$id_fault.'/';
+    if(!is_dir($uploadDir)) {
+        mkdir($uploadDir, 0777, true);
+    }
     $uploadFile = $uploadDir . basename($file['name']);
 
     if ($currentDocumentName) {
