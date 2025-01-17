@@ -692,10 +692,14 @@ echo'
                     
                     <label for="remont">Отремонтировано</label>
                     <select id="edit_remont" name="remont">
+                   
+                    
     <option value="">Выберите</option>
     <option value="1">Да</option>
     <option value="0">Нет</option>
 </select>
+
+
 
                     <label for="date_remont">Дата ремонта:</label>
                     <input type="date" id="edit_date_remont" name="date_remont">
@@ -703,8 +707,9 @@ echo'
                     <label for="edit_remontOrg">Организация осуществляющая ремонт:</label>
                     <input type="text" id="edit_remontOrg" name="edit_remontOrg">
                     
-
-
+<label for="document">Прикрепить документ:</label>
+<input type="file" id="document_neispravnost_edit" name="document" accept=".pdf,.doc,.docx,.jpg,.png">
+<div id="document_link" style="display:none;"></div>
             <!--        <label for="downtime">Продолжительность простоя:</label>
                     <input type="text" id="edit_downtime" name="downtime">-->
 

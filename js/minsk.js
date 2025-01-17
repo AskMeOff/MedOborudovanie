@@ -511,7 +511,16 @@ function editFault(id_fault) {
             document.getElementById('edit_date_dogovora').value = data.date_dogovora;
             document.getElementById('edit_cost_repair').value = data.cost_repair;
             document.getElementById('edit_time_repair').value = data.time_repair;
-            console.log(data.remont + '[eq[e[[qe[q[we[qew[eqe')
+            const documentLink = document.getElementById('document_link');
+            const documentName = data.documentOrg;
+            const idOborudovanie = data.id_oborudovanie;
+            if (documentName) {
+                documentLink.innerHTML = `<a href="app/documents/${idOborudovanie}/${documentName}" target="_blank">${documentName}</a>`;
+                documentLink.style.display = 'block';
+            } else {
+                documentLink.innerHTML = '';
+                documentLink.style.display = 'none';
+            }
             const remontValue = parseInt(data.remont, 10);
             if (remontValue === 1) {
                 remontSelect.value = '1';
@@ -531,36 +540,53 @@ function editFault(id_fault) {
 
 function saveFaultData() {
 
-    let dateFault = $('#edit_date_fault').val() || null;
-    let dateCallService = $('#edit_date_call_service').val() || null;
-    let reasonFault = $('#edit_reason_fault').val() || null;
-    let dateProcedurePurchase = $('#edit_date_procedure_purchase').val() || null;
-    let dateDogovora = $('#edit_date_dogovora').val() || null;
-    let costRepair = $('#edit_cost_repair').val() || null;
-    let timeRepair = $('#edit_time_repair').val() || null;
-    let remont = $('#edit_remont').val() || null;
-    let date_remont = $('#edit_date_remont').val() || null;
-    let edit_remontOrg = $('#edit_remontOrg').val() || null;
-    // let downtime = $('#edit_downtime').val();
-    let idFault = $('#edit_id_fault').val();
 
+    let formData = new FormData();
+    formData.append('id_fault', $('#edit_id_fault').val());
+
+    if ($('#edit_date_fault').val()) {
+        formData.append('date_fault', $('#edit_date_fault').val());
+    }
+    if ($('#edit_date_call_service').val()) {
+        formData.append('date_call_service', $('#edit_date_call_service').val());
+    }
+    if ($('#edit_reason_fault').val()) {
+        formData.append('reason_fault', $('#edit_reason_fault').val());
+    }
+    if ($('#edit_date_procedure_purchase').val()) {
+        formData.append('date_procedure_purchase', $('#edit_date_procedure_purchase').val());
+    }
+    if ($('#edit_date_dogovora').val()) {
+        formData.append('date_dogovora', $('#edit_date_dogovora').val());
+    }
+    if ($('#edit_cost_repair').val()) {
+        formData.append('cost_repair', $('#edit_cost_repair').val());
+    }
+    if ($('#edit_time_repair').val()) {
+        formData.append('time_repair', $('#edit_time_repair').val());
+    }
+    if ($('#edit_remont').val()) {
+        formData.append('remont', $('#edit_remont').val());
+    }
+    if ($('#edit_date_remont').val()) {
+        formData.append('date_remont', $('#edit_date_remont').val());
+    }
+    if ($('#edit_remontOrg').val()) {
+        formData.append('edit_remontOrg', $('#edit_remontOrg').val());
+    }
+
+    let fileInput = document.getElementById('document_neispravnost_edit');
+        formData.append('document', fileInput.files[0]);
+        console.log (fileInput.files[0]);
+    for (let [key, value] of formData.entries()) {
+        console.log(`${key}:`, value);
+    }
     $.ajax({
         url: '/app/ajax/updateFault.php',
         type: 'POST',
-        data: {
-            id_fault: idFault,
-            date_fault: dateFault,
-            date_call_service: dateCallService,
-            reason_fault: reasonFault,
-            date_procedure_purchase: dateProcedurePurchase,
-            date_dogovora: dateDogovora,
-            cost_repair: costRepair,
-            time_repair: timeRepair,
-            remont: remont,
-            date_remont: date_remont,
-            edit_remontOrg: edit_remontOrg,
-            // downtime: downtime
-        },
+        data: formData,
+        processData: false,
+        contentType: false,
         success: function (response) {
             if (response === "Запись обновлена.") {
                 $('#editFaultModal').modal('hide');
