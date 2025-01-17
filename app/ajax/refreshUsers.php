@@ -20,7 +20,7 @@ $sql = "select id_user, email, uz.name, uz.unp,  login, password, zayavka, `acti
                 where users.id_role = 4
         ";
 $result = $connectionDB->executeQuery($sql);
-
+//коммит
 if ($result->num_rows > 0) {
     $data = array();
     while ($row = $result->fetch_assoc()) {
