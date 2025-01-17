@@ -22,10 +22,15 @@ if (isset($_COOKIE['token']) && $_COOKIE['token'] !== '') {
     }
 
     if ($id_role == 1) {
-        $query = "SELECT id_user, email, uz.name, uz.unp, uz.id_oblast, login, password, zayavka, `active` FROM users
-                LEFT JOIN uz ON uz.id_uz = users.id_uz
-                WHERE users.id_role = 4";
-    } else {
+        $query = "select id_user, email, uz.name, uz.unp,  login, password, zayavka, `active` from users
+                left join uz on uz.id_uz = users.id_uz
+                where users.id_role = 4";
+    } /*    else if ($id_role != 4){
+        $query = "select id_user, uz.name, login, password from users
+                left join uz on uz.id_uz = users.id_uz
+                where uz.id_oblast = '$idoblguzo' and users.id_role = 4";
+    }*/
+    else {
         echo 'Данные недоступны. Требуется авторизация.';
         return;
     }
@@ -55,7 +60,6 @@ if (isset($_COOKIE['token']) && $_COOKIE['token'] !== '') {
                             <tr>
                                 <th>Наименование организации</th>
                                 <th>УНП организации</th>
-                                <th>Область</th>
                                 <th>Email</th>
                                 <th>Логин</th>
                                 <th>Зашифрованный пароль</th>
@@ -66,21 +70,10 @@ if (isset($_COOKIE['token']) && $_COOKIE['token'] !== '') {
                             </thead>
                             <tbody>';
 
-        $oblast_names = [
-            1 => 'Брестская',
-            2 => 'Витебская',
-            3 => 'Гомельская',
-            4 => 'Гродненская',
-            5 => 'Минская',
-            6 => 'Могилевская',
-            7 => 'МИНСК',
-            8 => 'РНПЦ'
-        ];
 
         while ($row = mysqli_fetch_assoc($result)) {
             $name = $row['name'];
             $unp = $row['unp'];
-            $id_oblast = $row['id_oblast'];
             $email = $row['email'];
             $id_user = $row['id_user'];
             $loginOrg = $row['login'];
@@ -90,7 +83,6 @@ if (isset($_COOKIE['token']) && $_COOKIE['token'] !== '') {
             echo '<tr data-id=' . $id_user . '  >';
             echo '<td>' . $name . '</td>';
             echo '<td>' . $unp . '</td>';
-            echo '<td>' . (isset($oblast_names[$id_oblast]) ? $oblast_names[$id_oblast] : 'Неизвестная область') . '</td>'; // Заменяем ID на название области
             echo '<td>' . $email . '</td>';
             echo '<td>' . $loginOrg . '</td>';
             echo '<td style="cursor: pointer" id="td-change-pass"  data-pass="' . $password . '">' . $password . '</td>';
@@ -99,7 +91,7 @@ if (isset($_COOKIE['token']) && $_COOKIE['token'] !== '') {
             else
                 echo '<td></td>';
             echo '<td><button class="btn btn-danger" onclick="deletePodUser(' . $id_user . ')">&#10060;</button> 
-                      <button class="btn btn-warning" onclick="editPodUser(' . $id_user . ', \'' . $name . '\', \'' . $unp . '\', \'' . $id_oblast . '\', \'' . $email . '\', \'' . $loginOrg . '\', \'' . $password . '\')">Редактировать</button>
+                      <button class="btn btn-warning" onclick="editPodUser(' . $id_user . ', \'' . $name . '\', \'' . $unp . '\', \'' . $email . '\', \'' . $loginOrg . '\', \'' . $password . '\')">Редактировать</button>
                   </td>';
             if($active == "1")
                 echo '<td><input data-id=' . $id_user . ' checked="true" type="checkbox" onchange=changeActive(this)></td>';
@@ -151,21 +143,12 @@ if (isset($_COOKIE['token']) && $_COOKIE['token'] !== '') {
                     ';
     if ($id_role == 1) {
         echo '<label for="sel_obls">Область</label>
-              <select id="sel_obls" class="form-select">';
-        $query_obls = 'SELECT * FROM oblast';
+                    <select id="sel_obls" class="form-select">';
+        $query_obls = 'select * from oblast';
         $rez = $connectionDB->executeQuery($query_obls);
-        // Получаем текущую область для редактируемого пользователя
-        $currentOblastId = null; // Идентификатор области текущего пользователя
-        if (isset($_GET['id_user'])) {
-            $currentUserId = $_GET['id_user'];
-            $currentOblastQuery = "SELECT id_oblast FROM users WHERE id_user = '$currentUserId'";
-            $currentOblastResult = $connectionDB->executeQuery($currentOblastQuery);
-            $currentOblastRow = mysqli_fetch_assoc($currentOblastResult);
-            $currentOblastId = $currentOblastRow['id_oblast'];
-        }
-        while ($obls = mysqli_fetch_assoc($rez)) {
-            $selected = ($obls['id_oblast'] == $currentOblastId) ? 'selected' : '';
-            echo '<option value="' . $obls['id_oblast'] . '" ' . $selected . '>' . $obls['name'] . '</option>';
+        for ($data = []; $row = mysqli_fetch_assoc($rez); $data[] = $row) ;
+        foreach ($data as $obls) {
+            echo '<option value="' . $obls['id_oblast'] . '">' . $obls['name'] . '</option>';
         }
         echo '  </select>';
     };
@@ -196,7 +179,7 @@ echo '
         }
         $("#infoObAll").DataTable({
         "order": [[0, "asc"]],
-        "pageLength": 10 
+        "pageLength": 20 
         });
          
            
@@ -227,7 +210,7 @@ echo '
     }
     
 let selected_user;
-    function editPodUser(id_user, name, unp, id_oblast, email, login, password) {
+    function editPodUser(id_user, name, unp, email, login, password) {
         selected_user = id_user;
         $("#uz_name").val(name);
         $("#uz_unp").val(unp);
@@ -238,7 +221,6 @@ let selected_user;
         $("#saveUserBtn").hide();
         $("#saveEditedUserBtn").show();
         $("#addUserModal").modal("show");
-        $("#sel_obls").val(id_oblast); // Установка выбранной области
     }
     
     function addUser(id_obl){
@@ -322,7 +304,24 @@ let selected_user;
         }
     }
     
-    
+    function filterZayavka(el){
+
+       if(el.checked){
+           $("#infoObAll tbody tr").filter(function() {
+                return $(this).find("td").eq(5).text().trim() === ""; // Если пусто
+           }).hide(); // Скрываем строки, где "Заявка" пуста
+       }
+       else{
+           $("#infoObAll tbody tr").filter(function() {
+                return $(this).find("td").eq(5).text().trim() === ""; // Если пусто
+           }).show();
+       }
+       if ($("#infoObAll").length) {
+            $("#infoObAll").DataTable().destroy();
+            $("#infoObAll").DataTable();
+        }
+       
+    }
 </script>
 ';
 ?>
