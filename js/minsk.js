@@ -163,7 +163,7 @@ function getFaultsTable(idOborudovanie) {
                     tableContent += '<td>' + (row.remont > 0 ? 'Да' : 'Нет') + '</td>';
                     tableContent += '<td>' + row.date_remont + '</td>';
                     tableContent += '<td>' + row.remontOrg + '</td>';
-                    tableContent += '<td><a href="app/documents/' + idOborudovanie + '/' + row.documentOrg + '" target="_blank">' + row.documentOrg + '</a></td>';
+                    tableContent += '<td><a href="app/documents/' + row.id_fault + '/' + row.documentOrg + '" target="_blank">' + row.documentOrg + '</a></td>';
                     tableContent += '<td><a href="#" onclick="confirmDeleteFault(' + row.id_fault + '); return false;"><i class="fa fa-trash" style="font-size: 20px;"></i></a><a href="#" onclick="editFault(' + row.id_fault + ');"><i class="fa fa-edit" style="font-size: 20px;"></i>️</a></td>';
                     tableContent += '</tr>';
                 });
@@ -515,7 +515,7 @@ function editFault(id_fault) {
             const documentName = data.documentOrg;
             const idOborudovanie = data.id_oborudovanie;
             if (documentName) {
-                documentLink.innerHTML = `<a href="app/documents/${idOborudovanie}/${documentName}" target="_blank">${documentName}</a>`;
+                documentLink.innerHTML = `<a href="app/documents/${id_fault}/${documentName}" target="_blank">${documentName}</a>`;
                 documentLink.style.display = 'block';
             } else {
                 documentLink.innerHTML = '';
