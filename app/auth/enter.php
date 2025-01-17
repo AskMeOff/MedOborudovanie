@@ -8,10 +8,16 @@ if (isset($_POST["login"]) && isset($_POST["password"])) {
     $login = trim(str_replace(array("\r", "\n", ' '), '', $_POST["login"]));
     $password = trim(str_replace(array("\r", "\n", ' '), '', $_POST["password"]));
     $hashPassword = md5($password);
+
     $query = "select * from users where trim(login) = trim('$login') and trim(password) = trim('$hashPassword')";
     $result = $connectionDB->executeQuery($query);
     if ($connectionDB->getNumRows($result) == 1) {
         $row = $connectionDB->getRowResult($result);
+        $active = $row['active'];
+        if ($active == "0"){
+            echo "2";
+            return;
+        }
         $id_user = $row['id_user'];
         $email = $row['email'];
         $password = $row['password'];

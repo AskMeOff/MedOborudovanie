@@ -8,6 +8,8 @@ function login(){
     }).done((response) => {
         if (response == 1){
             location.href = "/index.php"
+        }else if (response === "2"){
+            alert("Аккаунт заблокирован");
         }else{
             alert("Неверный логин или пароль")
         }
