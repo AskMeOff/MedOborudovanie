@@ -238,7 +238,7 @@ let selected_user;
         $("#saveUserBtn").hide();
         $("#saveEditedUserBtn").show();
         $("#addUserModal").modal("show");
-        $("#sel_obls").val(id_oblast); // Установка выбранной области
+        $("#sel_obls").val(id_oblast); 
     }
     
     function addUser(id_obl){
