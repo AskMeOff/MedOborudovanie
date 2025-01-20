@@ -306,6 +306,7 @@ let selected_user;
     
     function filterZayavka(el){
 
+        var table = $("#infoObAll").DataTable();
        if(el.checked){
            $("#infoObAll tbody tr").filter(function() {
                 return $(this).find("td").eq(5).text().trim() === ""; // Если пусто
@@ -316,11 +317,8 @@ let selected_user;
                 return $(this).find("td").eq(5).text().trim() === ""; // Если пусто
            }).show();
        }
-       if ($("#infoObAll").length) {
-            $("#infoObAll").DataTable().destroy();
-            $("#infoObAll").DataTable();
-       }
-       
+      
+       table.page.len(-1).draw();
     }
 </script>
 ';
