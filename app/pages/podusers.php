@@ -319,7 +319,7 @@ let selected_user;
        if ($("#infoObAll").length) {
             $("#infoObAll").DataTable().destroy();
             $("#infoObAll").DataTable();
-        }
+       }
        
     }
 </script>

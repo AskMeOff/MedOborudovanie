@@ -13,9 +13,9 @@ $sql = "SELECT
     COUNT(ob.id_oborudovanie) AS quantity
 FROM 
     oborudovanie ob
-JOIN 
+left JOIN 
     uz ON ob.id_uz = uz.id_uz
-LEFT JOIN 
+right JOIN 
     type_oborudovanie ON ob.id_type_oborudovanie = type_oborudovanie.id_type_oborudovanie
 LEFT JOIN 
     servicemans ON ob.id_serviceman = servicemans.id_serviceman
@@ -79,7 +79,7 @@ FROM
     oborudovanie ob
 JOIN 
     uz ON ob.id_uz = uz.id_uz
-LEFT JOIN 
+right JOIN 
     type_oborudovanie ON ob.id_type_oborudovanie = type_oborudovanie.id_type_oborudovanie
 WHERE 
     ob.status IN (0,1,3)
