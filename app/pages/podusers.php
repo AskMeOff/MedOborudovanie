@@ -99,7 +99,7 @@ if (isset($_COOKIE['token']) && $_COOKIE['token'] !== '') {
             else
                 echo '<td></td>';
             echo '<td><button class="btn btn-danger" onclick="deletePodUser(' . $id_user . ')">&#10060;</button> 
-                      <button class="btn btn-warning" onclick="editPodUser(' . $id_user . ', \'' . $name . '\', \'' . $unp . '\', \'' . $id_oblast . '\', \'' . $email . '\', \'' . $loginOrg . '\', \'' . $password . '\')">Редактировать</button>
+                      <button class="btn btn-warning" onclick="editPodUser(this,' . $id_user . ')">Редактировать</button>
                   </td>';
             if($active == "1")
                 echo '<td><input data-id=' . $id_user . ' checked="true" type="checkbox" onchange=changeActive(this)></td>';
@@ -225,7 +225,14 @@ echo '
     }
     
 let selected_user;
-    function editPodUser(id_user, name, unp, id_oblast, email, login, password) {
+    function editPodUser(el, id_user) {
+        let par = el.parentElement;
+        let par1 = par.parentElement;
+        let name = par1.children[0].innerText;
+        let unp = par1.children[1].innerText;
+        let email = par1.children[2].innerText;
+        let login = par1.children[3].innerText;
+        let password = par1.children[4].innerText;
         selected_user = id_user;
         $("#uz_name").val(name);
         $("#uz_unp").val(unp);
