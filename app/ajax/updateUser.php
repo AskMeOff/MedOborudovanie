@@ -7,6 +7,7 @@ $uz_unp = $_POST['uz_unp'];
 $login_org = $_POST['login_org'];
 $password_org = $_POST['password_org'];
 $email = $_POST['email'];
+$id_obl = $_POST['sel_obl'];
 if (isset($_FILES['zayavka'])) {
     $fileTmpPath = $_FILES['zayavka']['tmp_name'];
     $fileName = $_FILES['zayavka']['name'];
@@ -40,13 +41,13 @@ if (!empty($password_org)) {
         }
     }
 } else {
-    $query = "UPDATE users SET username = '$uz_name', login = '$login_org', email = '$email' WHERE id_user = '$id_user'";
+    $query = "UPDATE users SET username = '$uz_name', login = '$login_org', email = '$email'  WHERE id_user = '$id_user'";
 }
 
 
 if (mysqli_query($connectionDB->con, $query)) {
 
-    $queryUz = "UPDATE uz SET name = '$uz_name', unp = '$uz_unp' WHERE id_uz = (SELECT id_uz FROM users WHERE id_user = '$id_user')";
+    $queryUz = "UPDATE uz SET name = '$uz_name', unp = '$uz_unp', id_oblast = '$id_obl'  WHERE id_uz = (SELECT id_uz FROM users WHERE id_user = '$id_user')";
     mysqli_query($connectionDB->con, $queryUz);
 
     echo '1';
