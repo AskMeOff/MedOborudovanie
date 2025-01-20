@@ -36,7 +36,7 @@ if (isset($_COOKIE['token']) && $_COOKIE['token'] !== '') {
 
         echo '<div class="alert alert-warning">Организаций в вашей области нет.</div>';
         echo '      <div>  <button class="btn btn-info" onclick="modalAddUser()">Добавить организацию</button></div>';
-        echo '<section class="col-lg-9 connectedSortable ui-sortable"  style="display: block;">
+        echo '<section class="col-lg-12 connectedSortable ui-sortable"  style="display: block;">
 
                 <div class="row">
                 </div>
@@ -44,8 +44,8 @@ if (isset($_COOKIE['token']) && $_COOKIE['token'] !== '') {
     } else {
 
         echo '
-<section class="col-lg-9 connectedSortable ui-sortable" id="orgAll" style="display: block;">
-                <div>  <button class="btn btn-info" onclick="modalAddUser()">Добавить организацию</button></div>
+<section class="col-lg-12 connectedSortable ui-sortable" id="orgAll" style="display: block;">
+                <div style="display: flex;">  <button class="btn btn-info" onclick="modalAddUser()">Добавить организацию</button> <lable style="margin-left: 50px; font-size: 20px">С заявкой: </lable><div style=""><input class="form-check-input" style="margin-left: 5px; vertical-align: -webkit-baseline-middle;" type="checkbox" onchange="filterZayavka(this)"></div></div>
                 <div class="row">
 
                     <div class="table-responsive">
@@ -194,7 +194,7 @@ echo '
         }
         $("#infoObAll").DataTable({
         "order": [[0, "asc"]],
-        "pageLength": 10 
+        "pageLength": 20 
         });
          
            
@@ -325,12 +325,12 @@ let selected_user;
         var table = $("#infoObAll").DataTable();
        if(el.checked){
            $("#infoObAll tbody tr").filter(function() {
-                return $(this).find("td").eq(5).text().trim() === ""; // Если пусто
+                return $(this).find("td").eq(6).text().trim() === ""; // Если пусто
            }).hide(); // Скрываем строки, где "Заявка" пуста
        }
        else{
            $("#infoObAll tbody tr").filter(function() {
-                return $(this).find("td").eq(5).text().trim() === ""; // Если пусто
+                return $(this).find("td").eq(6).text().trim() === ""; // Если пусто
            }).show();
        }
       
