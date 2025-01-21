@@ -90,7 +90,7 @@ if (isset($_COOKIE['token']) && $_COOKIE['token'] !== '') {
             echo '<tr data-id=' . $id_user . '  >';
             echo '<td>' . $name . '</td>';
             echo '<td>' . $unp . '</td>';
-            echo '<td>' . (isset($oblast_names[$id_oblast]) ? $oblast_names[$id_oblast] : 'Неизвестная область') . '</td>'; // Заменяем ID на название области
+            echo '<td data-id="'. $id_oblast .'">' . (isset($oblast_names[$id_oblast]) ? $oblast_names[$id_oblast] : 'Неизвестная область') . '</td>'; // Заменяем ID на название области
             echo '<td>' . $email . '</td>';
             echo '<td>' . $loginOrg . '</td>';
             echo '<td style="cursor: pointer" id="td-change-pass"  data-pass="' . $password . '">' . $password . '</td>';
@@ -230,9 +230,10 @@ let selected_user;
         let par1 = par.parentElement;
         let name = par1.children[0].innerText;
         let unp = par1.children[1].innerText;
-        let email = par1.children[2].innerText;
-        let login = par1.children[3].innerText;
-        let password = par1.children[4].innerText;
+        let email = par1.children[3].innerText;
+        let login = par1.children[4].innerText;
+        let password = par1.children[5].innerText;
+        let id_oblast = par1.children[2].getAttribute("data-id");
         selected_user = id_user;
         $("#uz_name").val(name);
         $("#uz_unp").val(unp);
