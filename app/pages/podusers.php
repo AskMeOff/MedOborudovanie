@@ -20,7 +20,10 @@ if (isset($_COOKIE['token']) && $_COOKIE['token'] !== '') {
         $id_role = $userData['id_role'];
         $idoblguzo = $userData['id_obl'];
     }
-
+    $query_count = "SELECT count(*) as count_z from users
+                WHERE zayavka is not null";
+    $result_count = $connectionDB->executeQuery($query_count);
+    $row_count = mysqli_fetch_assoc($result_count);
     if ($id_role == 1) {
         $query = "SELECT id_user, email, uz.name, uz.unp, uz.id_oblast, login, password, zayavka, `active` FROM users
                 LEFT JOIN uz ON uz.id_uz = users.id_uz
@@ -45,7 +48,8 @@ if (isset($_COOKIE['token']) && $_COOKIE['token'] !== '') {
 
         echo '
 <section class="col-lg-12 connectedSortable ui-sortable" id="orgAll" style="display: block;">
-                <div style="display: flex;">  <button class="btn btn-info" onclick="modalAddUser()">Добавить организацию</button> <lable style="margin-left: 50px; font-size: 20px">С заявкой: </lable><div style=""><input class="form-check-input" style="margin-left: 5px; vertical-align: -webkit-baseline-middle;" type="checkbox" onchange="filterZayavka(this)"></div></div>
+                <div style="display: flex;">  <button class="btn btn-info" onclick="modalAddUser()">Добавить организацию</button> <lable style="margin-left: 50px; font-size: 20px">С заявкой: </lable><div style=""><input class="form-check-input" style="margin-left: 5px; vertical-align: -webkit-baseline-middle;" type="checkbox" onchange="filterZayavka(this)">
+                 <b style="    vertical-align: -webkit-baseline-middle; margin-left: 15px; font-size: 20px;">'.$row_count['count_z'].'</b></div></div>
                 <div class="row">
 
                     <div class="table-responsive">
@@ -329,20 +333,37 @@ let selected_user;
     }
     
     function filterZayavka(el){
+var table = $("#infoObAll").DataTable();
 
-        var table = $("#infoObAll").DataTable();
-       if(el.checked){
-           $("#infoObAll tbody tr").filter(function() {
-                return $(this).find("td").eq(6).text().trim() === ""; // Если пусто
-           }).hide(); // Скрываем строки, где "Заявка" пуста
-       }
-       else{
-           $("#infoObAll tbody tr").filter(function() {
-                return $(this).find("td").eq(6).text().trim() === ""; // Если пусто
-           }).show();
-       }
-      
-       table.page.len(-1).draw();
+    // Сохраняем состояние фильтра
+    var filterEmpty = el.checked;
+
+    if (filterEmpty) {
+        // Устанавливаем количество строк на странице на "все"
+        table.page.len(-1).draw();
+
+        // Скрываем строки, где "Заявка" пуста
+        table.rows().every(function() {
+            var rowData = this.data();
+            var isEmpty = rowData[6].trim() === ""; // Проверяем, пустая ли ячейка
+
+            if (isEmpty) {
+                $(this.node()).hide(); // Скрываем строки, где "Заявка" пуста
+            }
+        });
+    } else {
+        // Возвращаем количество строк на странице к стандартному значению (например, 10)
+        table.page.len(10).draw(); // Установите нужное количество строк на странице
+
+        // Показываем все строки
+        table.rows().every(function() {
+            $(this.node()).show(); // Показываем все строки
+        });
+    }
+
+    // Обновляем отображение таблицы
+    table.draw();
+
     }
 </script>
 ';
