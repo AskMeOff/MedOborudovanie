@@ -248,12 +248,12 @@ let selected_user;
     function editPodUser(el, id_user) {
         let par = el.parentElement;
         let par1 = par.parentElement;
-        let name = par1.children[0].innerText;
-        let unp = par1.children[1].innerText;
-        let email = par1.children[3].innerText;
-        let login = par1.children[4].innerText;
-        let password = par1.children[5].innerText;
-        let id_oblast = par1.children[2].getAttribute("data-id");
+        let name = par1.children[1].innerText;
+        let unp = par1.children[2].innerText;
+        let email = par1.children[4].innerText;
+        let login = par1.children[5].innerText;
+        let password = par1.children[6].innerText;
+        let id_oblast = par1.children[3].getAttribute("data-id");
         selected_user = id_user;
         $("#uz_name").val(name);
         $("#uz_unp").val(unp);
