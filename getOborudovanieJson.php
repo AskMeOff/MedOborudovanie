@@ -23,7 +23,32 @@ if (curl_errno($ch)) {
 curl_close($ch);
 
 // Декодирование JSON-ответа
-//$data = json_decode($response, true);
+$data = json_decode($response, true);
+
+$deleteSql = "DELETE FROM reestr";
+$connectionDB->con->exec($deleteSql);
+
+// Подготовка SQL-запроса
+$sql = "INSERT INTO reestr (Наименование, Производитель, Рег_номер_товара, Рег_номер_РУ, Тип, N_п_п) VALUES (?, ?, ?, ?, ?, ?)";
+$stmt = $connectionDB->con->prepare($sql);
+
+// Вставка данных в таблицу
+foreach ($data as $item) {
+    // Проверка наличия всех необходимых ключей
+    if (isset($item['Наименование'], $item['Производитель'], $item['Рег_номер_товара'], $item['Рег_номер_РУ'], $item['Тип'], $item['N_п_п'])) {
+        $stmt->execute([
+            $item['Наименование'],
+            $item['Производитель'],
+            $item['Рег_номер_товара'],
+            $item['Рег_номер_РУ'],
+            $item['Тип'],
+            $item['N_п_п']
+        ]);
+    } else {
+        // Логирование или обработка случая, когда ключи отсутствуют
+        error_log("Отсутствуют необходимые данные для элемента: " . json_encode($item));
+    }
+}
 
 
 //header("Content-Type: application/json");

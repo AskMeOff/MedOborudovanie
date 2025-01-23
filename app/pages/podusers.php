@@ -49,7 +49,21 @@ if (isset($_COOKIE['token']) && $_COOKIE['token'] !== '') {
         echo '
 <section class="col-lg-12 connectedSortable ui-sortable" id="orgAll" style="display: block;">
                 <div style="display: flex;">  <button class="btn btn-info" onclick="modalAddUser()">Добавить организацию</button> <lable style="margin-left: 50px; font-size: 20px">С заявкой: </lable><div style=""><input class="form-check-input" style="margin-left: 5px; vertical-align: -webkit-baseline-middle;" type="checkbox" onchange="filterZayavka(this)">
-                 <b style="    vertical-align: -webkit-baseline-middle; margin-left: 15px; font-size: 20px;">'.$row_count['count_z'].'</b></div></div>
+                 <b style="    vertical-align: -webkit-baseline-middle; margin-left: 15px; font-size: 20px;">'.$row_count['count_z'].'</b></div>
+                 <lable style="margin-left: 50px; font-size: 20px">Новые: </lable><div style=""><input class="form-check-input" style="margin-left: 5px; vertical-align: -webkit-baseline-middle;" id="chkbNew" type="checkbox" onchange="filterNew(this)"></div>
+                 <lable style="margin-left: 50px; font-size: 20px">Область: </lable><div style=""><select class="form-select" style="margin-left: 5px; vertical-align: -webkit-baseline-middle;" id="selectOblast" onchange="filterOblast(this)">
+                 <option value="0">Выберите область</option>
+                 <option value="1">Брестская</option>
+                 <option value="2">Витебская</option>
+                 <option value="3">Гомельская</option>
+                 <option value="4">Гродненская</option>
+                 <option value="5">Минская</option>
+                 <option value="6">Могилевская</option>
+                 <option value="7">Минск</option>
+                 <option value="8">РНПЦ</option>
+</select></div>
+                 
+                 </div>
                 <div class="row">
 
                     <div class="table-responsive">
@@ -57,6 +71,7 @@ if (isset($_COOKIE['token']) && $_COOKIE['token'] !== '') {
                                <!--style="display: block"-->
                             <thead>
                             <tr>
+                                <th>№</th>
                                 <th>Наименование организации</th>
                                 <th>УНП организации</th>
                                 <th>Область</th>
@@ -92,6 +107,7 @@ if (isset($_COOKIE['token']) && $_COOKIE['token'] !== '') {
             $zayavka = $row['zayavka'];
             $active = $row['active'];
             echo '<tr data-id=' . $id_user . '  >';
+            echo '<td>' . $id_user . '</td>';
             echo '<td>' . $name . '</td>';
             echo '<td>' . $unp . '</td>';
             echo '<td data-id="'. $id_oblast .'">' . (isset($oblast_names[$id_oblast]) ? $oblast_names[$id_oblast] : 'Неизвестная область') . '</td>'; // Заменяем ID на название области
@@ -345,7 +361,7 @@ var table = $("#infoObAll").DataTable();
         // Скрываем строки, где "Заявка" пуста
         table.rows().every(function() {
             var rowData = this.data();
-            var isEmpty = rowData[6].trim() === ""; // Проверяем, пустая ли ячейка
+            var isEmpty = rowData[7].trim() === ""; // Проверяем, пустая ли ячейка
 
             if (isEmpty) {
                 $(this.node()).hide(); // Скрываем строки, где "Заявка" пуста
@@ -364,6 +380,90 @@ var table = $("#infoObAll").DataTable();
     // Обновляем отображение таблицы
     table.draw();
 
+    }
+    
+     function filterNew(el){
+        $("#infoObAll").DataTable().destroy();
+        
+        let selectOblast = document.getElementById("selectOblast");
+        
+        selectOblast.selectedIndex = 0;
+var table = $("#infoObAll").DataTable();
+table.page.len(10).draw();
+    // Сохраняем состояние фильтра
+    var filterEmpty = el.checked;
+
+    if (filterEmpty) {
+        // Устанавливаем количество строк на странице на "все"
+        table.page.len(-1).draw();
+
+        // Скрываем строки, где "Заявка" пуста
+        table.rows().every(function() {
+            var tr = this.node();
+            var dataId = $(tr).data("id"); // Проверяем, пустая ли ячейка
+
+            if (dataId < 550 ) {
+                $(tr).hide(); // Скрываем строки, где "Заявка" пуста
+            }
+            if (dataId === 570 ) {
+                $(tr).hide(); // Скрываем строки, где "Заявка" пуста
+            }
+        });
+    } else {
+        // Возвращаем количество строк на странице к стандартному значению (например, 10)
+        table.page.len(10).draw(); // Установите нужное количество строк на странице
+
+        // Показываем все строки
+        table.rows().every(function() {
+            $(this.node()).show(); // Показываем все строки
+        });
+    }
+
+    // Обновляем отображение таблицы
+    table.draw();
+
+    }
+    
+    function filterOblast(el){
+var table = $("#infoObAll").DataTable();
+    let selectedObl = el.options[el.selectedIndex].innerText;
+
+    if (el.selectedIndex > 0) {
+        // Устанавливаем количество строк на странице на "все"
+        table.page.len(-1).draw();
+
+        // Скрываем строки, где "Область" не соответствует выбранному значению и "Заявка" пуста
+        table.rows().every(function() {
+              var tr = this.node();
+            var dataId = $(tr).data("id");
+            var rowData = this.data();
+            var oblastMatches = rowData[3].trim() === selectedObl; // Проверяем, соответствует ли область
+            var isEmpty = rowData[7].trim() === ""; // Проверяем, пуста ли "Заявка"
+
+            if (oblastMatches) {
+                if(!isEmpty)
+                    if(dataId > 549 && dataId !== 570)
+                        $(this.node()).show(); // Скрываем строки, где "Область" не соответствует и "Заявка" пуста
+                        else 
+                            $(this.node()).hide();                 
+                else 
+                    $(this.node()).hide();
+            } else {
+                $(this.node()).hide(); // Показываем строки, которые соответствуют условию
+            }
+        });
+    } else {
+        // Возвращаем количество строк на странице к стандартному значению (например, 10)
+        table.page.len(10).draw();
+
+        // Показываем все строки
+        table.rows().every(function() {
+            $(this.node()).show(); // Показываем все строки
+        });
+    }
+
+    // Обновляем отображение таблицы
+    table.draw();
     }
 </script>
 ';
