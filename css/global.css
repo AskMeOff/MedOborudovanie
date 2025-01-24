@@ -12,7 +12,16 @@ body {
     height: 100vh; /* Занимает 100% высоты экрана */
     width: 100vw;
 }
+.jquery-accordion-menu a {
+    display: block; /* Чтобы ссылка занимала всю ширину */
+    padding: 10px; /* Отступы для удобства */
+    color: #333; /* Цвет текста */
+    text-decoration: none; /* Убираем подчеркивание */
+}
 
+.jquery-accordion-menu a:hover {
+    background-color: #f0f0f0; /* Цвет фона при наведении */
+}
 /* Стили для мобильных устройств (ширина меньше 600px) */
 @media (max-width: 600px) {
     body {
