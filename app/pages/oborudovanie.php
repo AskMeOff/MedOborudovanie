@@ -209,7 +209,7 @@ echo "ono = " . $id_type;
 
                     <div style="-webkit-overflow-scrolling: touch;">
                         <table class="table table-striped table-responsive-sm dataTable no-footer" id="infoOb' . $id_uz . '"
-                               style="display: block; height:62vh;">
+                               style="display: block; width: 81vw; height:62vh;">
                             <thead>
                             <tr>
                                 <th>!!!</th>
