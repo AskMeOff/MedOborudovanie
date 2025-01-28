@@ -19,7 +19,8 @@ $sql = "SELECT
        uz.name as uzname,
        type_oborudovanie.name as typename,
               ob.date_create as dcr,
-       ob.date_insert_ob as dto
+       ob.date_insert_ob as dto,
+       ob.date_update_ob as dtoob
 
 FROM 
     oborudovanie ob
@@ -64,9 +65,10 @@ $output = ' <table class="table table-striped table-responsive-sm dataTable no-f
                         <tr>
                             <th>Организация</th>
                             <th>Вид оборудования</th>
+                            <th>Модель</th>
                             <th>Год производства</th>
                             <th>Дата создания записи</th>
-
+                            <th>Дата изменения записи</th>
                         </tr>
                         </thead>
                         <tbody>';
@@ -77,8 +79,10 @@ if ($result->num_rows > 0) {
         $output .= "<tr>";
         $output .= "<td>" . $row['uzname'] . "</td>";
         $output .= "<td>" . $row['typename'] . "</td>";
+        $output .= "<td>" . $row['model'] . "</td>";
         $output .= "<td>" . $row['dcr'] . "</td>";
         $output .= "<td>" . $row['dto'] . "</td>";
+        $output .= "<td>" . $row['dtoob'] . "</td>";
         $output .= "</tr>";
     }
 }

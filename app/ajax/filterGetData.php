@@ -117,6 +117,7 @@ while ($row = mysqli_fetch_assoc($result)) {
     $output .= '<td><a href="#" onclick="editOborudovanie(' . $idOborudovanie . ')"><i class="fa fa-edit" style="font-size: 20px;"></i>️</a>';
     $output .= '<a href="#" onclick="confirmDeleteOborudovanie(' . $idOborudovanie . ')"><i class="fa fa-trash" style="font-size: 20px;"></i></a>
 
+  
  </td>';
     $output .= '</tr>';
 }

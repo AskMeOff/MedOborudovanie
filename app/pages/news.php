@@ -91,7 +91,7 @@
         <div class="row" id="main_row">
 <div class="news-container">
     <?php
-    $query = "SELECT id_news, title, content FROM news";
+    $query = "SELECT id_news, title, content FROM news order by id_news desc";
     $result = $connectionDB->executeQuery($query);
 
     if ($connectionDB->getNumRows($result) > 0) {

@@ -382,7 +382,7 @@ if (isset($_COOKIE['token']) && $_COOKIE['token'] !== '') {
             echo '<td>
            <a href="#" onclick="confirmDeleteOborudovanie(' . $idOborudovanie . ')"><i class="fa fa-trash" style="font-size: 20px;"></i></a>
            <a href="#" onclick="editOborudovanie(' . $idOborudovanie . ')"><i class="fa fa-edit" style="font-size: 20px;"></i>️</a>
-           <a href="#" onclick="duplicateOborudovanie(' . $idOborudovanie . ')"><i class="fa fa-copy" style="font-size: 20px;"></i></a>
+         
          </td>';
             echo '</tr>';
         }

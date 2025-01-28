@@ -173,6 +173,7 @@ $(document).ready(async function() {
         }).then(response => {
 
             JsonReestr = JSON.parse(response);
+            console.log (JsonReestr);
         })
         resolve()
     }).then(() => {
