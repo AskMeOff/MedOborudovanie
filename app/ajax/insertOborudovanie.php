@@ -15,8 +15,8 @@ $service_organization = isset($_POST['service_organization']) && $_POST['service
 $date_last_TO = isset($_POST['date_last_TO']) && $_POST['date_last_TO'] !== "" ? "'" . $connectionDB->escapeString($_POST['date_last_TO']) . "'" : "NULL";
 $status = (int)$_POST['status'];
 $id_org = $_POST['id_org'];
-$sql = "INSERT INTO oborudovanie (id_type_oborudovanie, date_create, date_postavki, date_release, model,serial_number, zavod_nomer, id_serviceman, date_last_TO, status, id_uz, id_from_reestr)
-        VALUES ('$id_type_oborudovanie', $date_create, $date_postavki, $date_release, $model_prozvoditel,$serial_number, $zavod_nomer, $service_organization, $date_last_TO, '$status', '$id_org', $id_from_reestr)";
+$sql = "INSERT INTO oborudovanie (id_type_oborudovanie, date_create, date_postavki, date_release, model,serial_number, zavod_nomer, id_serviceman, date_last_TO, status, id_uz, id_from_reestr, date_insert_ob)
+        VALUES ('$id_type_oborudovanie', $date_create, $date_postavki, $date_release, $model_prozvoditel,$serial_number, $zavod_nomer, $service_organization, $date_last_TO, '$status', '$id_org', $id_from_reestr, NOW())";
 
 try {
     $result = $connectionDB->executeQuery($sql);

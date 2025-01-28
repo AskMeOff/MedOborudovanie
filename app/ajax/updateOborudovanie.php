@@ -28,7 +28,8 @@ $sql = "UPDATE oborudovanie SET
             id_serviceman = $service_organization, 
             date_last_TO = $date_last_TO, 
             status = $status,
-            id_from_reestr = $id_from_reestr
+            id_from_reestr = $id_from_reestr,
+            date_update_ob = NOW()
         WHERE id_oborudovanie = '$id_oborudovanie'";
 
 try {

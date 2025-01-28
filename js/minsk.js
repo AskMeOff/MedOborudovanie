@@ -250,8 +250,7 @@ function refreshMainTable() {
                             '<i class="fa fa-trash" style="font-size: 20px;"></i></a>' +
                             '<a href="#" onclick="editOborudovanie(' + row.id_oborudovanie + ')">' +
                             '<i class="fa fa-edit" style="font-size: 20px;"></i>️</a>' +
-                            '<a href="#" onclick="duplicateOborudovanie(' + row.id_oborudovanie + ')">' +
-                            '<i class="fa fa-copy" style="font-size: 20px;"></i></a>' +
+
                             '</td>';
                         tableContent += '</tr>';
                     });
