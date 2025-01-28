@@ -3,6 +3,9 @@ if(isset($_GET['oborud']))
     $id_type = $_GET['oborud'];
 echo "ono = " . $id_type;
 ?>
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
 <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet"/>
 <style>
     .card1 {
@@ -106,13 +109,36 @@ echo "ono = " . $id_type;
     }
 
 </style>
-
+<script>
+    $(document).ready(function() {
+        $('#infoOb<?php echo $id_uz; ?>').DataTable({
+            "paging": true,
+            "searching": true,
+            "lengthChange": true,
+            "pageLength": 1000,
+            "language": {
+                "lengthMenu": "Показать _MENU_ записей",
+                "zeroRecords": "Записи не найдены",
+                "info": "Показано с _START_ по _END_ из _TOTAL_ записей",
+                "infoEmpty": "Нет записей",
+                "infoFiltered": "(отфильтровано из _MAX_ записей)",
+                "search": "Поиск:",
+                "paginate": {
+                    "first": "Первый",
+                    "last": "Последний",
+                    "next": "Следующий",
+                    "previous": "Предыдущий"
+                }
+            }
+        });
+    });
+</script>
 <section class="col-lg-12 connectedSortable ui-sortable" style="margin-top: 90px">
 
     <?php
 
     if (isset($id_role )) {
-        if ($id_role == 1 || $id_role == 2) {
+        if ($id_role == 1 || $id_role == 2 || $id_role == 3) {
             echo "<div class='row'>";
             echo "<div class='card card1' onclick='getUzs(111)'>";
             echo "<h2>Республика Беларусь</h2>";
