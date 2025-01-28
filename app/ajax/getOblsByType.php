@@ -393,7 +393,36 @@ echo '<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/selec
     </div>
 </div>';
 
-echo '
-';
+echo "
+<script>
+btnAddOborudovanie = document.getElementById('btnAddOborudovanie');
+if(btnAddOborudovanie){
+    btnAddOborudovanie.onclick = (event) => {
+        $('#editBtnOb').hide();
+        $('#addBtnOb').show();
+        $('#yearError').hide();
+        $('#editOborudovanieModal').modal('show');
+        $('#editOborudovanieModal .modal-title').text('Добавление оборудования');
+        let select_type_oborudovanie = document.getElementById('select_type_oborudovanie');
+        select_type_oborudovanie.options[0].selected = true;
+        // document.getElementById('edit_cost').value = '';
+        document.getElementById('edit_date_create').value = '';
+        document.getElementById('edit_date_release').value = '';
+        // document.getElementById('edit_model_prozvoditel').value = '';
+        document.getElementById('filterSerialNumber').value = '';
+        document.getElementById('zavod_nomer').value = '';
+        document.getElementById('edit_date_postavki').value = '';
+        document.getElementById('edit_date_postavki').value = '';
+        document.getElementById('filterServicemans').value = '';
+        // document.getElementById('select_serviceman').value = '';
+        document.getElementById('edit_date_last_TO').value = '';
+
+
+        let select_status = document.getElementById('select_status');
+        select_status.options[0].selected = true;
+    }
+}
+</script>  
+";
 
     ?>

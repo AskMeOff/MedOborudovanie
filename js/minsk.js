@@ -407,6 +407,29 @@ function confirmDeleteOborudovanie(idOborudovanie) {
     }
 }
 
+function confirmDeleteOborudovanie1(idOborudovanie) {
+    event.stopPropagation();
+    if (confirm('Вы точно хотите удалить эту запись?')) {
+        $.ajax({
+            url: '/app/ajax/deleteOborudovanie.php',
+            type: 'POST',
+            data: {id_oborudovanie: idOborudovanie},
+            success: function (response) {
+                if (response === "Запись успешно удалена.") {
+                    $('#deleteModal').modal('show');
+                    $('#deleteModal').on('hidden.bs.modal', function (e) {
+                        $('#deleteModal').modal('hide');
+                        location.reload();
+                    });
+                } else {
+                    location.reload();
+                }
+
+            }
+        });
+    }
+}
+
 
 function addFualt() {
     // e.preventDefault();
@@ -669,16 +692,18 @@ function editOborudovanie(idOborudovanie) {
     event.stopPropagation();
     document.getElementById('filterSerialNumber').removeAttribute("data-id");
     editedOborudovanie = idOborudovanie;
+    $("#preloader").show();
     $.ajax({
         url: '/app/ajax/getSingleOborudovanie.php',
         type: 'GET',
         data: {id_oborudovanie: idOborudovanie},
         dataType: 'json',
-        success: function (data) {
+    }).then( function (data) {
+
             $('#editBtnOb').show();
             $('#addBtnOb').hide();
             $('#yearError').hide();
-            $('#editOborudovanieModal').modal('show');
+
             $('#editOborudovanieModal .modal-title').text("Изменение оборудования");
             let select_type_oborudovanie = document.getElementById("select_type_oborudovanie");
             select_type_oborudovanie.options.forEach(option => {
@@ -706,7 +731,7 @@ function editOborudovanie(idOborudovanie) {
             document.getElementById('filterSerialNumber').value = data.serial_number;
             document.getElementById('filterSerialNumber').setAttribute('data-id', data.id_from_reestr);
 
-            selectedItemFromReestr = JsonReestr.find((item) => item['N_п_п'] == data.id_from_reestr)
+
             document.getElementById('zavod_nomer').value = data.zavod_nomer;
             if (data.service_organization == 0) {
                 document.getElementById('filterServicemans').value = "";
@@ -736,7 +761,15 @@ function editOborudovanie(idOborudovanie) {
                     option.selected = true;
                 }
             });
-        }
+        const waitForJsonReestr = setInterval(() => {
+            if (typeof JsonReestr !== 'undefined' && JsonReestr !== null) {
+                clearInterval(waitForJsonReestr);
+                selectedItemFromReestr = JsonReestr.find((item) => item['N_п_п'] == data.id_from_reestr);
+
+                $('#editOborudovanieModal').modal('show');
+            }
+        }, 100);
+        $("#preloader").hide();
     });
 }
 

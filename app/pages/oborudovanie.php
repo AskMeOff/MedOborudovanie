@@ -227,7 +227,7 @@
             $sql1 = "SELECT oborudovanie.*, type_oborudovanie.name, s.name as servname FROM oborudovanie
                                         left outer join type_oborudovanie on oborudovanie.id_type_oborudovanie = type_oborudovanie.id_type_oborudovanie
                                         left outer join servicemans s on s.id_serviceman = oborudovanie.id_serviceman
-                                        where id_uz = $id_uz and status in (0,1,3)";
+                                        where id_uz = $id_uz and status in (0,1,3) order by oborudovanie.id_oborudovanie desc";
             $result1 = $connectionDB->executeQuery($sql1);
             while ($row1 = mysqli_fetch_assoc($result1)) {
                 $nameOborudov = $row1['name'];
@@ -269,7 +269,7 @@
                     echo '<td  onclick="getFaultsTable(' . $idOborudovanie . ')" style="cursor: pointer"><div style = "border-radius: 5px;background-color: red;color: white; padding: 5px; font-size: 11px; width: 85px;">' . $status . '</div></td>';
                 }
                 echo '<td>
-           <a href="#" onclick="confirmDeleteOborudovanie(' . $idOborudovanie . ')"><i class="fa fa-trash" style="font-size: 20px;"></i></a>
+           <a href="#" onclick="confirmDeleteOborudovanie1(' . $idOborudovanie . ')"><i class="fa fa-trash" style="font-size: 20px;"></i></a>
            <a href="#" onclick="editOborudovanie(' . $idOborudovanie . ')"><i class="fa fa-edit" style="font-size: 20px;"></i>️</a>
          </td>';
                 echo '</tr>';
