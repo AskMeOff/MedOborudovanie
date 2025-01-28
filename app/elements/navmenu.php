@@ -26,7 +26,7 @@ function buildEquipmentTree($equipmentList, $parentId = null) {
                 $html .= '<a href="#" class="menu-item" onclick="toggleSubmenu(event); return false;">' . $equipment["name"] . '</a>';
             } else {
                 // Для всех остальных элементов добавляем обработчик
-                $html .= '<a href="#" onclick="checkHash(' . $equipment["id_type_oborudovanie"] . ', event)">' . $equipment["name"] . '</a>';
+                $html .= '<a href="index.php?oborud='.$equipment["id_type_oborudovanie"].'" onclick="checkHash(' . $equipment["id_type_oborudovanie"] . ', event)">' . $equipment["name"] . '</a>';
             }
             // Рекурсивный вызов для дочерних элементов
             $html .= buildEquipmentTree($equipmentList, $equipment['id_type_oborudovanie']);

@@ -1,5 +1,7 @@
 <?php
-
+if(isset($_GET['oborud']))
+    $id_type = $_GET['oborud'];
+echo "ono = " . $id_type;
 ?>
 <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet"/>
 <style>
@@ -220,11 +222,18 @@
                                 <th>Сервисная организация</th>
                                 <th>Дата последнего ТО</th>
                                 <th>Статус </th>
-                                <th>Действия </th>
+                                <th>Действия  </th>
                             </tr>
                             </thead>
                             <tbody>';
+
+            if($id_type !== "")
             $sql1 = "SELECT oborudovanie.*, type_oborudovanie.name, s.name as servname FROM oborudovanie
+                                        left outer join type_oborudovanie on oborudovanie.id_type_oborudovanie = type_oborudovanie.id_type_oborudovanie
+                                        left outer join servicemans s on s.id_serviceman = oborudovanie.id_serviceman
+                                        where id_uz = $id_uz and status in (0,1,3) and oborudovanie.id_type_oborudovanie = '$id_type' order by oborudovanie.id_oborudovanie desc";
+            else
+                $sql1 = "SELECT oborudovanie.*, type_oborudovanie.name, s.name as servname FROM oborudovanie
                                         left outer join type_oborudovanie on oborudovanie.id_type_oborudovanie = type_oborudovanie.id_type_oborudovanie
                                         left outer join servicemans s on s.id_serviceman = oborudovanie.id_serviceman
                                         where id_uz = $id_uz and status in (0,1,3) order by oborudovanie.id_oborudovanie desc";
@@ -387,8 +396,334 @@
             <div class="loader"></div>
     </div>
 </section>
+<?php
+echo '
+<div class="modal" id="faultsModal">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalLabel">Таблица неисправностей</h5>
+                <button type="button" class="btn  btn-danger btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
 
-<script>
+            </div>
+
+            <div class="modal-footer justify-content-between">
+                <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#addFaultModal">
+                    Добавить
+                </button>
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Закрыть</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 
-</script>
+<div class="modal" id="effectModal">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalLabel">Таблица эффективности использования оборудования</h5>
+                <button type="button" class="btn  btn-danger btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+
+            </div>
+
+            <div class="modal-footer justify-content-between">
+                <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#addEffectModal">
+                    Добавить
+                </button>
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Закрыть</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal" id="deleteModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalLabel">Успех</h5>
+                <button type="button" class="btn  btn-danger btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <div>Запись успешно удалена</div>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Закрыть</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal" id="saveModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalLabel">Успех</h5>
+                <button type="button" class="btn  btn-danger btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <div>Запись успешно обновлена</div>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Закрыть</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal" id="addModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalLabel">Успех</h5>
+                <button type="button" class="btn  btn-danger btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <div>Запись успешно добавлена</div>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Закрыть</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal" id="addFaultModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Добавление неисправности</h5>
+                <button type="button" class="btn btn-danger btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+
+                <div >
+                    <label for="date_fault">Дата обнаружения неисправности:</label>
+                    <input type="date" id="date_fault" name="date_fault">
+
+                    <label for="date_call_service">Дата вызова сервиса:</label>
+                    <input type="date" id="date_call_service" name="date_call_service">
+
+                    <label for="reason_fault">Причина неисправности:</label>
+                    <input type="text" id="reason_fault" name="reason_fault">
+
+                    <label for="date_procedure_purchase">Дата процедуры закупки:</label>
+                    <input type="date" id="date_procedure_purchase" name="date_procedure_purchase">
+                    
+                    <!---->
+                    <label for="date_dogovora">Дата заключения договора:</label>
+                    <input type="date" id="date_dogovora" name="date_dogovora">
+                    <!---->
+
+                    <label for="cost_repair">Стоимость ремонта:</label>
+                    <input type="number" id="cost_repair" name="cost_repair">
+
+                    <label for="time_repair">Срок ремонта/поставки запасных частей:</label>
+                    <input type="date" id="time_repair" name="time_repair">
+                    
+                    <label for="add_remontOrg">Организация осуществляющая ремонт:</label>
+                    <input type="text" id="add_remontOrg" name="add_remontOrg">
+
+                    <label for="document"> Прикрепить документ: </label>
+                    <input type="file" id="document_neispravnost" name="document" accept=".pdf,.doc,.docx,.jpg,.png">
+               <!--     <label for="downtime">Продолжительность простоя:</label>
+                    <input type="text" id="downtime" name="downtime">-->
+                    <div id="btnsGroup" style="margin-top: 10px;">
+                        <button type="button" class="btn btn-info" onclick="addFualt()">Добавить запись</button>
+                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Закрыть</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>';
+
+echo'
+<div class="modal" id="addEffectModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Добавление эффективности</h5>
+                <button type="button" class="btn btn-danger btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+
+                <div id="addEffectForm">
+                    <label for="count_research">Количество проведенных исследований:</label>
+                    <input type="number" id="count_research" name="count_research">
+
+                    <label for="count_patient">Количество обследованных пациентов:</label>
+                    <input type="number" id="count_patient" name="count_patient">
+                    
+                    <label for="data_year_efficiency">Год:</label>
+<select id="data_year_efficiency" name="data_year_efficiency" class="styled-select">
+    <option value="" selected disabled>Выберите год</option>
+    <option value="2025">2025</option>
+    <option value="2024">2024</option>
+    <option value="2023">2023</option>
+
+
+</select>
+                    
+<label for="data_month_efficiency">Месяц:</label>
+<select id="data_month_efficiency" name="data_month_efficiency" class="styled-select">
+    <option value="" selected disabled>Выберите месяц</option>
+    <option value="Январь">Январь</option>
+    <option value="Февраль">Февраль</option>
+    <option value="Март">Март</option>
+    <option value="Апрель">Апрель</option>
+    <option value="Май">Май</option>
+    <option value="Июнь">Июнь</option>
+    <option value="Июль">Июль</option>
+    <option value="Август">Август</option>
+    <option value="Сентябрь">Сентябрь</option>
+    <option value="Октябрь">Октябрь</option>
+    <option value="Ноябрь">Ноябрь</option>
+    <option value="Декабрь">Декабрь</option>
+</select>
+        <input type="hidden" id="edit_id_use_efficiency" name="id_use_efficiency">
+                    
+
+                    <div id="btnsGroupEffect" style="margin-top: 10px;">
+                        <button type="button" onclick = "addEffectR()" class="btn btn-info">Добавить запись</button>
+                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Закрыть</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal" id="editFaultModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Редактирование неисправности</h5>
+                <button type="button" class="btn btn-danger btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+
+                <div>
+                    <label for="date_fault">Дата обнаружения неисправности:</label>
+                    <input type="date" id="edit_date_fault" name="date_fault">
+
+                    <label for="date_call_service">Дата вызова сервиса:</label>
+                    <input type="date" id="edit_date_call_service" name="date_call_service">
+
+                    <label for="reason_fault">Причина неисправности:</label>
+                    <input type="text" id="edit_reason_fault" name="reason_fault">
+
+                    <label for="date_procedure_purchase">Дата процедуры закупки:</label>
+                    <input type="date" id="edit_date_procedure_purchase" name="date_procedure_purchase">
+                    
+                    <!---->
+                    <label for="date_dogovora">Дата заключения договора:</label>
+                    <input type="date" id="edit_date_dogovora" name="date_dogovora">
+                    <!---->
+
+                    <label for="cost_repair">Стоимость ремонта:</label>
+                    <input type="number" id="edit_cost_repair" name="cost_repair">
+
+                    <label for="time_repair">Время ремонта:</label>
+                    <input type="date" id="edit_time_repair" name="time_repair">
+                    
+                    <label for="remont">Отремонтировано</label>
+                    <select id="edit_remont" name="remont">
+                   
+                    
+    <option value="">Выберите</option>
+    <option value="1">Да</option>
+    <option value="0">Нет</option>
+</select>
+
+
+
+                    <label for="date_remont">Дата ремонта:</label>
+                    <input type="date" id="edit_date_remont" name="date_remont">
+                    
+                    <label for="edit_remontOrg">Организация осуществляющая ремонт:</label>
+                    <input type="text" id="edit_remontOrg" name="edit_remontOrg">
+                    
+<label for="document">Прикрепить документ:</label>
+<input type="file" id="document_neispravnost_edit" name="document" accept=".pdf,.doc,.docx,.jpg,.png">
+<div id="document_link" style="display:none;"></div>
+            <!--        <label for="downtime">Продолжительность простоя:</label>
+                    <input type="text" id="edit_downtime" name="downtime">-->
+
+                    <input type="hidden" id="edit_id_fault" name="id_fault">
+
+                    <div id="edit_btnsGroup" style="margin-top: 10px;">
+                        <button type="button" class="btn btn-info" onclick="btnSaveFault()">Сохранить</button>
+                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Закрыть</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>';
+echo '
+<div class="modal" id="editEffectModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Редактирование</h5>
+                <button type="button" class="btn btn-danger btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+
+                <form id="editEffectForm">
+                    <label for="count_research">Количество проведенных исследований:</label>
+                    <input type="number" id="edit_count_research" name="count_research">
+
+                    <label for="count_patient">Количество обследованных пациентов:</label>
+                    <input type="number" id="edit_count_patient" name="count_patient">
+                    
+                    <label for="data_year_efficiency">Год:</label>
+                    <select id="edit_data_year_efficiency" name="data_year_efficiency" class="styled-select">
+    <option value="" selected disabled>Выберите год</option>
+    <option value="2024">2024</option>
+    <option value="2023">2023</option>
+    <option value="2022">2022</option>
+    <option value="2021">2021</option>
+    <option value="2020">2020</option>
+</select>
+                    
+                    <label for="data_month_efficiency">Месяц:</label>
+                    <select id="edit_data_month_efficiency" name="data_month_efficiency" class="styled-select">
+                    <option value="" selected disabled>Выберите месяц</option>
+    <option value="Январь">Январь</option>
+    <option value="Февраль">Февраль</option>
+    <option value="Март">Март</option>
+    <option value="Апрель">Апрель</option>
+    <option value="Май">Май</option>
+    <option value="Июнь">Июнь</option>
+    <option value="Июль">Июль</option>
+    <option value="Август">Август</option>
+    <option value="Сентябрь">Сентябрь</option>
+    <option value="Октябрь">Октябрь</option>
+    <option value="Ноябрь">Ноябрь</option>
+    <option value="Декабрь">Декабрь</option>
+</select>
+
+                    <input type="hidden" id="edit_id_use_efficiency" name="id_use_efficiency">
+
+                    <div id="edit_btnsGroup" style="margin-top: 10px;">
+                        <button type="button" class="btn btn-info" onclick="saveEffectData()">Сохранить</button>                    
+                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Закрыть</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>'; ?>

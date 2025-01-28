@@ -409,6 +409,7 @@ function confirmDeleteOborudovanie(idOborudovanie) {
 
 function confirmDeleteOborudovanie1(idOborudovanie) {
     event.stopPropagation();
+    let nowHref = location.href;
     if (confirm('Вы точно хотите удалить эту запись?')) {
         $.ajax({
             url: '/app/ajax/deleteOborudovanie.php',
@@ -417,9 +418,10 @@ function confirmDeleteOborudovanie1(idOborudovanie) {
             success: function (response) {
                 if (response === "Запись успешно удалена.") {
                     $('#deleteModal').modal('show');
+                    location.reload();
                     $('#deleteModal').on('hidden.bs.modal', function (e) {
                         $('#deleteModal').modal('hide');
-                        location.reload();
+
                     });
                 } else {
                     location.reload();
@@ -1192,6 +1194,7 @@ function showModalAddOborudovanieUnspecified() {
 }
 
 function addOborudovanieUnspecified() {
+    let nowHref = location.href;
     if (selectedServiceId === 0) {
         alert("Выберите сервисную организацию из списка!");
         return;
@@ -1604,7 +1607,7 @@ function saveAddedOborudovanie1(iduz) {
         success: function (data) {
             if (data === "1") {
                 alert("Запись добавлена");
-                location.href = "/index.php?oborud";
+                location.reload();
             } else {
                 alert("Ошибка в заполнении");
                 return;
@@ -1716,6 +1719,7 @@ function filterTable1(iduz) {
 
 
 function saveEditedOborudovanie1(){
+    let nowHref = location.href;
     let select_type_oborudovanie = document.getElementById("select_type_oborudovanie");
     let select_servicemans = document.getElementById("filterServicemans");
     let select_status = document.getElementById("select_status");
@@ -1800,7 +1804,7 @@ function saveEditedOborudovanie1(){
             success: function (data) {
                 if (data == "1") {
                     alert("Запись изменена");
-                    location.href = "/index.php?oborud";
+                    location.reload();
                 } else {
                     alert("Ошибка в заполнении");
                 }
