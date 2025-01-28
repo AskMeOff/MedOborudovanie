@@ -108,7 +108,7 @@ echo "ono = " . $id_type;
 
 </style>
 
-<section class="col-lg-12 connectedSortable ui-sortable" style="margin-top: 90px; overflow-x: scroll;">
+<section class="col-lg-12 connectedSortable ui-sortable" style="margin-top: 90px;">
 
     <?php
 
@@ -207,9 +207,9 @@ echo "ono = " . $id_type;
                 
                 <div class="row">
 
-                    <div class="table-responsive" ">
+                    <div style="-webkit-overflow-scrolling: touch;">
                         <table class="table table-striped table-responsive-sm dataTable no-footer" id="infoOb' . $id_uz . '"
-                               style="display: block">
+                               style="display: block; height:62vh;">
                             <thead>
                             <tr>
                                 <th>!!!</th>
