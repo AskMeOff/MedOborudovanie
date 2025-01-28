@@ -1472,3 +1472,350 @@ function filterSNumber(event) {
 
     filetS.addEventListener("input", filterItems);
 }
+
+let btnExportExc = document.getElementById('btnExportExcel');
+if(btnExportExc){
+    btnExportExc.onclick = (event) => {
+        exportTableToExcelAddedOb('infoOb' + event.target.getAttribute('data-id'), 'Отчет_организация_' + event.target.getAttribute('data-id'));
+
+    }
+}
+
+let btnAddOborudovanie = document.getElementById('btnAddOborudovanie');
+if(btnAddOborudovanie){
+    btnAddOborudovanie.onclick = (event) => {
+        $('#editBtnOb').hide();
+        $('#addBtnOb').show();
+        $('#yearError').hide();
+        $('#editOborudovanieModal').modal('show');
+        $('#editOborudovanieModal .modal-title').text("Добавление оборудования");
+        let select_type_oborudovanie = document.getElementById("select_type_oborudovanie");
+        select_type_oborudovanie.options[0].selected = true;
+        // document.getElementById('edit_cost').value = "";
+        document.getElementById('edit_date_create').value = "";
+        document.getElementById('edit_date_release').value = "";
+        // document.getElementById('edit_model_prozvoditel').value = "";
+        document.getElementById('filterSerialNumber').value = "";
+        document.getElementById('zavod_nomer').value = "";
+        document.getElementById('edit_date_postavki').value = "";
+        document.getElementById('edit_date_postavki').value = "";
+        document.getElementById('filterServicemans').value = "";
+        // document.getElementById('select_serviceman').value = "";
+        document.getElementById('edit_date_last_TO').value = "";
+
+
+        let select_status = document.getElementById("select_status");
+        select_status.options[0].selected = true;
+    }
+}
+
+
+
+function saveAddedOborudovanie1(iduz) {
+    let select_type_oborudovanie = document.getElementById("select_type_oborudovanie");
+    let select_status = document.getElementById("select_status");
+    let id_from_reestr = document.getElementById('filterSerialNumber').getAttribute('data-id');
+    let serial_number = document.getElementById('filterSerialNumber').value;
+    let zavod_nomer = document.getElementById('zavod_nomer').value;
+    let model_name = document.getElementById('model_name').value;
+
+    if (serial_number.trim() === "" && !$('#isNotReg').prop("checked")) {
+        $('#serialNumberError').show();
+        console.log("Ошибка: Регистрационный номер оборудования для заполнения");
+        $('#editOborudovanieModal').animate({
+            scrollTop: $('#edit_serial_number').offset().top - $('#editOborudovanieModal').offset().top + $('#editOborudovanieModal').scrollTop() - 150
+        }, 500);
+        return false;
+    } else if (model_name.trim() === "" && $('#isNotReg').prop("checked")) {
+        $('#modelError').show();
+        console.log("Ошибка: Регистрационный номер оборудования для заполнения");
+        $('#editOborudovanieModal').animate({
+            scrollTop: $('#edit_serial_number').offset().top - $('#editOborudovanieModal').offset().top + $('#editOborudovanieModal').scrollTop() - 150
+        }, 500);
+        return false;
+    } else {
+        $('#serialNumberError').hide();
+        $('#modelError').hide();
+
+    }
+
+
+    const yearValue = $('#edit_date_create').val();
+
+
+    if (!(yearValue === "") && !/^\d{4}$/.test(yearValue)) {
+        $('#yearError').show();
+        return false;
+    }
+
+    $('#yearError').hide();
+
+
+    $.ajax({
+        url: '/app/ajax/insertOborudovanie.php',
+        type: 'POST',
+        data: {
+            id_type_oborudovanie: select_type_oborudovanie.options[select_type_oborudovanie.selectedIndex].value,
+            date_create: document.getElementById('edit_date_create').value || null,
+            date_postavki: document.getElementById('edit_date_postavki').value || null,
+            date_release: document.getElementById('edit_date_release').value || null,
+            model_prozvoditel: $('#isNotReg').prop('checked') ? $('#model_name').val() : selectedItemFromReestr['Наименование'] + selectedItemFromReestr['Производитель'],
+            serial_number: $('#isNotReg').prop('checked') ? "000" : selectedItemFromReestr['Рег_номер_товара'],
+            zavod_nomer: zavod_nomer,
+            id_from_reestr: $('#isNotReg').prop('checked') ? 0 : id_from_reestr,
+            service_organization: selectedServiceId || null,
+            date_last_TO: document.getElementById('edit_date_last_TO').value || null,
+            status: select_status.options[select_status.selectedIndex].value,
+            id_org: iduz
+        },
+        success: function (data) {
+            if (data === "1") {
+                alert("Запись добавлена");
+                location.href = "/index.php?oborud";
+            } else {
+                alert("Ошибка в заполнении");
+                return;
+            }
+
+            let newEquipmentName = select_type_oborudovanie.options[select_type_oborudovanie.selectedIndex].text;
+            //console.log("Добавленное оборудование:", newEquipmentName);
+
+            // Убедимся, что таблица обновилась
+            setTimeout(function () {
+                let searchValue = newEquipmentName.trim().toLowerCase();
+                let matchingIndex = -1; // Начальное значение для индекса
+
+                // Используем метод rows().data() для получения всех данных
+                let allData = $('#infoOb' + selectedOrg).DataTable().rows().data();
+
+                // Перебираем строки данных в обратном порядке
+                for (let i = allData.length - 1; i >= 0; i--) {
+                    let equipmentName = allData[i][0].trim().toLowerCase(); // Получаем название оборудования из первой ячейки
+
+                    //console.log(`Сравниваем: '${equipmentName}' с '${searchValue}'`);
+
+                    // Если текст ячейки совпадает с названием оборудования
+                    if (equipmentName.includes(searchValue)) {
+                        matchingIndex = i; // Сохраняем индекс найденной строки
+                        break; // Прерываем цикл, так как мы нашли последнюю запись
+                    }
+                }
+
+                if (matchingIndex !== -1) {
+                    //console.log("Последняя запись с названием 'УЗИ Аппараты' найдена на индексе:", matchingIndex);
+
+                    // Теперь находим страницу для перехода
+                    let table = $('#infoOb' + selectedOrg).DataTable();
+                    let pageSize = table.page.len();
+                    let newPage = Math.floor(matchingIndex / pageSize);
+
+                    // Переходим на нужную страницу
+                    table.page(newPage).draw(false);
+
+                    // Прокручиваем к новой строке
+                    let newRow = $('#infoOb' + selectedOrg).find('tr').eq(matchingIndex + 1); // +1 для учета заголовка
+                }
+
+            }, 200); // Небольшая задержка, чтобы убедиться, что таблица обновилась
+        },
+        error: function (xhr, status, error) {
+            console.error("Ошибка при добавлении записи: " + error);
+        }
+    });
+}
+
+function filterTable1(iduz) {
+    let equipmentFilter = $("#filterEquipment").val();
+    let yearFilter = $("#filterYear").val();
+    let datePostavkiFilter = $("#filterDatePostavki").val();
+    let dateReleaseFilter = $("#filterDateRelease").val();
+    let serviceFilter = $("#filterService").val();
+    let statusFilter = $("#filterStatus").val();
+    let data = {
+        equipment: equipmentFilter,
+        id_uz: iduz,
+        year: yearFilter,
+        datePostavki: datePostavkiFilter,
+        dateRelease: dateReleaseFilter,
+        service: serviceFilter,
+        status: statusFilter === "Все" ? "" : statusFilter,
+        id_obl: oblId
+    };
+
+    if (selectedEquipmentType) {
+        data.id_type_oborudovanie = selectedEquipmentType;
+
+    }
+
+    if (iduz > 0) {
+        $.ajax({
+            type: "POST",
+            url: "/app/ajax/filterGetData.php",
+            data: data,
+            success: function (response) {
+                $('#infoOb' + iduz).DataTable().destroy();
+                $("#infoOb" + iduz).html(response);
+                $('#infoOb' + iduz).DataTable();
+
+            },
+            error: function (xhr, status, error) {
+                console.error("Ошибка при выполнении запроса: " + error);
+            }
+        });
+    } else {
+        console.log(oblId + "oblast");
+        $.ajax({
+            type: "POST",
+            url: "/app/ajax/filterGetDataNoOrg.php",
+            data: data,
+            success: function (response) {
+                $('#infoObAll').DataTable().destroy();
+                $('#infoObAll').html(response);
+                $('#infoObAll').DataTable();
+
+            },
+            error: function (xhr, status, error) {
+                console.error("Ошибка при выполнении запроса: " + error);
+            }
+        });
+    }
+}
+
+
+function saveEditedOborudovanie1(){
+    let select_type_oborudovanie = document.getElementById("select_type_oborudovanie");
+    let select_servicemans = document.getElementById("filterServicemans");
+    let select_status = document.getElementById("select_status");
+    let sto = select_type_oborudovanie.options[select_type_oborudovanie.selectedIndex].value;
+    let dcr = document.getElementById('edit_date_create').value;
+    let dp = document.getElementById('edit_date_postavki').value;
+    let dr = document.getElementById('edit_date_release').value;
+    let id_from_reestr = document.getElementById('filterSerialNumber').getAttribute('data-id');
+    let serial_number = document.getElementById('filterSerialNumber').value;
+    let zavod_nomer = document.getElementById('zavod_nomer').value;
+    let so = select_servicemans.getAttribute('data-id');
+
+    console.log(id_from_reestr);
+    if (id_from_reestr == null) {
+        alert('Не выбран регистрационный номер');
+    } else {
+
+
+        if (selectedServiceId) {
+            so = selectedServiceId;
+        } else {
+            if (select_servicemans.value == "") {
+                so = 0;
+            }
+        }
+
+
+        let model_name = document.getElementById('model_name').value;
+
+        if (serial_number.trim() === "" && !$('#isNotReg').prop("checked")) {
+            $('#serialNumberError').show();
+            console.log("Ошибка: Регистрационный номер оборудования для заполнения");
+            $('#editOborudovanieModal').animate({
+                scrollTop: $('#edit_serial_number').offset().top - $('#editOborudovanieModal').offset().top + $('#editOborudovanieModal').scrollTop() - 150
+            }, 500);
+            return false;
+        } else if (model_name.trim() === "" && $('#isNotReg').prop("checked")) {
+            $('#modelError').show();
+            console.log("Ошибка: Регистрационный номер оборудования для заполнения");
+            $('#editOborudovanieModal').animate({
+                scrollTop: $('#edit_serial_number').offset().top - $('#editOborudovanieModal').offset().top + $('#editOborudovanieModal').scrollTop() - 150
+            }, 500);
+            return false;
+        } else {
+            $('#serialNumberError').hide();
+            $('#modelError').hide();
+
+        }
+
+
+        const yearValue = $('#edit_date_create').val();
+
+        // Проверяем, является ли год 4-значным числом
+        if (!(yearValue === "") && !/^\d{4}$/.test(yearValue)) {
+            $('#yearError').show();  // Показываем сообщение об ошибке
+            console.log("Ошибка: значение пустое или не 4 цифры");
+            $('#editOborudovanieModal').animate({
+                scrollTop: $('#edit_date_create').offset().top - $('#editOborudovanieModal').offset().top + $('#editOborudovanieModal').scrollTop() - 150
+            }, 500);
+            return false;  // Останавливаем выполнение функции, предотвращаем сохранение
+        }
+
+        $('#yearError').hide();  // Скрываем сообщение об ошибке, если данные корректны
+
+        $.ajax({
+            url: '/app/ajax/updateOborudovanie.php',
+            type: 'POST',
+            data: {
+                id_oborudovanie: editedOborudovanie,
+                id_type_oborudovanie: sto,
+                date_create: dcr,
+                date_postavki: dp,
+                date_release: dr,
+                model_prozvoditel: $('#isNotReg').prop('checked') ? $('#model_name').val() : selectedItemFromReestr['Наименование'] + selectedItemFromReestr['Производитель'],
+                serial_number: $('#isNotReg').prop('checked') ? "000" : selectedItemFromReestr['Рег_номер_товара'],
+                zavod_nomer: zavod_nomer,
+                id_from_reestr: $('#isNotReg').prop('checked') ? 0 : id_from_reestr,
+                service_organization: so,
+                date_last_TO: document.getElementById('edit_date_last_TO').value,
+                status: select_status.options[select_status.selectedIndex].value
+            },
+            success: function (data) {
+                if (data == "1") {
+                    alert("Запись изменена");
+                    location.href = "/index.php?oborud";
+                } else {
+                    alert("Ошибка в заполнении");
+                }
+
+                let newEquipmentName = select_type_oborudovanie.options[select_type_oborudovanie.selectedIndex].text;
+                //console.log("Добавленное оборудование:", newEquipmentName);
+
+                // Убедимся, что таблица обновилась
+                setTimeout(function () {
+                    let searchValue = newEquipmentName.trim().toLowerCase();
+                    let matchingIndex = -1; // Начальное значение для индекса
+
+                    // Используем метод rows().data() для получения всех данных
+                    let allData = $('#infoOb' + selectedOrg).DataTable().rows().data();
+
+                    // Перебираем строки данных в обратном порядке
+                    for (let i = allData.length - 1; i >= 0; i--) {
+                        let equipmentName = allData[i][0].trim().toLowerCase(); // Получаем название оборудования из первой ячейки
+
+                        //console.log(`Сравниваем: '${equipmentName}' с '${searchValue}'`);
+
+                        // Если текст ячейки совпадает с названием оборудования
+                        if (equipmentName.includes(searchValue)) {
+                            matchingIndex = i; // Сохраняем индекс найденной строки
+                            break; // Прерываем цикл, так как мы нашли последнюю запись
+                        }
+                    }
+
+                    if (matchingIndex !== -1) {
+                        //console.log("Последняя запись с названием 'УЗИ Аппараты' найдена на индексе:", matchingIndex);
+
+                        // Теперь находим страницу для перехода
+                        let table = $('#infoOb' + selectedOrg).DataTable();
+                        let pageSize = table.page.len();
+                        let newPage = Math.floor(matchingIndex / pageSize);
+
+                        // Переходим на нужную страницу
+                        table.page(newPage).draw(false);
+
+                        // Прокручиваем к новой строке
+                        let newRow = $('#infoOb' + selectedOrg).find('tr').eq(matchingIndex + 1); // +1 для учета заголовка
+                    }
+
+                }, 200); // Небольшая задержка, чтобы убедиться, что таблица обновилась
+            },
+            error: function (xhr, status, error) {
+                console.error("Ошибка при добавлении записи: " + error);
+            }
+        });
+    }
+}

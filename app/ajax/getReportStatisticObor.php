@@ -19,7 +19,7 @@ right JOIN
     type_oborudovanie ON ob.id_type_oborudovanie = type_oborudovanie.id_type_oborudovanie
 LEFT JOIN 
     servicemans ON ob.id_serviceman = servicemans.id_serviceman
-LEFT JOIN 
+right JOIN 
     oblast ON uz.id_oblast = oblast.id_oblast";
 
 $where_conditions = [];

@@ -12,6 +12,7 @@ if (isset($TOKEN)) {
     if ($usersList->getUser($TOKEN)){
         $login = $usersList->getUser($TOKEN)->getLogin();
         $id_role = $usersList->getUser($TOKEN)->getRole();
+        $id_uz = $usersList->getUser($TOKEN)->getIdUz();
         }
     else {
         $login = "";
