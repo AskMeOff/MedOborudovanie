@@ -108,7 +108,7 @@ echo "ono = " . $id_type;
 
 </style>
 
-<section class="col-lg-12 connectedSortable ui-sortable" style="margin-top: 90px">
+<section class="col-lg-12 connectedSortable ui-sortable" style="margin-top: 90px; overflow-x: scroll;">
 
     <?php
 
@@ -203,11 +203,11 @@ echo "ono = " . $id_type;
             </div>
            </div>
  <section class=" connectedSortable ui-sortable" id="org' . $id_uz . '" style="display: block; justify-items: baseline;
-    margin-left: 1.5vw; width: 96%;">
+    margin-left: 1.5vw; width: 96%; overflow-x: scroll;">
                 
                 <div class="row">
 
-                    <div class="table-responsive" style="overflow-x: auto;">
+                    <div class="table-responsive" ">
                         <table class="table table-striped table-responsive-sm dataTable no-footer" id="infoOb' . $id_uz . '"
                                style="display: block">
                             <thead>
