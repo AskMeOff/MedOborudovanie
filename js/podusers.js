@@ -234,7 +234,7 @@ function filterOblast(el) {
             var dataId = $(tr).data("id");
             var rowData = this.data();
             var oblastMatches = rowData[3].trim() === selectedObl; // Проверяем, соответствует ли область
-            var isEmpty = rowData[7].trim() === ""; // Проверяем, пуста ли "Заявка"
+            var isEmpty = rowData[8].trim() === ""; // Проверяем, пуста ли "Заявка"
 
             if (oblastMatches) {
                 if (!isEmpty)

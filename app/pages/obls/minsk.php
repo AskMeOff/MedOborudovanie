@@ -826,7 +826,7 @@ echo ' </select>
                                          <label for="model_name">Модель, производитель:</label>
                    
                      <input disabled type="text" id="model_name" autocomplete="off"/>
-                    <span id="modelError" style="color: red; display: none;">Это поле обязательно для заполнения!</span>
+                    <span id="modelError" style="color: red; display: none;">Не выбран регистрационный номер из предложенного списка выше!</span>
                     
                      <label for="zavod_nomer">Серийный(заводской) номер:</label>
                      <input type="text" id="zavod_nomer" autocomplete="off"/>

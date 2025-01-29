@@ -1462,6 +1462,7 @@ function filterSNumber(event) {
     const filterItems = debounce(function () {
         const inputValue = filetS.value.toLowerCase().trim();
         filteredDiv.innerHTML = ""; // очищаем содержимое
+        let model_name = document.getElementById("model_name");
 
         // Индикатор загрузки
         const loadingIndicator = document.createElement('div');
@@ -1471,6 +1472,7 @@ function filterSNumber(event) {
 
         if (inputValue === "") {
             filteredDiv.classList.add("hidden");
+            model_name.value = "";
             return;
         }
 
@@ -1500,6 +1502,7 @@ function filterSNumber(event) {
                 filteredDiv.classList.add("hidden");
                 filetS.setAttribute('data-id', event.target.getAttribute('data-id'));
                 selectedItemFromReestr = item;
+                model_name.value = item['Наименование'];
             }
             filteredDiv.appendChild(divEl);
         });
@@ -1568,7 +1571,12 @@ function saveAddedOborudovanie1(iduz) {
             scrollTop: $('#edit_serial_number').offset().top - $('#editOborudovanieModal').offset().top + $('#editOborudovanieModal').scrollTop() - 150
         }, 500);
         return false;
-    } else {
+    } else if (model_name.trim() === ""){
+        $('#modelError').show();
+        $('#editOborudovanieModal').animate({
+            scrollTop: $('#edit_serial_number').offset().top - $('#editOborudovanieModal').offset().top + $('#editOborudovanieModal').scrollTop() - 150
+        }, 500);
+    }else {
         $('#serialNumberError').hide();
         $('#modelError').hide();
 
