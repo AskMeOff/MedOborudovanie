@@ -6,6 +6,7 @@ $uz_unp = $_POST['uz_unp'];
 $login_org = $_POST['login_org'];
 $password_org = $_POST['password_org'];
 $email = $_POST['email'];
+$dogovor = $_POST['dogovor'];
 
 if(isset($_POST['sel_obl'])){
     $id_obl = $_POST['sel_obl'];
@@ -41,7 +42,7 @@ else{
     mysqli_query($connectionDB->con, $query);
     $id_uz = mysqli_insert_id($connectionDB->con);
     $hash_password = md5($password_org);
-    $query = "INSERT INTO users (username, login, password, id_role, id_uz, email, zayavka) VALUES ('$uz_name', '$login_org', '$hash_password', '4', '$id_uz' , '$email', '$dest_path')";
+    $query = "INSERT INTO users (username, login, password, id_role, id_uz, email, zayavka, dogovor) VALUES ('$uz_name', '$login_org', '$hash_password', '4', '$id_uz' , '$email', '$dest_path', '$dogovor')";
     mysqli_query($connectionDB->con, $query);
     echo '1';
 }

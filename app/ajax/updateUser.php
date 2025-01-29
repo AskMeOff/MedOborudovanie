@@ -8,6 +8,7 @@ $login_org = $_POST['login_org'];
 $password_org = $_POST['password_org'];
 $email = $_POST['email'];
 $id_obl = $_POST['sel_obl'];
+$dogovor = $_POST['dogovor'];
 if (isset($_FILES['zayavka'])) {
     $fileTmpPath = $_FILES['zayavka']['tmp_name'];
     $fileName = $_FILES['zayavka']['name'];
@@ -34,14 +35,14 @@ if (!empty($password_org)) {
         $rows = $connectionDB->getRowResult($result);
         $pass = $rows['password'];
         if($pass === $password_org){
-            $query = "UPDATE users SET username = '$uz_name', login = '$login_org', email = '$email' WHERE id_user = '$id_user'";
+            $query = "UPDATE users SET username = '$uz_name', login = '$login_org', email = '$email', dogovor = '$dogovor' WHERE id_user = '$id_user'";
         }else{
-            $query = "UPDATE users SET username = '$uz_name', login = '$login_org', password = '$hash_password', email = '$email' WHERE id_user = '$id_user'";
+            $query = "UPDATE users SET username = '$uz_name', login = '$login_org', password = '$hash_password', email = '$email', dogovor = '$dogovor' WHERE id_user = '$id_user'";
 
         }
     }
 } else {
-    $query = "UPDATE users SET username = '$uz_name', login = '$login_org', email = '$email'  WHERE id_user = '$id_user'";
+    $query = "UPDATE users SET username = '$uz_name', login = '$login_org', email = '$email', dogovor = '$dogovor'  WHERE id_user = '$id_user'";
 }
 
 

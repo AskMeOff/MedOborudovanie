@@ -25,7 +25,7 @@ if (isset($_COOKIE['token']) && $_COOKIE['token'] !== '') {
     $result_count = $connectionDB->executeQuery($query_count);
     $row_count = mysqli_fetch_assoc($result_count);
     if ($id_role == 1) {
-        $query = "SELECT id_user, email, uz.name, uz.unp, uz.id_oblast, login, password, zayavka, `active` FROM users
+        $query = "SELECT id_user, email, uz.name, uz.unp, uz.id_oblast, login, password, zayavka, dogovor, `active` FROM users
                 LEFT JOIN uz ON uz.id_uz = users.id_uz
                 WHERE users.id_role = 4";
     } else {
@@ -51,6 +51,7 @@ if (isset($_COOKIE['token']) && $_COOKIE['token'] !== '') {
                 <div style="display: flex;">  <button class="btn btn-info" onclick="modalAddUser()">Добавить организацию</button> <lable style="margin-left: 50px; font-size: 20px">С заявкой: </lable><div style=""><input class="form-check-input" style="margin-left: 5px; vertical-align: -webkit-baseline-middle;" type="checkbox" onchange="filterZayavka(this)">
                  <b style="    vertical-align: -webkit-baseline-middle; margin-left: 15px; font-size: 20px;">'.$row_count['count_z'].'</b></div>
                  <lable style="margin-left: 50px; font-size: 20px">Новые: </lable><div style=""><input class="form-check-input" style="margin-left: 5px; vertical-align: -webkit-baseline-middle;" id="chkbNew" type="checkbox" onchange="filterNew(this)"></div>
+                 <lable style="margin-left: 50px; font-size: 20px">С договором: </lable><div style=""><input class="form-check-input" style="margin-left: 5px; vertical-align: -webkit-baseline-middle;" id="chkbDogovor" type="checkbox" onchange="filterDogovor(this)"></div>
                  <lable style="margin-left: 50px; font-size: 20px">Область: </lable><div style=""><select class="form-select" style="margin-left: 5px; vertical-align: -webkit-baseline-middle;" id="selectOblast" onchange="filterOblast(this)">
                  <option value="0">Выберите область</option>
                  <option value="1">Брестская</option>
@@ -78,6 +79,7 @@ if (isset($_COOKIE['token']) && $_COOKIE['token'] !== '') {
                                 <th>Email</th>
                                 <th>Логин</th>
                                 <th>Зашифрованный пароль</th>
+                                <th>Договор</th>
                                 <th>Заявка</th>
                                 <th>Действия</th>
                                 <th>Активность</th>
@@ -105,6 +107,7 @@ if (isset($_COOKIE['token']) && $_COOKIE['token'] !== '') {
             $loginOrg = $row['login'];
             $password = $row['password'];
             $zayavka = $row['zayavka'];
+            $dogovor = $row['dogovor'];
             $active = $row['active'];
             echo '<tr data-id=' . $id_user . '  >';
             echo '<td>' . $id_user . '</td>';
@@ -114,6 +117,7 @@ if (isset($_COOKIE['token']) && $_COOKIE['token'] !== '') {
             echo '<td>' . $email . '</td>';
             echo '<td>' . $loginOrg . '</td>';
             echo '<td style="cursor: pointer" id="td-change-pass"  data-pass="' . $password . '">' . $password . '</td>';
+            echo '<td>' . $dogovor . '</td>';
             if($zayavka !== null)
                 echo '<td><a target="_blank" href="'.$zayavka.'">' . $name . '</a></td>';
             else
@@ -166,6 +170,9 @@ if (isset($_COOKIE['token']) && $_COOKIE['token'] !== '') {
                     <label for="password_org">Пароль</label>
                     <input type="text" id="password_org" name="password_org">
                     
+                    <label for="dogovor">Договор</label>
+                    <input type="text" id="dogovor" name="dogovor">
+                    
                     <label for="zayavka">Заявка</label>
                     <input type="file" id="zayavka" name="zayavka">
                     ';
@@ -207,264 +214,7 @@ if (isset($_COOKIE['token']) && $_COOKIE['token'] !== '') {
 
 
 echo '
-<script>
-    $(document).ready(function() {
-         if ($("#infoObAll").length) {
-            $("#infoObAll").DataTable().destroy();
-        }
-        $("#infoObAll").DataTable({
-        "order": [[0, "asc"]],
-        "pageLength": 20 
-        });
-         
-           
-    });
-
-    
-    function modalAddUser(){
-        $("#uz_name").val("");
-        $("#uz_unp").val("");
-        $("#uz_email").val("");
-        $("#login_org").val("");
-        $("#password_org").val("");
-        $("#saveUserBtn").show();
-        $("#saveEditedUserBtn").hide();
-        $("#addUserModal").modal("show");
-    }
-    
-    function changeActive(el){
-       
-         $.ajax({ 
-                url: "app/ajax/changeActive.php",
-                method: "POST",
-                data: {id_user: el.getAttribute("data-id"), active: el.checked}
-            }).then((response) => {
-                               
-            })
+<script src="/js/podusers.js">
    
-    }
-    
-let selected_user;
-    function editPodUser(el, id_user) {
-        let par = el.parentElement;
-        let par1 = par.parentElement;
-        let name = par1.children[1].innerText;
-        let unp = par1.children[2].innerText;
-        let email = par1.children[4].innerText;
-        let login = par1.children[5].innerText;
-        let password = par1.children[6].innerText;
-        let id_oblast = par1.children[3].getAttribute("data-id");
-        selected_user = id_user;
-        $("#uz_name").val(name);
-        $("#uz_unp").val(unp);
-        $("#uz_email").val(email);
-        $("#login_org").val(login);
-        $("#password_org").val(password);
-     
-        $("#saveUserBtn").hide();
-        $("#saveEditedUserBtn").show();
-        $("#addUserModal").modal("show");
-        $("#sel_obls").val(id_oblast); 
-    }
-    
-    function addUser(id_obl){
-        if($("#uz_name").val() == "" || $("#login_org").val() == "" || $("#password_org").val() == "" || $("#uz_unp").val() == "" || $("#uz_email").val() == ""){
-            alert("Не все поля заполнены!");
-        }else{
-            let formData = new FormData();
-            formData.append("uz_name", $("#uz_name").val());
-            formData.append("uz_unp", $("#uz_unp").val());
-            formData.append("email", $("#uz_email").val());
-            formData.append("login_org", $("#login_org").val());
-            formData.append("password_org", $("#password_org").val());
-            formData.append("id_obl", id_obl);
-            formData.append("sel_obl", $("#sel_obls").val());
-            formData.append("zayavka", $("#zayavka")[0].files[0]); // Добавляем файл
-            
-            // Отправляем AJAX-запрос
-            $.ajax({ 
-                url: "app/ajax/addUser.php",
-                method: "POST",
-                data: formData,
-                processData: false, // Не обрабатывать данные
-                contentType: false // Не устанавливать заголовок Content-Type
-            }).then((response) => {
-                if(response == "0"){
-                    alert("Пользователь с таким логином или наименованием уже существует.");
-                } else {
-                    alert("Организация добавлена.");
-                    location.reload();
-                }
-                
-            })
-        }
-    }
-
-    function updateUser(id_user) {
-        if($("#uz_name").val() == "" || $("#login_org").val() == "" || $("#password_org").val() == "" || $("#uz_unp").val() == "" || $("#uz_email").val() == ""){
-            alert("Не все поля заполнены!");
-        } else {
-            let formData = new FormData();
-            formData.append("id_user", selected_user);
-            formData.append("uz_name", $("#uz_name").val());
-            formData.append("uz_unp", $("#uz_unp").val());
-            formData.append("email", $("#uz_email").val());
-            formData.append("login_org", $("#login_org").val());
-            formData.append("password_org", $("#password_org").val());
-            formData.append("id_obl", $("#sel_obls").val());
-            formData.append("sel_obl", $("#sel_obls").val());
-            formData.append("zayavka", $("#zayavka")[0].files[0]); // Добавляем файл
-            
-            // Отправляем AJAX-запрос
-            $.ajax({ 
-                url: "app/ajax/updateUser.php",
-                method: "POST",
-                data: formData,
-                processData: false, // Не обрабатывать данные
-                contentType: false // Не устанавливать заголовок Content-Type
-            }).then((response) => {
-                if(response == "0"){
-                    alert("Пользователь с таким логином или наименованием уже существует.");
-                } else {
-                    alert("Организация изменена.");
-                    location.reload();
-                }
-                
-            })
-        }
-    }
-    
-    
-     function deletePodUser(id_user) {
-        if (confirm("Вы уверены, что хотите удалить пользователя?")) {
-            $.ajax({
-                url: "app/ajax/deletePodUser.php",
-                method: "GET",
-                data: { id_user: id_user }
-            }).done(function (response) {
-                alert("Пользователь удален.");
-                location.reload();
-            });
-        }
-    }
-    
-    function filterZayavka(el){
-var table = $("#infoObAll").DataTable();
-
-    // Сохраняем состояние фильтра
-    var filterEmpty = el.checked;
-
-    if (filterEmpty) {
-        // Устанавливаем количество строк на странице на "все"
-        table.page.len(-1).draw();
-
-        // Скрываем строки, где "Заявка" пуста
-        table.rows().every(function() {
-            var rowData = this.data();
-            var isEmpty = rowData[7].trim() === ""; // Проверяем, пустая ли ячейка
-
-            if (isEmpty) {
-                $(this.node()).hide(); // Скрываем строки, где "Заявка" пуста
-            }
-        });
-    } else {
-        // Возвращаем количество строк на странице к стандартному значению (например, 10)
-        table.page.len(10).draw(); // Установите нужное количество строк на странице
-
-        // Показываем все строки
-        table.rows().every(function() {
-            $(this.node()).show(); // Показываем все строки
-        });
-    }
-
-    // Обновляем отображение таблицы
-    table.draw();
-
-    }
-    
-     function filterNew(el){
-        $("#infoObAll").DataTable().destroy();
-        
-        let selectOblast = document.getElementById("selectOblast");
-        
-        selectOblast.selectedIndex = 0;
-var table = $("#infoObAll").DataTable();
-table.page.len(10).draw();
-    // Сохраняем состояние фильтра
-    var filterEmpty = el.checked;
-
-    if (filterEmpty) {
-        // Устанавливаем количество строк на странице на "все"
-        table.page.len(-1).draw();
-
-        // Скрываем строки, где "Заявка" пуста
-        table.rows().every(function() {
-            var tr = this.node();
-            var dataId = $(tr).data("id"); // Проверяем, пустая ли ячейка
-
-            if (dataId < 550 ) {
-                $(tr).hide(); // Скрываем строки, где "Заявка" пуста
-            }
-            if (dataId === 570 ) {
-                $(tr).hide(); // Скрываем строки, где "Заявка" пуста
-            }
-        });
-    } else {
-        // Возвращаем количество строк на странице к стандартному значению (например, 10)
-        table.page.len(10).draw(); // Установите нужное количество строк на странице
-
-        // Показываем все строки
-        table.rows().every(function() {
-            $(this.node()).show(); // Показываем все строки
-        });
-    }
-
-    // Обновляем отображение таблицы
-    table.draw();
-
-    }
-    
-    function filterOblast(el){
-var table = $("#infoObAll").DataTable();
-    let selectedObl = el.options[el.selectedIndex].innerText;
-
-    if (el.selectedIndex > 0) {
-        // Устанавливаем количество строк на странице на "все"
-        table.page.len(-1).draw();
-
-        // Скрываем строки, где "Область" не соответствует выбранному значению и "Заявка" пуста
-        table.rows().every(function() {
-              var tr = this.node();
-            var dataId = $(tr).data("id");
-            var rowData = this.data();
-            var oblastMatches = rowData[3].trim() === selectedObl; // Проверяем, соответствует ли область
-            var isEmpty = rowData[7].trim() === ""; // Проверяем, пуста ли "Заявка"
-
-            if (oblastMatches) {
-                if(!isEmpty)
-                    if(dataId > 549 && dataId !== 570)
-                        $(this.node()).show(); // Скрываем строки, где "Область" не соответствует и "Заявка" пуста
-                        else 
-                            $(this.node()).hide();                 
-                else 
-                    $(this.node()).hide();
-            } else {
-                $(this.node()).hide(); // Показываем строки, которые соответствуют условию
-            }
-        });
-    } else {
-        // Возвращаем количество строк на странице к стандартному значению (например, 10)
-        table.page.len(10).draw();
-
-        // Показываем все строки
-        table.rows().every(function() {
-            $(this.node()).show(); // Показываем все строки
-        });
-    }
-
-    // Обновляем отображение таблицы
-    table.draw();
-    }
-</script>
-';
+</script>'
 ?>
