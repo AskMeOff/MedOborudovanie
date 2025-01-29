@@ -83,7 +83,9 @@ if (isset($_COOKIE['token']) && $_COOKIE['token'] !== '') {
             $serviceNames[] = $row['name'];
         }
 
-            echo '           <div>  <button class="btn btn-info" onclick="startFilter()" style=" margin-top: 10px; ">Фильтры</button> 
+            echo '           <div> 
+          <button id="btnExportExcel" data-id="" class="btn btn-info" style="margin-left: 2vw;" onclick = "exportTableToExcelAddedOb(\'infoObAll\', \'Таблица_оборудования\')">Экспорт в Excel</button>
+<button class="btn btn-info" onclick="startFilter()" style=" margin-top: 10px; ">Фильтры</button> 
            <a class="nav-link sidebartoggler nav-icon-hover" id="arrow-left" onclick="toggleRightSection()" style="
            position: absolute;
     right: 50px;

@@ -202,6 +202,7 @@ echo "ono = " . $id_type;
   </div>
             </div>
            </div>
+           
  <section class=" connectedSortable ui-sortable" id="org' . $id_uz . '" style="display: block; justify-items: baseline;
     margin-left: 1.5vw; width: 96%; overflow-x: scroll;">
                 
