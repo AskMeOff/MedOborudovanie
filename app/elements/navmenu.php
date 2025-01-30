@@ -11,7 +11,7 @@ while ($row = mysqli_fetch_assoc($resultTypes)) {
     ];
 }
 
-function buildEquipmentTree($equipmentList, $parentId = null) {
+function buildEquipmentTree($equipmentList, $id_role, $parentId = null) {
     $html = '';
     $filteredEquipment = array_filter($equipmentList, function($equipment) use ($parentId) {
         return $equipment['parent_id'] == $parentId;
@@ -29,11 +29,15 @@ function buildEquipmentTree($equipmentList, $parentId = null) {
                 $html .= '<a href="#" class="menu-item" onclick="toggleSubmenu(event); return false;">' . $equipment["name"] . '</a>';
             }  else {
                 // Для всех остальных элементов добавляем обработчик
-                $html .= '<a href="index.php?oborud='.$equipment["id_type_oborudovanie"].'" onclick="checkHash(' . $equipment["id_type_oborudovanie"] . ', event)">' . $equipment["name"] . '</a>';
+                if($id_role == 4)
+                $html .= '<a href="index.php?oborud='.$equipment["id_type_oborudovanie"].'">' . $equipment["name"] . '</a>';
+                else {
+                    $html .= '<a href="#" onclick="checkHash(' . $equipment["id_type_oborudovanie"] . ', event)">' . $equipment["name"] . '</a>';
+                }
             }
 
             // Рекурсивный вызов для дочерних элементов
-            $html .= buildEquipmentTree($equipmentList, $equipment['id_type_oborudovanie']);
+            $html .= buildEquipmentTree($equipmentList, $id_role, $equipment['id_type_oborudovanie']);
             $html .= '</li>';
         }
         $html .= '</ul>';
@@ -69,7 +73,7 @@ function buildEquipmentTree($equipmentList, $parentId = null) {
                 <li id="menu_oborud"><a href="#"><i class="fa fa-suitcase"></i>Оборудование</a>
                     <ul class="submenu">
                         <li id="menu_ustanovl"><a href="index.php?oborud" onclick="showTooltip(event)">Установленное</a>
-                            <?php echo buildEquipmentTree($equipmentTypes); ?>
+                            <?php echo buildEquipmentTree($equipmentTypes, $id_role); ?>
                         </li>
                         <li><a href="index.php?oborud_unspecified">Неустановленное</a></li>
                     </ul>
@@ -137,7 +141,7 @@ function buildEquipmentTree($equipmentList, $parentId = null) {
         event.preventDefault(); // Предотвращаем перезагрузку страницы
         selectedEquipmentType = id_type;
         $.ajax({
-            url: "app/ajax/getOblsByType.php",
+            url: "app/ajax/getOblsByTypeAdmin.php",
             method: "GET",
             data: {id_type: id_type},
             success: function (data) {
