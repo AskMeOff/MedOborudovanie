@@ -24,10 +24,14 @@ function buildEquipmentTree($equipmentList, $parentId = null) {
             if ($equipment["id_type_oborudovanie"] == 29) {
                 // Заменяем span на a с классом menu-item
                 $html .= '<a href="#" class="menu-item" onclick="toggleSubmenu(event); return false;">' . $equipment["name"] . '</a>';
-            } else {
+            }else if ($equipment["id_type_oborudovanie"] == 19) {
+                // Заменяем span на a с классом menu-item
+                $html .= '<a href="#" class="menu-item" onclick="toggleSubmenu(event); return false;">' . $equipment["name"] . '</a>';
+            }  else {
                 // Для всех остальных элементов добавляем обработчик
                 $html .= '<a href="index.php?oborud='.$equipment["id_type_oborudovanie"].'" onclick="checkHash(' . $equipment["id_type_oborudovanie"] . ', event)">' . $equipment["name"] . '</a>';
             }
+
             // Рекурсивный вызов для дочерних элементов
             $html .= buildEquipmentTree($equipmentList, $equipment['id_type_oborudovanie']);
             $html .= '</li>';
