@@ -1,5 +1,6 @@
 <?php
 require_once 'connection/connection.php';
+
 $equipmentTypes = [];
 $sqlTypes = "SELECT id_type_oborudovanie, name, parent_id FROM type_oborudovanie ORDER BY parent_id, name";
 $resultTypes = $connectionDB->executeQuery($sqlTypes);
