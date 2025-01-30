@@ -1458,54 +1458,63 @@ function filterSNumber(event) {
 
     // Показать или скрыть список при фокусе
 
+    let serialNumberErrorLess = document.getElementById("serialNumberErrorLess");
+
 
     const filterItems = debounce(function () {
         const inputValue = filetS.value.toLowerCase().trim();
         filteredDiv.innerHTML = ""; // очищаем содержимое
         let model_name = document.getElementById("model_name");
 
-        // Индикатор загрузки
-        const loadingIndicator = document.createElement('div');
-        loadingIndicator.innerText = "Идет фильтрация...";
-        loadingIndicator.className = "loading-indicator";
-        filteredDiv.appendChild(loadingIndicator);
+        if(inputValue.length > 7) {
+            serialNumberErrorLess.style = "color: red; display: none;";
 
-        if (inputValue === "") {
-            filteredDiv.classList.add("hidden");
-            model_name.value = "";
-            return;
-        }
+            // Индикатор загрузки
+            const loadingIndicator = document.createElement('div');
+            loadingIndicator.innerText = "Идет фильтрация...";
+            loadingIndicator.className = "loading-indicator";
+            filteredDiv.appendChild(loadingIndicator);
 
-        let sortedArr1 = JsonReestr.filter((item) => {
-            return item['Рег_номер_товара'].toLowerCase().includes(inputValue);
-        });
-
-        // Удаляем индикатор загрузки
-        filteredDiv.removeChild(loadingIndicator);
-
-        if (sortedArr1.length === 0) {
-            filteredDiv.classList.add("hidden");
-            return;
-        } else {
-            filteredDiv.classList.remove("hidden");
-        }
-
-        sortedArr1.forEach(item => {
-            let divEl = document.createElement('div');
-            divEl.style.cursor = "pointer";
-            divEl.className = "hover-reg-num";
-            divEl.setAttribute("data-id", item['N_п_п']);
-            divEl.setAttribute("data-reg-num", item['Рег_номер_товара']);
-            divEl.innerHTML = `${item['Рег_номер_товара']}<br>${item['Наименование']}`;
-            divEl.onclick = (event) => {
-                filetS.value = event.target.getAttribute('data-reg-num');
+            if (inputValue === "") {
                 filteredDiv.classList.add("hidden");
-                filetS.setAttribute('data-id', event.target.getAttribute('data-id'));
-                selectedItemFromReestr = item;
-                model_name.value = item['Наименование'];
+                model_name.value = "";
+                return;
             }
-            filteredDiv.appendChild(divEl);
-        });
+
+            let sortedArr1 = JsonReestr.filter((item) => {
+                return item['Рег_номер_товара'].toLowerCase().includes(inputValue);
+            });
+
+            // Удаляем индикатор загрузки
+            filteredDiv.removeChild(loadingIndicator);
+
+            if (sortedArr1.length === 0) {
+                filteredDiv.classList.add("hidden");
+                return;
+            } else {
+                filteredDiv.classList.remove("hidden");
+            }
+
+            sortedArr1.forEach(item => {
+                let divEl = document.createElement('div');
+                divEl.style.cursor = "pointer";
+                divEl.className = "hover-reg-num";
+                divEl.setAttribute("data-id", item['N_п_п']);
+                divEl.setAttribute("data-reg-num", item['Рег_номер_товара']);
+                divEl.innerHTML = `${item['Рег_номер_товара']}<br>${item['Наименование']}`;
+                divEl.onclick = (event) => {
+                    filetS.value = event.target.getAttribute('data-reg-num');
+                    filteredDiv.classList.add("hidden");
+                    filetS.setAttribute('data-id', event.target.getAttribute('data-id'));
+                    selectedItemFromReestr = item;
+                    model_name.value = item['Наименование'];
+                }
+                filteredDiv.appendChild(divEl);
+            });
+        }else{
+            serialNumberErrorLess.style = "color: red; display: block;";
+            filteredDiv.classList.add("hidden");
+        }
     }, 300); // Задержка 300 мс
 
     filetS.addEventListener("input", filterItems);

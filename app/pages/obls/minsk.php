@@ -817,9 +817,12 @@ echo ' </select>
                    
                     <label for="filterSerialNumber">Регистрационный номер оборудования (<a target="_blank" href="https://www.rceth.by/Refbank/reestr_medicinskoy_tehniki"> Реестры УП «Центр экспертиз и испытаний в здравоохранении»</a>): <a target="_blank" href="documents/help_reg_number.mp4"><i style="font-size: 24px;" class="fa fa-question"></i></a></label>
                 
-                     <input type="text" id="filterSerialNumber" autocomplete="off" onclick="filterSNumber(event)"/>               
+                     <input type="text" id="filterSerialNumber" autocomplete="off" onclick="filterSNumber(event)"/>    
+                                
                     <div class="hidden" style="margin-top: 10px; margin-left: 10px; height: 150px; width: 95%; inline-block; overflow: auto">
                     </div>
+                     <span id="serialNumberErrorLess" style="color: red; display: block;">Введите более 7 символов</span>
+                    
                      <span id="serialNumberError" style="color: red; display: none;">Это поле обязательно для заполнения!</span>
                     <div style="display: flex; margin-top: 10px"><input id="isNotReg" onchange="chckReg(this)" type="checkbox"><div style="margin-left: 10px;">Нет регистрационного номера в реестре</div></div>
                     
