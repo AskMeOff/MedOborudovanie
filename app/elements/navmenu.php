@@ -92,7 +92,7 @@ function buildEquipmentTree($equipmentList, $id_role, $parentId = null) {
                 </li>
                 <li>
                     <a href="#">
-                        <i class="fa fa-asterisk"></i> Помощь
+                        <i class="fa fa-question"></i> Помощь
                         <span class="new-icon" style="color: red; font-size: 0.8em; margin-left: 5px;">★</span>
                     </a>
                     <ul class="submenu">

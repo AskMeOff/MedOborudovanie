@@ -52,7 +52,7 @@ if (isset($_COOKIE['token']) && $_COOKIE['token'] !== '') {
                  <b style="    vertical-align: -webkit-baseline-middle; margin-left: 15px; font-size: 20px;">'.$row_count['count_z'].'</b></div>
                  <lable style="margin-left: 50px; font-size: 20px">Новые: </lable><div style=""><input class="form-check-input" style="margin-left: 5px; vertical-align: -webkit-baseline-middle;" id="chkbNew" type="checkbox" onchange="filterNew(this)"></div>
                  <lable style="margin-left: 50px; font-size: 20px">С договором: </lable><div style=""><input class="form-check-input" style="margin-left: 5px; vertical-align: -webkit-baseline-middle;" id="chkbDogovor" type="checkbox" onchange="filterDogovor(this)"></div>
-                 <lable style="margin-left: 50px; font-size: 20px">Область: </lable><div style=""><select class="form-select" style="margin-left: 5px; vertical-align: -webkit-baseline-middle;" id="selectOblast" onchange="filterOblast(this)">
+                 <lable style="margin-left: 50px; font-size: 20px">Новые по области: </lable><div style=""><select class="form-select" style="margin-left: 5px; vertical-align: -webkit-baseline-middle;" id="selectOblast" onchange="filterOblast(this)">
                  <option value="0">Выберите область</option>
                  <option value="1">Брестская</option>
                  <option value="2">Витебская</option>
