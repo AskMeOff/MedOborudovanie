@@ -1167,6 +1167,7 @@ function filterS(event, id) {
 function setServiceman(event) {
     $("#filterServicemans").val(event.target.innerText);
     selectedServiceId = event.target.getAttribute('data-id');
+    event.target.parentElement.classList.add('hidden');
 }
 
 function setPostavschik(event) {

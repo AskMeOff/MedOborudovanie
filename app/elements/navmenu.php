@@ -1,5 +1,7 @@
 <?php
 require_once 'connection/connection.php';
+
+
 $equipmentTypes = [];
 $sqlTypes = "SELECT id_type_oborudovanie, name, parent_id FROM type_oborudovanie ORDER BY parent_id, name";
 $resultTypes = $connectionDB->executeQuery($sqlTypes);
@@ -12,6 +14,7 @@ while ($row = mysqli_fetch_assoc($resultTypes)) {
 }
 
 function buildEquipmentTree($equipmentList, $id_role, $parentId = null) {
+    $login = $_COOKIE['login'];
     $html = '';
     $filteredEquipment = array_filter($equipmentList, function($equipment) use ($parentId) {
         return $equipment['parent_id'] == $parentId;
@@ -20,19 +23,24 @@ function buildEquipmentTree($equipmentList, $id_role, $parentId = null) {
         $html .= '<ul class="submenu" style="display: none;">'; // Скрываем подменю по умолчанию
         foreach ($filteredEquipment as $equipment) {
             $html .= '<li>';
-            // Проверяем, является ли элемент "Лабораторно-диагностические системы" по id
-            if ($equipment["id_type_oborudovanie"] == 29) {
-                // Заменяем span на a с классом menu-item
-                $html .= '<a href="#" class="menu-item" onclick="toggleSubmenu(event); return false;">' . $equipment["name"] . '</a>';
-            }else if ($equipment["id_type_oborudovanie"] == 19) {
-                // Заменяем span на a с классом menu-item
-                $html .= '<a href="#" class="menu-item" onclick="toggleSubmenu(event); return false;">' . $equipment["name"] . '</a>';
-            }  else {
-                // Для всех остальных элементов добавляем обработчик
-                if($id_role == 4)
-                $html .= '<a href="index.php?oborud='.$equipment["id_type_oborudovanie"].'">' . $equipment["name"] . '</a>';
-                else {
-                    $html .= '<a href="#" onclick="checkHash(' . $equipment["id_type_oborudovanie"] . ', event)">' . $equipment["name"] . '</a>';
+            if($login == "test_account"){
+                if($equipment["id_type_oborudovanie"] == 21)
+                    $html .= '<a href="index.php?oborud=' . $equipment["id_type_oborudovanie"] . '">' . $equipment["name"] . '</a>';
+            }else {
+                // Проверяем, является ли элемент "Лабораторно-диагностические системы" по id
+                if ($equipment["id_type_oborudovanie"] == 29) {
+                    // Заменяем span на a с классом menu-item
+                    $html .= '<a href="#" class="menu-item" onclick="toggleSubmenu(event); return false;">' . $equipment["name"] . '</a>';
+                } else if ($equipment["id_type_oborudovanie"] == 19) {
+                    // Заменяем span на a с классом menu-item
+                    $html .= '<a href="#" class="menu-item" onclick="toggleSubmenu(event); return false;">' . $equipment["name"] . '</a>';
+                } else {
+                    // Для всех остальных элементов добавляем обработчик
+                    if ($id_role == 4)
+                        $html .= '<a href="index.php?oborud=' . $equipment["id_type_oborudovanie"] . '">' . $equipment["name"] . '</a>';
+                    else {
+                        $html .= '<a href="#" onclick="checkHash(' . $equipment["id_type_oborudovanie"] . ', event)">' . $equipment["name"] . '</a>';
+                    }
                 }
             }
 

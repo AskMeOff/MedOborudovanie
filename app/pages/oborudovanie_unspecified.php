@@ -140,7 +140,7 @@ echo '<div class="modal" id="editOborudovanieModal">
                     <label>Вид оборудования:</label>
                     <select class="form-select" id="select_type_oborudovanie">';
 
-$query = "select * from type_oborudovanie";
+$query = "select * from type_oborudovanie order by `name`";
 $result = $connectionDB->executeQuery($query);
 while ($row = $result->fetch_assoc()) {
     echo "<option value='" . $row['id_type_oborudovanie'] . "'>" . $row['name'] . "</option>";
