@@ -17,7 +17,7 @@ $reasons = $_POST['reasons'];
 $num_and_date = $_POST['contract'];
 
 $sql = "INSERT INTO oborudovanie (id_type_oborudovanie, cost, model, num_and_date, id_serviceman, id_postavschik, date_get_sklad, date_norm_srok_vvoda, reasons, id_uz, status)
-        VALUES ($id_type_oborudovanie, $cost, '$model', '$num_and_date', $id_serviceman, $id_postavschik, '$date_get_sklad', '$date_srok_vvoda', '$reasons', $id_uz, 2);";
+        VALUES ($id_type_oborudovanie, $cost, '$model', '$num_and_date', $id_serviceman, $id_postavschik, '$date_get_sklad', '$date_srok_vvoda', '$reasons', $id_uz, 2)";
 
 try {
     $result = $connectionDB->executeQuery($sql);

@@ -129,18 +129,6 @@
                     <div class="col-md-4">
                         <div class="video-block">
                             <video controls class="video-thumbnail" width="100%">
-                                <source src="../../documents/Изменение пароля.mp4" type="video/mp4">
-                                Ваш браузер не поддерживает видео.
-                            </video>
-                            <div class="video-title">Видеоинструкция "Изменение пароля для пользователей"</div>
-                            <div class="video-info">
-                                <p>В данном видео мы подробно расскажем, как изменить пароль для пользователя в Роли вышестоящей организации.</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="video-block">
-                            <video controls class="video-thumbnail" width="100%">
                                 <source src="../../documents/Редактирование оборудования.mp4" type="video/mp4">
                                 Ваш браузер не поддерживает видео.
                             </video>

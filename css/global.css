@@ -99,3 +99,27 @@ body {
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
 }
+
+
+@media (max-width: 1800px) {
+    table {
+        font-size: 10px !important;
+        width: 77vw !important;
+    }
+    td div {
+        font-size: 9px !important;
+    }
+
+    .button{
+        font-size: 9px !important;
+    }
+}
+
+
+.toast {
+    left: 50% !important;
+    top: 50% !important;
+    transform: translate(-50%, -50%) !important;
+    position: fixed !important;
+}
+

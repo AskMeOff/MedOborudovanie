@@ -125,10 +125,10 @@ function buildEquipmentTree($equipmentList, $id_role, $parentId = null) {
         "debug": false,
         "newestOnTop": false,
         "progressBar": true,
-        "positionClass": "toast-bottom-right",
+        "positionClass": "toast-top-center",
         "preventDuplicates": true,
         "onclick": null,
-        "showDuration": "500",
+        "showDuration": "2500",
         "hideDuration": "1000",
         "timeOut": "6000",
         "extendedTimeOut": "1000",
@@ -157,7 +157,7 @@ function buildEquipmentTree($equipmentList, $id_role, $parentId = null) {
     }
 
     function showTooltip(event) {
-        toastr.info('При повторном нажатии на пункт "Установленные", фильтрация по видам оборудования учитываться не будет');
+        toastr.info('При повторном нажатии на пункт "Установленное" будет отобажено всё ваше оборудование!');
     }
 
     function toggleSubmenu(event) {
