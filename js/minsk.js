@@ -1482,6 +1482,7 @@ function filterSNumber(event) {
                 return;
             }
 
+
             let sortedArr1 = JsonReestr.filter((item) => {
                 return item['Рег_номер_товара'].toLowerCase().includes(inputValue);
             });
