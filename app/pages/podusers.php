@@ -24,10 +24,15 @@ if (isset($_COOKIE['token']) && $_COOKIE['token'] !== '') {
                 WHERE zayavka is not null";
     $result_count = $connectionDB->executeQuery($query_count);
     $row_count = mysqli_fetch_assoc($result_count);
+
+    $query_count_dog = "SELECT count(*) as count_dog from users
+                WHERE dogovor is not null and dogovor <> ''";
+    $result_count_dog = $connectionDB->executeQuery($query_count_dog);
+    $row_count_dog = mysqli_fetch_assoc($result_count_dog);
     if ($id_role == 1) {
         $query = "SELECT id_user, email, uz.name, uz.unp, uz.id_oblast, login, password, zayavka, dogovor, `active` FROM users
                 LEFT JOIN uz ON uz.id_uz = users.id_uz
-                WHERE users.id_role = 4";
+                WHERE users.id_role = 4 and users.removed_at is null";
     } else {
         echo 'Данные недоступны. Требуется авторизация.';
         return;
@@ -51,8 +56,9 @@ if (isset($_COOKIE['token']) && $_COOKIE['token'] !== '') {
                 <div style="display: flex;">  <button class="btn btn-info" onclick="modalAddUser()">Добавить организацию</button> <lable style="margin-left: 50px; font-size: 20px">С заявкой: </lable><div style=""><input class="form-check-input" style="margin-left: 5px; vertical-align: -webkit-baseline-middle;" type="checkbox" onchange="filterZayavka(this)">
                  <b style="    vertical-align: -webkit-baseline-middle; margin-left: 15px; font-size: 20px;">'.$row_count['count_z'].'</b></div>
                  <lable style="margin-left: 50px; font-size: 20px">Новые: </lable><div style=""><input class="form-check-input" style="margin-left: 5px; vertical-align: -webkit-baseline-middle;" id="chkbNew" type="checkbox" onchange="filterNew(this)"></div>
-                 <lable style="margin-left: 50px; font-size: 20px">С договором: </lable><div style=""><input class="form-check-input" style="margin-left: 5px; vertical-align: -webkit-baseline-middle;" id="chkbDogovor" type="checkbox" onchange="filterDogovor(this)"></div>
-                 <lable style="margin-left: 50px; font-size: 20px">Область: </lable><div style=""><select class="form-select" style="margin-left: 5px; vertical-align: -webkit-baseline-middle;" id="selectOblast" onchange="filterOblast(this)">
+                 <lable style="margin-left: 50px; font-size: 20px">С договором: </lable><div style=""><input class="form-check-input" style="margin-left: 5px; vertical-align: -webkit-baseline-middle;" id="chkbDogovor" type="checkbox" onchange="filterDogovor(this)"> 
+                 <b style="    vertical-align: -webkit-baseline-middle; margin-left: 15px; font-size: 20px;">'.$row_count_dog['count_dog'].'</b></div>
+                 <lable style="margin-left: 50px; font-size: 20px">Новые по области: </lable><div style=""><select class="form-select" style="margin-left: 5px; vertical-align: -webkit-baseline-middle;" id="selectOblast" onchange="filterOblast(this)">
                  <option value="0">Выберите область</option>
                  <option value="1">Брестская</option>
                  <option value="2">Витебская</option>

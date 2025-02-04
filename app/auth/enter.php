@@ -9,7 +9,7 @@ if (isset($_POST["login"]) && isset($_POST["password"])) {
     $password = trim(str_replace(array("\r", "\n", ' '), '', $_POST["password"]));
     $hashPassword = md5($password);
 
-    $query = "select * from users where trim(login) = trim('$login') and trim(password) = trim('$hashPassword')";
+    $query = "select * from users where trim(login) = trim('$login') and trim(password) = trim('$hashPassword') and removed_at is null";
     $result = $connectionDB->executeQuery($query);
     if ($connectionDB->getNumRows($result) == 1) {
         $row = $connectionDB->getRowResult($result);

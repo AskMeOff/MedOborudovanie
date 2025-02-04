@@ -146,8 +146,9 @@ echo "ono = " . $id_type;
                 $serviceNames[] = $row['name'];
             }
             echo ' 
- <button id="btnExportExcel" data-id="'.$id_uz.'" class="btn btn-info" style="margin-left: 2vw;">Экспорт в Excel</button>
- <button id="btnAddOborudovanie" class="btn btn-info m-2">Добавить оборудование</button>';
+ <button id="btnExportExcel" data-id="'.$id_uz.'" class="btn btn-info" style="margin-left: 2vw;">Экспорт в Excel</button>';
+ if($login != "test_account")
+         echo '<button id="btnAddOborudovanie" class="btn btn-info m-2">Добавить оборудование</button>';
             echo '<div>  <button class="btn btn-info" onclick="startFilter()" style=" margin-top: 10px; margin-left: 2vw;">Фильтры</button> 
           <div id="filterContainer" class="filterContainer" style="display: none;">
             <div class = "filtCol row" style="margin-left: 10px;">
@@ -239,6 +240,12 @@ echo "ono = " . $id_type;
                                         left outer join type_oborudovanie on oborudovanie.id_type_oborudovanie = type_oborudovanie.id_type_oborudovanie
                                         left outer join servicemans s on s.id_serviceman = oborudovanie.id_serviceman
                                         where id_uz = $id_uz and status in (0,1,3) order by oborudovanie.id_oborudovanie desc";
+            if($login == "test_account"){
+                $sql1 = "SELECT oborudovanie.*, type_oborudovanie.name, s.name as servname FROM oborudovanie
+                                        left outer join type_oborudovanie on oborudovanie.id_type_oborudovanie = type_oborudovanie.id_type_oborudovanie
+                                        left outer join servicemans s on s.id_serviceman = oborudovanie.id_serviceman
+                                        where status in (0,1,3) and oborudovanie.id_type_oborudovanie = '$id_type' order by oborudovanie.id_oborudovanie desc";
+            }
             $result1 = $connectionDB->executeQuery($sql1);
             while ($row1 = mysqli_fetch_assoc($result1)) {
                 $nameOborudov = $row1['name'];
@@ -279,6 +286,7 @@ echo "ono = " . $id_type;
                 else {
                     echo '<td  onclick="getFaultsTable(' . $idOborudovanie . ')" style="cursor: pointer"><div style = "border-radius: 5px;background-color: red;color: white; padding: 5px; font-size: 11px; width: 85px;">' . $status . '</div></td>';
                 }
+                if($login != "test_account")
                 echo '<td>
            <a href="#" onclick="confirmDeleteOborudovanie1(' . $idOborudovanie . ')"><i class="fa fa-trash" style="font-size: 20px;"></i></a>
            <a href="#" onclick="editOborudovanie(' . $idOborudovanie . ')"><i class="fa fa-edit" style="font-size: 20px;"></i>️</a>

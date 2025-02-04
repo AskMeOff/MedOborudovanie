@@ -150,6 +150,11 @@ function filterZayavka(el) {
     // Сохраняем состояние фильтра
     var filterEmpty = el.checked;
 
+    let chkbNew = document.getElementById("chkbNew");
+    chkbNew.checked = false;
+    table.rows().every(function () {
+        $(this.node()).show(); // Показываем все строки
+    });
     if (filterEmpty) {
         // Устанавливаем количество строк на странице на "все"
         table.page.len(-1).draw();
@@ -223,8 +228,10 @@ function filterNew(el) {
 function filterOblast(el) {
     var table = $("#infoObAll").DataTable();
     let selectedObl = el.options[el.selectedIndex].innerText;
-
     if (el.selectedIndex > 0) {
+        let chkbNew = document.getElementById("chkbNew");
+        chkbNew.checked = false;
+
         // Устанавливаем количество строк на странице на "все"
         table.page.len(-1).draw();
 
@@ -271,9 +278,14 @@ function filterNew(el) {
     var table = $("#infoObAll").DataTable();
     table.page.len(10).draw();
     // Сохраняем состояние фильтра
+    // Показываем все строки
+    table.rows().every(function () {
+        $(this.node()).show(); // Показываем все строки
+    });
     var filterEmpty = el.checked;
 
     if (filterEmpty) {
+
         // Устанавливаем количество строк на странице на "все"
         table.page.len(-1).draw();
 
@@ -290,6 +302,7 @@ function filterNew(el) {
             }
         });
     } else {
+        console.log("xyu")
         // Возвращаем количество строк на странице к стандартному значению (например, 10)
         table.page.len(10).draw(); // Установите нужное количество строк на странице
 
