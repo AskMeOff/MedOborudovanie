@@ -164,7 +164,7 @@ $('#saveService').click(function() {
         }
     });
 });
-let JsonReestr = null;
+let JsonReestr ;
 let cachJsonReestr;
 $(document).ready(async function() {
 
@@ -250,7 +250,7 @@ function fetchReestr() {
                     const JsonReestr = JSON.parse(response);
                     console.log('Данные из запроса:', JsonReestr);
 
-                    saveDataToIndexedDB({ id: id, ...JsonReestr }).then(() => {
+                    saveDataToIndexedDB({ id: id, JsonReestr }).then(() => {
                         resolve(JsonReestr);
                     }).catch(reject);
                 }).catch(error => {
@@ -262,7 +262,7 @@ function fetchReestr() {
 }
 
 fetchReestr().then(data => {
-    JsonReestr = data;
+    JsonReestr = data['JsonReestr'];
 }).catch(error => {
     console.error('Ошибка:', error);
 });
