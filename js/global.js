@@ -164,23 +164,108 @@ $('#saveService').click(function() {
         }
     });
 });
-let JsonReestr;
+let JsonReestr = null;
+let cachJsonReestr;
 $(document).ready(async function() {
 
-    new Promise((resolve, reject) => {
-        $.ajax({
-            url: "app/ajax/getReestr.php",
-            method: "GET"
-        }).then(response => {
 
-            JsonReestr = JSON.parse(response);
-            console.log (JsonReestr);
-        })
-        resolve()
-    }).then(() => {
-    })
 });
 
+function openDatabase() {
+    return new Promise((resolve, reject) => {
+        const request = indexedDB.open("MyDatabase", 1);
+
+        request.onupgradeneeded = function(event) {
+            const db = event.target.result;
+            db.createObjectStore("MyObjectStore", { keyPath: "id" });
+        };
+
+        request.onsuccess = function(event) {
+            resolve(event.target.result);
+        };
+
+        request.onerror = function(event) {
+            reject("Ошибка при открытии базы данных: " + event.target.error);
+        };
+    });
+}
+
+function getDataFromIndexedDB(id) {
+    return new Promise((resolve, reject) => {
+        openDatabase().then(db => {
+            const transaction = db.transaction("MyObjectStore", "readonly");
+            const objectStore = transaction.objectStore("MyObjectStore");
+            const getRequest = objectStore.get(id);
+
+            getRequest.onsuccess = function(event) {
+                const data = event.target.result;
+                if (data) {
+                    console.log("Данные из IndexedDB:", data);
+                    resolve(data);
+                } else {
+                    console.log("Данные не найдены в IndexedDB");
+                    resolve(null);
+                }
+            };
+
+            getRequest.onerror = function(event) {
+                reject("Ошибка при извлечении данных: " + event.target.error);
+            };
+        }).catch(reject);
+    });
+}
+
+function saveDataToIndexedDB(data) {
+    return new Promise((resolve, reject) => {
+        openDatabase().then(db => {
+            const transaction = db.transaction("MyObjectStore", "readwrite");
+            const objectStore = transaction.objectStore("MyObjectStore");
+            const addRequest = objectStore.put(data);
+
+            addRequest.onsuccess = function() {
+                console.log("Данные успешно сохранены");
+                resolve(data);
+            };
+
+            addRequest.onerror = function(event) {
+                reject("Ошибка при сохранении данных: " + event.target.error);
+            };
+        }).catch(reject);
+    });
+}
+
+function fetchReestr() {
+    return new Promise((resolve, reject) => {
+        const id = 1;
+
+        getDataFromIndexedDB(id).then(cachedData => {
+            if (cachedData) {
+                resolve(cachedData);
+            } else {
+
+                $.ajax({
+                    url: "app/ajax/getReestr.php",
+                    method: "GET"
+                }).then(response => {
+                    const JsonReestr = JSON.parse(response);
+                    console.log('Данные из запроса:', JsonReestr);
+
+                    saveDataToIndexedDB({ id: id, ...JsonReestr }).then(() => {
+                        resolve(JsonReestr);
+                    }).catch(reject);
+                }).catch(error => {
+                    reject("Ошибка при выполнении AJAX-запроса: " + error);
+                });
+            }
+        }).catch(reject);
+    });
+}
+
+fetchReestr().then(data => {
+    JsonReestr = data;
+}).catch(error => {
+    console.error('Ошибка:', error);
+});
 
 
 
