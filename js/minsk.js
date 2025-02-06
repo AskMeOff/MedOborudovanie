@@ -31,6 +31,7 @@ function showTable(idTable) {
 
 }
 
+
 function showSection(idOrg, element) {
     selectedOrg = idOrg;
     let oldActive = document.getElementsByClassName("activecard1")[0];
@@ -43,7 +44,33 @@ function showSection(idOrg, element) {
     })
     let section = document.getElementById("org" + idOrg);
     section.style.display = "block";
-    showTable('infoOb' + idOrg);
+
+
+
+    new Promise((resolve, reject) => {
+        $.ajax({
+            url: 'app/ajax/getOrg.php',
+            method: 'GET',
+            data: { id_uz: idOrg }
+        }).done(response => {
+            section.innerHTML = response;
+            resolve(); // Вызываем resolve() здесь, когда запрос завершен
+        }).fail(error => {
+            reject(error); // Обрабатываем ошибку, если запрос не удался
+        });
+    }).then(() => {
+        let tableid = document.getElementById('infoOb' + idOrg);
+        tableid.style.display = "block"; // Изменяем стиль отображения
+    }).catch(error => {
+        console.error('Ошибка при получении данных:', error); // Обрабатываем ошибку
+    });
+
+
+
+    $('#infoOb' + idOrg).DataTable();
+
+
+    //showTable('infoOb' + idOrg);
 
     let container_fluid = document.getElementById("container_fluid");
     let btnAddOborudovanie = document.getElementById("btnAddOborudovanie");

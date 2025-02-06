@@ -36,13 +36,13 @@ if (currentUrl == "?main" || currentUrl == "") {
 //
 // }
 
-function getUzs(id_obl, id_type) {
+function getUzs(id_obl, id_type, page) {
     oblId=id_obl;
     $("#preloader").show();
     $.ajax({
         url: "app/pages/obls/minsk.php",
         method: "GET",
-        data: {id_obl: id_obl, id_type: id_type}
+        data: {id_obl: id_obl, id_type: id_type, page: page}
     }).then(response => {
         let bodywrap = document.getElementById("bodywrap");
         bodywrap.innerHTML = response;
@@ -151,21 +151,22 @@ function filterFunction() {
         option.style.display = txtValue.toLowerCase().indexOf(filter) > -1 ? "" : "none";
     }
 }
+$('#saveService').click(function() {
+    let serviceName = $('#serviceName').val();
+    $.ajax({
+        url: '/app/ajax/saveService.php',
+        type: 'POST',
+        data: { name: serviceName },
+        success: function(response) {
+            console.log (response)
+            alert('Сервисант успешно добавлен!');
+            $('#addServiceModal').modal('hide');
+        }
+    });
+});
 let JsonReestr;
 $(document).ready(async function() {
-    $('#saveService').click(function() {
-        let serviceName = $('#serviceName').val();
-        $.ajax({
-            url: '/app/ajax/saveService.php',
-            type: 'POST',
-            data: { name: serviceName },
-            success: function(response) {
-                console.log (response)
-                    alert('Сервисант успешно добавлен!');
-                    $('#addServiceModal').modal('hide');
-                }
-        });
-    });
+
     new Promise((resolve, reject) => {
         $.ajax({
             url: "app/ajax/getReestr.php",

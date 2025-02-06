@@ -706,6 +706,7 @@ echo '
                     <label for="data_year_efficiency">Год:</label>
                     <select id="edit_data_year_efficiency" name="data_year_efficiency" class="styled-select">
     <option value="" selected disabled>Выберите год</option>
+    <option value="2025">2025</option>
     <option value="2024">2024</option>
     <option value="2023">2023</option>
     <option value="2022">2022</option>
