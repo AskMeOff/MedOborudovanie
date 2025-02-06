@@ -72,7 +72,7 @@ if (isset($_COOKIE['token']) && $_COOKIE['token'] !== '') {
         $equipmentTypes = [];
         $serviceNames = [];
         $statuses = ['исправно', 'неисправно','Работа в ограниченном режиме'];
-        $sqlTypes = "SELECT DISTINCT name FROM type_oborudovanie";
+        $sqlTypes = "SELECT DISTINCT name FROM type_oborudovanie order by name";
         $resultTypes = $connectionDB->executeQuery($sqlTypes);
         while ($row = mysqli_fetch_assoc($resultTypes)) {
             $equipmentTypes[] = $row['name'];

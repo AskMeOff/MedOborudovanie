@@ -3,7 +3,7 @@
 
 $equipmentTypes = [];
 $oblastNames = [];
-$sqlTypes = "SELECT DISTINCT name FROM type_oborudovanie";
+$sqlTypes = "SELECT DISTINCT name FROM type_oborudovanie order by name";
 $resultTypes = $connectionDB->executeQuery($sqlTypes);
 while ($row = mysqli_fetch_assoc($resultTypes)) {
     $equipmentTypes[] = $row['name'];
