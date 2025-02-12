@@ -13,7 +13,10 @@ while ($row = mysqli_fetch_assoc($resultTypes)) {
 }
 
 function buildEquipmentTree($equipmentList, $id_role, $parentId = null) {
-    $login = $_COOKIE['login'];
+    if(isset($_COOKIE['login']))
+        $login = $_COOKIE['login'];
+    else
+        $login = "";
     $html = '';
     $filteredEquipment = array_filter($equipmentList, function($equipment) use ($parentId) {
         return $equipment['parent_id'] == $parentId;
@@ -31,6 +34,9 @@ function buildEquipmentTree($equipmentList, $id_role, $parentId = null) {
                     // Заменяем span на a с классом menu-item
                     $html .= '<a href="#" class="menu-item" onclick="toggleSubmenu(event); return false;">' . $equipment["name"] . '</a>';
                 } else if ($equipment["id_type_oborudovanie"] == 19) {
+                    // Заменяем span на a с классом menu-item
+                    $html .= '<a href="#" class="menu-item" onclick="toggleSubmenu(event); return false;">' . $equipment["name"] . '</a>';
+                }else if ($equipment["id_type_oborudovanie"] == 21) {
                     // Заменяем span на a с классом menu-item
                     $html .= '<a href="#" class="menu-item" onclick="toggleSubmenu(event); return false;">' . $equipment["name"] . '</a>';
                 } else {
@@ -75,6 +81,8 @@ function buildEquipmentTree($equipmentList, $id_role, $parentId = null) {
                     if ($id_role == 1) {
                         echo "<li><a href='index.php?podusers'><i class='fa fa-user'></i>Мои пользователи</a></li>";
                     }
+                }else{
+                    $id_role = 0;
                 }
                 ?>
                 <li id="menu_oborud"><a href="#"><i class="fa fa-suitcase"></i>Оборудование</a>

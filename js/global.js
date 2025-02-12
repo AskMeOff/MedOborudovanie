@@ -247,11 +247,10 @@ function fetchReestr() {
                     url: "app/ajax/getReestr.php",
                     method: "GET"
                 }).then(response => {
-                    const JsonReestr = JSON.parse(response);
-                    console.log('Данные из запроса:', JsonReestr);
+                    JsonReestr = JSON.parse(response);
 
                     saveDataToIndexedDB({ id: id, JsonReestr }).then(() => {
-                        resolve(JsonReestr);
+                        resolve({ id: 1, JsonReestr });
                     }).catch(reject);
                 }).catch(error => {
                     reject("Ошибка при выполнении AJAX-запроса: " + error);
@@ -263,6 +262,7 @@ function fetchReestr() {
 
 fetchReestr().then(data => {
     JsonReestr = data['JsonReestr'];
+    console.log('Данные из запроса:', { id: 1, JsonReestr });
 }).catch(error => {
     console.error('Ошибка:', error);
 });

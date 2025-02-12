@@ -85,7 +85,7 @@ if (isset($_COOKIE['token']) && $_COOKIE['token'] !== '') {
 
             echo '           <div> 
           <button id="btnExportExcel" data-id="" class="btn btn-info" style="margin-left: 2vw;" onclick = "exportTableToExcelAddedOb(\'infoObAll\', \'Таблица_оборудования\')">Экспорт в Excel</button>
-<button class="btn btn-info" onclick="startFilter()" style=" margin-top: 10px; ">Фильтры</button> 
+<button class="btn btn-info" onclick="startFilter()" style="">Фильтры</button> 
            <a class="nav-link sidebartoggler nav-icon-hover" id="arrow-left" onclick="toggleRightSection()" style="
            position: absolute;
     right: 50px;
@@ -617,7 +617,7 @@ echo ' </select>
                     <input type="date" id="edit_date_release" name="date_release">
                     <!---->
                    
-                    <label for="filterSerialNumber">Регистрационный номер оборудования (<a target="_blank" href="https://www.rceth.by/Refbank/reestr_medicinskoy_tehniki"> Реестры УП «Центр экспертиз и испытаний в здравоохранении»</a>): <a target="_blank" href="documents/help_reg_number.mp4"><i style="font-size: 24px;" class="fa fa-question"></i></a></label>
+                    <label for="filterSerialNumber">Регистрационный номер оборудования (<a target="_blank" href="https://www.rceth.by/Refbank/reestr_medicinskoy_tehniki"> Реестры УП «Центр экспертиз и испытаний в здравоохранении»</a>): <a target="_blank" href="documents/Видеоинструкция добавления.mp4"><i style="font-size: 24px;" class="fa fa-question"></i></a></label>
                 
                      <input type="text" id="filterSerialNumber" autocomplete="off" onclick="filterSNumber(event)"/>    
                                 
