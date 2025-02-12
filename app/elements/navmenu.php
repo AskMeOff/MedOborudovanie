@@ -36,6 +36,9 @@ function buildEquipmentTree($equipmentList, $id_role, $parentId = null) {
                 } else if ($equipment["id_type_oborudovanie"] == 19) {
                     // Заменяем span на a с классом menu-item
                     $html .= '<a href="#" class="menu-item" onclick="toggleSubmenu(event); return false;">' . $equipment["name"] . '</a>';
+                }else if ($equipment["id_type_oborudovanie"] == 21) {
+                    // Заменяем span на a с классом menu-item
+                    $html .= '<a href="#" class="menu-item" onclick="toggleSubmenu(event); return false;">' . $equipment["name"] . '</a>';
                 } else {
                     // Для всех остальных элементов добавляем обработчик
                     if ($id_role == 4)
