@@ -145,7 +145,7 @@ echo '<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/selec
             $equipmentTypes = [];
             $serviceNames = [];
             $statuses = ['исправно', 'неисправно','Работа в ограниченном режиме'];
-            $sqlTypes = "SELECT DISTINCT name FROM type_oborudovanie";
+            $sqlTypes = "SELECT DISTINCT name FROM type_oborudovanie order by name";
             $resultTypes = $connectionDB->executeQuery($sqlTypes);
             while ($row = mysqli_fetch_assoc($resultTypes)) {
                 $equipmentTypes[] = $row['name'];
@@ -314,7 +314,7 @@ echo '<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/selec
                     <label>Вид оборудования:</label>
                     <select class="form-select blink"  id="select_type_oborudovanie">';
 
-    $query = "select * from type_oborudovanie";
+    $query = "select * from type_oborudovanie order by name";
     $result = $connectionDB->executeQuery($query);
     while ($row = $result->fetch_assoc()) {
         echo "<option value='" . $row['id_type_oborudovanie'] . "'>" . $row['name'] . "</option>";

@@ -80,6 +80,7 @@ if (!isset($_GET['id_type'])) {
     }
 }
 $result1 = $connectionDB->executeQuery($sql1);
+$rows = [];
 while ($row1 = mysqli_fetch_assoc($result1)) {
     $poliklinika = $row1['poliklinika'];
     $nameOborudov = $row1['name'];
@@ -87,42 +88,22 @@ while ($row1 = mysqli_fetch_assoc($result1)) {
     $model = $row1['model'];
     $serial_number = $row1['serial_number'];
     $zavod_nomer = $row1['zavod_nomer'];
-    $mark1 = empty($serial_number) || empty($nameOborudov) ?  '<span style="color: red; font-size: 20px;">!</span>' : '';
-    echo '<tr id=idob' . $idOborudovanie . '  >';
-    echo '<td>' . $mark1. '</td>';
-    echo '<td>' . $poliklinika . '</td>';
-    echo '<td>' . $model . '</td>';
-    echo '<td>' . $serial_number . '</td>';
-    echo '<td>' . $zavod_nomer . '</td>';
-    echo '<td class="vid_oborudovaniya" onclick="getEffectTable(' . $idOborudovanie . ')" style="cursor: pointer; color: #167877;
-    font-weight: 550;">' . $nameOborudov . '</td>';
-    $date_create = $row1['date_create'];
-    echo  '<td>' . $date_create . '</td>';
-    $date_postavki = $row1['date_postavki'];
-    echo '<td>' . ($date_postavki ? date('d.m.Y', strtotime($date_postavki)) : 'Нет данных') . '</td>';
-    $date_release = $row1['date_release'];
-    echo '<td>' . ($date_release ? date('d.m.Y', strtotime($date_release)) : 'Нет данных') . '</td>';
-    echo '<td>' . $row1['servname'] . '</td>';
-    $date_last_TO = $row1['date_last_TO'];
-    echo '<td>' . ($date_last_TO ? date('d.m.Y', strtotime($date_last_TO)) : 'Нет данных') . '</td>';
-    if($row1['status'] === "1")
-    {
-        $status = "исправно";
-    }
-    else{
-        $status =  (($row1['status'] === "3") ? "Работа в ограниченном режиме" : "неисправно");
-    }
-
-
-    if ($row1['status'] === "1") {
-        echo '<td   style="cursor: pointer"><div style = "border-radius: 5px;background-color: green;color: white; padding: 5px;">' . $status . '</div></td>';
-    }
-    else if ($row1['status'] === "3") {
-        echo '<td   style="cursor: pointer"><div style = "border-radius: 5px;background-color: orange;color: white; padding: 5px;">' . $status . '</div></td>';
-    }
-    else {
-        echo '<td   style="cursor: pointer"><div style = "border-radius: 5px;background-color: red;color: white; padding: 5px; font-size: 11px;width: 85px;">' . $status . '</div></td>';
-    }
-    //echo '<td><a href="#" onclick="confirmDeleteOborudovanie(' . $idOborudovanie . ')">&#10060;</a><a href="#" onclick="editOborudovanie(' . $idOborudovanie . ')">✏️</a></td>';
-    echo '</tr>';
+    $mark1 = empty($serial_number) || empty($nameOborudov) ? '<span style="color: red; font-size: 20px;">!</span>' : '';
+    $rows[] = '<tr id=idob' . $idOborudovanie . '>
+        <td>' . $mark1 . '</td>
+        <td>' . $poliklinika . '</td>
+        <td>' . $model . '</td>
+        <td>' . $serial_number . '</td>
+        <td>' . $zavod_nomer . '</td>
+        <td class="vid_oborudovaniya" onclick="getEffectTable(' . $idOborudovanie . ')" style="cursor: pointer; color: #167877; font-weight: 550;">' . $nameOborudov . '</td>
+        <td>' . $row1['date_create'] . '</td>
+        <td>' . ($row1['date_postavki'] ? date('d.m.Y', strtotime($row1['date_postavki'])) : 'Нет данных') . '</td>
+        <td>' . ($row1['date_release'] ? date('d.m.Y', strtotime($row1['date_release'])) : 'Нет данных') . '</td>
+        <td>' . $row1['servname'] . '</td>
+        <td>' . ($row1['date_last_TO'] ? date('d.m.Y', strtotime($row1['date_last_TO'])) : 'Нет данных') . '</td>
+        <td>' . ($row1['status'] === "1" ? '<div style="border-radius: 5px;background-color: green;color: white; padding: 5px;">исправно</div>' :
+            ($row1['status'] === "3" ? '<div style="border-radius: 5px;background-color: orange;color: white; padding: 5px;">Работа в ограниченном режиме</div>' :
+                '<div style="border-radius: 5px;background-color: red;color: white; padding: 5px; font-size: 11px;width: 85px;">неисправно</div>')) . '</td>
+    </tr>';
 }
+echo implode('', $rows);

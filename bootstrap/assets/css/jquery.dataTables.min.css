@@ -32,11 +32,11 @@ table.dataTable thead .sorting, table.dataTable thead .sorting_asc, table.dataTa
 }
 
 table.dataTable thead .sorting {
-    background-image: url("../images/sort_both.png")
+
 }
 
 table.dataTable thead .sorting_asc {
-    background-image: url("../images/sort_asc.png")
+
 }
 
 table.dataTable thead .sorting_desc {
