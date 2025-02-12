@@ -116,7 +116,7 @@
                     <div class="col-md-4">
                         <div class="video-block">
                             <video controls class="video-thumbnail" width="100%">
-                                <source src="../../documents/Добавление оборудования.mp4" type="video/mp4">
+                                <source src="../../documents/Видеоинструкция добавления.mp4" type="video/mp4">
                                 Ваш браузер не поддерживает видео.
                             </video>
                             <div class="video-title">Видеоинструкция "Добавление оборудования"</div>
