@@ -312,7 +312,7 @@ echo '<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/selec
             <div class="modal-body">
             <form id="editOborudovanieForm">
                     <label>Вид оборудования:</label>
-                    <select class="form-select" id="select_type_oborudovanie">';
+                    <select class="form-select blink"  id="select_type_oborudovanie">';
 
     $query = "select * from type_oborudovanie";
     $result = $connectionDB->executeQuery($query);

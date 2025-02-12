@@ -318,7 +318,7 @@ echo "ono = " . $id_type;
             <div class="modal-body">
             <form id="editOborudovanieForm">
                     <label>Вид оборудования:</label>
-                    <select class="form-select" id="select_type_oborudovanie">';
+                    <select class="form-select blink"  id="select_type_oborudovanie">';
 
     $query = "SELECT * FROM type_oborudovanie where id_type_oborudovanie not in (19,29) order by name;";
     $result = $connectionDB->executeQuery($query);

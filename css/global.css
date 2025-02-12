@@ -123,3 +123,34 @@ body {
     position: fixed !important;
 }
 
+
+
+.form-select {
+    border: 2px solid #ccc;
+    border-radius: 4px;
+    padding: 8px;
+    transition: box-shadow 0.3s, border-color 0.3s;
+}
+
+.form-select:focus {
+    border-color: #ffcc00; /* Цвет рамки при фокусе */
+    box-shadow: 0 0 10px rgba(255, 204, 0, 0.7); /* Светящаяся тень */
+}
+
+.form-select:hover {
+    box-shadow: 0 0 15px rgba(255, 204, 0, 1); /* Яркая тень при наведении */
+}
+
+/* Анимация мигания */
+@keyframes blink {
+    0%, 100% {
+        box-shadow: 0 0 15px rgba(255, 204, 0, 0);
+    }
+    50% {
+        box-shadow: 0 0 15px rgba(255, 204, 0, 1);
+    }
+}
+
+.blink {
+    animation: blink 1s infinite; /* Анимация мигания */
+}
