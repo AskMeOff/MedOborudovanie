@@ -14,9 +14,11 @@ $dateRelease = $_POST['dateRelease'];
 $service = $_POST['service'];
 $status = $_POST['status'];
 
-if ($id_uz == 0 || $id_obl == 111) {
+if ( $id_obl == 111) {
     $id_obl = null;
 }
+
+
 
 $sql = "SELECT oborudovanie.*, type_oborudovanie.name, uz.name as poliklinika, s.name as servname FROM oborudovanie 
         INNER JOIN uz on oborudovanie.id_uz=uz.id_uz
@@ -65,6 +67,10 @@ if (!empty($service)) {
 if (!empty($status) && $status !== "Все") {
     $statusValue = ($status === "исправно") ? "1" : (($status === "Работа в ограниченном режиме") ? "3" : "0");
     $sql .= " AND oborudovanie.status = '" . $connectionDB->escapeString($statusValue) . "'";
+}
+
+if ($id_obl !== null) {
+    $sql .= " AND uz.id_oblast = $id_obl";
 }
 
 $result = $connectionDB->executeQuery($sql);
