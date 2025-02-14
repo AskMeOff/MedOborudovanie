@@ -1,29 +1,20 @@
 <?php
 include "../../connection/connection.php";
-
 ini_set('memory_limit', '1056M');
-
-
-$url = "https://rceth.by/ru/JSONGetReestrMT";
-
-$ch = curl_init();
-
-curl_setopt($ch, CURLOPT_URL, $url);
-curl_setopt($ch, CURLOPT_RETURNTRANSFER, true); // Возвращать ответ как строку
-
-$response = curl_exec($ch);
-
-if (curl_errno($ch)) {
-    echo 'Ошибка cURL: ' . curl_error($ch);
-    curl_close($ch);
-    exit;
+$query = "SELECT * FROM reestr ";
+$result = $connectionDB->executeQuery($query);
+$data = array();
+while($row = $result->fetch_assoc()){
+    array_push($data , ['Наименование' => $row['Наименование']
+        , 'Производитель' => $row['Производитель']
+        , 'Рег_номер_товара' => $row['Рег_номер_товара']
+        , 'Рег_номер_РУ' => $row['Рег_номер_РУ']
+        , 'Тип' => $row['Тип']
+        , 'N_п_п' => $row['N_п_п']
+    ]);
 }
-
-curl_close($ch);
-
-// Декодирование JSON-ответа
-//$data = json_decode($response, true);
+echo json_encode($data);
 
 
-//header("Content-Type: application/json");
-echo $response;
+$connectionDB->con->close();
+?>
