@@ -792,7 +792,7 @@ function editOborudovanie(idOborudovanie) {
         const waitForJsonReestr = setInterval(() => {
             if (typeof JsonReestr !== 'undefined' && JsonReestr !== null) {
                 clearInterval(waitForJsonReestr);
-                selectedItemFromReestr = JsonReestr.find((item) => item['N_п_п'] == data.id_from_reestr);
+                selectedItemFromReestr = JsonReestr.find((item) => item['Рег_номер_товара'] == data.serial_number);
 
                 $('#editOborudovanieModal').modal('show');
             }
@@ -1280,6 +1280,8 @@ function toggleRightSection() {
     }
     $("#arrow-left").toggle();
 
+    if(right_section.hasClass("viehal"))
+        right_section.removeClass("viehal");
 }
 
 function exportTableToExcelAddedOb(tableID, filename = '') {
