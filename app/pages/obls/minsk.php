@@ -203,10 +203,12 @@ include '../../ajax/getOblastOborudovanie.php';
 
 
     echo '<section class="col-lg-3" id="right_section" style="transition: transform 1s;">
-<a class="nav-link sidebartoggler nav-icon-hover" onclick="toggleRightSection()" style="margin-top: 10px; cursor: pointer; color: rgb(152, 212, 212)" >
+<a class="nav-link sidebartoggler nav-icon-hover" onclick="toggleRightSection()" style="margin-top: 10px; cursor: pointer; color: rgb(152, 212, 212); width: 37px;
+    position: fixed;
+    z-index: 9999;" >
                     <i class="ti ti-arrow-right" style="font-size: 30px; "></i>
                 </a>
-    <div><input style="width:100%;" type="text" id="myInputOrg" onkeyup="myFunctionOrg(this)"
+    <div style = "margin-top: 42px;"><input style="width:100%;" type="text" id="myInputOrg" onkeyup="myFunctionOrg(this)"
                 placeholder="Поиск организации"
                 title="Type in a name">
     </div>';

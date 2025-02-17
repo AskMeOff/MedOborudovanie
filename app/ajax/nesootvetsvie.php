@@ -49,10 +49,11 @@ echo '<table border="1">
 </th>
 </thead>
 <tbody>';
-
+$countNevernoe = 0;
 $sqlobl = 'select id_oblast, name from oblast';
 $resultobl = mysqli_query($connectionDB->con, $sqlobl);
 while($row = $resultobl->fetch_assoc()){
+    $count_obl = 0;
     echo '<tr><td style="font-size: 25px; font-weight: 800">'.$row['name'].'</td></tr>';
 $id_oblast = $row['id_oblast'];
         $sql_type = 'SELECT o.id_oborudovanie, uz.name as name_uz, t.name as type_name, o.model, ob.name as ob_name
@@ -60,7 +61,7 @@ from oborudovanie o
      left join type_oborudovanie t on o.id_type_oborudovanie = t.id_type_oborudovanie
     left join uz uz on o.id_uz = uz.id_uz
     left join oblast ob on ob.id_oblast = uz.id_oblast
-    where ob.id_oblast = '.$id_oblast.' and o.serial_number is not null and uz.id_uz = 534';
+    where ob.id_oblast = '.$id_oblast.' and o.serial_number is not null ';
         $resultobl_type = mysqli_query($connectionDB->con, $sql_type);
         while ($row1 = $resultobl_type->fetch_assoc()) {
             $found = false;
@@ -92,12 +93,15 @@ from oborudovanie o
 
                 } else {
                     echo '<tr><td>' . $row1['name_uz'] . '</td><td>' . $row1['type_name'] . '</td><td>' . $row1['model'] . '</td></tr>';
+                    $countNevernoe++;
+                    $count_obl++;
                 }
 
 
             }else{
                 echo '<tr><td>' . $row1['name_uz'] . '</td><td>' . $row1['type_name'] . '</td><td>' . $row1['model'] . '</td></tr>';
-
+                $countNevernoe++;
+                $count_obl++;
             }
         }
 
@@ -106,19 +110,22 @@ from oborudovanie o
      left join type_oborudovanie t on o.id_type_oborudovanie = t.id_type_oborudovanie
     left join uz uz on o.id_uz = uz.id_uz
     left join oblast ob on ob.id_oblast = uz.id_oblast
-    where ob.id_oblast = '.$id_oblast.' and o.serial_number is null and uz.id_uz = 534';
+    where ob.id_oblast = '.$id_oblast.' and o.serial_number is null ';
     $resultobl_type = mysqli_query($connectionDB->con, $sql_type);
 
     while ($row1 = $resultobl_type->fetch_assoc()) {
         if($row1['type_name'] === NULL || $row1['type_name'] === '')
             $row1['type_name'] = 'Отсутствует тип';
         echo '<tr><td>' . $row1['name_uz'] . '</td><td>' . $row1['type_name'] . '</td><td>' . $row1['model'] . '</td></tr>';
-
+        $countNevernoe++;
+        $count_obl++;
     }
+    echo '<tr><td>'.$count_obl.'</td></tr>';
 }
 
 
 
 echo '</tbody>
 </table>';
+echo $countNevernoe;
 //?>
