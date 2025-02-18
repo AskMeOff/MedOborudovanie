@@ -88,7 +88,6 @@ function showSection(idOrg, element) {
         $('#addBtnOb').show();
         $('#yearError').hide();
         $('#editOborudovanieModal').modal('show');
-        document.getElementById('addBtnOb').onclick = saveEditedOborudovanie1;
         $('#editOborudovanieModal .modal-title').text("Добавление оборудования");
         let select_type_oborudovanie = document.getElementById("select_type_oborudovanie");
         select_type_oborudovanie.options[0].selected = true;
@@ -798,8 +797,7 @@ function editOborudovanie(idOborudovanie) {
                 selectedItemFromReestr = JsonReestr.find((item) => item['Рег_номер_товара'] == data.serial_number);
 
                 $('#editOborudovanieModal').modal('show');
-                document.getElementById('addBtnOb').onclick = saveEditedOborudovanie1;
-                document.getElementById('editBtnOb').onclick = saveEditedOborudovanie1;
+
             }
         }, 100);
         $("#preloader").hide();
@@ -1074,9 +1072,11 @@ function chckReg(el) {
     if (el.checked) {
         $('#filterSerialNumber').prop('disabled', true);
         $('#model_name').prop('disabled', false);
+        document.getElementById('filterSerialNumber').setAttribute('data-id', "0");
     } else {
         $('#filterSerialNumber').prop('disabled', false);
         $('#model_name').prop('disabled', true);
+        document.getElementById('filterSerialNumber').removeAttribute('data-id');
     }
 }
 
@@ -1571,7 +1571,6 @@ if(btnAddOborudovanie){
         $('#addBtnOb').show();
         $('#yearError').hide();
         $('#editOborudovanieModal').modal('show');
-        document.getElementById('addBtnOb').onclick = saveEditedOborudovanie1;
         $('#editOborudovanieModal .modal-title').text("Добавление оборудования");
         let select_type_oborudovanie = document.getElementById("select_type_oborudovanie");
         select_type_oborudovanie.options[0].selected = true;
@@ -1807,8 +1806,12 @@ function saveEditedOborudovanie1(){
     let so = select_servicemans.getAttribute('data-id');
 
     console.log(id_from_reestr);
+    if($('#isNotReg').prop('checked'))
     if (id_from_reestr == null) {
+
         alert('Не выбран регистрационный номер');
+
+
     } else {
         if (selectedServiceId) {
             so = selectedServiceId;
