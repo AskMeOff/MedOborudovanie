@@ -88,6 +88,7 @@ function showSection(idOrg, element) {
         $('#addBtnOb').show();
         $('#yearError').hide();
         $('#editOborudovanieModal').modal('show');
+        document.getElementById('addBtnOb').onclick = saveEditedOborudovanie1;
         $('#editOborudovanieModal .modal-title').text("Добавление оборудования");
         let select_type_oborudovanie = document.getElementById("select_type_oborudovanie");
         select_type_oborudovanie.options[0].selected = true;
@@ -797,6 +798,7 @@ function editOborudovanie(idOborudovanie) {
                 selectedItemFromReestr = JsonReestr.find((item) => item['Рег_номер_товара'] == data.serial_number);
 
                 $('#editOborudovanieModal').modal('show');
+                document.getElementById('addBtnOb').onclick = saveEditedOborudovanie1;
                 document.getElementById('editBtnOb').onclick = saveEditedOborudovanie1;
             }
         }, 100);
@@ -1569,6 +1571,7 @@ if(btnAddOborudovanie){
         $('#addBtnOb').show();
         $('#yearError').hide();
         $('#editOborudovanieModal').modal('show');
+        document.getElementById('addBtnOb').onclick = saveEditedOborudovanie1;
         $('#editOborudovanieModal .modal-title').text("Добавление оборудования");
         let select_type_oborudovanie = document.getElementById("select_type_oborudovanie");
         select_type_oborudovanie.options[0].selected = true;
@@ -1769,6 +1772,7 @@ function filterTable1(iduz) {
 
 
 function saveEditedOborudovanie1(){
+
 
     let modelNAZVANIE = document.getElementById('model_name').value.trim().toLowerCase();
     let poisk = JsonReestr.find((item) =>
