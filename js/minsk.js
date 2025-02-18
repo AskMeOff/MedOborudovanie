@@ -789,12 +789,15 @@ function editOborudovanie(idOborudovanie) {
                     option.selected = true;
                 }
             });
+
+
         const waitForJsonReestr = setInterval(() => {
             if (typeof JsonReestr !== 'undefined' && JsonReestr !== null) {
                 clearInterval(waitForJsonReestr);
                 selectedItemFromReestr = JsonReestr.find((item) => item['Рег_номер_товара'] == data.serial_number);
 
                 $('#editOborudovanieModal').modal('show');
+                document.getElementById('editBtnOb').onclick = saveEditedOborudovanie1;
             }
         }, 100);
         $("#preloader").hide();
@@ -1766,6 +1769,26 @@ function filterTable1(iduz) {
 
 
 function saveEditedOborudovanie1(){
+
+    let modelNAZVANIE = document.getElementById('model_name').value.trim().toLowerCase();
+    let poisk = JsonReestr.find((item) =>
+        item['Наименование'] && item['Наименование'].toLowerCase().includes(modelNAZVANIE)
+    );
+
+    console.log(poisk);
+    console.log(modelNAZVANIE);
+
+    let modelErrorSpan = document.getElementById('modelError');
+    if (poisk) {
+        let modelErrorSpan = document.getElementById('modelError');
+        modelErrorSpan.style.display = 'block';
+        modelErrorSpan.textContent = 'Найдено в реестре. Исправьте ввод перед сохранением.';
+        modelErrorSpan.style.color = 'red';
+        return;
+    } else {
+        let modelErrorSpan = document.getElementById('modelError');
+        modelErrorSpan.style.display = 'none';
+    }
     let nowHref = location.href;
     let select_type_oborudovanie = document.getElementById("select_type_oborudovanie");
     let select_servicemans = document.getElementById("filterServicemans");
@@ -1782,9 +1805,8 @@ function saveEditedOborudovanie1(){
     console.log(id_from_reestr);
     if (id_from_reestr == null) {
         alert('Не выбран регистрационный номер');
+        return;
     } else {
-
-
         if (selectedServiceId) {
             so = selectedServiceId;
         } else {

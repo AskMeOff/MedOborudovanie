@@ -69,9 +69,6 @@ if (!empty($status) && $status !== "Все") {
     $sql .= " AND oborudovanie.status = '" . $connectionDB->escapeString($statusValue) . "'";
 }
 
-if ($id_obl !== null) {
-    $sql .= " AND uz.id_oblast = $id_obl";
-}
 
 $result = $connectionDB->executeQuery($sql);
 $output = '<div class="table-responsive">
