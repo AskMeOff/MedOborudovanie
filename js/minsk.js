@@ -1809,7 +1809,6 @@ function saveEditedOborudovanie1(){
     console.log(id_from_reestr);
     if (id_from_reestr == null) {
         alert('Не выбран регистрационный номер');
-        return;
     } else {
         if (selectedServiceId) {
             so = selectedServiceId;
