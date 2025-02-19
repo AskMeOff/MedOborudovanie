@@ -797,6 +797,7 @@ function editOborudovanie(idOborudovanie) {
                 selectedItemFromReestr = JsonReestr.find((item) => item['Рег_номер_товара'] == data.serial_number);
 
                 $('#editOborudovanieModal').modal('show');
+
             }
         }, 100);
         $("#preloader").hide();
@@ -980,7 +981,25 @@ function saveAddedOborudovanie() {
         $('#modelError').hide();
 
     }
+    let modelNAZVANIE = document.getElementById('model_name').value.trim().toLowerCase();
+    let poisk = JsonReestr.find((item) =>
+        item['Наименование'] && item['Наименование'].toLowerCase().includes(modelNAZVANIE)
+    );
 
+    console.log(poisk);
+    console.log(modelNAZVANIE);
+
+    let modelErrorSpan = document.getElementById('modelError');
+    if (poisk) {
+        let modelErrorSpan = document.getElementById('modelError');
+        modelErrorSpan.style.display = 'block';
+        modelErrorSpan.textContent = 'Найдено в реестре. Исправьте ввод перед сохранением.';
+        modelErrorSpan.style.color = 'red';
+        return;
+    } else {
+        let modelErrorSpan = document.getElementById('modelError');
+        modelErrorSpan.style.display = 'none';
+    }
 
     const yearValue = $('#edit_date_create').val();
 
@@ -1071,9 +1090,11 @@ function chckReg(el) {
     if (el.checked) {
         $('#filterSerialNumber').prop('disabled', true);
         $('#model_name').prop('disabled', false);
+        document.getElementById('filterSerialNumber').setAttribute('data-id', "0");
     } else {
         $('#filterSerialNumber').prop('disabled', false);
         $('#model_name').prop('disabled', true);
+        document.getElementById('filterSerialNumber').removeAttribute('data-id');
     }
 }
 
@@ -1540,7 +1561,7 @@ function filterSNumber(event) {
                     filteredDiv.classList.add("hidden");
                     filetS.setAttribute('data-id', event.target.getAttribute('data-id'));
                     selectedItemFromReestr = item;
-                    model_name.value = item['Наименование'];
+                    model_name.value = item['Наименование'] + " " + item['Производитель'];
                 }
                 filteredDiv.appendChild(divEl);
             });
@@ -1624,6 +1645,25 @@ function saveAddedOborudovanie1(iduz) {
 
     }
 
+    let modelNAZVANIE = document.getElementById('model_name').value.trim().toLowerCase();
+    let poisk = JsonReestr.find((item) =>
+        item['Наименование'] && item['Наименование'].toLowerCase().includes(modelNAZVANIE)
+    );
+
+    console.log(poisk);
+    console.log(modelNAZVANIE);
+
+    let modelErrorSpan = document.getElementById('modelError');
+    if (poisk) {
+        let modelErrorSpan = document.getElementById('modelError');
+        modelErrorSpan.style.display = 'block';
+        modelErrorSpan.textContent = 'Найдено в реестре. Исправьте ввод перед сохранением.';
+        modelErrorSpan.style.color = 'red';
+        return;
+    } else {
+        let modelErrorSpan = document.getElementById('modelError');
+        modelErrorSpan.style.display = 'none';
+    }
 
     const yearValue = $('#edit_date_create').val();
 
@@ -1780,11 +1820,13 @@ function saveEditedOborudovanie1(){
 
     let modelErrorSpan = document.getElementById('modelError');
     if (poisk) {
+        let modelErrorSpan = document.getElementById('modelError');
         modelErrorSpan.style.display = 'block';
         modelErrorSpan.textContent = 'Найдено в реестре. Исправьте ввод перед сохранением.';
         modelErrorSpan.style.color = 'red';
         return;
     } else {
+        let modelErrorSpan = document.getElementById('modelError');
         modelErrorSpan.style.display = 'none';
     }
     let nowHref = location.href;
@@ -1795,16 +1837,18 @@ function saveEditedOborudovanie1(){
     let dcr = document.getElementById('edit_date_create').value;
     let dp = document.getElementById('edit_date_postavki').value;
     let dr = document.getElementById('edit_date_release').value;
-
     let id_from_reestr = document.getElementById('filterSerialNumber').getAttribute('data-id');
-    let isNotRegChecked = $('#isNotReg').prop("checked");
     let serial_number = document.getElementById('filterSerialNumber').value;
     let zavod_nomer = document.getElementById('zavod_nomer').value;
     let so = select_servicemans.getAttribute('data-id');
 
     console.log(id_from_reestr);
+
     if (id_from_reestr == null) {
+
         alert('Не выбран регистрационный номер');
+
+
     } else {
         if (selectedServiceId) {
             so = selectedServiceId;
