@@ -335,7 +335,7 @@ echo '<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/selec
                     <input type="date" id="edit_date_release" name="date_release">
                     <!---->
                    
-                    <label for="filterSerialNumber">Регистрационный номер оборудования (<a target="_blank" href="https://www.rceth.by/Refbank/reestr_medicinskoy_tehniki"> Реестры УП «Центр экспертиз и испытаний в здравоохранении»</a>): <a target="_blank" href="documents/Видеоинструкция добавления.mp4"><i style="font-size: 24px;" class="fa fa-question"></i>Видеоинструкция</a></label>
+                    <label for="filterSerialNumber">Регистрационный номер оборудования (<a target="_blank" href="https://www.rceth.by/Refbank/reestr_medicinskoy_tehniki"> Реестры УП «Центр экспертиз и испытаний в здравоохранении»</a>): <a target="_blank" href="documents/Видеоинструкция добавления.mp4"><i style="font-size: 24px;" class="fa fa-question"></i><span style="color: red;">Видеоинструкция</span></a></label>
                 
                      <input type="text" id="filterSerialNumber" autocomplete="off" onclick="filterSNumber(event)"/>    
            
@@ -406,7 +406,6 @@ if(btnAddOborudovanie){
         $('#addBtnOb').show();
         $('#yearError').hide();
         $('#editOborudovanieModal').modal('show');
-        document.getElementById('addBtnOb').onclick = saveEditedOborudovanie1;
         $('#editOborudovanieModal .modal-title').text('Добавление оборудования');
         let select_type_oborudovanie = document.getElementById('select_type_oborudovanie');
         select_type_oborudovanie.options[0].selected = true;

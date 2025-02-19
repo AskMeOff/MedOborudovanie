@@ -88,7 +88,6 @@ function showSection(idOrg, element) {
         $('#addBtnOb').show();
         $('#yearError').hide();
         $('#editOborudovanieModal').modal('show');
-        document.getElementById('addBtnOb').onclick = saveEditedOborudovanie1;
         $('#editOborudovanieModal .modal-title').text("Добавление оборудования");
         let select_type_oborudovanie = document.getElementById("select_type_oborudovanie");
         select_type_oborudovanie.options[0].selected = true;
@@ -798,8 +797,6 @@ function editOborudovanie(idOborudovanie) {
                 selectedItemFromReestr = JsonReestr.find((item) => item['Рег_номер_товара'] == data.serial_number);
 
                 $('#editOborudovanieModal').modal('show');
-                document.getElementById('addBtnOb').onclick = saveEditedOborudovanie1;
-                document.getElementById('editBtnOb').onclick = saveEditedOborudovanie1;
             }
         }, 100);
         $("#preloader").hide();
@@ -1571,7 +1568,6 @@ if(btnAddOborudovanie){
         $('#addBtnOb').show();
         $('#yearError').hide();
         $('#editOborudovanieModal').modal('show');
-        document.getElementById('addBtnOb').onclick = saveEditedOborudovanie1;
         $('#editOborudovanieModal .modal-title').text("Добавление оборудования");
         let select_type_oborudovanie = document.getElementById("select_type_oborudovanie");
         select_type_oborudovanie.options[0].selected = true;
@@ -1784,13 +1780,11 @@ function saveEditedOborudovanie1(){
 
     let modelErrorSpan = document.getElementById('modelError');
     if (poisk) {
-        let modelErrorSpan = document.getElementById('modelError');
         modelErrorSpan.style.display = 'block';
         modelErrorSpan.textContent = 'Найдено в реестре. Исправьте ввод перед сохранением.';
         modelErrorSpan.style.color = 'red';
         return;
     } else {
-        let modelErrorSpan = document.getElementById('modelError');
         modelErrorSpan.style.display = 'none';
     }
     let nowHref = location.href;
@@ -1801,7 +1795,9 @@ function saveEditedOborudovanie1(){
     let dcr = document.getElementById('edit_date_create').value;
     let dp = document.getElementById('edit_date_postavki').value;
     let dr = document.getElementById('edit_date_release').value;
+
     let id_from_reestr = document.getElementById('filterSerialNumber').getAttribute('data-id');
+    let isNotRegChecked = $('#isNotReg').prop("checked");
     let serial_number = document.getElementById('filterSerialNumber').value;
     let zavod_nomer = document.getElementById('zavod_nomer').value;
     let so = select_servicemans.getAttribute('data-id');
