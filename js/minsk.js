@@ -981,7 +981,25 @@ function saveAddedOborudovanie() {
         $('#modelError').hide();
 
     }
+    let modelNAZVANIE = document.getElementById('model_name').value.trim().toLowerCase();
+    let poisk = JsonReestr.find((item) =>
+        item['Наименование'] && item['Наименование'].toLowerCase().includes(modelNAZVANIE)
+    );
 
+    console.log(poisk);
+    console.log(modelNAZVANIE);
+
+    let modelErrorSpan = document.getElementById('modelError');
+    if (poisk) {
+        let modelErrorSpan = document.getElementById('modelError');
+        modelErrorSpan.style.display = 'block';
+        modelErrorSpan.textContent = 'Найдено в реестре. Исправьте ввод перед сохранением.';
+        modelErrorSpan.style.color = 'red';
+        return;
+    } else {
+        let modelErrorSpan = document.getElementById('modelError');
+        modelErrorSpan.style.display = 'none';
+    }
 
     const yearValue = $('#edit_date_create').val();
 
@@ -1543,7 +1561,7 @@ function filterSNumber(event) {
                     filteredDiv.classList.add("hidden");
                     filetS.setAttribute('data-id', event.target.getAttribute('data-id'));
                     selectedItemFromReestr = item;
-                    model_name.value = item['Наименование'];
+                    model_name.value = item['Наименование'] + " " + item['Производитель'];
                 }
                 filteredDiv.appendChild(divEl);
             });
@@ -1627,6 +1645,25 @@ function saveAddedOborudovanie1(iduz) {
 
     }
 
+    let modelNAZVANIE = document.getElementById('model_name').value.trim().toLowerCase();
+    let poisk = JsonReestr.find((item) =>
+        item['Наименование'] && item['Наименование'].toLowerCase().includes(modelNAZVANIE)
+    );
+
+    console.log(poisk);
+    console.log(modelNAZVANIE);
+
+    let modelErrorSpan = document.getElementById('modelError');
+    if (poisk) {
+        let modelErrorSpan = document.getElementById('modelError');
+        modelErrorSpan.style.display = 'block';
+        modelErrorSpan.textContent = 'Найдено в реестре. Исправьте ввод перед сохранением.';
+        modelErrorSpan.style.color = 'red';
+        return;
+    } else {
+        let modelErrorSpan = document.getElementById('modelError');
+        modelErrorSpan.style.display = 'none';
+    }
 
     const yearValue = $('#edit_date_create').val();
 
@@ -1806,7 +1843,7 @@ function saveEditedOborudovanie1(){
     let so = select_servicemans.getAttribute('data-id');
 
     console.log(id_from_reestr);
-    if($('#isNotReg').prop('checked'))
+
     if (id_from_reestr == null) {
 
         alert('Не выбран регистрационный номер');
