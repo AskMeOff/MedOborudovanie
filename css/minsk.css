@@ -35,6 +35,10 @@
     transition: all 0.5s ease-in;
 }
 
+.halfwidth{
+    width: 35% !important;
+}
+
 .activecard1 {
     background-color: #c6d1dd;
 }

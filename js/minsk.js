@@ -1753,6 +1753,9 @@ function saveAddedOborudovanie1(iduz) {
 }
 
 function filterTable1(iduz) {
+    let nowUz = iduz > 0 ? iduz : selectedOrg;
+    let oblId = $("#obl").val();
+    let selectedEquipmentType = $("#filterEquipmentType").val();
     let equipmentFilter = $("#filterEquipment").val();
     let yearFilter = $("#filterYear").val();
     let datePostavkiFrom = $("#filterDatePostavkiFrom").val();
@@ -1763,7 +1766,7 @@ function filterTable1(iduz) {
     let statusFilter = $("#filterStatus").val();
     let data = {
         equipment: equipmentFilter,
-        id_uz: iduz,
+        id_uz: nowUz,
         year: yearFilter,
         datePostavkiFrom: datePostavkiFrom,
         datePostavkiTo: datePostavkiTo,
@@ -1778,16 +1781,16 @@ function filterTable1(iduz) {
         data.id_type_oborudovanie = selectedEquipmentType;
 
     }
-console.log (iduz, "iduz");
-    if (iduz > 0) {
+console.log (nowUz, "iduz");
+    if (nowUz > 0) {
         $.ajax({
             type: "POST",
             url: "/app/ajax/filterGetData.php",
             data: data,
             success: function (response) {
-                $('#infoOb' + iduz).DataTable().destroy();
-                $("#infoOb" + iduz).html(response);
-                $('#infoOb' + iduz).DataTable();
+                $('#infoOb' + nowUz).DataTable().destroy();
+                $("#infoOb" + nowUz).html(response);
+                $('#infoOb' + nowUz).DataTable();
 
             },
             error: function (xhr, status, error) {

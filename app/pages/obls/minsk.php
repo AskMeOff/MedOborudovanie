@@ -116,9 +116,9 @@ if (isset($_COOKIE['token']) && $_COOKIE['token'] !== '') {
            <div class="col-lg-4">
     <label for="filterDatePostavki">Дата поставки:</label>
     <div>
-        <input type="date" id="filterDatePostavkiFrom" onchange="filterTable1('.$id_uz.')">
+        <input type="date" id="filterDatePostavkiFrom" class = "halfwidth" onchange="filterTable1('.$id_uz.')">
         <span> до </span>
-        <input type="date" id="filterDatePostavkiTo" onchange="filterTable1('.$id_uz.')">
+        <input type="date" id="filterDatePostavkiTo" class = "halfwidth" onchange="filterTable1('.$id_uz.')">
     </div>
 </div>
             </div>
@@ -127,9 +127,9 @@ if (isset($_COOKIE['token']) && $_COOKIE['token'] !== '') {
 <div class="col-lg-4">
     <label for="filterDateRelease">Дата ввода в эксплуатацию:</label>
     <div>
-        <input type="date" id="filterDateReleaseFrom" onchange="filterTable1('.$id_uz.')">
+        <input type="date" id="filterDateReleaseFrom" class = "halfwidth" onchange="filterTable1('.$id_uz.')">
         <span> до </span>
-        <input type="date" id="filterDateReleaseTo" onchange="filterTable1('.$id_uz.')">
+        <input type="date" id="filterDateReleaseTo" class = "halfwidth" onchange="filterTable1('.$id_uz.')">
     </div>
 </div>
             <div class="col-lg-4">
