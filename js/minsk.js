@@ -120,7 +120,7 @@ function showSection(idOrg, element) {
         exportTableToExcelAddedOb('infoOb' + idOrg, 'Отчет_организация_' + idOrg);
 
     }
-    filterTable();
+    filterTable1(idOrg);
 }
 
 function myFunctionOrg(input) {
@@ -1107,16 +1107,19 @@ function startFilter() {
 function filterTable() {
     let equipmentFilter = $("#filterEquipment").val();
     let yearFilter = $("#filterYear").val();
-    let datePostavkiFilter = $("#filterDatePostavki").val();
-    let dateReleaseFilter = $("#filterDateRelease").val();
+    let datePostavkiFrom = $("#filterDatePostavkiFrom").val();
+    let datePostavkiTo = $("#filterDatePostavkiTo").val();
+    let dateReleaseFrom = $("#filterDateReleaseFrom").val();
+    let dateReleaseTo = $("#filterDateReleaseTo").val();
     let serviceFilter = $("#filterService").val();
     let statusFilter = $("#filterStatus").val();
     let data = {
         equipment: equipmentFilter,
-        id_uz: selectedOrg,
         year: yearFilter,
-        datePostavki: datePostavkiFilter,
-        dateRelease: dateReleaseFilter,
+        datePostavkiFrom: datePostavkiFrom,
+        datePostavkiTo: datePostavkiTo,
+        dateReleaseFrom: dateReleaseFrom,
+        dateReleaseTo: dateReleaseTo,
         service: serviceFilter,
         status: statusFilter === "Все" ? "" : statusFilter,
         id_obl: oblId
@@ -1126,7 +1129,7 @@ function filterTable() {
         data.id_type_oborudovanie = selectedEquipmentType;
 
     }
-
+    console.log (selectedOrg, "selectedOrg");
     if (selectedOrg > 0) {
         $.ajax({
             type: "POST",
@@ -1752,16 +1755,20 @@ function saveAddedOborudovanie1(iduz) {
 function filterTable1(iduz) {
     let equipmentFilter = $("#filterEquipment").val();
     let yearFilter = $("#filterYear").val();
-    let datePostavkiFilter = $("#filterDatePostavki").val();
-    let dateReleaseFilter = $("#filterDateRelease").val();
+    let datePostavkiFrom = $("#filterDatePostavkiFrom").val();
+    let datePostavkiTo = $("#filterDatePostavkiTo").val();
+    let dateReleaseFrom = $("#filterDateReleaseFrom").val();
+    let dateReleaseTo = $("#filterDateReleaseTo").val();
     let serviceFilter = $("#filterService").val();
     let statusFilter = $("#filterStatus").val();
     let data = {
         equipment: equipmentFilter,
         id_uz: iduz,
         year: yearFilter,
-        datePostavki: datePostavkiFilter,
-        dateRelease: dateReleaseFilter,
+        datePostavkiFrom: datePostavkiFrom,
+        datePostavkiTo: datePostavkiTo,
+        dateReleaseFrom: dateReleaseFrom,
+        dateReleaseTo: dateReleaseTo,
         service: serviceFilter,
         status: statusFilter === "Все" ? "" : statusFilter,
         id_obl: oblId
@@ -1771,7 +1778,7 @@ function filterTable1(iduz) {
         data.id_type_oborudovanie = selectedEquipmentType;
 
     }
-
+console.log (iduz, "iduz");
     if (iduz > 0) {
         $.ajax({
             type: "POST",

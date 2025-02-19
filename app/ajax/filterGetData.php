@@ -3,8 +3,10 @@ include "../../connection/connection.php";
 $equipment = $_POST['equipment'];
 $id_uz = $_POST['id_uz'];
 $year = $_POST['year'];
-$datePostavki = $_POST['datePostavki'];
-$dateRelease = $_POST['dateRelease'];
+$datePostavkiFrom = $_POST['datePostavkiFrom'];
+$datePostavkiTo = $_POST['datePostavkiTo'];
+$dateReleaseFrom = $_POST['dateReleaseFrom'];
+$dateReleaseTo = $_POST['dateReleaseTo'];
 $service = $_POST['service'];
 $status = $_POST['status'];
 $id_type_oborudovanie = isset($_POST['id_type_oborudovanie']) ? $_POST['id_type_oborudovanie'] : null;
@@ -25,11 +27,20 @@ if (!empty($equipment)) {
 if (!empty($year)) {
     $sql .= " AND oborudovanie.date_create = '" . $connectionDB->escapeString($year) . "'";
 }
-if (!empty($datePostavki)) {
-    $sql .= " AND oborudovanie.date_postavki = '" . $connectionDB->escapeString($datePostavki) . "'";
+if (!empty($datePostavkiFrom) && !empty($datePostavkiTo)) {
+    $sql .= " AND oborudovanie.date_postavki BETWEEN '" . $connectionDB->escapeString($datePostavkiFrom) . "' AND '" . $connectionDB->escapeString($datePostavkiTo) . "'";
+} elseif (!empty($datePostavkiFrom)) {
+    $sql .= " AND oborudovanie.date_postavki >= '" . $connectionDB->escapeString($datePostavkiFrom) . "'";
+} elseif (!empty($datePostavkiTo)) {
+    $sql .= " AND oborudovanie.date_postavki <= '" . $connectionDB->escapeString($datePostavkiTo) . "'";
 }
-if (!empty($dateRelease)) {
-    $sql .= " AND oborudovanie.date_release = '" . $connectionDB->escapeString($dateRelease) . "'";
+
+if (!empty($dateReleaseFrom) && !empty($dateReleaseTo)) {
+    $sql .= " AND oborudovanie.date_release BETWEEN '" . $connectionDB->escapeString($dateReleaseFrom) . "' AND '" . $connectionDB->escapeString($dateReleaseTo) . "'";
+} elseif (!empty($dateReleaseFrom)) {
+    $sql .= " AND oborudovanie.date_release >= '" . $connectionDB->escapeString($dateReleaseFrom) . "'";
+} elseif (!empty($dateReleaseTo)) {
+    $sql .= " AND oborudovanie.date_release <= '" . $connectionDB->escapeString($dateReleaseTo) . "'";
 }
 if (!empty($service)) {
     $sql .= " AND s.name LIKE '%" . $connectionDB->escapeString($service) . "%'";

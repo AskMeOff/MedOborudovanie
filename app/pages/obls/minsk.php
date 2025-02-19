@@ -96,60 +96,64 @@ if (isset($_COOKIE['token']) && $_COOKIE['token'] !== '') {
                     <i class="ti ti-arrow-left" style="font-size: 30px; "></i>
                 </a>
            </div> 
-            <div id="filterContainer" style="display: none;">
-            <div class = "filtCol row">
+            <div id="filterContainer" class="filterContainer" style="display: none;">
+            <div class = "filtCol row" style="margin-left: 10px;">
                         <div class="col-lg-4">
 
                  <label for="filterEquipment">Вид оборудования:</label>
-                 <select id="filterEquipment" onchange="filterTable()">
+                 <select id="filterEquipment" onchange="filterTable1('.$id_uz.')">
                  <option value="">Все</option>';
-            foreach ($equipmentTypes as $type) {
-                echo '<option value="' . $type . '">' . $type . '</option>';
-            }
+        foreach ($equipmentTypes as $type) {
+            echo '<option value="' . $type . '">' . $type . '</option>';
+        }
 
-            echo '  </select>
+        echo '  </select>
             </div>
-                        <div class="col-lg-4">
-
-            <label for="filterYear">Год производства:</label>
-            <input type="date" id="filterYear" onchange="filterTable()">
-            </div>
-            <div class="col-lg-4">
-
-            <label for="filterDatePostavki">Дата поставки:</label>
-            <input type="date" id="filterDatePostavki" onchange="filterTable()">
+<div class="col-lg-4">
+    <label for="filterYear">Год производства:</label>
+    <input type="number" id="filterYear" onchange="filterTable1('.$id_uz.')"  min="1900" max="2100" placeholder="YYYY">
+</div>
+           <div class="col-lg-4">
+    <label for="filterDatePostavki">Дата поставки:</label>
+    <div>
+        <input type="date" id="filterDatePostavkiFrom" onchange="filterTable1('.$id_uz.')">
+        <span> до </span>
+        <input type="date" id="filterDatePostavkiTo" onchange="filterTable1('.$id_uz.')">
+    </div>
 </div>
             </div>
-            <div class = "filtCol row">
+            <div class = "filtCol row" style="margin-bottom: 10px; margin-left: 10px;">
                         
-            <div class="col-lg-4">
-
-            <label for="filterDateRelease">Дата ввода в эксплуатацию:</label>
-            <input type="date" id="filterDateRelease" onchange="filterTable()">
-            </div>
+<div class="col-lg-4">
+    <label for="filterDateRelease">Дата ввода в эксплуатацию:</label>
+    <div>
+        <input type="date" id="filterDateReleaseFrom" onchange="filterTable1('.$id_uz.')">
+        <span> до </span>
+        <input type="date" id="filterDateReleaseTo" onchange="filterTable1('.$id_uz.')">
+    </div>
+</div>
             <div class="col-lg-4">
 
             <label for="filterService">Сервисная организация:</label>
-            <select id="filterService" onchange="filterTable()">
+            <select id="filterService" onchange="filterTable1('.$id_uz.')">
                 <option value="">Все</option>';
-            foreach ($serviceNames as $service) {
-                echo '<option value="' . $service . '">' . $service . '</option>';
-            }
-            echo '  </select>
+        foreach ($serviceNames as $service) {
+            echo '<option value="' . $service . '">' . $service . '</option>';
+        }
+        echo '  </select>
 </div>
             <div class="col-lg-4">
 
             <label for="filterStatus">Статус:</label>
-            <select id="filterStatus" onchange="filterTable()">
+            <select id="filterStatus" onchange="filterTable1('.$id_uz.')">
                 <option value="Все">Все</option>';
-            foreach ($statuses as $status) {
-                echo '<option value="' . $status . '">' . $status . '</option>';
-            }
-            echo '  </select>
+        foreach ($statuses as $status) {
+            echo '<option value="' . $status . '">' . $status . '</option>';
+        }
+        echo '  </select>
   </div>
             </div>
-           
-                   </div>  ';
+           </div>';
 
         echo '
 <section class="col-lg-9 connectedSortable ui-sortable" id="orgAll" style="display: block;">

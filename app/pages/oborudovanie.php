@@ -150,7 +150,7 @@ echo "ono = " . $id_type;
  if($login != "test_account")
          echo '<button id="btnAddOborudovanie" class="btn btn-info m-2">Добавить оборудование</button>';
             echo '<div>  <button class="btn btn-info" onclick="startFilter()" style=" margin-top: 10px; margin-left: 2vw;">Фильтры</button> 
-          <div id="filterContainer" class="filterContainer" style="display: none;">
+           <div id="filterContainer" class="filterContainer" style="display: none;">
             <div class = "filtCol row" style="margin-left: 10px;">
                         <div class="col-lg-4">
 
@@ -163,24 +163,29 @@ echo "ono = " . $id_type;
 
             echo '  </select>
             </div>
-                        <div class="col-lg-4">
-
-            <label for="filterYear">Год производства:</label>
-            <input type="date" id="filterYear" onchange="filterTable1('.$id_uz.')">
-            </div>
-            <div class="col-lg-4">
-
-            <label for="filterDatePostavki">Дата поставки:</label>
-            <input type="date" id="filterDatePostavki" onchange="filterTable1('.$id_uz.')">
+<div class="col-lg-4">
+    <label for="filterYear">Год производства:</label>
+    <input type="number" id="filterYear" onchange="filterTable1('.$id_uz.')"  min="1900" max="2100" placeholder="YYYY">
+</div>
+           <div class="col-lg-4">
+    <label for="filterDatePostavki">Дата поставки:</label>
+    <div>
+        <input type="date" id="filterDatePostavkiFrom" onchange="filterTable1('.$id_uz.')">
+        <span> до </span>
+        <input type="date" id="filterDatePostavkiTo" onchange="filterTable1('.$id_uz.')">
+    </div>
 </div>
             </div>
             <div class = "filtCol row" style="margin-bottom: 10px; margin-left: 10px;">
                         
-            <div class="col-lg-4">
-
-            <label for="filterDateRelease">Дата ввода в эксплуатацию:</label>
-            <input type="date" id="filterDateRelease" onchange="filterTable1('.$id_uz.')">
-            </div>
+<div class="col-lg-4">
+    <label for="filterDateRelease">Дата ввода в эксплуатацию:</label>
+    <div>
+        <input type="date" id="filterDateReleaseFrom" onchange="filterTable1('.$id_uz.')">
+        <span> до </span>
+        <input type="date" id="filterDateReleaseTo" onchange="filterTable1('.$id_uz.')">
+    </div>
+</div>
             <div class="col-lg-4">
 
             <label for="filterService">Сервисная организация:</label>

@@ -172,24 +172,29 @@ echo '<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/selec
 
             echo '  </select>
             </div>
-                        <div class="col-lg-4">
-
-            <label for="filterYear">Год производства:</label>
-            <input type="date" id="filterYear" onchange="filterTable1('.$id_uz.')">
-            </div>
-            <div class="col-lg-4">
-
-            <label for="filterDatePostavki">Дата поставки:</label>
-            <input type="date" id="filterDatePostavki" onchange="filterTable1('.$id_uz.')">
+<div class="col-lg-4">
+    <label for="filterYear">Год производства:</label>
+    <input type="number" id="filterYear" onchange="filterTable1('.$id_uz.')"  min="1900" max="2100" placeholder="YYYY">
+</div>
+           <div class="col-lg-4">
+    <label for="filterDatePostavki">Дата поставки:</label>
+    <div>
+        <input type="date" id="filterDatePostavkiFrom" onchange="filterTable1('.$id_uz.')">
+        <span> до </span>
+        <input type="date" id="filterDatePostavkiTo" onchange="filterTable1('.$id_uz.')">
+    </div>
 </div>
             </div>
             <div class = "filtCol row" style="margin-bottom: 10px; margin-left: 10px;">
                         
-            <div class="col-lg-4">
-
-            <label for="filterDateRelease">Дата ввода в эксплуатацию:</label>
-            <input type="date" id="filterDateRelease" onchange="filterTable1('.$id_uz.')">
-            </div>
+<div class="col-lg-4">
+    <label for="filterDateRelease">Дата ввода в эксплуатацию:</label>
+    <div>
+        <input type="date" id="filterDateReleaseFrom" onchange="filterTable1('.$id_uz.')">
+        <span> до </span>
+        <input type="date" id="filterDateReleaseTo" onchange="filterTable1('.$id_uz.')">
+    </div>
+</div>
             <div class="col-lg-4">
 
             <label for="filterService">Сервисная организация:</label>
