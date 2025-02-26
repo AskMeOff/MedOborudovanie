@@ -240,7 +240,9 @@ function fetchReestr() {
 
 
         getDataFromIndexedDB(id).then(cachedData => {
-
+            if(cachedData){
+                resolve(cachedData);
+            }
                 $.ajax({
                     url: "app/ajax/getReestr.php",
                     method: "GET"
