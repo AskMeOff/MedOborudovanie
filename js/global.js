@@ -238,25 +238,39 @@ function fetchReestr() {
     return new Promise((resolve, reject) => {
         const id = 1;
 
+
         getDataFromIndexedDB(id).then(cachedData => {
-            if (cachedData) {
-                resolve(cachedData);
-            } else {
 
                 $.ajax({
                     url: "app/ajax/getReestr.php",
                     method: "GET"
                 }).then(response => {
                     JsonReestr = JSON.parse(response);
+                    if(cachedData){
+                        if (cachedData['JsonReestr'].length !== JsonReestr.length) {
+                            saveDataToIndexedDB({id: id, JsonReestr}).then(() => {
+                                console.log("Данные успешно обновлены в IndexedDB");
+                                resolve({id: 1, JsonReestr});
+                            }).catch(reject);
+                        } else {
+                            resolve(cachedData);
+                        }
+                    }else {
 
-                    saveDataToIndexedDB({ id: id, JsonReestr }).then(() => {
-                        resolve({ id: 1, JsonReestr });
-                    }).catch(reject);
+                            saveDataToIndexedDB({id: id, JsonReestr}).then(() => {
+                                console.log("Данные успешно загружены в IndexedDB");
+                                resolve({id: 1, JsonReestr});
+
+                            }).catch(reject);
+
+
+                    }
                 }).catch(error => {
                     reject("Ошибка при выполнении AJAX-запроса: " + error);
                 });
-            }
-        }).catch(reject);
+
+
+        });
     });
 }
 

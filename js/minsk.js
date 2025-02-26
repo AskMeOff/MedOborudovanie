@@ -1807,7 +1807,6 @@ console.log (nowUz, "iduz");
                 $('#infoObAll').DataTable().destroy();
                 $('#infoObAll').html(response);
                 $('#infoObAll').DataTable();
-
             },
             error: function (xhr, status, error) {
                 console.error("Ошибка при выполнении запроса: " + error);

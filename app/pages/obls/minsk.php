@@ -134,13 +134,13 @@ if (isset($_COOKIE['token']) && $_COOKIE['token'] !== '') {
 </div>
             <div class="col-lg-4">
 
-            <label for="filterService">Сервисная организация:</label>
+            <label   for="filterService">Сервисная организация:</label>
             <select id="filterService" onchange="filterTable1('.$id_uz.')">
                 <option value="">Все</option>';
         foreach ($serviceNames as $service) {
             echo '<option value="' . $service . '">' . $service . '</option>';
         }
-        echo '  </select>
+        echo '</select>
 </div>
             <div class="col-lg-4">
 
