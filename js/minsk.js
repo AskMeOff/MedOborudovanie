@@ -120,7 +120,7 @@ function showSection(idOrg, element) {
         exportTableToExcelAddedOb('infoOb' + idOrg, 'Отчет_организация_' + idOrg);
 
     }
-    filterTable1(idOrg);
+    filterTable1(selectedOrg);
 }
 
 function myFunctionOrg(input) {
@@ -216,17 +216,14 @@ function refreshMainTable() {
         }
     });
     if (activeItemName) {
-     let filterEquipment = document.getElementById("filterEquipment");
-
+        let filterEquipment = document.getElementById("filterEquipment");
         filterEquipment.value = activeItemName;
         filterTable();
-
     } else {
-        // let trel = document.getElementById("idob" + selectedEquipmentId)
         $.ajax({
             url: '/app/ajax/refreshTable.php',
             method: 'GET',
-            data: {id_org: selectedOrg},
+            data: { id_org: selectedOrg },
             dataType: 'json',
             success: function (response) {
                 let tableContent = '<table class="table table-striped table-responsive-sm no-footer dataTable" id="infoOb' + selectedOrg + '" style="font-size: 13px;">';
@@ -251,11 +248,9 @@ function refreshMainTable() {
                     });
                     tableContent += '</tr></thead><tbody>';
                     response.forEach(function (row) {
-                        let today = new Date();
                         tableContent += '<tr>';
                         tableContent += '<td>' + row.mark1 + '</td>';
-                        tableContent += '<td onclick="getEffectTable(' + row.id_oborudovanie + ')" id=idob' + row.id_oborudovanie + ' style="cursor: pointer; color: #167877;\n' +
-                            '    font-weight: 550;">' + row.name + '</td>';
+                        tableContent += '<td onclick="getEffectTable(' + row.id_oborudovanie + ')" style="cursor: pointer; color: #167877; font-weight: 550;">' + row.name + '</td>';
                         tableContent += '<td>' + row.model + '</td>';
                         tableContent += '<td>' + row.serial_number + '</td>';
                         tableContent += '<td>' + row.zavod_nomer + '</td>';
@@ -264,20 +259,28 @@ function refreshMainTable() {
                         tableContent += '<td>' + formatDate(row.date_release) + '</td>';
                         tableContent += '<td>' + row.service_organization + '</td>';
                         tableContent += '<td>' + formatDate(row.date_last_TO) + '</td>';
-                        if (row.status === "1") {
-                            tableContent += '<td  onclick="getFaultsTable(' + row.id_oborudovanie + ')" style="cursor: pointer; "><div style = "border-radius: 5px;background-color: green;color: white;padding: 5px;">исправно</div></td>';
-                        } else if (row.status === "3") {
-                            tableContent += '<td  onclick="getFaultsTable(' + row.id_oborudovanie + ')" style="cursor: pointer; "><div style = "border-radius: 5px;background-color: orange;color: white;padding: 5px;">Работа в ограниченном режиме</div></td>';
-                        } else {
-                            tableContent += '<td  onclick="getFaultsTable(' + row.id_oborudovanie + ')" style="cursor: pointer"><div style = "border-radius: 5px;background-color: red;color: white;padding: 5px; font-size: 11px; width: 85px;">неисправно</div></td>';
 
+                        // Статус
+                        let statusText, color;
+                        if (row.status === "1") {
+                            statusText = "исправно";
+                            color = "green";
+                        } else if (row.status === "3") {
+                            statusText = "Работа в ограниченном режиме";
+                            color = "orange";
+                        } else {
+                            statusText = "неисправно";
+                            color = "red";
                         }
+                        tableContent += '<td onclick="getFaultsTable(' + row.id_oborudovanie + ')" style="cursor: pointer;">' +
+                            '<div class="status-button" style="background-color: ' + color + '; color: white; padding: 5px; border-radius: 5px;">' + statusText + '</div>' +
+                            '</td>';
+
                         tableContent += '<td>' +
                             '<a href="#" onclick="confirmDeleteOborudovanie(' + row.id_oborudovanie + ')">' +
                             '<i class="fa fa-trash" style="font-size: 20px;"></i></a>' +
                             '<a href="#" onclick="editOborudovanie(' + row.id_oborudovanie + ')">' +
                             '<i class="fa fa-edit" style="font-size: 20px;"></i>️</a>' +
-
                             '</td>';
                         tableContent += '</tr>';
                     });
@@ -287,22 +290,18 @@ function refreshMainTable() {
                     tableContent += '</tr></thead><tbody>';
                     tableContent += '<tr><td colspan="8" style="text-align:center;">Нет данных</td></tr>';
                 }
-
                 tableContent += '</tbody></table>';
                 $('#org' + selectedOrg + ' .table-responsive').html(tableContent);
                 $('#infoOb' + selectedOrg).DataTable({
                     "stateSave": true
                 });
             },
-
             error: function (xhr, status, error) {
                 console.log(error);
             }
         });
     }
     $('#editOborudovanieModal').modal('hide');
-
-
 }
 
 function formatYear(dateString) {
@@ -1537,10 +1536,10 @@ function filterSNumber(event) {
                 return;
             }
 
-
-            let sortedArr1 = JsonReestr.filter((item) => {
-                return item['Рег_номер_товара'].toLowerCase().includes(inputValue);
-            });
+            if (Array.isArray(JsonReestr)) {
+                let sortedArr1 = JsonReestr.filter((item) => {
+                    return item['Рег_номер_товара'].toLowerCase().includes(inputValue);
+                });
 
             // Удаляем индикатор загрузки
             filteredDiv.removeChild(loadingIndicator);
@@ -1569,6 +1568,11 @@ function filterSNumber(event) {
                 filteredDiv.appendChild(divEl);
             });
         }else{
+
+                serialNumberErrorLess.style = "color: red; display: block;";
+                filteredDiv.classList.add("hidden");
+            }
+        } else {
             serialNumberErrorLess.style = "color: red; display: block;";
             filteredDiv.classList.add("hidden");
         }

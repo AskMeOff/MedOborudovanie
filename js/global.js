@@ -1,5 +1,7 @@
 var currentUrl = window.location.search;
 
+let JsonReestr;
+
 
 if (currentUrl == "?main" || currentUrl == "") {
     let mainMenu = document.querySelector('[href="index.php?main"]');
@@ -164,7 +166,6 @@ $('#saveService').click(function() {
         }
     });
 });
-let JsonReestr ;
 let cachJsonReestr;
 $(document).ready(async function() {
 
@@ -237,41 +238,47 @@ function saveDataToIndexedDB(data) {
 function fetchReestr() {
     return new Promise((resolve, reject) => {
         const id = 1;
-
-
-        getDataFromIndexedDB(id).then(cachedData => {
-            if(cachedData){
+        let cachedData;
+        getDataFromIndexedDB(id).then(data => {
+            cachedData = data;
+            if (cachedData) {
                 resolve(cachedData);
+            } else {
+
+                cachedData = null;
             }
-                $.ajax({
-                    url: "app/ajax/getReestr.php",
-                    method: "GET"
-                }).then(response => {
-                    JsonReestr = JSON.parse(response);
-                    if(cachedData){
-                        if (cachedData['JsonReestr'].length !== JsonReestr.length) {
-                            saveDataToIndexedDB({id: id, JsonReestr}).then(() => {
-                                console.log("Данные успешно обновлены в IndexedDB");
-                                resolve({id: 1, JsonReestr});
-                            }).catch(reject);
-                        } else {
-                            resolve(cachedData);
-                        }
-                    }else {
-
-                            saveDataToIndexedDB({id: id, JsonReestr}).then(() => {
-                                console.log("Данные успешно загружены в IndexedDB");
-                                resolve({id: 1, JsonReestr});
-
-                            }).catch(reject);
-
-
-                    }
-                }).catch(error => {
-                    reject("Ошибка при выполнении AJAX-запроса: " + error);
+            return $.ajax({
+                url: "app/ajax/getReestr.php",
+                method: "GET"
+            });
+        }).then(response => {
+            const newData = JSON.parse(response);
+            JsonReestr = newData;
+            if (cachedData) {
+                if (cachedData['JsonReestr'].length !== newData.length) {
+                    return saveDataToIndexedDB({ id: id, JsonReestr: newData }).then(() => {
+                        console.log("Данные успешно обновлены в IndexedDB");
+                        return { id: 1, JsonReestr: newData };
+                    });
+                } else {
+                    return cachedData;
+                }
+            } else {
+                return saveDataToIndexedDB({ id: id, JsonReestr: newData }).then(() => {
+                    console.log("Данные успешно загружены в IndexedDB");
+                    return { id: 1, JsonReestr: newData };
                 });
-
-
+            }
+        }).then(finalData => {
+            resolve(finalData);
+        }).catch(error => {
+            if (cachedData) {
+                console.warn("Ошибка при выполнении AJAX-запроса, возвращаем кэшированные данные:", error);
+                JsonReestr = cachedData['JsonReestr'];
+                resolve(cachedData);
+            } else {
+                reject("Ошибка: " + error);
+            }
         });
     });
 }
@@ -282,7 +289,6 @@ fetchReestr().then(data => {
 }).catch(error => {
     console.error('Ошибка:', error);
 });
-
 
 
 function showModalAddZapchast(){
