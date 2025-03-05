@@ -5,7 +5,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Modernize Free</title>
-  <link rel="shortcut icon" type="image/png" href="../../bootstrap/assets/images/logos/favicon.png" />
+  <link rel="shortcut icon" type="image/png" href="../../public/favicon.ico" />
   <link rel="stylesheet" href="../../bootstrap/assets/css/styles.min.css" />
 </head>
 

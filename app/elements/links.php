@@ -1,6 +1,6 @@
 <script src="bootstrap/assets/js/jquery-3.7.1.js"></script>
-
-<link rel="shortcut icon" type="image/png" href="bootstrap/assets/images/logos/favicon.png"/>
+<link type="image/x-icon" href="/public/favicon.ico" rel="shortcut icon">
+<link type="Image/x-icon" href="/public/favicon.ico" rel="icon">
 <link rel="stylesheet" href="bootstrap/assets/css/styles.min.css"/>
 <link rel="stylesheet" href="bootstrap/assets/css/all.min.css">
 <link rel="stylesheet" href="css/global.css">

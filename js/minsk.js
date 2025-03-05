@@ -1546,7 +1546,7 @@ function filterSNumber(event) {
 
             if (sortedArr1.length === 0) {
                 filteredDiv.classList.add("hidden");
-                return;
+                 return;
             } else {
                 filteredDiv.classList.remove("hidden");
             }

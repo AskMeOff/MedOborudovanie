@@ -95,7 +95,7 @@
                             <div class="description-title">Дополнительные ресурсы</div>
                             <div class="description-info">
                                 <p>Для получения технической поддержки, вы можете скачать приложение для удаленного доступа:</p>
-                                <a href="https://anydesk.com/en/downloads/thank-you?dv=win_exe" target="_blank" class="btn btn-info" download>Скачать AnyDesk</a>
+                                <a href="/documents/AeroAdmin.exe" target="_blank" class="btn btn-info" download>Скачать AeroAdmin</a>
                             </div>
                         </div>
                     </div>
