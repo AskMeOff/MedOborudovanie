@@ -1145,7 +1145,7 @@ function filterTable() {
             }
         });
     } else {
-        console.log(oblId + "oblast");
+        console.log(oblId + "oblast000");
         $.ajax({
             type: "POST",
             url: "/app/ajax/filterGetDataNoOrg.php",
@@ -1758,7 +1758,7 @@ function saveAddedOborudovanie1(iduz) {
 
 function filterTable1(iduz) {
     let nowUz = iduz > 0 ? iduz : selectedOrg;
-    let oblId = $("#obl").val();
+    //let oblId = $("#obl").val();
     let selectedEquipmentType = $("#filterEquipmentType").val();
     let equipmentFilter = $("#filterEquipment").val();
     let yearFilter = $("#filterYear").val();
@@ -1802,7 +1802,7 @@ console.log (nowUz, "iduz");
             }
         });
     } else {
-        console.log(oblId + "oblast");
+        console.log(oblId + "oblast111");
         $.ajax({
             type: "POST",
             url: "/app/ajax/filterGetDataNoOrg.php",
