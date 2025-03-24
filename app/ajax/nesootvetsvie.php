@@ -58,17 +58,17 @@ while($row = $resultobl->fetch_assoc()){
 $id_oblast = $row['id_oblast'];
         $sql_type = 'SELECT o.id_oborudovanie, uz.name as name_uz, t.name as type_name, o.model, ob.name as ob_name
 from oborudovanie o
-     left join type_oborudovanie t on o.id_type_oborudovanie = t.id_type_oborudovanie
+     left join type_oborudovanie1 t on o.id_type_oborudovanie = t.id_type_oborudovanie
     left join uz uz on o.id_uz = uz.id_uz
     left join oblast ob on ob.id_oblast = uz.id_oblast
-    where ob.id_oblast = '.$id_oblast.' and o.serial_number is not null ';
+    where ob.id_oblast = '.$id_oblast.' and o.serial_number is not null and o.status in (0,1,3)';
         $resultobl_type = mysqli_query($connectionDB->con, $sql_type);
         while ($row1 = $resultobl_type->fetch_assoc()) {
             $found = false;
             $model = $row1['model'];
             $type_obor = $row1['type_name'];
             if($type_obor !== NULL ) {
-                if($type_obor === NULL || $type_obor === '')
+                if($type_obor === NULL || $type_obor === '' || $type_obor === 'NULL')
                     $type_obor = 'Отсутствует тип';
                 $model = mb_strtolower($model);
                 $type_obor = mb_strtolower($type_obor);
@@ -107,14 +107,14 @@ from oborudovanie o
 
     $sql_type = 'SELECT o.id_oborudovanie, uz.name as name_uz, t.name as type_name, o.model, ob.name as ob_name
 from oborudovanie o
-     left join type_oborudovanie t on o.id_type_oborudovanie = t.id_type_oborudovanie
+     left join type_oborudovanie1 t on o.id_type_oborudovanie = t.id_type_oborudovanie
     left join uz uz on o.id_uz = uz.id_uz
     left join oblast ob on ob.id_oblast = uz.id_oblast
-    where ob.id_oblast = '.$id_oblast.' and o.serial_number is null ';
+    where ob.id_oblast = '.$id_oblast.' and o.serial_number is null and o.status in (0,1,3)';
     $resultobl_type = mysqli_query($connectionDB->con, $sql_type);
 
     while ($row1 = $resultobl_type->fetch_assoc()) {
-        if($row1['type_name'] === NULL || $row1['type_name'] === '')
+        if($row1['type_name'] === NULL || $row1['type_name'] === '' || $row1['type_name'] === 'NULL')
             $row1['type_name'] = 'Отсутствует тип';
         echo '<tr><td>' . $row1['name_uz'] . '</td><td>' . $row1['type_name'] . '</td><td>' . $row1['model'] . '</td></tr>';
         $countNevernoe++;

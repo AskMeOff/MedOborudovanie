@@ -239,47 +239,58 @@ function fetchReestr() {
     return new Promise((resolve, reject) => {
         const id = 1;
         let cachedData;
-        getDataFromIndexedDB(id).then(data => {
-            cachedData = data;
-            if (cachedData) {
-                resolve(cachedData);
-            } else {
 
-                cachedData = null;
-            }
-            return $.ajax({
-                url: "app/ajax/getReestr.php",
-                method: "GET"
-            });
-        }).then(response => {
-            const newData = JSON.parse(response);
-            JsonReestr = newData;
-            if (cachedData) {
-                if (cachedData['JsonReestr'].length !== newData.length) {
-                    return saveDataToIndexedDB({ id: id, JsonReestr: newData }).then(() => {
-                        console.log("Данные успешно обновлены в IndexedDB");
-                        return { id: 1, JsonReestr: newData };
-                    });
-                } else {
-                    return cachedData;
+        getDataFromIndexedDB(id)
+            .then(data => {
+                cachedData = data;
+                if (cachedData) {
+                    resolve(cachedData);
                 }
-            } else {
-                return saveDataToIndexedDB({ id: id, JsonReestr: newData }).then(() => {
-                    console.log("Данные успешно загружены в IndexedDB");
-                    return { id: 1, JsonReestr: newData };
+                return fetch("app/ajax/getReestr.php", {
+                    method: "GET",
+                    headers: {
+                        "Content-Type": "application/json"
+                    }
                 });
-            }
-        }).then(finalData => {
-            resolve(finalData);
-        }).catch(error => {
-            if (cachedData) {
-                console.warn("Ошибка при выполнении AJAX-запроса, возвращаем кэшированные данные:", error);
-                JsonReestr = cachedData['JsonReestr'];
-                resolve(cachedData);
-            } else {
-                reject("Ошибка: " + error);
-            }
-        });
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error("Network response was not ok");
+                }
+                return response.json();
+            })
+            .then(newData => {
+                JsonReestr = newData;
+                if (cachedData) {
+                    if (cachedData['JsonReestr'].length !== newData.length) {
+                        return saveDataToIndexedDB({ id: id, JsonReestr: newData })
+                            .then(() => {
+                                console.log("Данные успешно обновлены в IndexedDB");
+                                return { id: 1, JsonReestr: newData };
+                            });
+                    } else {
+                        return cachedData;
+                    }
+                } else {
+                    return saveDataToIndexedDB({ id: id, JsonReestr: newData })
+                        .then(() => {
+                            console.log("Данные успешно загружены в IndexedDB");
+                            return { id: 1, JsonReestr: newData };
+                        });
+                }
+            })
+            .then(finalData => {
+                resolve(finalData);
+            })
+            .catch(error => {
+                if (cachedData) {
+                    console.warn("Ошибка при выполнении fetch-запроса, возвращаем кэшированные данные:", error);
+                    JsonReestr = cachedData['JsonReestr'];
+                    resolve(cachedData);
+                } else {
+                    reject("Ошибка: " + error);
+                }
+            });
     });
 }
 
