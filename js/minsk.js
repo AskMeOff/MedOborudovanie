@@ -886,7 +886,8 @@ function saveEditedOborudovanie() {
                 status: select_status.options[select_status.selectedIndex].value
             },
             success: function (data) {
-                if (data == "1") {
+                let response = JSON.parse(data);
+                if (response.status == "1") {
                     alert("Запись изменена");
                     refreshMainTable();
                 } else {
