@@ -99,6 +99,8 @@ from oborudovanie o
 
 
         }else{
+            if ($row1['type_name'] === NULL || $row1['type_name'] === '' || $row1['type_name'] === 'NULL')
+                $row1['type_name'] = 'Отсутствует тип';
             echo '<tr><td>' . $row1['name_uz'] . '</td><td>' . $row1['type_name'] . '</td><td>' . $row1['model'] . '</td></tr>';
             $countNevernoe++;
             $count_obl++;
