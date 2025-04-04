@@ -61,7 +61,7 @@ from oborudovanie o
      left join type_oborudovanie1 t on o.id_type_oborudovanie = t.id_type_oborudovanie
     left join uz uz on o.id_uz = uz.id_uz
     left join oblast ob on ob.id_oblast = uz.id_oblast
-    where ob.id_oblast = '.$id_oblast.' and o.serial_number is not null and o.status in (0,1,3)';
+    where ob.id_oblast = '.$id_oblast.' and o.serial_number is not null and o.status in (0,1,3) order by uz.name asc';
         $resultobl_type = mysqli_query($connectionDB->con, $sql_type);
         while ($row1 = $resultobl_type->fetch_assoc()) {
             $found = false;
@@ -112,7 +112,7 @@ from oborudovanie o
      left join type_oborudovanie1 t on o.id_type_oborudovanie = t.id_type_oborudovanie
     left join uz uz on o.id_uz = uz.id_uz
     left join oblast ob on ob.id_oblast = uz.id_oblast
-    where ob.id_oblast = '.$id_oblast.' and o.serial_number is null and o.status in (0,1,3)';
+    where ob.id_oblast = '.$id_oblast.' and o.serial_number is null and o.status in (0,1,3) order by uz.name asc';
     $resultobl_type = mysqli_query($connectionDB->con, $sql_type);
 
     while ($row1 = $resultobl_type->fetch_assoc()) {
