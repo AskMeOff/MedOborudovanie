@@ -56,7 +56,7 @@ $sql = "INSERT INTO faults (date_fault, date_call_service, reason_fault, date_pr
 
 $result = $connectionDB->executeQuery($sql);
 if ($result) {
-    $id_fault = $connectionDB->insert_id;
+    $id_fault = $insertedId = mysqli_insert_id($connectionDB->con);;
     $documentsDir = '../documents/' . $id_fault . '/';
     if (!file_exists($documentsDir)) {
         mkdir($documentsDir, 0777, true);
