@@ -886,7 +886,8 @@ function saveEditedOborudovanie() {
                 status: select_status.options[select_status.selectedIndex].value
             },
             success: function (data) {
-                if (data == "1") {
+                let response = JSON.parse(data);
+                if (response.status == "1") {
                     alert("Запись изменена");
                     refreshMainTable();
                 } else {
@@ -1145,7 +1146,7 @@ function filterTable() {
             }
         });
     } else {
-        console.log(oblId + "oblast000");
+        console.log(oblId + "oblast");
         $.ajax({
             type: "POST",
             url: "/app/ajax/filterGetDataNoOrg.php",
@@ -1755,10 +1756,12 @@ function saveAddedOborudovanie1(iduz) {
         }
     });
 }
-
+let nowUzForSave;
 function filterTable1(iduz) {
     let nowUz = iduz > 0 ? iduz : selectedOrg;
-    //let oblId = $("#obl").val();
+    nowUzForSave = nowUz;
+
+    let oblId = $("#obl").val();
     let selectedEquipmentType = $("#filterEquipmentType").val();
     let equipmentFilter = $("#filterEquipment").val();
     let yearFilter = $("#filterYear").val();
@@ -1802,7 +1805,7 @@ console.log (nowUz, "iduz");
             }
         });
     } else {
-        console.log(oblId + "oblast111");
+        console.log(oblId + "oblast");
         $.ajax({
             type: "POST",
             url: "/app/ajax/filterGetDataNoOrg.php",
@@ -1927,9 +1930,11 @@ function saveEditedOborudovanie1(){
                 status: select_status.options[select_status.selectedIndex].value
             },
             success: function (data) {
-                if (data == "1") {
+                let response = JSON.parse(data);
+                if (response.status == "1") {
                     alert("Запись изменена");
-                    location.reload();
+                    let nowuzforsave1 = response.id_uz;
+                    filterTable1(nowuzforsave1);
                 } else {
                     alert("Ошибка в заполнении");
                 }

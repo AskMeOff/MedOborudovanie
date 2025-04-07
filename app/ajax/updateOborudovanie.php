@@ -34,8 +34,11 @@ $sql = "UPDATE oborudovanie SET
 
 try {
     $result = $connectionDB->executeQuery($sql);
-    echo "1";
+    $query = "SELECT id_uz FROM oborudovanie WHERE id_oborudovanie = '$id_oborudovanie'";
+    $resultUz = $connectionDB->executeQuery($query);
+    $row = $resultUz->fetch_assoc();
+    echo json_encode(['status' => "1", 'id_uz' => $row['id_uz']]);
 } catch(Exception $e) {
-    echo $e->getMessage();
+    echo json_encode(['status' => "0", 'message' => $e->getMessage()]);
 }
 
