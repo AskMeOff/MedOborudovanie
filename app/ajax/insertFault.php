@@ -46,7 +46,10 @@ $date_call_service = !empty($date_call_service) ? "'" . $date_call_service . "'"
 $date_procedure_purchase = !empty($date_procedure_purchase) ? "'" . $date_procedure_purchase . "'" : "NULL";
 $time_repair = !empty($time_repair) ? "'" . $time_repair . "'" : "NULL";
 
-
+if (isset($_FILES['fileReport']) && $_FILES['fileReport']['error'] === UPLOAD_ERR_OK) {
+    $file_name = translit(basename($_FILES['fileReport']['name']));
+    $file_tmp = $_FILES['fileReport']['tmp_name'];
+}
 
 $sql = "INSERT INTO faults (date_fault, date_call_service, reason_fault, date_procedure_purchase, cost_repair, time_repair, remontOrg, id_oborudovanie, documentOrg)
         VALUES ($date_fault, $date_call_service, '$reason_fault', $date_procedure_purchase, $cost_repair, $time_repair, '$add_remontOrg', '$id_oborudovanie', '$file_name')";
