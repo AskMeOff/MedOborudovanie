@@ -46,23 +46,25 @@ $date_call_service = !empty($date_call_service) ? "'" . $date_call_service . "'"
 $date_procedure_purchase = !empty($date_procedure_purchase) ? "'" . $date_procedure_purchase . "'" : "NULL";
 $time_repair = !empty($time_repair) ? "'" . $time_repair . "'" : "NULL";
 
-$documentsDir = '../documents/' . $id_oborudovanie . '/';
-if (!file_exists($documentsDir)) {
-    mkdir($documentsDir, 0777, true);
-}
 
-$file_name = null;
-if (isset($_FILES['fileReport']) && $_FILES['fileReport']['error'] === UPLOAD_ERR_OK) {
-    $file_name = translit(basename($_FILES['fileReport']['name']));
-    $file_tmp = $_FILES['fileReport']['tmp_name'];
-    move_uploaded_file($file_tmp, $documentsDir . $file_name);
-}
 
 $sql = "INSERT INTO faults (date_fault, date_call_service, reason_fault, date_procedure_purchase, cost_repair, time_repair, remontOrg, id_oborudovanie, documentOrg)
         VALUES ($date_fault, $date_call_service, '$reason_fault', $date_procedure_purchase, $cost_repair, $time_repair, '$add_remontOrg', '$id_oborudovanie', '$file_name')";
 
 $result = $connectionDB->executeQuery($sql);
 if ($result) {
+    $id_fault = $connectionDB->insert_id;
+    $documentsDir = '../documents/' . $id_fault . '/';
+    if (!file_exists($documentsDir)) {
+        mkdir($documentsDir, 0777, true);
+    }
+
+    $file_name = null;
+    if (isset($_FILES['fileReport']) && $_FILES['fileReport']['error'] === UPLOAD_ERR_OK) {
+        $file_name = translit(basename($_FILES['fileReport']['name']));
+        $file_tmp = $_FILES['fileReport']['tmp_name'];
+        move_uploaded_file($file_tmp, $documentsDir . $file_name);
+    }
     echo "Запись добавлена.";
 } else {
     echo "Ошибка: " . mysqli_error($connectionDB);
