@@ -1311,39 +1311,44 @@ function toggleRightSection() {
 }
 
 function exportTableToExcelAddedOb(tableID, filename = '') {
-    // Получаем таблицу
-    var table = document.getElementById(tableID);
+    const table = document.getElementById(tableID);
+    if (!table) return alert("Таблица не найдена");
 
-    // Копируем таблицу, исключая последний столбец
-    var clonedTable = table.cloneNode(true);
+    const data = [];
+    const rows = table.querySelectorAll("tr");
+    rows.forEach(row => {
+        const cols = row.querySelectorAll("td, th");
+        const rowData = [];
 
-    // Удаляем последний столбец из каждой строки таблицы
-    var rows = clonedTable.rows;
-    for (var i = 0; i < rows.length; i++) {
-        if (rows[i].cells.length > 1) {
-            rows[i].deleteCell(-1); // Удаляет последний столбец
-        }
-    }
-    var workbook = XLSX.utils.table_to_book(clonedTable, {sheet: "Sheet1"});
+        cols.forEach((col, i) => {
+            if (i === cols.length - 1) return;
 
-    // Устанавливаем имя файла
-    filename = filename ? filename + '.xlsx' : 'table_export.xlsx';
+            let text = col.innerText.trim();
 
-    const worksheet = workbook.Sheets['Sheet1'];
-    const range = XLSX.utils.decode_range(worksheet['!ref']); // Получаем диапазон ячеек
 
-    // Устанавливаем ширину для каждой колонки
-    worksheet['!cols'] = [];
-    for (let col = range.s.c; col <= range.e.c; col++) {
-        const maxWidth = Array.from({length: range.e.r + 1}, (_, row) => {
-            const cell = worksheet[XLSX.utils.encode_cell({c: col, r: row})];
-            return cell ? cell.v.toString().length : 0; // Получаем длину значения ячейки
-        }).reduce((max, width) => Math.max(max, width), 0); // Находим максимальную ширину
+            if (/^\d{1,2}\.\d{1,2}\.\d{4}$/.test(text)) {
+                rowData.push(text);
+            } else {
+                rowData.push(text);
+            }
+        });
 
-        worksheet['!cols'].push({wch: maxWidth + 2}); // Добавляем 2 для небольшого отступа
-    }
-    // Генерируем Excel-файл и сохраняем его
-    XLSX.writeFile(workbook, filename);
+        data.push(rowData);
+    });
+
+
+    const worksheet = XLSX.utils.aoa_to_sheet(data);
+
+
+    worksheet['!cols'] = data[0].map((_, colIndex) => {
+        const maxLength = Math.max(...data.map(row => row[colIndex]?.toString().length || 0));
+        return { wch: maxLength + 2 };
+    });
+
+
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, "Sheet1");
+    XLSX.writeFile(workbook, filename + ".xlsx" || "export.xlsx");
 }
 
 function editNotInstallOborudovanie(idOborudovanie) {
@@ -1761,7 +1766,7 @@ function filterTable1(iduz) {
     let nowUz = iduz > 0 ? iduz : selectedOrg;
     nowUzForSave = nowUz;
 
-    let oblId = $("#obl").val();
+    // let oblId = $("#obl").val();
     let selectedEquipmentType = $("#filterEquipmentType").val();
     let equipmentFilter = $("#filterEquipment").val();
     let yearFilter = $("#filterYear").val();
