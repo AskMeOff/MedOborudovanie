@@ -177,17 +177,26 @@ function getFaultsTable(idOborudovanie) {
                     tableContent += '<td>' + row.date_fault + '</td>';
                     tableContent += '<td>' + row.date_call_service + '</td>';
                     tableContent += '<td style="text-align: justify;">' + row.reason_fault + '</td>';
+                    if(row.date_procedure_purchase == null){
+                        row.date_procedure_purchase = "-";
+                    }
                     tableContent += '<td>' + row.date_procedure_purchase + '</td>';
                     if (row.date_dogovora == null)
                         tableContent += '<td></td>';
                     else
                         tableContent += '<td>' + row.date_dogovora + '</td>';
                     tableContent += '<td>' + row.cost_repair + '</td>';
+                    if(row.time_repair == null){
+                        row.time_repair = "-";
+                    }
                     tableContent += '<td>' + row.time_repair + '</td>';
                     let countDays = Math.floor((today.getTime() - new Date(row.date_fault).getTime()) / (1000 * 60 * 60 * 24));
                     let stringDays = countDays.toString() === "NaN" ? 'Не выставлена дата поломки' : (countDays + " дней");
                     tableContent += '<td>' + stringDays + '</td>';
                     tableContent += '<td>' + (row.remont > 0 ? 'Да' : 'Нет') + '</td>';
+                    if(row.date_remont == null){
+                        row.date_remont = "-";
+                    }
                     tableContent += '<td>' + row.date_remont + '</td>';
                     tableContent += '<td>' + row.remontOrg + '</td>';
                     tableContent += '<td><a href="app/documents/' + row.id_fault + '/' + row.documentOrg + '" target="_blank">' + row.documentOrg + '</a></td>';
@@ -1226,6 +1235,7 @@ function setServiceman(event) {
 function setPostavschik(event) {
     $("#filterPostavschik").val(event.target.innerText);
     selectedPostavschikId = event.target.getAttribute('data-id');
+
 }
 
 function showModalAddOborudovanieUnspecified() {
@@ -1312,40 +1322,98 @@ function toggleRightSection() {
 
 function exportTableToExcelAddedOb(tableID, filename = '') {
     // Получаем таблицу
-    var table = document.getElementById(tableID);
+    const table = document.getElementById(tableID);
 
-    // Копируем таблицу, исключая последний столбец
-    var clonedTable = table.cloneNode(true);
+    // Клонируем таблицу без последнего столбца
+    const clonedTable = table.cloneNode(true);
+    const rows = clonedTable.rows;
 
-    // Удаляем последний столбец из каждой строки таблицы
-    var rows = clonedTable.rows;
-    for (var i = 0; i < rows.length; i++) {
+    for (let i = 0; i < rows.length; i++) {
         if (rows[i].cells.length > 1) {
-            rows[i].deleteCell(-1); // Удаляет последний столбец
+            rows[i].deleteCell(-1); // Удаляем последний столбец
         }
     }
-    var workbook = XLSX.utils.table_to_book(clonedTable, {sheet: "Sheet1"});
 
-    // Устанавливаем имя файла
-    filename = filename ? filename + '.xlsx' : 'table_export.xlsx';
-
+    // Преобразуем таблицу в книгу
+    const workbook = XLSX.utils.table_to_book(clonedTable, { sheet: "Sheet1" });
     const worksheet = workbook.Sheets['Sheet1'];
-    const range = XLSX.utils.decode_range(worksheet['!ref']); // Получаем диапазон ячеек
 
-    // Устанавливаем ширину для каждой колонки
+    // Функция преобразования даты в Excel serial date
+    function jsDateToExcel(date) {
+        const base = new Date(Date.UTC(1899, 11, 30)); // 1900-01-00 == день 0
+        const diff = date.getTime() - base.getTime();
+        const days = Math.floor(diff / (24 * 60 * 60 * 1000));
+        return days + 1; // +1 потому что Excel считает 1900-01-01 как день 1
+    }
+
+    // Обработка ячеек с датами
+    const range = XLSX.utils.decode_range(worksheet['!ref']);
+    for (let row = range.s.r; row <= range.e.r; row++) {
+        for (let col = range.s.c; col <= range.e.c; col++) {
+            const cellAddress = XLSX.utils.encode_cell({ c: col, r: row });
+            const cell = worksheet[cellAddress];
+
+            if (cell) {
+                let value = cell.v;
+
+                // Проверяем, является ли значение строкой или объектом Date
+                if (typeof value === 'string' || value instanceof Date) {
+                    // Если это объект Date, преобразуем его в строку
+                    if (value instanceof Date) {
+                        value = value.toISOString().split('T')[0]; // YYYY-MM-DD
+                    }
+
+                    // Удаляем лишние пробелы и символы
+                    value = value.trim();
+
+                    // Проверяем формат DD.MM.YYYY
+                    const match = value.match(/^(\d{1,2})\.(\d{1,2})\.(\d{4})$/);
+                    if (match) {
+                        let day = parseInt(match[1], 10);
+                        let month = parseInt(match[2], 10); // 1-based
+                        const year = parseInt(match[3], 10);
+
+                        // Если день < 13, меняем местами день и месяц
+                        if (day < 13) {
+                            [day, month] = [month, day]; // Меняем местами
+                        }
+
+                        // Создаём объект Date
+                        const jsDate = new Date(year, month - 1, day); // Месяцы в JS 0-based
+
+                        // Проверяем, является ли дата корректной
+                        if (!isNaN(jsDate.getTime())) {
+                            // Преобразуем в Excel-дату
+                            const excelDate = jsDateToExcel(jsDate);
+
+                            // Записываем как число с форматом даты
+                            cell.v = excelDate;
+                            cell.t = 'n'; // Число
+                            cell.z = 'DD.MM.YYYY'; // Формат отображения
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    // Автоподбор ширины колонок
     worksheet['!cols'] = [];
     for (let col = range.s.c; col <= range.e.c; col++) {
-        const maxWidth = Array.from({length: range.e.r + 1}, (_, row) => {
-            const cell = worksheet[XLSX.utils.encode_cell({c: col, r: row})];
-            return cell ? cell.v.toString().length : 0; // Получаем длину значения ячейки
-        }).reduce((max, width) => Math.max(max, width), 0); // Находим максимальную ширину
-
-        worksheet['!cols'].push({wch: maxWidth + 2}); // Добавляем 2 для небольшого отступа
+        let maxWidth = 0;
+        for (let row = range.s.r; row <= range.e.r; row++) {
+            const cell = worksheet[XLSX.utils.encode_cell({ c: col, r: row })];
+            if (cell && cell.v) {
+                maxWidth = Math.max(maxWidth, cell.v.toString().length);
+            }
+        }
+        worksheet['!cols'].push({ wch: maxWidth + 2 }); // Ширина с отступом
     }
-    // Генерируем Excel-файл и сохраняем его
+
+    // Сохраняем файл
+    filename = filename ? filename + '.xlsx' : 'table_export.xlsx';
     XLSX.writeFile(workbook, filename);
 }
-
 function editNotInstallOborudovanie(idOborudovanie) {
     event.stopPropagation();
     editedOborudovanie = idOborudovanie;
@@ -1761,7 +1829,7 @@ function filterTable1(iduz) {
     let nowUz = iduz > 0 ? iduz : selectedOrg;
     nowUzForSave = nowUz;
 
-    let oblId = $("#obl").val();
+    // let oblId = $("#obl").val();
     let selectedEquipmentType = $("#filterEquipmentType").val();
     let equipmentFilter = $("#filterEquipment").val();
     let yearFilter = $("#filterYear").val();

@@ -12,7 +12,16 @@ if (!isset($_GET['id_type'])) {
                                         WHERE uz.id_oblast=$id_obl and uz.id_uz = $id_uz and (oborudovanie.status in (0,1,3))";
         } else if ($id_role == 2 || $id_role == 1) {
             if ($id_obl == 111){
-                $sql1 = "SELECT oborudovanie.*, type_oborudovanie.name, uz.name as poliklinika, s.name as servname FROM oborudovanie
+                $sql1 = "SELECT oborudovanie.id_oborudovanie,
+        oborudovanie.model,
+        oborudovanie.serial_number,
+        oborudovanie.zavod_nomer,
+        oborudovanie.date_create,
+        oborudovanie.date_postavki,
+        oborudovanie.date_release,
+        oborudovanie.date_last_TO,
+        oborudovanie.status,
+        s.name as servname, type_oborudovanie.name, uz.name as poliklinika, s.name as servname FROM oborudovanie
                                         INNER JOIN uz on oborudovanie.id_uz=uz.id_uz
                                         left outer join type_oborudovanie on oborudovanie.id_type_oborudovanie = type_oborudovanie.id_type_oborudovanie
                                         left outer join servicemans s on s.id_serviceman = oborudovanie.id_serviceman
@@ -103,7 +112,7 @@ while ($row1 = mysqli_fetch_assoc($result1)) {
         <td>' . ($row1['date_last_TO'] ? date('d.m.Y', strtotime($row1['date_last_TO'])) : 'Нет данных') . '</td>
         <td>' . ($row1['status'] === "1" ? '<div style="border-radius: 5px;background-color: green;color: white; padding: 5px;">исправно</div>' :
             ($row1['status'] === "3" ? '<div style="border-radius: 5px;background-color: orange;color: white; padding: 5px;">Работа в ограниченном режиме</div>' :
-                '<div style="border-radius: 5px;background-color: red;color: white; padding: 5px; font-size: 11px;width: 85px;">неисправно</div>')) . '</td>
+                '<div style="border-radius: 5px;background-color: red;color: white; padding: 5px; font-size: 11px;width: 85px;" onclick="getFaultsTable('.$idOborudovanie.')">неисправно</div>')) . '</td>
     </tr>';
 }
 echo implode('', $rows);

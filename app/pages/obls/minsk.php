@@ -267,7 +267,7 @@ echo '
                 <h5 class="modal-title" id="modalLabel">Таблица неисправностей</h5>
                 <button type="button" class="btn  btn-danger btn-close" data-bs-dismiss="modal"></button>
             </div>
-            <div class="modal-body">
+            <div class="modal-body" style="overflow: scroll;">
 
             </div>
 

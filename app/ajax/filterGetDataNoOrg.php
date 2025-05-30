@@ -145,7 +145,7 @@ while ($row = mysqli_fetch_assoc($result1)) {
     $date_last_TO = $row['date_last_TO'];
     $output .= '<td>' . ($date_last_TO ? date('d.m.Y', strtotime($date_last_TO)) : 'Нет данных') . '</td>';
     $output .= '<td>';
-    $output .= '<div style="border-radius: 5px; background-color: ' . $color . '; color: white; padding: 5px;">' . $statusText . '</div>';
+    $output .= '<div style="border-radius: 5px; background-color: ' . $color . '; color: white; cursor: pointer; padding: 5px;" onclick="getFaultsTable('.$idOborudovanie.')">' . $statusText . '</div>';
     $output .= '</td>';
     $output .= '</tr>';
 }
